@@ -1,5 +1,3 @@
-/* app.component.css */
-
 body,
 html {
   margin: 0;
@@ -13,7 +11,7 @@ html {
 }
 
 app-sidebar {
-  width: 110px; /* Relative width for the sidebar */
+  width: 110px; 
   overflow-y: yes; /* Enable scrolling for sidebar content if needed */
 }
 

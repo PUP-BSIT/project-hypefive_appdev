@@ -1,9 +1,9 @@
 .content-display {
   flex: 1;
   padding: 20px;
-  width: 100%; /* Use percentage for dynamic width */
-  max-width: 1200px; /* Optional: Set a max width */
-  box-sizing: border-box; /* Include padding and border in the element's width */
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box; 
 }
 
 body,
