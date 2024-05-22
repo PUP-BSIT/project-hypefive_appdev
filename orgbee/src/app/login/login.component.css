@@ -13,10 +13,13 @@ body {
   text-align: center;
 }
 
-.appname {
-  padding-top: 5%;
-  margin-bottom: 20px;
-}
+.applogo img {
+    padding-top: 5%;
+    margin-bottom: 20px;
+    width: 10%; 
+    height: 10%; 
+  }
+  
 
 .appname h1 {
   font-optical-sizing: auto;
