@@ -1,0 +1,17 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  background-color: #fff7c9;
+  gap: 20px;
+  justify-content: center;
+}

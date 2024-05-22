@@ -1,0 +1,19 @@
+.content-display {
+  flex: 1;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box; 
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
