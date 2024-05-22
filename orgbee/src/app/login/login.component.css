@@ -1,4 +1,3 @@
-/*login component.css*/
 body {
   display: flex;
   justify-content: center;
@@ -13,20 +12,11 @@ body {
   text-align: center;
 }
 
-.applogo img {
+.app-logo img {
     padding-top: 5%;
     margin-bottom: 5px;
     width: 10%; 
     height: 10%; 
-  }
-  
-
-.appname h1 {
-  font-optical-sizing: auto;
-  font-weight: extrabold;
-  color: #fbcc15;
-  margin: 0;
-  font-size: 70px;
 }
 
 .form {
@@ -57,10 +47,10 @@ body {
 }
 
 .form button {
-  background-color: #ffdb58;
+  background-color: #ffca10;
   border: none;
   padding: 10px 20px;
-  border-radius: 20px; /* Oblong shape */
+  border-radius: 20px; 
   cursor: pointer;
   width: 70%;
   font-size: 16px;
@@ -106,15 +96,12 @@ h3 a:hover {
   border-radius: 10px;
   position: relative;
   width: 600px;
+  padding-left: 3%;
 }
 
 .popup-content h3 {
   text-align: center;
   margin-bottom: 50px;
-}
-
-.popup-content button {
-  text-align: center;
 }
 
 .popup-content input,
@@ -144,13 +131,16 @@ select {
 }
 
 button {
-  background-color: #ffdb58;
+  background-color: #ffca10;
   border: none;
-  padding: 10px 20px;
+  padding: 10px;
   border-radius: 20px;
   cursor: pointer;
   width: 70%;
   font-size: 13px;
+  margin-top: 2%;
+  margin-left: 12%;
+  margin-right: 10%;
 }
 
 button:hover {
@@ -168,5 +158,5 @@ button:hover {
 }
 
 .form-row > div:last-child {
-  margin-right: 0;
+  margin-right: 10px;
 }
