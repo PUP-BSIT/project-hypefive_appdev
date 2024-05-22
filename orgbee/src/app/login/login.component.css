@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit&display=swap");
-
+/*login component.css*/
 body {
   display: flex;
   justify-content: center;
@@ -21,7 +20,7 @@ body {
 
 .appname h1 {
   font-optical-sizing: auto;
-  font-weight: 900;
+  font-weight: extrabold;
   color: #fbcc15;
   margin: 0;
   font-size: 70px;
@@ -37,6 +36,7 @@ body {
 
 .form div {
   margin-bottom: 15px;
+  margin-left: 10px;
   text-align: left;
 }
 
@@ -61,6 +61,7 @@ body {
   cursor: pointer;
   width: 70%;
   font-size: 16px;
+  font-family: "Outfit", sans-serif;
 }
 
 .form button:hover {
@@ -69,11 +70,14 @@ body {
 
 h3 {
   color: black;
+  font-weight: 500;
 }
 
-h3 a {
+h4,
+h4 a {
   color: black;
   text-decoration: none;
+  font-weight: 400;
 }
 
 h3 a:hover {
@@ -98,16 +102,16 @@ h3 a:hover {
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  width: 600px; 
+  width: 600px;
 }
 
 .popup-content h3 {
-    text-align: center; 
-    margin-bottom: 50px;
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-.popup-content button{
-    text-align: center;
+.popup-content button {
+  text-align: center;
 }
 
 .popup-content input,
@@ -140,10 +144,10 @@ button {
   background-color: #ffdb58;
   border: none;
   padding: 10px 20px;
-  border-radius: 20px; 
+  border-radius: 20px;
   cursor: pointer;
   width: 70%;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 button:hover {
@@ -157,7 +161,7 @@ button:hover {
 
 .form-row > div {
   flex: 1;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .form-row > div:last-child {

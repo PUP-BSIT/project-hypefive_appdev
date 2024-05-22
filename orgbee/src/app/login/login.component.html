@@ -1,93 +1,103 @@
 <div class="container">
-    <div class="appname">
-      <h1>org</h1>
-      <h1>bee</h1>
-    </div>
-  
-    <div>
-      <h3>your organizational hive</h3>
-    </div>
-  
-    <div class="form">
-      <h3>Log In</h3>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label for="email"></label>
-          <input type="email" formControlName="email" placeholder="Email Address"/>
+  <div class="appname">
+    <h1>org</h1>
+    <h1>bee</h1>
+  </div>
+
+  <div>
+    <h3>your organizational hive</h3>
+  </div>
+
+  <div class="form">
+    <h3>Log In</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="email"></label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Email Address"
+        />
+      </div>
+
+      <div>
+        <label for="password"></label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+        />
+      </div>
+
+      <button type="submit">Log In to OrgBee</button>
+
+      <h4>
+        Don't have an account?
+        <a href="#" (click)="showSignupPopup()">Sign up</a>
+      </h4>
+    </form>
+  </div>
+</div>
+
+<!-- Signup Popup -->
+<div *ngIf="showSignup" class="popup">
+  <div class="popup-content">
+    <span class="close" (click)="hideSignupPopup()">&times;</span>
+    <h3>Sign Up</h3>
+    <div class="signup-form">
+      <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
+        <div class="form-row">
+          <div>
+            <label for="signup-firstname">First Name</label>
+            <input type="text" formControlName="firstName" />
+          </div>
+          <div>
+            <label for="signup-lastname">Last Name</label>
+            <input type="text" formControlName="lastName" />
+          </div>
         </div>
-  
-        <div>
-          <label for="password"></label>
-          <input type="password" formControlName="password" placeholder="Password"/>
+
+        <div class="form-row">
+          <div>
+            <label for="signup-studentnumber">Student Number</label>
+            <input type="text" formControlName="studentNumber" />
+          </div>
+          <div>
+            <label for="signup-email">Email</label>
+            <input type="email" formControlName="email" />
+          </div>
         </div>
-  
-        <button type="submit">Log In to OrgBee</button>
-  
-        <h3>Don't have an account? <a href="#" (click)="showSignupPopup()">Sign up</a></h3>
+
+        <div class="form-row">
+          <div>
+            <label for="signup-bday">Birthday</label>
+            <input type="date" formControlName="bday" />
+          </div>
+
+          <div>
+            <label for="signup-gender">Gender</label>
+            <select formControlName="gender">
+              <option value="" disabled selected>Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="signup-password">Password</label>
+            <input type="password" formControlName="password" />
+          </div>
+          <div>
+            <label for="signup-confirm-password">Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" />
+          </div>
+        </div>
+
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   </div>
-  
-  <!-- Signup Popup -->
-  <div *ngIf="showSignup" class="popup">
-    <div class="popup-content">
-      <span class="close" (click)="hideSignupPopup()">&times;</span>
-      <h3>Sign Up</h3>
-      <div class="signup-form">
-        <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
-          <div class="form-row">
-            <div>
-              <label for="signup-firstname">First Name</label>
-              <input type="text" formControlName="firstName"/>
-            </div>
-            <div>
-              <label for="signup-lastname">Last Name</label>
-              <input type="text" formControlName="lastName"/>
-            </div>
-          </div>
-  
-          <div class="form-row">
-            <div>
-              <label for="signup-studentnumber">Student Number</label>
-              <input type="text" formControlName="studentNumber"/>
-            </div>
-            <div>
-              <label for="signup-email">Email</label>
-              <input type="email" formControlName="email"/>
-            </div>
-          </div>
-  
-          <div class="form-row">
-            <div>
-              <label for="signup-bday">Birthday</label>
-              <input type="date" formControlName="bday"/>
-            </div>
-  
-            <div>
-              <label for="signup-gender">Gender</label>
-              <select formControlName="gender">
-                <option value="" disabled selected>Select your gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-  
-          <div class="form-row">
-            <div>
-              <label for="signup-password">Password</label>
-              <input type="password" formControlName="password"/>
-            </div>
-            <div>
-              <label for="signup-confirm-password">Confirm Password</label>
-              <input type="password" formControlName="confirmPassword"/>
-            </div>
-          </div>
-  
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  
+</div>
