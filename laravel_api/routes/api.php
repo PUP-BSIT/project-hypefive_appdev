@@ -6,3 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+//Get all students
+Route::get('/students', [\App\Http\Controllers\StudentsController::class, 'getStudents'])->name('api.students');
