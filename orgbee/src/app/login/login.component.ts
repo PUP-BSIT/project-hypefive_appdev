@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { DataService } from '../service/data.service';
+import { Student } from '../model/student';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,10 @@ export class LoginComponent implements OnInit {
   signupForm: FormGroup;
   showSignup: boolean = false;
 
+  students:any;
+  student = new Student();
+  constructor(private dataService:DataService){}
+
   ngOnInit() {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -19,17 +25,18 @@ export class LoginComponent implements OnInit {
     });
 
     this.signupForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      studentNumber: new FormControl('', Validators.required),
+      first_name: new FormControl('', Validators.required),
+      last_name: new FormControl('', Validators.required),
+      student_number: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      bday: new FormControl('', Validators.required),
+      birthday: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       password: new FormControl('', 
         [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', Validators.required)
     });
   }
+
 
   onSubmit() {
     if (!this.loginForm.valid) return;
@@ -49,6 +56,12 @@ export class LoginComponent implements OnInit {
   onSignupSubmit() {
     if (!this.signupForm.valid) return;
 
-    console.log(this.signupForm.value);
+    this.student = this.signupForm.value;
+    console.log(this.student);
+
+    this.dataService.insertData(this.student).subscribe(res=>{
+      console.log('saved');
+    });
   }
+
 }
