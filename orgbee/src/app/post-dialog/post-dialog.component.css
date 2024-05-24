@@ -1,0 +1,22 @@
+.dialog-content {
+    margin: 0;
+    width: 400px;
+    padding: 10px 20px;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: justify;
+  }
+  
+  .dialog-content p {
+    margin: 0;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: justify;
+  }
+  
+  

@@ -12,6 +12,7 @@ import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
+import { PostDialogComponent } from './post-dialog/post-dialog.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ArchiveComponent } from './pages/archive/archive.component';
     MembersComponent,
     DisplayComponent,
     SidebarComponent,
-    ArchiveComponent
+    ArchiveComponent,
+    PostDialogComponent
   ],
   imports: [
     BrowserModule,

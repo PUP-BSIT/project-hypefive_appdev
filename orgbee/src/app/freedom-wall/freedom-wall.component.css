@@ -1,0 +1,144 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #242424;
+    color: #eeeeed;
+    padding: 20px;
+    text-align: left;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 1300px;
+  }
+  
+  .header h1,
+  .header h3 {
+    margin: 0;
+  }
+  
+  .button-container {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .create-post-btn {
+    background-color: #ffca10;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 5px;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    border: none;
+  }
+  
+  .create-post-btn:hover,
+  .delete-post-btn:hover,
+  .manage-wall-btn:hover {
+    background-color: #f0ff10;
+  }
+  
+  .delete-post-btn,
+  .manage-wall-btn {
+    background-color: #ffca10;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    border: none;
+  }
+  
+  .post-creation textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
+  .post-creation button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .post-creation-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+  
+  .modal-content textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
+  .modal-content button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ffca10;
+    color: white;
+    border: none; 
+    border-radius: 5px;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .masonry-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px;
+  }
+  
+  .masonry-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .masonry-item p {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+    text-align: justify;
+    max-height: 200px;
+  }
+  
+  
+  
