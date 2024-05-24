@@ -1,1 +1,32 @@
-<p>freedom-wall works!</p>
+<div class="header">
+    <div>
+      <h3>Welcome to</h3>
+      <h1>Computer Society 2024 Freedom Wall</h1>
+    </div>
+  </div>
+  
+  <div class="button-containder">
+    <button class="create-post-btn" (click)="toggleModal()">Create an anonymous post</button>
+    <div>
+      <button class="delete-post-btn">Delete Post</button>
+      <button class="manage-wall-btn">Manage Wall</button>
+    </div>
+  </div>
+  
+  <div class="post-creation-modal" *ngIf="showModal">
+    <div class="modal-content">
+      <span class="close-btn" (click)="showModal = false">&times;</span>
+      <textarea [(ngModel)]="newPostText" placeholder="Write your post here..."></textarea>
+      <button (click)="addPost(); showModal = false">Add Post</button>
+    </div>
+  </div>
+  
+  <ngx-masonry class="masonry-container">
+    <ngx-masonry-item *ngFor="let post of posts">
+      <div class="masonry-item" [ngStyle]="{'background-color': post.color}" 
+          (click)="openPost(post)" #postBox>
+        <p>{{ post.text }}</p>
+      </div>
+    </ngx-masonry-item>
+  </ngx-masonry>
+  
