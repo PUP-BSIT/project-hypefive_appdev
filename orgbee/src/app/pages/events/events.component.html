@@ -1,1 +1,84 @@
-<p>events works!</p>
+<h1>Computer Society Events</h1>
+    <button id="createEventBtn" class="create-event">CREATE EVENT</button>
+
+    <!-- Event Form Modal -->
+    <div id="eventFormModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        
+        <!-- Event Information Form -->
+        <div id="eventInfoForm" class="form-section visible">
+          <label for="eventName">Event Name:</label>
+          <input type="text" id="eventName" placeholder="Event Name" />
+          <label for="eventLocation">Location:</label>
+          <input type="text" id="eventLocation" placeholder="Location" />
+          <label for="eventDate">Date:</label>
+          <input type="date" id="eventDate" />
+          <label for="eventTime">Time:</label>
+          <input type="time" id="eventTime" />
+          <button type="button" class="next-btn">NEXT</button>
+        </div>
+
+        <!-- Registration & Admission Form -->
+        <div id="registrationForm" class="form-section hidden">
+          <label>Are all members required to attend?</label>
+          <input
+            type="radio"
+            id="attendanceYes"
+            name="attendance"
+            value="yes"
+          />
+          <label for="attendanceYes">Yes</label>
+          <input type="radio" id="attendanceNo" name="attendance" value="no" />
+          <label for="attendanceNo">No</label>
+
+          <label>Will there be a registration fee?</label>
+          <input type="radio" id="regFeeYes" name="regFee" value="yes" />
+          <label for="regFeeYes">Yes</label>
+          <input type="radio" id="regFeeNo" name="regFee" value="no" />
+          <label for="regFeeNo">No</label>
+
+          <input
+            type="number"
+            id="regAmount"
+            placeholder="Specify the amount"
+            class="hidden"
+          />
+          <input
+            type="number"
+            id="maxAttendees"
+            placeholder="Max no. of attendees"
+          />
+
+          <button type="button" class="back-btn">BACK</button>
+          <button type="button" class="next-btn">NEXT</button>
+        </div>
+
+        <!-- Caption & Poster Form -->
+        <div id="captionPosterForm" class="form-section hidden">
+          <label for="eventCaption">Write a caption:</label>
+          <textarea id="eventCaption" placeholder="Write a caption"></textarea>
+          <label for="eventPoster">Upload a poster:</label>
+          <input type="file" id="eventPoster" />
+          <button type="button" class="back-btn">BACK</button>
+          <button type="button" class="next-btn">NEXT</button>
+        </div>
+
+        <!-- Final Buttons -->
+        <div id="finalButtons" class="final-buttons hidden">
+          <button type="button" class="back-btn">BACK</button>
+          <button type="button" id="publishBtn">PUBLISH</button>
+          <button type="button" id="saveDraftBtn">SAVE TO DRAFT</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active">UPCOMING</button>
+      <button class="tab">RECURRING</button>
+      <button class="tab">DRAFTS</button>
+    </div>
+
+    <div class="event-list">
+      <!-- Event cards go here / It's under process-->
+    </div>
