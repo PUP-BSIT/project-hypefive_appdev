@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../service/data.service';
 import { Student } from '../model/student';
 
@@ -16,27 +16,86 @@ export class LoginComponent implements OnInit {
 
   students:any;
   student = new Student();
-  constructor(private dataService:DataService){}
+  constructor(private formBuilder:FormBuilder, 
+    private dataService:DataService){}
 
-  ngOnInit() {
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required),
-    });
+  get emailControl(){
+    return this.loginForm.get('email');
+  } 
 
-    this.signupForm = new FormGroup({
-      first_name: new FormControl('', Validators.required),
-      last_name: new FormControl('', Validators.required),
-      student_number: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      birthday: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      password: new FormControl('', 
-        [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl('', Validators.required)
-    });
+  get passwordControl(){
+    return this.loginForm.get('password');
   }
 
+  get signInEmailControl(){
+    return this.signupForm.get('email');
+  } 
+
+  get signInPasswordControl(){
+    return this.signupForm.get('password');
+  }
+
+  get firstNameControl(){
+    return this.signupForm.get('firstName');
+  }
+  
+  get lastNameControl(){
+    return this.signupForm.get('lastName');
+  }
+
+  get studentNumberControl(){
+    return this.signupForm.get('studentNumber');
+  }
+
+  get bdayControl(){
+    return this.signupForm.get('bday');
+  }
+
+  get genderControl(){
+    return this.signupForm.get('gender');
+  }
+
+  get confirmPassControl(){
+    return this.signupForm.get('confirmPassword');
+  }
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group( {
+      email: ['', {
+        validators: [Validators.required, Validators.email],
+      }],
+      password: ['', {
+        validators: [Validators.required]
+      }]
+    });
+
+    this.signupForm = this.formBuilder.group({
+      firstName: ['', {
+        validators: [Validators.required]
+      }],
+      lastName: ['', {
+        validators: [Validators.required]
+      }],
+      studentNumber: ['', {
+        validators: [Validators.required]
+      }],
+      email: ['', {
+        validators: [Validators.required, Validators.email]
+      }],
+      bday: ['', {
+        validators: [Validators.required]
+      }],
+      gender: ['', {
+        validators: [Validators.required]
+      }],
+      password: ['', {
+        validators: [Validators.required, Validators.minLength(8)]
+      }],
+      confirmPassword: ['', {
+        validators: [Validators.required]
+      }]
+    });
+  }
 
   onSubmit() {
     if (!this.loginForm.valid) return;
