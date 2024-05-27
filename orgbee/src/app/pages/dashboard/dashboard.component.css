@@ -6,12 +6,316 @@
   overflow-y: hidden;
 }
 
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24; /* Adjust the weight value to 600 */
+}
+
+.custom-icon {
+  color: rgb(93, 57, 0);
+  font-size: 130px;
+}
+
 .content {
   flex: 1;
   display: flex;
   flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between; /* Align elements horizontally with space between */
+  align-items: center; /* Align elements vertically */
+  border: 2px solid #000;
+  border-radius: 10px;
   padding: 20px;
-  background-color: #fff7c9;
+  background-color: #242424;
+  width: 700px;
+  height: 115px;
+  margin-bottom: 10px;
+}
+
+.org-name {
+  margin-top: 0px;
+  font-weight: 200;
+  color: #ffca10;
+  font-size: 22px;
+}
+
+.user-name {
+  margin-right: auto;
+  color: #e9e8e8;
+  font-weight: 600;
+}
+
+.org-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 100px;
+  margin-left: 0px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-weight: 400;
+  background-color: rgb(244, 244, 244);
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 15px;
+  margin-top: 50px;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+}
+
+.profile-container {
+  position: relative;
+  background-color: #3b2e006a;
+  padding: 20px;
+  border-radius: 10px;
+  width: 310px;
+  height: 190px;
+}
+
+.profile-container .my-profile {
+  font-weight: 500;
+  color: black;
+  font-size: 12px;
+}
+
+.profile-details {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  margin: 0px;
+}
+
+.profile-container .icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.profile-container .details .name,
+.profile-container .details .course {
+  margin: 0;
+}
+
+.profile-container .details .name {
+  font-weight: 500;
+  font-size: 30px;
+  color: black;
+}
+
+.profile-container .details .course {
+  font-weight: 500;
+  color: black;
+}
+
+.role {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffca10;
+  border-radius: 20px;
+  padding: 3px;
+  width: 70px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.announcement-container {
+  position: relative;
+  background-color: #f8f8f8;
+  padding: 0 20px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 310px;
+  max-height: 300px; /* Set a max-height to enable scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.announcement-container h4 {
+  font-weight: 500;
+  margin: 0; /* Remove default margin */
+  color: black;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  position: sticky; /* Make the h4 sticky */
+  top: 0; /* Stick to the top of the container */
+  background-color: #f8f8f8; /* Match background color of the container */
+  padding: 10px 0; /* Add padding for spacing */
+  z-index: 1;
+}
+
+.announcement {
+  background-color: #e9e8e8;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px; /* Add margin between announcements */
+  transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+.announcement-container::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.announcement-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Set background color */
+}
+
+.announcement-container::-webkit-scrollbar-thumb {
+  background: #888; /* Set thumb color */
+}
+
+.announcement:hover {
+  background-color: #d5d5d5; /* Change background color on hover */
+}
+
+.announcement-subject {
+  font-weight: 600;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.announcement-text {
+  font-size: 11px;
+  margin-left: 10px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.title {
+  font-size: 14px;
+  color: #fff;
+}
+
+.example-card {
+  width: 235px;
+  height: 300px;
+  margin-bottom: 8px;
+  background-color: #eeeeed;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Modal */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: -moz-hidden-unscrollable;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 600px;
+  height: 300px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-announcement {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: -moz-hidden-unscrollable;
+}
+
+.modal-announcement-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 600px;
+  height: 350px;
+}
+
+#subject {
+  background-color: #312424;
+  border-radius: 4px;
+  border: none;
+}
+
+#message {
+  background-color: #312424;
+  border-radius: 4px;
+  width: 500px;
+  height: 180px;
+  border: none;
+}
+
+/* Styles for the announcement */
+.announcement {
+  position: relative;
+}
+
+.menu-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(20%, -10%);
+}
+
+.mat-icon {
+  font-size: 18px; /* Adjust the size as needed */
+}
+
+::ng-deep .menu-item-text,
+::ng-deep .menu-icon {
+  font-size: 12px; /* Adjust font size as needed */
+  color: #242424;
+}
+
+::ng-deep .mat-menu-item:hover {
+  background-color: #711b1b; /* Change background color on hover */
+  color: #ff0000; /* Change text color on hover */
 }
