@@ -65,8 +65,8 @@
         <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
           <div class="form-row">
             <div>
-              <label for="signup-firstname">First Name</label>
-              <input type="text" formControlName="firstName" />
+              <label for="signup-first-name">First Name</label>
+              <input type="text" formControlName="first_name" />
               @if(firstNameControl.invalid && firstNameControl.touched){
                 <div class="inc">
                     @if(firstNameControl.errors?.['required']){
@@ -77,8 +77,8 @@
             </div>
   
             <div>
-              <label for="signup-lastname">Last Name</label>
-              <input type="text" formControlName="lastName" />
+              <label for="signup-last-name">Last Name</label>
+              <input type="text" formControlName="last_name" />
               @if(lastNameControl.invalid && lastNameControl.touched){
                 <div class="inc">
                     @if(lastNameControl.errors?.['required']){
@@ -91,8 +91,8 @@
   
           <div class="form-row">
             <div>
-              <label for="signup-studentnumber">Student Number</label>
-              <input type="text" formControlName="studentNumber" />
+              <label for="signup-student-number">Student Number</label>
+              <input type="text" formControlName="student_number" />
               @if(studentNumberControl.invalid && studentNumberControl.touched){
                 <div class="inc">
                     @if(studentNumberControl.errors?.['required']){
@@ -120,8 +120,8 @@
   
           <div class="form-row">
             <div>
-              <label for="signup-bday">Birthday</label>
-              <input type="date" formControlName="bday" />
+              <label for="signup-birthday">Birthday</label>
+              <input type="date" formControlName="birthday" />
               @if(bdayControl.invalid && bdayControl.touched){
                 <div class="inc">
                     @if(bdayControl.errors?.['required']){
