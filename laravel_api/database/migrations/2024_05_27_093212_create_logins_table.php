@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('login', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('student_number', 15);
+            $table->string('email', 50);
             $table->string('password', 255);
 
             $table->foreign('user_id')->references('id')->on('students')

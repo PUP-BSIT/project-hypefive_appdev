@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('account_status', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 7);
+            $table->string('status', 8);
         });
     }
 
