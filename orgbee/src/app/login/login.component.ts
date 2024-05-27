@@ -37,13 +37,16 @@ export class LoginComponent implements OnInit {
 
   get firstNameControl(){
     return this.signupForm.get('first_name');
+    return this.signupForm.get('first_name');
   }
   
   get lastNameControl(){
     return this.signupForm.get('last_name');
+    return this.signupForm.get('last_name');
   }
 
   get studentNumberControl(){
+    return this.signupForm.get('student_number');
     return this.signupForm.get('student_number');
   }
 
@@ -71,17 +74,21 @@ export class LoginComponent implements OnInit {
 
     this.signupForm = this.formBuilder.group({
       first_name: ['', {
+      first_name: ['', {
         validators: [Validators.required]
       }],
       last_name: ['', {
+      last_name: ['', {
         validators: [Validators.required]
       }],
+      student_number: ['', {
       student_number: ['', {
         validators: [Validators.required]
       }],
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
+      birthday: ['', {
       birthday: ['', {
         validators: [Validators.required]
       }],
