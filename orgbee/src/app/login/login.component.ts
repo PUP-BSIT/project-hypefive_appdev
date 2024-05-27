@@ -37,16 +37,13 @@ export class LoginComponent implements OnInit {
 
   get firstNameControl(){
     return this.signupForm.get('first_name');
-    return this.signupForm.get('first_name');
   }
   
   get lastNameControl(){
     return this.signupForm.get('last_name');
-    return this.signupForm.get('last_name');
   }
 
   get studentNumberControl(){
-    return this.signupForm.get('student_number');
     return this.signupForm.get('student_number');
   }
 
