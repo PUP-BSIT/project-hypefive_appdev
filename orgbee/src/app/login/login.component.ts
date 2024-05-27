@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DataService } from '../service/data.service';
+import { DataService } from '../../service/data.service';
 import { Student } from '../model/student';
 
 @Component({
@@ -36,19 +36,19 @@ export class LoginComponent implements OnInit {
   }
 
   get firstNameControl(){
-    return this.signupForm.get('firstName');
+    return this.signupForm.get('first_name');
   }
   
   get lastNameControl(){
-    return this.signupForm.get('lastName');
+    return this.signupForm.get('last_name');
   }
 
   get studentNumberControl(){
-    return this.signupForm.get('studentNumber');
+    return this.signupForm.get('student_number');
   }
 
   get bdayControl(){
-    return this.signupForm.get('bday');
+    return this.signupForm.get('birthday'); 
   }
 
   get genderControl(){
@@ -70,19 +70,19 @@ export class LoginComponent implements OnInit {
     });
 
     this.signupForm = this.formBuilder.group({
-      firstName: ['', {
+      first_name: ['', {
         validators: [Validators.required]
       }],
-      lastName: ['', {
+      last_name: ['', {
         validators: [Validators.required]
       }],
-      studentNumber: ['', {
+      student_number: ['', {
         validators: [Validators.required]
       }],
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
-      bday: ['', {
+      birthday: ['', {
         validators: [Validators.required]
       }],
       gender: ['', {
@@ -118,7 +118,9 @@ export class LoginComponent implements OnInit {
     this.student = this.signupForm.value;
     console.log(this.student);
 
-    this.dataService.insertData(this.student).subscribe(res=>{
+
+    
+    this.dataService.insertData(this.signupForm.value).subscribe(res=>{
       console.log('saved');
     });
   }

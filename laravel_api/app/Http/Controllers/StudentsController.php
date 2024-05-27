@@ -18,7 +18,7 @@ class StudentsController extends Controller
         $student = Students::find($id);
 
         if (is_null($student)) {
-            return response()->json(['message'=>'Employee not Found'], 404);
+            return response()->json(['message'=>'Student not found'], 404);
         }
         return response()->json($student::find ($id), 200);
     }
@@ -28,14 +28,14 @@ class StudentsController extends Controller
         $student = DB::table('students')->insertGetId([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'email' => $request->email,
+            'student_number' => $request->student_number,
             'birthday' => $request->birthday,
             'gender' => $request->gender,
         ]);
 
         DB::table('login')->insert([
             'user_id' => $student,
-            'student_number' => $request->student_number,
+            'email' => $request->email,
             'password' => $request->password,
         ]);
 

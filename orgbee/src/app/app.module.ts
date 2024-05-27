@@ -14,6 +14,7 @@ import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 
+import { DataService } from '../service/data.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

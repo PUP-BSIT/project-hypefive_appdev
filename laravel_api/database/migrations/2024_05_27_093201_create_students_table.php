@@ -16,13 +16,24 @@ return new class extends Migration {
             $table->string('email', 50);
             $table->date('birthday');
             $table->string('gender', 10);
+            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('account_status_id');
+
+            $table->foreign('role_id')->references('id')->on('roles')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
+                
+            $table->foreign('account_status_id')->references('id')
+                ->on('account_status')->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
         });
+
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void {
+    public function down(): void
+    {
         Schema::dropIfExists('students');
     }
 };

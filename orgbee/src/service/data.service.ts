@@ -5,10 +5,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DataService {
+  //const apiUrl = ;
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private http:HttpClient) { }
 
   insertData(data){
-    return this.httpClient.post('http://127.0.0.1:8000/api/addStudent', data);
+    return this.http.post('http://127.0.0.1:8000/api/addStudent', data);
   }
 }
