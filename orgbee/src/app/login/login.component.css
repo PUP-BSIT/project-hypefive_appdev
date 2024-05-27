@@ -160,3 +160,10 @@ button:hover {
 .form-row > div:last-child {
   margin-right: 10px;
 }
+
+.inc {
+  font-size: 12px;
+  padding: 0;
+  margin-top: -8px;
+  color: red;
+}
