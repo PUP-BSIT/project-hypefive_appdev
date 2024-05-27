@@ -27,11 +27,11 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  get signInEmailControl(){
+  get signUpEmailControl(){
     return this.signupForm.get('email');
   } 
 
-  get signInPasswordControl(){
+  get signUpPasswordControl(){
     return this.signupForm.get('password');
   }
 

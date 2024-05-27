@@ -105,12 +105,12 @@
             <div>
               <label for="signup-email">Email</label>
               <input type="email" formControlName="email" />
-              @if(signInEmailControl.invalid && signInEmailControl.touched){
+              @if(signUpEmailControl.invalid && signUpEmailControl.touched){
                 <div class="inc">
-                    @if(signInEmailControl.errors?.['required']){
+                    @if(signUpEmailControl.errors?.['required']){
                         <div>Email is Required.</div>
                     }
-                    @if(signInEmailControl.errors?.['email']){
+                    @if(signUpEmailControl.errors?.['email']){
                         <div>Invalid Email format.</div>
                     }
                 </div>
@@ -153,12 +153,12 @@
             <div>
               <label for="signup-password">Password</label>
               <input type="password" formControlName="password" minlength="8"/>
-              @if(signInPasswordControl.invalid && signInPasswordControl.touched){
+              @if(signUpPasswordControl.invalid && signUpPasswordControl.touched){
                 <div class="inc">
-                    @if(signInPasswordControl.errors?.['required']){
+                    @if(signUpPasswordControl.errors?.['required']){
                         <div>Password is Required.</div>
                     }
-                    @if(signInPasswordControl.errors?.['minlength']){
+                    @if(signUpPasswordControl.errors?.['minlength']){
                         <div>Password must be 8 characters long</div>
                     }
                 </div>
