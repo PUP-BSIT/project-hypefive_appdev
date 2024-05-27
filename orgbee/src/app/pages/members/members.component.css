@@ -15,6 +15,7 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    margin-top: -20px;
 }
 
 .right-column {
@@ -55,6 +56,13 @@ body {
     background-color: #eeeeed;
 }
 
+.members {
+    margin: 20px;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: #eeeeed;
+}
+
 .all-members {
     border-radius: 20px;
     -ms-overflow-style: none;  
@@ -67,9 +75,9 @@ body {
     text-align: center;
     align-items: top;
     padding: 0px 20px;
-    width: calc(50% - 20px); /* Each member takes half the width with some gap */
-    margin-bottom: 0px; /* Add margin to create space between members */
-    box-sizing: border-box; /* Include padding and border in width calculation */
+    width: calc(50% - 20px); 
+    margin-bottom: 0px; 
+    box-sizing: border-box; 
 }
 
 .member img,
@@ -158,7 +166,6 @@ body {
     border-radius: 20px; 
 }
 
-/* Add hidden scroll for webkit-based browsers */
 .all-members,
 .membership-request,
 .officers {
@@ -170,4 +177,44 @@ body {
 .membership-request::-webkit-scrollbar,
 .officers::-webkit-scrollbar {
     display: none; 
+}
+
+#search_container {
+    margin-top: 20px;
+  }
+  
+#search_container {
+  margin-bottom: 0px 20px; 
+  display: flex;
+  justify-content: center;
+}
+
+#search-input {
+  width: 80%;
+  max-width: 80%; 
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px; 
+  box-sizing: border-box;
+}
+
+#search-results {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#search-results li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+#search-results li.highlight {
+  background-color: #f9f9f9;
+}
+
+.member {
+  display: flex;
+  align-items: center;
 }
