@@ -39,7 +39,7 @@ class StudentsController extends Controller
             'password' => $request->password,
         ]);
 
-        return response()->json(['Student added successfully'], 404);
+        return response()->json(['Student added successfully'], 200);
         
     }
 }
