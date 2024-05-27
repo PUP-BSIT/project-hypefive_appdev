@@ -1,0 +1,173 @@
+body {
+    font-family: "Outfit", sans-serif;
+    margin: 10px;
+    padding: 10px;
+}
+
+.container {
+    display: flex;
+    margin-top: 3%;
+}
+
+.left-column {
+    flex: 3; 
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-column {
+    flex: 1; 
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    padding: 10px;
+    background-color: #242424;
+    border-bottom: 1px solid #ddd;
+    border-radius: 20px; 
+    flex-shrink: 0;
+}
+
+.header img {
+    height: 50px;
+    margin-right: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    color: #ffca10;
+}
+
+.all-members {
+    margin-top: 20px;
+    flex: 1;
+    overflow-y: scroll;
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: #eeeeed;
+}
+
+.all-members {
+    border-radius: 20px;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+
+.member {
+    margin-top: 20px;
+    display: flex;
+    text-align: center;
+    align-items: top;
+    padding: 0px 20px;
+    width: calc(50% - 20px); /* Each member takes half the width with some gap */
+    margin-bottom: 0px; /* Add margin to create space between members */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.member img,
+.profile img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%; 
+}
+
+.membership-request {
+    border-radius: 20px;
+    background-color: #eeeeed;
+    flex: 1;
+    overflow-y: scroll;
+    padding: 0;
+}
+
+.membership-request h2 {
+    margin: 20px;
+    font-size: 20px;
+}
+
+.request {
+    padding: 2px 8px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.request p {
+    margin: 0;
+    border-radius: 20px; 
+    padding: 0; 
+}
+
+.request button {
+    margin-left: 5px;
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 20px; 
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.request button.accept {
+    background-color: #ffca10;
+    color: #000000;
+}
+
+.request button.accept:hover {
+    background-color: #e0b000;
+}
+
+.request button.decline {
+    background-color: #242424;
+    color: #ffffff;
+}
+
+.request button.decline:hover {
+    background-color: #1e1e1e;
+}
+
+.officers {
+    margin-top: 20px;
+    border-radius: 20px;
+    background-color: #eeeeed;
+    flex: 1;
+    overflow-y: scroll;
+    padding: 10px 0;
+}
+
+.officers h2 {
+    font-size: 20px;
+    margin: 20px;
+}
+
+.profile {
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+    margin-bottom: 0px;
+    background-color: #ffffff;
+    border-radius: 20px; 
+}
+
+/* Add hidden scroll for webkit-based browsers */
+.all-members,
+.membership-request,
+.officers {
+    overflow-y: auto; 
+    scrollbar-width: none; 
+}
+
+.all-members::-webkit-scrollbar,
+.membership-request::-webkit-scrollbar,
+.officers::-webkit-scrollbar {
+    display: none; 
+}
