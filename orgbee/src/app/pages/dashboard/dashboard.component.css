@@ -343,6 +343,16 @@
   pointer-events: none; 
 }
 
+.error-required-recipient {
+  position: absolute;
+  left: 220px;
+  bottom:  18%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: rgb(172, 48, 48);
+  pointer-events: none; 
+}
+
 #message {
   background-color: #ffffff;
   margin-top: 5px;
