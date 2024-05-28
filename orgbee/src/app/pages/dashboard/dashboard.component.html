@@ -50,6 +50,7 @@
 
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
+
         <div class="announcement" *ngFor="let announcement of announcements">
           <button
             mat-icon-button
@@ -60,11 +61,11 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="an-menu">
-            <button mat-menu-item>
+            <button mat-menu-item (click)="deleteAnnouncement(announcement)">
               <mat-icon class="menu-icon">delete</mat-icon>
               <span class="menu-item-text">Delete</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="openEditModal(announcement)">
               <mat-icon class="menu-icon">edit</mat-icon>
               <span class="menu-item-text">Edit</span>
             </button>
@@ -78,16 +79,14 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="modal" *ngIf="showModal">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-      <h2>{{ modalSubject }}</h2>
-      <p>{{ modalContent }}</p>
-    </div>
-  </div>
+      <div class="modal" *ngIf="showModal">
+        <div class="modal-content">
+          <span class="close" (click)="closeModal()">&times;</span>
+          <h2>{{ modalSubject }}</h2>
+          <p>{{ modalContent }}</p>
+        </div>
+      </div>
 
       <div class="modal-edit-announcement" *ngIf="openModalEditAnnouncement">
         <div class="modal-announcement-content">
@@ -134,28 +133,54 @@
         </div>
       </div>
 
-  <div class="modal-announcement" *ngIf="openModalAnnouncement">
-    <div class="modal-announcement-content">
-      <span class="close" (click)="closeModalAnnouncement()">&times;</span>
-      <h2>Make Announcement</h2>
-      <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()">
-        <div class="form-group">
-          <label for="subject">Subject:</label>
-          <input type="text" id="subject" formControlName="subject" required />
+      <div class="modal-announcement" *ngIf="openModalAnnouncement">
+        <div class="modal-announcement-content">
+          <span class="close" (click)="closeModalAnnouncement()">&times;</span>
+          <h2>Announcement</h2>
+
+          <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()">
+            <div class="an-modal-content">
+              <div class="form-group subject">
+                <label for="subject">Subject:</label>
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="subject"
+                    formControlName="subject"
+                    required
+                    (input)="updateSubjectCharacterCount()"
+                  />
+                  <span class="character-counter">
+                    {{ announcementForm.get('subject').value ? announcementForm.get('subject').value.length : 0 }}/50
+                  </span>
+                </div>
+                <div *ngIf="announcementForm.get('subject').invalid && announcementForm.get('subject').touched">
+                  <div *ngIf="announcementForm.get('subject').errors?.required">Subject is required.</div>
+                </div>
+              </div>
+              <div class="form-group message">
+                <label for="message">Message:</label>
+                <textarea
+                  id="message"
+                  formControlName="message"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group recipient">
+                <mat-radio-group formControlName="recipient">
+                  <mat-radio-button value="everyone">Everyone</mat-radio-button>
+                  <mat-radio-button value="officers"
+                    >Officers Only</mat-radio-button
+                  >
+                </mat-radio-group>
+              </div>
+              <button type="submit" class="submit-button">
+                PUBLISH ANNOUNCEMENT
+              </button>
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <label for="message">Message:</label>
-          <textarea id="message" formControlName="message" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Recipient:</label>
-          <mat-radio-group formControlName="recipient">
-            <mat-radio-button value="everyone">Everyone</mat-radio-button>
-            <mat-radio-button value="officers">Officers Only</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <button type="submit" class="submit-button">Submit</button>
-      </form>
+      </div>
     </div>
   </div>
 </div>

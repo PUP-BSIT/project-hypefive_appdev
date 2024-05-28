@@ -1,5 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidatorFn,
+} from '@angular/forms';
+
+export interface Announcement {
+  subject: string;
+  content: string;
+  recipient: string;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -7,39 +19,52 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  announcements = [
-    {
-      subject: 'Subject 1',
-      content:
-        'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-    },
-    { subject: 'Subject 2', content: 'Lorem Ipsum Lorem Ipsum' },
-    { subject: 'Subject 3', content: 'Lorem Ipsum Lorem Ipsum' },
-    { subject: 'Subject 4', content: 'Lorem Ipsum Lorem Ipsum' },
-  ];
+  announcements: Announcement[] = [];
 
   showModal: boolean = false;
   modalSubject: string = '';
   modalContent: string = '';
-  openModalAnnouncement: boolean = false; // Corrected property name
+  openModalAnnouncement: boolean = false;
+  openModalEditAnnouncement = false;
 
   announcementForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 
+  subjectMaxLengthValidator(maxLength: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value || '';
+      return value.length > maxLength
+        ? {
+            maxLength: {
+              requiredLength: maxLength,
+              actualLength: value.length,
+            },
+          }
+        : null;
+    };
+  }
+
+  updateSubjectCharacterCount(): void {
+    const subjectControl = this.announcementForm.get('subject');
+    if (subjectControl && subjectControl.value.length > 50) {
+      subjectControl.setValue(subjectControl.value.substring(0, 50));
+    }
+  }
+
   ngOnInit(): void {
     this.announcementForm = this.formBuilder.group({
-      subject: ['', Validators.required],
-      message: ['', Validators.required],
+      subject: ['', [Validators.required, this.subjectMaxLengthValidator]],
+      message: ['', [Validators.required, Validators.maxLength(800)]],
       recipient: ['', Validators.required],
     });
   }
 
   openModal(announcement: any) {
-this.announcementForm.patchValue({
+    this.announcementForm.patchValue({
       subject: announcement.subject,
       message: announcement.content,
-      recipient: announcement.recipient, // You can set a default recipient value here
+      recipient: announcement.recipient, 
     });
     this.modalSubject = announcement.subject;
     this.modalContent = announcement.content;
@@ -50,11 +75,11 @@ this.announcementForm.patchValue({
     this.announcementForm.patchValue({
       subject: announcement.subject,
       message: announcement.content,
-      recipient: announcement.recipient, // Set default recipient if needed
+      recipient: announcement.recipient, 
     });
     this.modalSubject = announcement.subject;
     this.modalContent = announcement.content;
-    this.openModalEditAnnouncement = true; // Show the edit modal
+    this.openModalEditAnnouncement = true; 
   }
 
   closeModal() {
@@ -65,7 +90,7 @@ this.announcementForm.patchValue({
 
   toggleModalAnnouncement() {
     this.openModalAnnouncement = true;
-    this.announcementForm.reset(); // Toggle the value
+    this.announcementForm.reset(); 
   }
 
   closeModalAnnouncement() {
@@ -90,7 +115,7 @@ this.announcementForm.patchValue({
         this.announcements[index] = updatedAnnouncement;
       }
       this.closeModalEditAnnouncement();
-      this.announcementForm.reset(); // Reset the form after edit
+      this.announcementForm.reset(); 
     } else {
       this.announcementForm.markAllAsTouched();
     }
@@ -107,7 +132,7 @@ this.announcementForm.patchValue({
       this.announcementForm.reset();
       this.closeModalAnnouncement();
     } else {
-            this.announcementForm.markAllAsTouched();
+      this.announcementForm.markAllAsTouched();
     }
   }
 
