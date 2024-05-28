@@ -24,7 +24,6 @@ app-display {
   flex-grow: 1;
   background-color: #ffffff; /* Optional: to distinguish the display area */
   overflow-y: auto;
-
   display: flex;
   flex-direction: column;
   align-items: center;

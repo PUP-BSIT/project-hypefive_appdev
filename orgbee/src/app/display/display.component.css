@@ -2,11 +2,11 @@
   flex: 1;
   padding: 0px;
   width: 100%;
-  max-width: 100vw; /* Adjusted the maximum width to 80% of the viewport width */
-  max-height: 90vh; /* Adjusted the maximum height to 80% of the viewport height */
+  max-width: 100vw;
+  max-height: 900vh;
   box-sizing: border-box;
   margin-top: 15px;
-  overflow-y: auto; /* Enable scrolling if content exceeds the maximum dimensions */
+  overflow-y: auto;
 }
 
 body,
