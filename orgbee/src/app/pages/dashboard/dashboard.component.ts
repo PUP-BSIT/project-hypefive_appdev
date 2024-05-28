@@ -36,9 +36,25 @@ export class DashboardComponent implements OnInit {
   }
 
   openModal(announcement: any) {
+this.announcementForm.patchValue({
+      subject: announcement.subject,
+      message: announcement.content,
+      recipient: announcement.recipient, // You can set a default recipient value here
+    });
     this.modalSubject = announcement.subject;
     this.modalContent = announcement.content;
     this.showModal = true;
+  }
+
+  openEditModal(announcement: Announcement) {
+    this.announcementForm.patchValue({
+      subject: announcement.subject,
+      message: announcement.content,
+      recipient: announcement.recipient, // Set default recipient if needed
+    });
+    this.modalSubject = announcement.subject;
+    this.modalContent = announcement.content;
+    this.openModalEditAnnouncement = true; // Show the edit modal
   }
 
   closeModal() {
@@ -48,23 +64,57 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleModalAnnouncement() {
-    this.openModalAnnouncement = !this.openModalAnnouncement; // Toggle the value
+    this.openModalAnnouncement = true;
+    this.announcementForm.reset(); // Toggle the value
   }
 
   closeModalAnnouncement() {
     this.openModalAnnouncement = false;
   }
 
+  closeModalEditAnnouncement() {
+    this.openModalEditAnnouncement = false;
+  }
+  submitEditAnnouncement() {
+    if (this.announcementForm.valid) {
+      const updatedAnnouncement = {
+        subject: this.announcementForm.get('subject')?.value,
+        content: this.announcementForm.get('message')?.value,
+        recipient: this.announcementForm.get('recipient')?.value,
+      };
+
+      const index = this.announcements.findIndex(
+        (a) => a.subject === this.modalSubject
+      );
+      if (index > -1) {
+        this.announcements[index] = updatedAnnouncement;
+      }
+      this.closeModalEditAnnouncement();
+      this.announcementForm.reset(); // Reset the form after edit
+    } else {
+      this.announcementForm.markAllAsTouched();
+    }
+  }
+
   submitAnnouncement() {
     if (this.announcementForm.valid) {
-      // Logging the form values to the console
-      console.log('Form Values:', this.announcementForm.value);
+      const newAnnouncement = {
+        subject: this.announcementForm.get('subject')?.value,
+        content: this.announcementForm.get('message')?.value,
+        recipient: this.announcementForm.get('recipient')?.value,
+      };
+      this.announcements.push(newAnnouncement);
+      this.announcementForm.reset();
       this.closeModalAnnouncement();
-
-      // You can perform further actions here, such as sending the form data to a server
     } else {
-      // If the form is invalid, mark all fields as touched to display validation errors
-      this.announcementForm.markAllAsTouched();
+            this.announcementForm.markAllAsTouched();
+    }
+  }
+
+  deleteAnnouncement(announcement: Announcement) {
+    const index = this.announcements.indexOf(announcement);
+    if (index > -1) {
+      this.announcements.splice(index, 1);
     }
   }
 

@@ -89,6 +89,51 @@
     </div>
   </div>
 
+      <div class="modal-edit-announcement" *ngIf="openModalEditAnnouncement">
+        <div class="modal-announcement-content">
+          <span class="close" (click)="closeModalEditAnnouncement()"
+            >&times;</span
+          >
+          <h2>Edit Announcement</h2>
+
+          <form
+            [formGroup]="announcementForm"
+            (ngSubmit)="submitEditAnnouncement()"
+          >
+            <div class="an-modal-content">
+              <div class="form-group subject">
+                <label for="subject">Subject:</label>
+                <input
+                  type="text"
+                  id="subject"
+                  formControlName="subject"
+                  required
+                />
+              </div>
+              <div class="form-group message">
+                <label for="message">Message:</label>
+                <textarea
+                  id="message"
+                  formControlName="message"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group recipient">
+                <mat-radio-group formControlName="recipient">
+                  <mat-radio-button value="everyone">Everyone</mat-radio-button>
+                  <mat-radio-button value="officers"
+                    >Officers Only</mat-radio-button
+                  >
+                </mat-radio-group>
+              </div>
+              <button type="submit" class="submit-button">
+                PUBLISH ANNOUNCEMENT
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
   <div class="modal-announcement" *ngIf="openModalAnnouncement">
     <div class="modal-announcement-content">
       <span class="close" (click)="closeModalAnnouncement()">&times;</span>
