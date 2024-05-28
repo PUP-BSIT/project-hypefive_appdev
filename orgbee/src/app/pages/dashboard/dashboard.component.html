@@ -104,9 +104,9 @@
           <span class="close" (click)="closeModalEditAnnouncement()">&times;
           </span>
           <h2>Edit Announcement</h2>
-          <form [formGroup]="announcementForm"
+          <form
+          [formGroup]="announcementForm"
           (ngSubmit)="submitEditAnnouncement()">
-
           <div class="an-modal-content">
             <div class="form-group subject">
               <label for="subject">Subject:</label>
@@ -116,21 +116,22 @@
                   id="subject"
                   formControlName="subject"
                   required
-                  (input)="updateSubjectCharacterCount()"/>
-                <span class="character-counter-subject">
-                  {{announcementForm.get("subject").value?
-                  announcementForm.get("subject").value.length: 0 }}/30
+                  (input)="updateSubjectCharacterCount()" />
+                <span class="character-counter-subject">{{
+                    subjectControl.value
+                      ? subjectControl.value.length
+                      : 0 }}/30
                 </span>
               </div>
 
-              <!--FOR FORM VALIDATORS-->
-              <div *ngIf="announcementForm.get('subject').invalid &&
-                  announcementForm.get('subject').touched">
-                <div class="error-required-subject"
-                  *ngIf="announcementForm.get('subject').errors?.required">
-                  Subject is required.
-                </div>
-              </div>
+              <!--FORM VALIDATORS-->
+              @if(subjectControl.invalid && subjectControl.touched){
+                @if(subjectControl.errors?.['required']){
+                  <div class="error-required-subject">
+                    Subject is required.
+                  </div>
+                }
+               }
             </div>
 
             <div class="form-group message">
@@ -140,24 +141,22 @@
                   id="message"
                   formControlName="message"
                   required
-                  (input)="updateMessageCharacterCount()"
-                ></textarea>
+                  (input)="updateMessageCharacterCount()">
+                </textarea>
                 <span class="character-counter-message">
-                  {{
-                    announcementForm.get("message").value
-                      ? announcementForm.get("message").value.length
-                      : 0
-                  }}/850
+                  {{messageControl.value
+                      ? messageControl.value.length
+                      : 0}}/850
                 </span>
               </div>
 
-              <div *ngIf="announcementForm.get('message').invalid &&
-                  announcementForm.get('message').touched">
-                <div class="error-required-message"
-                  *ngIf="announcementForm.get('message').errors?.required"
-                  >Message is required.
-                </div>
-              </div>
+              @if(messageControl.invalid && messageControl.touched){
+                @if(messageControl.errors?.['required']){
+                  <div class="error-required-message">
+                    Message is required.
+                  </div>
+                }
+               }
             </div>
 
             <div class="form-group recipient">
@@ -165,14 +164,19 @@
                 <mat-radio-button value="everyone">Everyone</mat-radio-button>
                 <mat-radio-button value="officers">Officers Only</mat-radio-button>
               </mat-radio-group>
-              <div *ngIf="announcementForm.get('recipient').invalid && announcementForm.get('recipient').touched">
-                <div class="error-required-recipient" *ngIf="announcementForm.get('recipient').errors?.required">Recipient selection is required.</div>
-              </div>
+              @if(recipientControl.invalid && recipientControl.touched){
+                @if(recipientControl.errors?.['required']){
+                  <div class="error-required-recipient">
+                    Recipient is required.
+                  </div>
+                }
+               }
             </div>
             
             <button type="submit" class="submit-button">
               PUBLISH ANNOUNCEMENT
             </button>
+
           </div>
         </form>
         </div>
@@ -198,8 +202,8 @@
                     required
                     (input)="updateSubjectCharacterCount()" />
                   <span class="character-counter-subject">{{
-                      announcementForm.get("subject").value
-                        ? announcementForm.get("subject").value.length
+                      subjectControl.value
+                        ? subjectControl.value.length
                         : 0 }}/30
                   </span>
                 </div>
@@ -224,8 +228,8 @@
                     (input)="updateMessageCharacterCount()">
                   </textarea>
                   <span class="character-counter-message">
-                    {{announcementForm.get("message").value
-                        ? announcementForm.get("message").value.length
+                    {{messageControl.value
+                        ? messageControl.value.length
                         : 0}}/850
                   </span>
                 </div>
