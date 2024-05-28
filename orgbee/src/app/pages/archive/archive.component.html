@@ -18,23 +18,23 @@
                         (currentSlide, currentSlide + 3)">
                             <img src="{{event.icon}}">
                     </div>
+                </div>
+                
+                <div class="carousel-buttons">
+                    <button class="carousel-button" 
+                        (click)="moveLeft()">
+                            &#60;
+                    </button>
 
-                    <div class="carousel-buttons">
-                        <button class="carousel-button" 
-                            (click)="moveLeft()">
-                                &#60;
-                        </button>
+                    <span class="page-number">
+                        Page {{currentSlide / 3 + 1}}
+                    </span>
 
-                        <span class="page-number">
-                            Page {{currentSlide / 3 + 1}}
-                        </span>
-
-                        <button 
-                            class="carousel-button" 
-                            (click)="moveRight()">
-                                &#62;
-                        </button>
-                    </div>
+                    <button 
+                        class="carousel-button" 
+                        (click)="moveRight()">
+                            &#62;
+                    </button>
                 </div>
             </div>
         
