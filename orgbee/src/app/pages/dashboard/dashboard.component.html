@@ -1,6 +1,7 @@
 <div class="dashboard">
   <div class="content">
-    <div class="main">
+    
+    <div class="main">  
       <div class="dashboard-header">
         <div class="greetings">
           <h1 class="org-name">Computer Society</h1>
@@ -8,6 +9,9 @@
         </div>
         <img src="assets/default.jpg" alt="Icon" class="org-icon" />
       </div>
+
+
+      <!----- TOOLS: CREATE EVENT ---->
       <h2 class="section-title">Tools</h2>
       <div class="tools">
         <mat-card class="example-card">
@@ -18,6 +22,7 @@
           <mat-card-title>Create Event</mat-card-title>
         </mat-card>
 
+        <!-- TOOLS: ANNOUNCEMENT!-->
         <mat-card class="example-card" (click)="toggleModalAnnouncement()">
           <mat-card-header>
             <span class="material-symbols-outlined custom-icon">
@@ -27,6 +32,7 @@
           <mat-card-title>Make Announcement</mat-card-title>
         </mat-card>
 
+       <!-- TOOLS: VIEW MEMBERSHIP REQUESTS!-->
         <mat-card class="example-card">
           <mat-card-header> </mat-card-header>
           <span class="material-symbols-outlined custom-icon"> groups </span>
@@ -35,6 +41,7 @@
       </div>
     </div>
 
+   
     <div class="container">
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
@@ -48,18 +55,19 @@
         <div class="role">Admin</div>
       </div>
 
+      <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
-
         <div class="announcement" *ngFor="let announcement of announcements">
           <button
             mat-icon-button
             [matMenuTriggerFor]="menu"
             aria-label="Example icon-button with a menu"
-            class="menu-button"
-          >
+            class="menu-button">
             <mat-icon>more_vert</mat-icon>
           </button>
+
+        <!--ANNOUNCEMENT MENU: edit & delete-->
           <mat-menu #menu="matMenu" class="an-menu">
             <button mat-menu-item (click)="deleteAnnouncement(announcement)">
               <mat-icon class="menu-icon">delete</mat-icon>
@@ -71,15 +79,17 @@
             </button>
           </mat-menu>
 
+        <!--ANNOUNCEMENTS-->
           <div class="an-content" (click)="openModal(announcement)">
             <p class="announcement-subject">{{ announcement.subject }}</p>
             <p class="announcement-text">
-              {{ truncateText(announcement.content, 50) }}
+              {{ truncateText(announcement.content, 30) }}
             </p>
           </div>
         </div>
       </div>
 
+      <!--VIEW ANNOUNCEMENT MODAL-->
       <div class="modal" *ngIf="showModal">
         <div class="modal-content">
           <span class="close" (click)="closeModal()">&times;</span>
@@ -88,17 +98,15 @@
         </div>
       </div>
 
+       <!--EDIT ANNOUNCEMENT MODAL-->
       <div class="modal-edit-announcement" *ngIf="openModalEditAnnouncement">
         <div class="modal-announcement-content">
-          <span class="close" (click)="closeModalEditAnnouncement()"
-            >&times;</span
-          >
+          <span class="close" (click)="closeModalEditAnnouncement()">&times;
+          </span>
           <h2>Edit Announcement</h2>
+          <form [formGroup]="announcementForm"
+          (ngSubmit)="submitEditAnnouncement()">
 
-          <form
-          [formGroup]="announcementForm"
-          (ngSubmit)="submitEditAnnouncement()"
-        >
           <div class="an-modal-content">
             <div class="form-group subject">
               <label for="subject">Subject:</label>
@@ -108,16 +116,14 @@
                   id="subject"
                   formControlName="subject"
                   required
-                  (input)="updateSubjectCharacterCount()"
-                />
+                  (input)="updateSubjectCharacterCount()"/>
                 <span class="character-counter-subject">
-                  {{
-                    announcementForm.get("subject").value
-                      ? announcementForm.get("subject").value.length
-                      : 0
-                  }}/30
+                  {{announcementForm.get("subject").value?
+                  announcementForm.get("subject").value.length: 0 }}/30
                 </span>
               </div>
+
+              <!--FOR FORM VALIDATORS-->
               <div *ngIf="announcementForm.get('subject').invalid &&
                   announcementForm.get('subject').touched">
                 <div class="error-required-subject"
@@ -172,6 +178,7 @@
         </div>
       </div>
 
+  <!--CREATE ANNOUNCEMENT MODAL-->
       <div class="modal-announcement" *ngIf="openModalAnnouncement">
         <div class="modal-announcement-content">
           <span class="close" (click)="closeModalAnnouncement()">&times;</span>
@@ -179,8 +186,7 @@
 
           <form
             [formGroup]="announcementForm"
-            (ngSubmit)="submitAnnouncement()"
-          >
+            (ngSubmit)="submitAnnouncement()">
             <div class="an-modal-content">
               <div class="form-group subject">
                 <label for="subject">Subject:</label>
@@ -190,23 +196,22 @@
                     id="subject"
                     formControlName="subject"
                     required
-                    (input)="updateSubjectCharacterCount()"
-                  />
-                  <span class="character-counter-subject">
-                    {{
+                    (input)="updateSubjectCharacterCount()" />
+                  <span class="character-counter-subject">{{
                       announcementForm.get("subject").value
                         ? announcementForm.get("subject").value.length
-                        : 0
-                    }}/30
+                        : 0 }}/30
                   </span>
                 </div>
-                <div *ngIf="announcementForm.get('subject').invalid &&
-                    announcementForm.get('subject').touched">
-                  <div class="error-required-subject"
-                    *ngIf="announcementForm.get('subject').errors?.required">
-                    Subject is required.
-                  </div>
-                </div>
+
+                <!--FORM VALIDATORS-->
+                @if(subjectControl.invalid && subjectControl.touched){
+                  @if(subjectControl.errors?.['required']){
+                    <div class="error-required-subject">
+                      Subject is required.
+                    </div>
+                  }
+                 }
               </div>
 
               <div class="form-group message">
@@ -216,24 +221,22 @@
                     id="message"
                     formControlName="message"
                     required
-                    (input)="updateMessageCharacterCount()"
-                  ></textarea>
+                    (input)="updateMessageCharacterCount()">
+                  </textarea>
                   <span class="character-counter-message">
-                    {{
-                      announcementForm.get("message").value
+                    {{announcementForm.get("message").value
                         ? announcementForm.get("message").value.length
-                        : 0
-                    }}/850
+                        : 0}}/850
                   </span>
                 </div>
 
-                <div *ngIf="announcementForm.get('message').invalid &&
-                    announcementForm.get('message').touched">
-                  <div class="error-required-message"
-                    *ngIf="announcementForm.get('message').errors?.required"
-                    >Message is required.
-                  </div>
-                </div>
+                @if(messageControl.invalid && messageControl.touched){
+                  @if(messageControl.errors?.['required']){
+                    <div class="error-required-message">
+                      Message is required.
+                    </div>
+                  }
+                 }
               </div>
 
               <div class="form-group recipient">
@@ -241,14 +244,19 @@
                   <mat-radio-button value="everyone">Everyone</mat-radio-button>
                   <mat-radio-button value="officers">Officers Only</mat-radio-button>
                 </mat-radio-group>
-                <div *ngIf="announcementForm.get('recipient').invalid && announcementForm.get('recipient').touched">
-                  <div class="error-required-recipient" *ngIf="announcementForm.get('recipient').errors?.required">Recipient selection is required.</div>
-                </div>
+                @if(recipientControl.invalid && recipientControl.touched){
+                  @if(recipientControl.errors?.['required']){
+                    <div class="error-required-recipient">
+                      Recipient is required.
+                    </div>
+                  }
+                 }
               </div>
               
               <button type="submit" class="submit-button">
                 PUBLISH ANNOUNCEMENT
               </button>
+
             </div>
           </form>
         </div>

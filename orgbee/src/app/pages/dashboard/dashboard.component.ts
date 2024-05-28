@@ -31,20 +31,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  charMaxLengthValidator(maxLength: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const value = control.value || '';
-      return value.length > maxLength
-        ? {
-            maxLength: {
-              requiredLength: maxLength,
-              actualLength: value.length,
-            },
-          }
-        : null;
-    };
-  }
-
   updateSubjectCharacterCount(): void {
     const subjectControl = this.announcementForm.get('subject');
     if (subjectControl && subjectControl.value.length > 30) {
@@ -61,10 +47,22 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.announcementForm = this.formBuilder.group({
-      subject: ['', [Validators.required, this.charMaxLengthValidator(30)]],
-      message: ['', [Validators.required, this.charMaxLengthValidator(850)]],
+      subject:  ['', [Validators.required]],
+      message: ['', [Validators.required]],
       recipient: ['', Validators.required],
     });
+  }
+
+  get subjectControl(): AbstractControl {
+    return this.announcementForm.get('subject')!;
+  }
+
+  get messageControl(): AbstractControl {
+    return this.announcementForm.get('message')!;
+  }
+
+  get recipientControl(): AbstractControl {
+    return this.announcementForm.get('recipient')!;
   }
 
   openModal(announcement: any) {
