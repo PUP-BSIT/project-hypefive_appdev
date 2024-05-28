@@ -1,0 +1,178 @@
+body {
+    font-family: "Outfit", sans-serif;
+}
+
+.members-page {
+    margin-top: 3%;
+    padding-top: 0%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    padding: 10px;
+    background-color: #242424;
+    border-bottom: 1px solid #ddd;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+.header img {
+    height: 50px;
+    margin-right: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    color: #ffca10;
+}
+
+.row {
+    display: flex;
+}
+
+.left-column {
+    flex: 3;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.right-column {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.month-year {
+    background-color: #ffca10;
+    padding: 1px;
+    text-align: center;
+    border-radius: 20px;
+    margin-top: 5%;
+}
+
+.page {
+    justify-content: center;
+    margin-top: 7%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.archive-event {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    background-color: #eeeeed;
+    width: calc(33.33% - 10px);
+}
+
+.archive-event img {
+    border-radius: 10px;
+    width: 80%;
+    height: 100%;
+}
+
+.previous-events {
+    border-radius: 20px;
+    background-color: #eeeeed;
+    overflow-y: auto; 
+    padding: 10px 0;
+}
+
+.previous-events h2 {
+    margin: 20px;
+    font-size: 20px;
+}
+
+.event-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.event-list td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.event-list tr:first-child {
+    font-weight: bold;
+}
+
+.previous-events button {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: #ffca10;
+    color: #000000;
+}
+
+.previous-events button:hover {
+    background-color: #e0b000;
+}
+
+.carousel-buttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.carousel-button {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin: 0;
+    font-weight: bold;
+    border-radius: 5px; 
+}
+
+.carousel-button:focus {
+    outline: none;
+}
+
+.page-number {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+    color: #000;
+}
+
+#search_container {
+    margin-bottom: 0px 20px; 
+    display: flex;
+    justify-content: center;
+}
+  
+#search-input {
+    width: 80%;
+    max-width: 80%; 
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px; 
+    box-sizing: border-box;
+}
+  
+#search-results {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+  
+#search-results li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+  
+#search-results li.highlight {
+    background-color: #f9f9f9;
+}
