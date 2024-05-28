@@ -96,40 +96,79 @@
           <h2>Edit Announcement</h2>
 
           <form
-            [formGroup]="announcementForm"
-            (ngSubmit)="submitEditAnnouncement()"
-          >
-            <div class="an-modal-content">
-              <div class="form-group subject">
-                <label for="subject">Subject:</label>
+          [formGroup]="announcementForm"
+          (ngSubmit)="submitEditAnnouncement()"
+        >
+          <div class="an-modal-content">
+            <div class="form-group subject">
+              <label for="subject">Subject:</label>
+              <div class="input-wrapper">
                 <input
                   type="text"
                   id="subject"
                   formControlName="subject"
                   required
+                  (input)="updateSubjectCharacterCount()"
                 />
+                <span class="character-counter-subject">
+                  {{
+                    announcementForm.get("subject").value
+                      ? announcementForm.get("subject").value.length
+                      : 0
+                  }}/30
+                </span>
               </div>
-              <div class="form-group message">
-                <label for="message">Message:</label>
+              <div *ngIf="announcementForm.get('subject').invalid &&
+                  announcementForm.get('subject').touched">
+                <div class="error-required-subject"
+                  *ngIf="announcementForm.get('subject').errors?.required">
+                  Subject is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group message">
+              <label for="message">Message:</label>
+              <div class="textarea-wrapper">
                 <textarea
                   id="message"
                   formControlName="message"
                   required
+                  (input)="updateMessageCharacterCount()"
                 ></textarea>
+                <span class="character-counter-message">
+                  {{
+                    announcementForm.get("message").value
+                      ? announcementForm.get("message").value.length
+                      : 0
+                  }}/850
+                </span>
               </div>
-              <div class="form-group recipient">
-                <mat-radio-group formControlName="recipient">
-                  <mat-radio-button value="everyone">Everyone</mat-radio-button>
-                  <mat-radio-button value="officers"
-                    >Officers Only</mat-radio-button
-                  >
-                </mat-radio-group>
+
+              <div *ngIf="announcementForm.get('message').invalid &&
+                  announcementForm.get('message').touched">
+                <div class="error-required-message"
+                  *ngIf="announcementForm.get('message').errors?.required"
+                  >Message is required.
+                </div>
               </div>
-              <button type="submit" class="submit-button">
-                PUBLISH ANNOUNCEMENT
-              </button>
             </div>
-          </form>
+
+            <div class="form-group recipient">
+              <mat-radio-group formControlName="recipient">
+                <mat-radio-button value="everyone">Everyone</mat-radio-button>
+                <mat-radio-button value="officers">Officers Only</mat-radio-button>
+              </mat-radio-group>
+              <div *ngIf="announcementForm.get('recipient').invalid && announcementForm.get('recipient').touched">
+                <div class="error-required-recipient" *ngIf="announcementForm.get('recipient').errors?.required">Recipient selection is required.</div>
+              </div>
+            </div>
+            
+            <button type="submit" class="submit-button">
+              PUBLISH ANNOUNCEMENT
+            </button>
+          </div>
+        </form>
         </div>
       </div>
 
