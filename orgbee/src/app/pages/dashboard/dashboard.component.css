@@ -268,21 +268,21 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden; 
 }
 
 .modal-announcement-content {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Center the modal */
+  transform: translate(-50%, -50%); 
   background-color: #e9e9e9;
   padding: 20px;
   border: 1px solid #888;
   border-radius: 20px;
   width: 80%;
   max-width: 550px;
-  height: 450px; /* Allow the height to adjust based on content */
+  height: 450px; 
 }
 
 .modal-announcement-content h2 {
@@ -303,14 +303,44 @@
   height: 20px;
 }
 
-.character-counter {
+.character-counter-subject {
   position: absolute;
   right: 45px;
   top: 19.5%;
   transform: translateY(-50%);
   font-size: 12px;
   color: gray;
-  pointer-events: none; /* Make sure the counter doesn't interfere with input */
+  pointer-events: none; 
+}
+
+.character-counter-message {
+  position: absolute;
+  right: 44px;
+  bottom: 36.5%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: gray;
+  pointer-events: none; 
+}
+
+.error-required-subject {
+  position: absolute;
+  left: 103px;
+  top: 24%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: rgb(172, 48, 48);
+  pointer-events: none; 
+}
+
+.error-required-message {
+  position: absolute;
+  left: 50px;
+  bottom:  32%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: rgb(172, 48, 48);
+  pointer-events: none; 
 }
 
 #message {
@@ -321,8 +351,8 @@
   width: 500px;
   height: 150px;
   border: none;
-  resize: none; /* Disable resizing */
-  overflow-y: auto; /* Make it scrollable */
+  resize: none; 
+  overflow-y: auto; 
 }
 
 .subject {
@@ -336,16 +366,16 @@
 }
 
 .form-group.message label {
-  margin-bottom: 5px; /* Ensure label has some space below it */
+  margin-bottom: 5px; 
   font-size: 15px;
-  display: block; /* Ensure label is displayed as a block element */
+  display: block; 
 }
 
 .message {
-  margin-top: 20px; /* Add margin-top to create distance between subject and message */
+  margin-top: 20px; 
   margin-bottom: 20px;
   display: block;
-  justify-content: center; /* Center align items horizontally */
+  justify-content: center; 
 }
 
 .recipient {
@@ -380,7 +410,7 @@
   .mdc-radio__native-control:enabled
   + .mdc-radio__background
   .mdc-radio__inner-circle {
-  border-color: gray !important; /* Change the border color to gray */
+  border-color: gray !important; 
 }
 
 .menu-button {
@@ -414,7 +444,7 @@ mat-card-title {
 }
 
 .example-card:hover {
-  background-color: #e0e0e0; /* Change this to your desired hover color */
+  background-color: #e0e0e0; 
   cursor: pointer;
 }
 
@@ -422,19 +452,19 @@ mat-card-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffca10; /* Example background color */
-  color: #212121; /* Example text color */
-  border-radius: 20px; /* Example border radius */
-  padding: 10px 20px; /* Example padding */
-  font-size: 13px; /* Example font size */
-  font-weight: 400; /* Example font weight */
-  border: none; /* Example border */
-  cursor: pointer; /* Pointer cursor on hover */
-  margin: 0 auto; /* Center the button */
+  background-color: #ffca10; 
+  color: #212121; 
+  border-radius: 20px; 
+  padding: 10px 20px; 
+  font-size: 13px; 
+  font-weight: 400; 
+  border: none; 
+  cursor: pointer; 
+  margin: 0 auto; 
   font-family: "Outfit";
   margin-top: 15px;
 }
 
 .submit-button:hover {
-  background-color: #e6b800; /* Darker yellow on hover */
+  background-color: #e6b800; 
 }

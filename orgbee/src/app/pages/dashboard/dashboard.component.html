@@ -138,7 +138,10 @@
           <span class="close" (click)="closeModalAnnouncement()">&times;</span>
           <h2>Announcement</h2>
 
-          <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()">
+          <form
+            [formGroup]="announcementForm"
+            (ngSubmit)="submitAnnouncement()"
+          >
             <div class="an-modal-content">
               <div class="form-group subject">
                 <label for="subject">Subject:</label>
@@ -150,22 +153,50 @@
                     required
                     (input)="updateSubjectCharacterCount()"
                   />
-                  <span class="character-counter">
-                    {{ announcementForm.get('subject').value ? announcementForm.get('subject').value.length : 0 }}/50
+                  <span class="character-counter-subject">
+                    {{
+                      announcementForm.get("subject").value
+                        ? announcementForm.get("subject").value.length
+                        : 0
+                    }}/30
                   </span>
                 </div>
-                <div *ngIf="announcementForm.get('subject').invalid && announcementForm.get('subject').touched">
-                  <div *ngIf="announcementForm.get('subject').errors?.required">Subject is required.</div>
+                <div *ngIf="announcementForm.get('subject').invalid &&
+                    announcementForm.get('subject').touched">
+                  <div class="error-required-subject"
+                    *ngIf="announcementForm.get('subject').errors?.required">
+                    Subject is required.
+                  </div>
                 </div>
               </div>
+
               <div class="form-group message">
                 <label for="message">Message:</label>
-                <textarea
-                  id="message"
-                  formControlName="message"
-                  required
-                ></textarea>
+                <div class="textarea-wrapper">
+                  <textarea
+                    id="message"
+                    formControlName="message"
+                    required
+                    (input)="updateMessageCharacterCount()"
+                  ></textarea>
+                  <span class="character-counter-message">
+                    {{
+                      announcementForm.get("message").value
+                        ? announcementForm.get("message").value.length
+                        : 0
+                    }}/850
+                  </span>
+                </div>
+
+                <div *ngIf="announcementForm.get('message').invalid &&
+                    announcementForm.get('message').touched">
+                  <div class="error-required-message"
+                    *ngIf="announcementForm.get('message').errors?.required"
+                    >Message is required.
+                  </div>
+                </div>
               </div>
+
               <div class="form-group recipient">
                 <mat-radio-group formControlName="recipient">
                   <mat-radio-button value="everyone">Everyone</mat-radio-button>

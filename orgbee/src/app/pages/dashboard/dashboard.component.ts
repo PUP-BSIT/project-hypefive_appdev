@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  subjectMaxLengthValidator(maxLength: number): ValidatorFn {
+  charMaxLengthValidator(maxLength: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value || '';
       return value.length > maxLength
@@ -47,15 +47,22 @@ export class DashboardComponent implements OnInit {
 
   updateSubjectCharacterCount(): void {
     const subjectControl = this.announcementForm.get('subject');
-    if (subjectControl && subjectControl.value.length > 50) {
-      subjectControl.setValue(subjectControl.value.substring(0, 50));
+    if (subjectControl && subjectControl.value.length > 30) {
+      subjectControl.setValue(subjectControl.value.substring(0, 30));
+    }
+  }
+
+  updateMessageCharacterCount(): void {
+    const messageControl = this.announcementForm.get('message');
+    if (messageControl && messageControl.value.length > 850) {
+      messageControl.setValue(messageControl.value.substring(0, 850));
     }
   }
 
   ngOnInit(): void {
     this.announcementForm = this.formBuilder.group({
-      subject: ['', [Validators.required, this.subjectMaxLengthValidator]],
-      message: ['', [Validators.required, Validators.maxLength(800)]],
+      subject: ['', [Validators.required, this.charMaxLengthValidator(30)]],
+      message: ['', [Validators.required, this.charMaxLengthValidator(850)]],
       recipient: ['', Validators.required],
     });
   }
@@ -64,7 +71,7 @@ export class DashboardComponent implements OnInit {
     this.announcementForm.patchValue({
       subject: announcement.subject,
       message: announcement.content,
-      recipient: announcement.recipient, 
+      recipient: announcement.recipient,
     });
     this.modalSubject = announcement.subject;
     this.modalContent = announcement.content;
@@ -75,11 +82,11 @@ export class DashboardComponent implements OnInit {
     this.announcementForm.patchValue({
       subject: announcement.subject,
       message: announcement.content,
-      recipient: announcement.recipient, 
+      recipient: announcement.recipient,
     });
     this.modalSubject = announcement.subject;
     this.modalContent = announcement.content;
-    this.openModalEditAnnouncement = true; 
+    this.openModalEditAnnouncement = true;
   }
 
   closeModal() {
@@ -90,7 +97,7 @@ export class DashboardComponent implements OnInit {
 
   toggleModalAnnouncement() {
     this.openModalAnnouncement = true;
-    this.announcementForm.reset(); 
+    this.announcementForm.reset();
   }
 
   closeModalAnnouncement() {
@@ -115,7 +122,7 @@ export class DashboardComponent implements OnInit {
         this.announcements[index] = updatedAnnouncement;
       }
       this.closeModalEditAnnouncement();
-      this.announcementForm.reset(); 
+      this.announcementForm.reset();
     } else {
       this.announcementForm.markAllAsTouched();
     }
