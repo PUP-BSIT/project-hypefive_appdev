@@ -15,7 +15,7 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    margin-top: -20px;
+    margin-top: -40px;
 }
 
 .right-column {
