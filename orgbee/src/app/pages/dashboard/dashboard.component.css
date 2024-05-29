@@ -12,7 +12,7 @@
 
 .custom-icon {
   color: rgb(93, 57, 0);
-  font-size: 130px;
+  font-size: 150px;
 }
 
 .content {
@@ -30,9 +30,10 @@
   border-radius: 10px;
   padding: 20px;
   background-color: #242424;
-  width: 700px;
+  max-width: 700px;
   height: 115px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 .org-name {
@@ -48,9 +49,9 @@
   font-weight: 600;
 }
 
+/*hide org icon in mobile*/
 .org-icon {
-  width: 120px;
-  height: 120px;
+  height: 100%;
   border-radius: 100px;
   margin-left: 0px;
 }
@@ -212,6 +213,7 @@
   background-color: #eeeeed;
   border-radius: 5px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -460,7 +462,7 @@
 
 mat-card-title {
   font-family: "Outfit";
-  font-size: 16px;
+  font-size: clamp(16px, 2vw, 15px);
   font-weight: semi-bold;
   color: #333;
 }
@@ -489,4 +491,10 @@ mat-card-title {
 
 .submit-button:hover {
   background-color: #e6b800; 
+}
+
+@media screen and (max-width: 525px) { 
+  .org-icon{
+    display: none;
+  }
 }
