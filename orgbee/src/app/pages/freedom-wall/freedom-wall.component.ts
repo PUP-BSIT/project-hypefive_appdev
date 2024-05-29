@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from '../../post-dialog/post-dialog.component';
+
 @Component({
   selector: 'app-freedom-wall',
   templateUrl: './freedom-wall.component.html',

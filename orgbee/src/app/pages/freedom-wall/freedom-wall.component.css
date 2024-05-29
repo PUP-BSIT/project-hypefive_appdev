@@ -1,56 +1,86 @@
-.header {
+body {
+  font-family: "Outfit", sans-serif;
+  margin: 10px;
+  padding: 10px;
+}
+
+.top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #242424;
-  color: #eeeeed;
-  padding: 20px;
-  text-align: left;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  width: 1300px;
 }
 
-.header h1,
-.header h3 {
+.header {
+  padding: 40px;
+  margin: 10px;
+  background-color: #242424;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.header h3, .header h1 {
   margin: 0;
 }
 
+.header h1 {
+  font-size: 2em;
+  color: #eeeeed;
+}
+
+.header h3 {
+  color: #eeeeed;
+}
+
 .button-container {
-  width: 300px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.button-container img {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  padding: 10px;
 }
 
 .create-post-btn {
-  background-color: #ffca10;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-left: 5px;
-  border-radius: 30px;
+  display: flex;
   margin-bottom: 10px;
+  padding: 10px 20px;
+  background-color: #ffca10;
+  color: #242424;
   border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  align-items: center;
 }
 
-.create-post-btn:hover,
-.delete-post-btn:hover,
-.manage-wall-btn:hover {
-  background-color: #f0ff10;
+.create-post-btn:hover {
+  background-color: #fbcc15;
 }
 
-.delete-post-btn,
+.button-container div {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.delete-post-btn, .manage-wall-btn {
+  padding: 20px;
+  background-color: #eeeeed;
+  color: #242424;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  border-radius: 10px;
+}
+
 .manage-wall-btn {
-  background-color: #ffca10;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 15px;
-  margin-left: 5px;
-  margin-bottom: 10px;
-  border: none;
+  background-color: gray;
 }
+
 
 .post-creation textarea {
   width: 100%;
@@ -114,9 +144,10 @@
   font-size: 24px;
   cursor: pointer;
 }
+
 .masonry-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 10px;
 }
 
@@ -139,5 +170,3 @@
   text-align: justify;
   max-height: 200px;
 }
-
-
