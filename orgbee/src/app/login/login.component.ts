@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions  } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 import { DataService } from '../../service/data.service';
 import { Student } from '../model/student';
@@ -19,8 +20,11 @@ export class LoginComponent implements OnInit {
 
   student = new Student();
   data: any;
+  token: any;
   constructor(private formBuilder:FormBuilder, 
-    private dataService:DataService, private toastr: ToastrService) {}
+    private dataService:DataService, 
+    private toastr: ToastrService,
+    private router:Router) {}
 
   get emailControl() {
     return this.loginForm.get('email');
@@ -107,7 +111,25 @@ export class LoginComponent implements OnInit {
 
     console.log(this.loginForm.value);
 
-    //service
+    this.dataService.login(this.loginForm.value).subscribe(res=>{
+      this.data = res;
+      
+      if (this.data.status === 1) {
+        this.token =this.data.data.token;
+        localStorage.setItem('token', this.token);
+        this.router.navigate(['/']);
+
+        this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut: 2000,
+          progressBar:true
+        });
+      } else if(this.data.status === 0){
+        this.toastr.error(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut: 2000,
+          progressBar:true
+        });
+      }
+    });
   }
 
   showSignupPopup() {
