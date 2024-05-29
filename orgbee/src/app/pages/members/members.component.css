@@ -1,7 +1,5 @@
 body {
     font-family: "Outfit", sans-serif;
-    margin: 10px;
-    padding: 10px;
 }
 
 .container {
@@ -15,15 +13,17 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    margin-top: -20px;
+    margin-top: -40px;
 }
 
 .right-column {
-    flex: 1; 
+    flex: 1.5; 
     padding: 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    margin-right: 20px;
+    width: 100%;
 }
 
 .header {
@@ -94,6 +94,8 @@ body {
     flex: 1;
     overflow-y: scroll;
     padding: 0;
+    margin-top: -35px;
+    padding-bottom: 20px;
 }
 
 .membership-request h2 {
@@ -105,15 +107,16 @@ body {
     padding: 2px 8px;
     margin-bottom: 2px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     border-radius: 20px;
+
 }
 
 .request p {
     margin: 0;
     border-radius: 20px; 
     padding: 0; 
+    width: 200%;
 }
 
 .request button {
@@ -149,7 +152,9 @@ body {
     background-color: #eeeeed;
     flex: 1;
     overflow-y: scroll;
-    padding: 10px 0;
+    padding: 10px;
+    align-items: center;
+    padding-right: 13%;
 }
 
 .officers h2 {
@@ -164,6 +169,8 @@ body {
     margin-bottom: 0px;
     background-color: #ffffff;
     border-radius: 20px; 
+    align-items: center;
+    width: 100%;
 }
 
 .all-members,
@@ -253,9 +260,6 @@ body {
     border-radius: 20px; 
 }
 
-.modal-icon {
-
-}
 .close {
     color: #aaa;
     float: right;
@@ -264,7 +268,7 @@ body {
 }
 
 .close:hover,
-close:focus {
+.close:focus {
     color: #242424;
     text-decoration: none;
     cursor: pointer;

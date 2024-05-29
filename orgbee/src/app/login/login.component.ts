@@ -27,28 +27,28 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  get signInEmailControl(){
+  get signUpEmailControl(){
     return this.signupForm.get('email');
   } 
 
-  get signInPasswordControl(){
+  get signUpPasswordControl(){
     return this.signupForm.get('password');
   }
 
   get firstNameControl(){
-    return this.signupForm.get('firstName');
+    return this.signupForm.get('first_name');
   }
   
   get lastNameControl(){
-    return this.signupForm.get('lastName');
+    return this.signupForm.get('last_name');
   }
 
   get studentNumberControl(){
-    return this.signupForm.get('studentNumber');
+    return this.signupForm.get('student_number');
   }
 
   get bdayControl(){
-    return this.signupForm.get('bday');
+    return this.signupForm.get('birthday');
   }
 
   get genderControl(){
@@ -70,19 +70,19 @@ export class LoginComponent implements OnInit {
     });
 
     this.signupForm = this.formBuilder.group({
-      firstName: ['', {
+      first_name: ['', {
         validators: [Validators.required]
       }],
-      lastName: ['', {
+      last_name: ['', {
         validators: [Validators.required]
       }],
-      studentNumber: ['', {
+      student_number: ['', {
         validators: [Validators.required]
       }],
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
-      bday: ['', {
+      birthday: ['', {
         validators: [Validators.required]
       }],
       gender: ['', {
