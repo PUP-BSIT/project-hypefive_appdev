@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions  } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
 import { DataService } from '../../service/data.service';
 import { Student } from '../model/student';
+import { MustMatch } from './confirmed.validator';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +18,9 @@ export class LoginComponent implements OnInit {
   showSignup: boolean = false;
 
   student = new Student();
+  data: any;
   constructor(private formBuilder:FormBuilder, 
-    private dataService:DataService) {}
+    private dataService:DataService, private toastr: ToastrService) {}
 
   get emailControl() {
     return this.loginForm.get('email');
@@ -93,7 +97,9 @@ export class LoginComponent implements OnInit {
       confirmPassword: ['', {
         validators: [Validators.required]
       }]
-    });
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
+    }as AbstractControlOptions);
   }
 
   onSubmit() {
@@ -119,8 +125,9 @@ export class LoginComponent implements OnInit {
     this.student = this.signupForm.value;
     console.log(this.student);
 
-    this.dataService.insertData(this.signupForm.value).subscribe(res=>{
-      console.log('saved');
+    this.dataService.registerUser(this.signupForm.value).subscribe(res=>{
+      this.data=res;
+      console.log(res);
     });
   }
 
