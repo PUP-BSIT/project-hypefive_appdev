@@ -10,3 +10,7 @@ use Illuminate\Support\Facades\Route;
 //Register
 Route::post('/register', [\App\Http\Controllers\StudentsController::class, 
                                 'register'])->name('api.register');
+
+//Login
+Route::post('/login', [\App\Http\Controllers\StudentsController::class, 
+                                'login'])->name('api.login');

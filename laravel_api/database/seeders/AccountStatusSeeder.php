@@ -13,7 +13,7 @@ class AccountStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('account_status')-> insert([
+        DB::table('account_statuses')-> insert([
             ['status'=>'pending'],
             ['status'=>'accepted'],
             ['status'=>'declined']

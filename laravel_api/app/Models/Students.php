@@ -17,13 +17,12 @@ class Students extends Model {
         'gender',
     ];
     //define relation
-    public function student() {
-        return $this->belongsTo(Login::class, 'user_id', 'id');
+    public function user() {
+        return $this->hasOne(User::class, 'user_id', 'id');
     }
-
-    // public function role() {
-    //     return $this->hasOne(Role::class, 'role_id', 'id');
-    // }
+    public function role() {
+        return $this->hasOne(Roles::class, 'role_id', 'id');
+    }
 
     public function account_status() {
         return $this->hasOne(Account_Status::class, 'account_status_id', 'id');
