@@ -37,7 +37,8 @@ class StudentsController extends Controller
             ]);
             
             $response['status']=1;
-            $response['message'] = 'User registered successfully';
+            $response['message'] = 
+                'User registered successfully, please wait for the approval';
             $response['code'] = 200;
         }
         return response()->json($response);

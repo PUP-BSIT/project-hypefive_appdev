@@ -127,7 +127,20 @@ export class LoginComponent implements OnInit {
 
     this.dataService.registerUser(this.signupForm.value).subscribe(res=>{
       this.data=res;
-      console.log(res);
+      if(this.data.status === 1) {
+        this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut:2000,
+          progressBar: true
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut:2000,
+          progressBar: true
+        });
+      }
+
+      this.showSignup = false;
+      this.signupForm.reset();//reset fields
     });
   }
 
