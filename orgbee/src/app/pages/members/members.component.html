@@ -1,1 +1,63 @@
-<p>members works!</p>
+<div class="members-page">
+    <div class="container">
+        <div class="left-column">
+            <div class="header">
+                <img src="" alt="Logo">
+                <h1>Members</h1>
+            </div>
+    
+            <div class="members">
+                <div id="search_container">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search...">
+                    <ul id="search-results"></ul>
+                </div>
+                <div class="all-members">
+                    <div class="member">
+                        <img id="icon" src="../../../assets/icon.jpg">
+                        <p id="name">John Doe</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="right-column">
+            <div class="membership-request">
+                <h2>MEMBERSHIP REQUESTS</h2>
+                <div class="request">
+                    <div class="profile">
+                        <img id="icon" src="../../../assets/icon.jpg">
+                        <p>John Doe</p>
+                    </div>
+                    <button class="accept">Accept</button>
+                    <button class="decline">Decline</button>
+                </div>
+            </div>
+    
+            <div class="officers">
+                <h2>OFFICERSS</h2>
+                <div class="profile">
+                    <img id="icon" src="../../../assets/icon.jpg">
+                    <p>John Doe</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="memberModal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="profile">
+        <img 
+            id="modal-icon" 
+            src="../../../assets/icon.jpg" 
+            alt="Profile Picture">
+        <p id="modal-name">John Doe</p>
+      </div>
+      <button class="remove">Remove Member</button>
+    </div>
+</div>
+  
