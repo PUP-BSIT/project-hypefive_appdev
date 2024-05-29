@@ -3,43 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Students;
 use App\Models\Login;
-use Illuminate\Support\Facades\DB;
 
 class StudentsController extends Controller
 {
-    //Get all students
-    public function getStudents() {
-        return response()->json(Students::all(), 200);
-    }
+    public function register(Request $request) {
+        $student= Login::where ('email', $request['email'])->first();
+         
+        if ($student) {
+            $response['status'] = 0;
+            $response['message'] = 'Email already exists';
+            $response['code'] = 409;
+        } else {
+            //Insert the data 
+            $student = DB::table('students')->insertGetId([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'student_number' => $request->student_number,
+                'birthday' => $request->birthday,
+                'gender' => $request->gender,
+            ]);
+            DB::table('logins')->insert([
+                'user_id' => $student,
+                'email' => $request->email,
+                'password' => bcrypt($request->password) ,
+            ]);
 
-    public function getStudentsById($id) {
-        $student = Students::find($id);
-
-        if (is_null($student)) {
-            return response()->json(['message'=>'Student not found'], 404);
+            $response['status']=1;
+            $response['message'] = 'User registered successfully';
+            $response['code'] = 200;
         }
-        return response()->json($student::find ($id), 200);
-    }
-
-    public function addStudent(Request $request) {
-        //Insert the data and pass the id
-        $student = DB::table('students')->insertGetId([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'student_number' => $request->student_number,
-            'birthday' => $request->birthday,
-            'gender' => $request->gender,
-        ]);
-
-        DB::table('login')->insert([
-            'user_id' => $student,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
-
-        return response()->json(['Student added successfully'], 200);
-        
+        return response()->json($response);
     }
 }

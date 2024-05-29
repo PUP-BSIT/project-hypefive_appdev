@@ -9,10 +9,10 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('login', function (Blueprint $table) {
+        Schema::create('logins', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('email', 50);
+            $table->string('email', 50)->unique();
             $table->string('password', 255);
 
             $table->foreign('user_id')->references('id')->on('students')

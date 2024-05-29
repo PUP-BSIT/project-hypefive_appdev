@@ -14,48 +14,47 @@ export class LoginComponent implements OnInit {
   signupForm: FormGroup;
   showSignup: boolean = false;
 
-  students:any;
   student = new Student();
   constructor(private formBuilder:FormBuilder, 
-    private dataService:DataService){}
+    private dataService:DataService) {}
 
-  get emailControl(){
+  get emailControl() {
     return this.loginForm.get('email');
   } 
 
-  get passwordControl(){
+  get passwordControl() {
     return this.loginForm.get('password');
   }
 
-  get signUpEmailControl(){
+  get signUpEmailControl() {
     return this.signupForm.get('email');
   } 
 
-  get signUpPasswordControl(){
+  get signUpPasswordControl() {
     return this.signupForm.get('password');
   }
 
-  get firstNameControl(){
+  get firstNameControl() {
     return this.signupForm.get('first_name');
   }
   
-  get lastNameControl(){
+  get lastNameControl() {
     return this.signupForm.get('last_name');
   }
 
-  get studentNumberControl(){
+  get studentNumberControl() {
     return this.signupForm.get('student_number');
   }
 
-  get bdayControl(){
+  get bdayControl() {
     return this.signupForm.get('birthday'); 
   }
 
-  get genderControl(){
+  get genderControl() {
     return this.signupForm.get('gender');
   }
 
-  get confirmPassControl(){
+  get confirmPassControl() {
     return this.signupForm.get('confirmPassword');
   }
 
@@ -101,6 +100,8 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) return;
 
     console.log(this.loginForm.value);
+
+    //service
   }
 
   showSignupPopup() {
@@ -118,8 +119,6 @@ export class LoginComponent implements OnInit {
     this.student = this.signupForm.value;
     console.log(this.student);
 
-
-    
     this.dataService.insertData(this.signupForm.value).subscribe(res=>{
       console.log('saved');
     });
