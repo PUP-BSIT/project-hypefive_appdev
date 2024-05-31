@@ -13,20 +13,17 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->string('content', 850);
+            $table->string('subject', 350);
             $table->integer('visibility');
+            $table->text('content');
+            $table->boolean('is_posted')->default(false);
             $table->unsignedBigInteger('student_id');
-            $table->integer('is_posted');
-
-            $table->foreign('student_id')->references('id')->on('students')
-                ->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('student_id')->references('user_id')->on('students')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('announcements');
     }
