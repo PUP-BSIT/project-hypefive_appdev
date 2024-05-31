@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +21,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';import { DataService } from '../service/data.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +40,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule, 
+    ToastrModule.forRoot(),,
     ReactiveFormsModule,
     MatCardModule,
     MatIconModule,
@@ -44,7 +49,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatButtonModule,
     MatMenuModule,
   ],
-  providers: [provideAnimationsAsync()],
+  providers: [provideAnimationsAsync()DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/orgbee",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -31,6 +31,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
+
+              "node_modules/ngx-toastr/toastr.css"
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
@@ -86,8 +88,10 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/ngx-toastr/toastr.css"
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "./node_modules/@fortawesome/fontawesome-free/css/all.css"
+
             ],
             "scripts": []
           }

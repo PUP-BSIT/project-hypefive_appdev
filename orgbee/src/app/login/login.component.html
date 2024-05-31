@@ -65,7 +65,7 @@
         <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
           <div class="form-row">
             <div>
-              <label for="signup-first-name">First Name</label>
+              <label for="signup-firstname">First Name</label>
               <input type="text" formControlName="first_name" />
               @if(firstNameControl.invalid && firstNameControl.touched){
                 <div class="inc">
@@ -77,7 +77,7 @@
             </div>
   
             <div>
-              <label for="signup-last-name">Last Name</label>
+              <label for="signup-lastname">Last Name</label>
               <input type="text" formControlName="last_name" />
               @if(lastNameControl.invalid && lastNameControl.touched){
                 <div class="inc">
@@ -91,7 +91,7 @@
   
           <div class="form-row">
             <div>
-              <label for="signup-student-number">Student Number</label>
+              <label for="signup-studentnumber">Student Number</label>
               <input type="text" formControlName="student_number" />
               @if(studentNumberControl.invalid && studentNumberControl.touched){
                 <div class="inc">
@@ -120,7 +120,7 @@
   
           <div class="form-row">
             <div>
-              <label for="signup-birthday">Birthday</label>
+              <label for="signup-bday">Birthday</label>
               <input type="date" formControlName="birthday" />
               @if(bdayControl.invalid && bdayControl.touched){
                 <div class="inc">

@@ -12,12 +12,23 @@ class Students extends Model {
     protected $fillable = [
         'first_name', 
         'last_name', 
-        'email', 
+        'student_number', 
         'birthday', 
-        'gender'
+        'gender',
     ];
     //define relation
-    public function student() {
-        return $this->belongsTo(Login::class, 'user_id', 'id');
+    public function user() {
+        return $this->hasOne(User::class, 'user_id', 'id');
+    }
+    public function role() {
+        return $this->hasOne(Roles::class, 'role_id', 'id');
+    }
+
+    public function account_status() {
+        return $this->hasOne(Account_Status::class, 'account_status_id', 'id');
+    }
+
+    public function announcements() {
+        return $this->belongsTo(Students::class, 'student_id', 'id');
     }
 }

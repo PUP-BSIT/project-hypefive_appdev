@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DataService } from '../service/data.service';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions  } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
+import { DataService } from '../../service/data.service';
 import { Student } from '../model/student';
+import { MustMatch } from './confirmed.validator';
 
 @Component({
   selector: 'app-login',
@@ -14,48 +18,51 @@ export class LoginComponent implements OnInit {
   signupForm: FormGroup;
   showSignup: boolean = false;
 
-  students:any;
   student = new Student();
+  data: any;
+  token: any;
   constructor(private formBuilder:FormBuilder, 
-    private dataService:DataService){}
+    private dataService:DataService, 
+    private toastr: ToastrService,
+    private router:Router) {}
 
-  get emailControl(){
+  get emailControl() {
     return this.loginForm.get('email');
   } 
 
-  get passwordControl(){
+  get passwordControl() {
     return this.loginForm.get('password');
   }
 
-  get signUpEmailControl(){
+  get signUpEmailControl() {
     return this.signupForm.get('email');
   } 
 
-  get signUpPasswordControl(){
+  get signUpPasswordControl() {
     return this.signupForm.get('password');
   }
 
-  get firstNameControl(){
+  get firstNameControl() {
     return this.signupForm.get('first_name');
   }
   
-  get lastNameControl(){
+  get lastNameControl() {
     return this.signupForm.get('last_name');
   }
 
-  get studentNumberControl(){
+  get studentNumberControl() {
     return this.signupForm.get('student_number');
   }
 
-  get bdayControl(){
-    return this.signupForm.get('birthday');
+  get bdayControl() {
+    return this.signupForm.get('birthday'); 
   }
 
-  get genderControl(){
+  get genderControl() {
     return this.signupForm.get('gender');
   }
 
-  get confirmPassControl(){
+  get confirmPassControl() {
     return this.signupForm.get('confirmPassword');
   }
 
@@ -94,13 +101,33 @@ export class LoginComponent implements OnInit {
       confirmPassword: ['', {
         validators: [Validators.required]
       }]
-    });
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
+    }as AbstractControlOptions);
   }
 
   onSubmit() {
     if (!this.loginForm.valid) return;
 
-    console.log(this.loginForm.value);
+    this.dataService.login(this.loginForm.value).subscribe(res=>{
+      this.data = res;
+      
+      if (this.data.status === 1) {
+        this.token =this.data.data.token;
+        localStorage.setItem('token', this.token);
+        this.router.navigate(['/']);
+
+        this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut: 2000,
+          progressBar:true
+        });
+      } else if(this.data.status === 0){
+        this.toastr.error(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut: 2000,
+          progressBar:true
+        });
+      }
+    });
   }
 
   showSignupPopup() {
@@ -115,11 +142,22 @@ export class LoginComponent implements OnInit {
   onSignupSubmit() {
     if (!this.signupForm.valid) return;
 
-    this.student = this.signupForm.value;
-    console.log(this.student);
+    this.dataService.registerUser(this.signupForm.value).subscribe(res=>{
+      this.data=res;
+      if(this.data.status === 1) {
+        this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut:2000,
+          progressBar: true
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
+          timeOut:2000,
+          progressBar: true
+        });
+      }
 
-    this.dataService.insertData(this.student).subscribe(res=>{
-      console.log('saved');
+      this.showSignup = false;
+      this.signupForm.reset();//reset fields
     });
   }
 
