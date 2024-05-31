@@ -41,15 +41,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule, 
-    ToastrModule.forRoot(),,
-    ReactiveFormsModule,
+    ToastrModule.forRoot(),
     MatCardModule,
     MatIconModule,
     MatRadioModule,
     MatButtonModule,
     MatMenuModule,
   ],
-  providers: [provideAnimationsAsync()DataService],
+  providers: [provideAnimationsAsync(), DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
