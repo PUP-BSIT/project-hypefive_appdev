@@ -109,8 +109,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (!this.loginForm.valid) return;
 
-    console.log(this.loginForm.value);
-
     this.dataService.login(this.loginForm.value).subscribe(res=>{
       this.data = res;
       
@@ -143,9 +141,6 @@ export class LoginComponent implements OnInit {
 
   onSignupSubmit() {
     if (!this.signupForm.valid) return;
-
-    this.student = this.signupForm.value;
-    console.log(this.student);
 
     this.dataService.registerUser(this.signupForm.value).subscribe(res=>{
       this.data=res;
