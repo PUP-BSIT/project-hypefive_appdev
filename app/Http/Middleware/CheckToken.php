@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class CheckToken
 {
@@ -15,11 +16,19 @@ class CheckToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if token exists in local storage
-        if (!\Auth::check()) {
-            // Redirect to login if token doesn't exist
-            return redirect('/login');
+        // Retrieve the token from local storage
+        $token = $request->cookie('XSRF-TOKEN'); 
+
+        // Check if the token exists
+        if ($token) {
+            if ($request->is('login')){
+                return redirect('/'); //Redirect to the default page
+            }
+            // Token exists, proceed to the requested route
+            return $next($request);
+        } else {
+            // No token found, redirect to login
+            return Redirect::to('/login');
         }
-        return $next($request);
     }
 }
