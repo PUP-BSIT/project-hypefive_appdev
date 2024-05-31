@@ -7,12 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('welcome');
-});
-
+//Check token
 Route::middleware([CheckToken::class])->group(function () {
-    Route::get('/dashboard', function () {
+    Route::get('/login', function () {
         return view('welcome');
     });
 
