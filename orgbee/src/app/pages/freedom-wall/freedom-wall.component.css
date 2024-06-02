@@ -81,7 +81,6 @@ body {
   background-color: gray;
 }
 
-
 .post-creation textarea {
   width: 100%;
   height: 100px;
@@ -159,6 +158,18 @@ body {
   padding: 10px;
   cursor: pointer;
   margin-bottom: 20px;
+}
+
+.masonry-item[style] {
+  background-color: var(--post-color);
+}
+
+:root {
+  --color1: #FAA49E;
+  --color2: #E5B769;
+  --color3: #BBA0CA;
+  --color4: #90E0EF;
+  --color5: #C2FDB2;
 }
 
 .masonry-item p {

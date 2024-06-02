@@ -12,7 +12,7 @@ import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
-import { PostDialogComponent } from './post-dialog/post-dialog.component';
+import { PostDialogComponent } from './pages/freedom-wall/post-dialog/post-dialog.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -29,11 +29,11 @@ import { FormsModule } from '@angular/forms';
     DashboardComponent,
     EventsComponent,
     FreedomWallComponent,
+    PostDialogComponent,
     MembersComponent,
     DisplayComponent,
     SidebarComponent,
-    ArchiveComponent,
-    PostDialogComponent
+    ArchiveComponent
   ],
   imports: [
     BrowserModule,
@@ -43,8 +43,8 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatFormFieldModule,
     NgxMasonryModule,
-    MatDialogModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     FormsModule
   ],
   providers: [

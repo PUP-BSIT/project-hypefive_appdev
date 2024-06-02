@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PostDialogComponent } from '../../post-dialog/post-dialog.component';
+import { PostDialogComponent } from './post-dialog/post-dialog.component';
+
+export interface Post {
+  text: string;
+  backgroundColor: string;
+}
 
 @Component({
   selector: 'app-freedom-wall',
@@ -8,18 +13,18 @@ import { PostDialogComponent } from '../../post-dialog/post-dialog.component';
   styleUrl: './freedom-wall.component.css'
 })
 export class FreedomWallComponent {
-  posts: any[] = [];
-  newPostText: string = '';
-  showPostCreation: boolean = false;
-  showModal: boolean = false;
+  newPostText = '';
+  posts: Post[] = [];
+  showModal = false;
+  selectedPost: Post;
 
   constructor(private dialog: MatDialog) {}
 
   addPost() {
     if (this.newPostText.trim()) {
-      const newPost = {
+      const newPost: Post = {
         text: this.newPostText,
-        color: this.getRandomColor()
+        backgroundColor: this.getRandomColor(),
       };
       this.posts.push(newPost);
       this.newPostText = '';
@@ -27,12 +32,12 @@ export class FreedomWallComponent {
     }
   }
 
-  openPost(post: any) {
+  openPost(post: Post) {
+    this.selectedPost = post;
     this.dialog.open(PostDialogComponent, {
       data: {
-        post: post,
-        backgroundColor: post.color,
-        expanded: post.expanded
+        text: post.text,
+        backgroundColor: post.backgroundColor,
       }
     });
   }
@@ -45,5 +50,5 @@ export class FreedomWallComponent {
   toggleModal() {
     this.showModal = !this.showModal;
   }
-  
+
 }

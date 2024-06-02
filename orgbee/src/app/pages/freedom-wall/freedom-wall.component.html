@@ -27,10 +27,9 @@
 
 <ngx-masonry class="masonry-container">
   <ngx-masonry-item *ngFor="let post of posts">
-    <div class="masonry-item" [ngStyle]="{'background-color': post.color}" 
+    <div class="masonry-item" [style.background-color]="post.backgroundColor" 
         (click)="openPost(post)" #postBox>
       <p>{{ post.text }}</p>
     </div>
   </ngx-masonry-item>
 </ngx-masonry>
-
