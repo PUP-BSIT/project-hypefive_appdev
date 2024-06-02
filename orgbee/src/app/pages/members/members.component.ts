@@ -1,54 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
-  styleUrl: './members.component.css',
+  styleUrls: ['./members.component.css'],
 })
 
-export class MembersComponent implements OnInit {
-  ngOnInit() {
-    this.addEventListeners();
+export class MembersComponent {
+  modalName = '';
+  showModal = false;
+
+  members = [
+    { name: 'John Doe', icon: '../../../assets/icon.jpg' },
+  ];
+
+  membershipRequests = [
+    { name: 'Jane Smith', icon: '../../../assets/icon.jpg' },
+  ];
+
+  officers = [
+    { name: 'John Doe', icon: '../../../assets/icon.jpg' },
+  ]
+
+  memberClick(memberName: string) {
+    this.showModal = true;
+    this.modalName = memberName;
   }
 
-  addEventListeners() {
-    const members = document.querySelectorAll('.member');
-    const modal = document.getElementById('memberModal') as HTMLElement;
-    const span = document.getElementsByClassName('close')[0] as HTMLElement;
-    const removeButton = 
-      modal.querySelector('button.remove') as HTMLButtonElement;
+  closeModal() {
+    this.showModal = false;
+  }
 
-    members.forEach(member => {
-      member.addEventListener('click', (event) => {
-        const memberName = 
-          (member.querySelector('#name') as HTMLElement).innerText;
-        const memberIconSrc = 
-          (member.querySelector('img') as HTMLImageElement).src;
+  removeMember(){
+    this.members = this.members.filter(member => member.name !== this.modalName);
+    this.closeModal();
+  }
 
-        (document.getElementById('modal-name') as HTMLElement).innerText = 
-          memberName;
-        (document.getElementById('modal-icon') as HTMLImageElement).src = 
-          memberIconSrc;
+  acceptRequest(index: number) {
+    const acceptedMember = this.membershipRequests.splice(index, 1)[0];
+    this.members.push(acceptedMember);
+  }
 
-        modal.style.display = 'block';
-      });
-    });
-
-    span.onclick = function () {
-      modal.style.display = 'none';
-    };
-
-    removeButton.addEventListener('click', () => {
-      const memberName = 
-        (document.getElementById('modal-name') as HTMLElement).innerText;
-      console.log(`Remove member: ${memberName}`);
-      modal.style.display = 'none';
-    });
-
-    window.onclick = function (event) {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    };
+  declineRequest(index: number) {
+    this.membershipRequests.splice(index, 1);
   }
 }

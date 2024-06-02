@@ -46,6 +46,7 @@ body {
 }
 
 .all-members {
+    cursor: pointer;
     margin-top: 20px;
     flex: 1;
     overflow-y: scroll;
@@ -109,7 +110,6 @@ body {
     display: flex;
     align-items: center;
     border-radius: 20px;
-
 }
 
 .request p {
@@ -196,7 +196,7 @@ body {
   justify-content: center;
 }
 
-#search-input {
+.search-input {
   width: 80%;
   max-width: 80%; 
   padding: 10px;
@@ -206,18 +206,18 @@ body {
   box-sizing: border-box;
 }
 
-#search-results {
+.search-results {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-#search-results li {
+.search-results li {
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
 
-#search-results li.highlight {
+.search-results li.highlight {
   background-color: #f9f9f9;
 }
 
@@ -226,9 +226,8 @@ body {
   align-items: center;
 }
 
-/* The Modal (background) */
 .modal {
-    display: none; 
+    display: block; 
     position: fixed; 
     z-index: 1; 
     left: 0;
@@ -244,9 +243,9 @@ body {
     text-align: center;
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
+    padding: 3%;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
     max-width: 500px; 
     border-radius: 20px;
 }
