@@ -21,7 +21,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';import { DataService } from '../service/data.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { DataService } from '../service/data.service';
+import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
+import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +38,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     DisplayComponent,
     SidebarComponent,
     ArchiveComponent,
+    AnModalComponent,
+    AnEditModalComponent,
+
+
   ],
   imports: [
     BrowserModule,

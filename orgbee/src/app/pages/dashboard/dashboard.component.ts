@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   modalContent: string = '';
   openModalAnnouncement: boolean = false;
   showEditModal = false; 
-  userData: any = {}; 
+  userInfo: any = {};
 
   announcementForm: FormGroup;
 
@@ -44,28 +44,27 @@ export class DashboardComponent implements OnInit {
  closeModal(): void {
     this.showModal = false;
   }
-  
+
+
   closeOneAnnouncement(): void {
     this.showOneAnnouncement = false;
   }
 
   ngOnInit(): void {
-
+    this.announcementForm = this.formBuilder.group({
+      subject:  ['', [Validators.required]],
+      message: ['', [Validators.required]],
+      recipient: ['', Validators.required],
+      
+    });
+    this.loginService.onDataRetrieved((data: any) => {
+      this.userInfo = data;
+    });
     this.fetchAnnouncements();
-    /*this.retrieveUserData();*/
+    //this.retrieveUserData();
   }
   
-  /*retrieveUserData(): void {
-    this.loginService.retrieveStudentData().subscribe(
-      (userData) => {
-        this.userData = userData;
-        console.log('User Data:', this.userData);
-      },
-      (error) => {
-        console.error('Error retrieving user data:', error);
-      }
-    );
-  }*/
+
 
   fetchAnnouncements(): void {
     this.announcementService.getAnnouncements().subscribe(

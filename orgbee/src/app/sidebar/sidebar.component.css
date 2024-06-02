@@ -30,7 +30,6 @@ body {
 }
 
 #nav-content {
-  margin-top: 20px;
   padding: 16px 0;
   position: relative;
   flex: 1;
@@ -40,6 +39,18 @@ body {
   direction: rtl;
   overflow-x: hidden;
   transition: width 0.2s;
+}
+
+#nav-content.nav-content-role1 {
+  background-color: rgb(48, 33, 1); 
+}
+
+#nav-content.nav-content-role2 {
+  background-color: rgb(25, 25, 60);
+}
+
+#nav-content.nav-content-role3 {
+  background-color: rgb(47, 47, 47); 
 }
 
 #nav-content-highlight {

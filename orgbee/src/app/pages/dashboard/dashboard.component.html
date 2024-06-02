@@ -5,7 +5,7 @@
       <div class="dashboard-header">
         <div class="greetings">
           <h1 class="org-name">Computer Society</h1>
-          <h1 class="user-name">Hello, Jane Dee!</h1>
+          <h1 class="user-name">Hello, {{ userInfo.first_name }}</h1>
         </div>
         <img src="assets/default.jpg" alt="Icon" class="org-icon" />
       </div>
@@ -47,8 +47,8 @@
         <div class="profile-details">
           <img src="assets/default.jpg" alt="Icon" class="icon" />
           <div class="details">
-            <p class="name">Jane Dee</p>
-            <p class="course">BS Information Technology</p>
+            <p class="name">{{ userInfo.first_name }} {{ userInfo.last_name }} </p>
+            <p class="course">{{ userInfo.student_number }} </p>
           </div>
         </div>
         <div class="role">Admin</div>
@@ -58,13 +58,13 @@
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
         <div class="announcement" *ngFor="let announcement of announcements">
-          <button
+          <button *ngIf="userInfo.role_id !== 1 && announcement.student_id === userInfo.user_id"
             mat-icon-button
             [matMenuTriggerFor]="menu"
             aria-label="Example icon-button with a menu"
             class="menu-button">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+        <mat-icon>more_vert</mat-icon>
+    </button>
 
         <!--ANNOUNCEMENT MENU: edit & delete-->
           <mat-menu #menu="matMenu" class="an-menu">

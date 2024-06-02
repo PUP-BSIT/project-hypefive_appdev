@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { Student } from '../model/student';
 import { MustMatch } from './confirmed.validator';
+import { LoginService } from '../../service/login.service'; 
 
 @Component({
   selector: 'app-login',
@@ -21,10 +22,16 @@ export class LoginComponent implements OnInit {
   student = new Student();
   data: any;
   token: any;
+  userData:any;
   constructor(private formBuilder:FormBuilder, 
     private dataService:DataService, 
     private toastr: ToastrService,
-    private router:Router) {}
+    private router:Router,
+    private loginService:LoginService) {
+      
+    }
+
+    
 
   get emailControl() {
     return this.loginForm.get('email');
@@ -67,6 +74,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.loginForm = this.formBuilder.group( {
       email: ['', {
         validators: [Validators.required, Validators.email],
@@ -116,7 +124,6 @@ export class LoginComponent implements OnInit {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-
         this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
           timeOut: 2000,
           progressBar:true
