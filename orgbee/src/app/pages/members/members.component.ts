@@ -32,7 +32,8 @@ export class MembersComponent {
   }
 
   removeMember(){
-    this.members = this.members.filter(member => member.name !== this.modalName);
+    this.members = 
+      this.members.filter(member => member.name !== this.modalName);
     this.closeModal();
   }
 
