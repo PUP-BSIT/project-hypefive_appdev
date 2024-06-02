@@ -77,4 +77,43 @@ class StudentsController extends Controller
 
         return response()->json($response);
     }
-}
+
+    public function retrieve(Request $request, $id, $email)
+    {
+        // Verify JWT token
+        $user = JWTAuth::parseToken()->authenticate();
+    
+        // Check if the user's ID and email match the parameters
+        if ($user->id == $id && $user->email == $email) {
+            
+            // Retrieve student and user information based on user_id
+            $student = Students::where('user_id', $id)->first();
+            $userInfo = User::where('email', $email)->first();
+    
+
+            if ($student && $userInfo) {
+                return response()->json([
+                    'first_name' => $student->first_name,
+                    'last_name' => $student->last_name,
+                    'email' => $userInfo->email,
+                    'student_number' => $student->student_number,
+                    'birthday' => $student->birthday,
+                    'gender' => $student->gender,
+                    'user_id' => $student->user_id,
+                    'role_id' => $student->role_id, 
+                    'account_status_id' => $student->account_status_id, 
+                ]);
+            } else {
+                // Student or user not found
+                return response()->json(['message' => 'Student or user not found'], 404);
+            }
+        } else {
+            // Unauthorized access
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+    }
+    }
+    
+    
+
+

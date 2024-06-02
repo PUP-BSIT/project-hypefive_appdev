@@ -23,3 +23,4 @@ Route::post('/announcements', [Announce::class, 'createAnnouncement']);
 Route::put('/announcements/{announcement}', [Announce::class, 'updateAnnouncement']);
 Route::delete('/announcements/{announcement}', [Announce::class, 'deleteAnnouncement']);
                                 
+Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', [\App\Http\Controllers\StudentsController::class, 'retrieve']);
