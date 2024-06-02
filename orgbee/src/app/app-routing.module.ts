@@ -8,16 +8,17 @@ import { MembersComponent } from './pages/members/members.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 
 import { AuthGuard } from './login/auth.guard';
+import { LoginGuard } from './login/login.guard'; // Import the LoginGuard
 
 const routes: Routes = [
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: '', component: DashboardComponent, canActivate:[AuthGuard]},
-  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  { path: 'login', component: LoginComponent },
-  { path: 'freedom-wall', component: FreedomWallComponent, canActivate:[AuthGuard] },
-  { path: 'events', component: EventsComponent, canActivate:[AuthGuard] },
-  { path: 'members', component: MembersComponent, canActivate:[AuthGuard] },
-  { path: 'archive', component: ArchiveComponent, canActivate:[AuthGuard] },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] }, // Use LoginGuard here
+  { path: 'freedom-wall', component: FreedomWallComponent, canActivate: [AuthGuard] },
+  { path: 'events', component: EventsComponent, canActivate: [AuthGuard] },
+  { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
+  { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

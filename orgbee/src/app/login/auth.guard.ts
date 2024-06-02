@@ -6,31 +6,25 @@ import { LoginService } from '../../service/login.service';
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor(
-        private loginService: LoginService,
-        private router: Router
-    ) {}
+    constructor(private loginService: LoginService, private router: Router) {}
 
-    canActivate(): boolean {
-        const token = localStorage.getItem('token');
+    canActivate(): Promise<boolean> {
+        const token = this.loginService.getToken();
         if (token) {
-            // Extract user ID from token
-            const userId = this.loginService.extractUserIdFromToken(token);
-
-            if (userId) {
-                // Set current user ID in the service
-                this.loginService.setCurrentUserId(userId);
-                // Set authentication status
-                this.loginService.setAuthStatus(true);
-                return true;
-            } else {
-                console.error('Error extracting user ID from token.');
-            }
+            return this.loginService.decodeToken(token).then(() => {
+                if (this.loginService.getAuthStatus()) {
+                    return true;
+                } else {
+                    this.router.navigate(['login']);
+                    return false;
+                }
+            }).catch(() => {
+                this.router.navigate(['login']);
+                return false;
+            });
+        } else {
+            this.router.navigate(['login']);
+            return Promise.resolve(false);
         }
-        
-        // If token is not available or user ID extraction fails, navigate to login page
-        this.loginService.setAuthStatus(false);
-        this.router.navigate(['login']);
-        return false;
     }
 }
