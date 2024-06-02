@@ -1,84 +1,219 @@
 <h1>Computer Society Events</h1>
-    <button id="createEventBtn" class="create-event">CREATE EVENT</button>
+<button 
+  id="createEventBtn" 
+  class="create-event" 
+  (click)="openModal()">
+    CREATE EVENT
+</button>
 
-    <!-- Event Form Modal -->
-    <div id="eventFormModal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        
-        <!-- Event Information Form -->
-        <div id="eventInfoForm" class="form-section visible">
-          <label for="eventName">Event Name:</label>
-          <input type="text" id="eventName" placeholder="Event Name" />
-          <label for="eventLocation">Location:</label>
-          <input type="text" id="eventLocation" placeholder="Location" />
-          <label for="eventDate">Date:</label>
-          <input type="date" id="eventDate" />
-          <label for="eventTime">Time:</label>
-          <input type="time" id="eventTime" />
-          <button type="button" class="next-btn">NEXT</button>
+<!-- Event Form Modal -->
+<div id="eventFormModal" class="modal" [class.visible]="isModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+
+    <form [formGroup]="eventForm" (ngSubmit)="submitForm('publish')">
+      <!-- Event Information Form -->
+      <div *ngIf="currentStep === 0">
+        <h2>EVENT FORM</h2>
+        <h4>Event Information</h4>
+        <label for="eventName">Name:</label>
+        <input
+          type="text"
+          id="eventName"
+          formControlName="eventName"
+          placeholder="Event Name"
+        />
+        <label for="eventLocation">Location:</label>
+        <input
+          type="text"
+          id="eventLocation"
+          formControlName="eventLocation"
+          placeholder="Location"
+        />
+
+        <!-- Inline container for date and time inputs -->
+        <div class="inline-container">
+          <div>
+            <label for="eventDate">Date:</label>
+            <input type="date" id="eventDate" formControlName="eventDate" />
+          </div>
+          <div>
+            <label for="eventTime">Time:</label>
+            <input type="time" id="eventTime" formControlName="eventTime" />
+          </div>
         </div>
 
-        <!-- Registration & Admission Form -->
-        <div id="registrationForm" class="form-section hidden">
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-0-next-btn" 
+            (click)="nextStep()">
+             NEXT
+          </button>
+        </div>
+      </div>
+
+      <!-- Registration & Admission Form -->
+      <div *ngIf="currentStep === 1">
+        <h2>EVENT FORM</h2>
+        <h4>Registration & Admission</h4>
+        <div class="inline-radio">
           <label>Are all members required to attend?</label>
           <input
             type="radio"
             id="attendanceYes"
-            name="attendance"
+            formControlName="attendance"
             value="yes"
           />
           <label for="attendanceYes">Yes</label>
-          <input type="radio" id="attendanceNo" name="attendance" value="no" />
+          <input
+            type="radio"
+            id="attendanceNo"
+            formControlName="attendance"
+            value="no"
+          />
           <label for="attendanceNo">No</label>
+        </div>
 
+        <div class="inline-radio">
           <label>Will there be a registration fee?</label>
-          <input type="radio" id="regFeeYes" name="regFee" value="yes" />
+          <input
+            type="radio"
+            id="regFeeYes"
+            formControlName="regFee"
+            value="yes"
+          />
           <label for="regFeeYes">Yes</label>
-          <input type="radio" id="regFeeNo" name="regFee" value="no" />
+          <input
+            type="radio"
+            id="regFeeNo"
+            formControlName="regFee"
+            value="no"
+          />
           <label for="regFeeNo">No</label>
-
-          <input
-            type="number"
-            id="regAmount"
-            placeholder="Specify the amount"
-            class="hidden"
-          />
-          <input
-            type="number"
-            id="maxAttendees"
-            placeholder="Max no. of attendees"
-          />
-
-          <button type="button" class="back-btn">BACK</button>
-          <button type="button" class="next-btn">NEXT</button>
         </div>
 
-        <!-- Caption & Poster Form -->
-        <div id="captionPosterForm" class="form-section hidden">
-          <label for="eventCaption">Write a caption:</label>
-          <textarea id="eventCaption" placeholder="Write a caption"></textarea>
-          <label for="eventPoster">Upload a poster:</label>
-          <input type="file" id="eventPoster" />
-          <button type="button" class="back-btn">BACK</button>
-          <button type="button" class="next-btn">NEXT</button>
-        </div>
+        <input
+          type="number"
+          id="regAmount"
+          formControlName="regAmount"
+          placeholder="Specify the amount"
+          [disabled]="eventForm.get('regFee').value !== 'yes'"
+        />
+        <input
+          type="number"
+          id="maxAttendees"
+          formControlName="maxAttendees"
+          placeholder="Max no. of attendees"
+        />
 
-        <!-- Final Buttons -->
-        <div id="finalButtons" class="final-buttons hidden">
-          <button type="button" class="back-btn">BACK</button>
-          <button type="button" id="publishBtn">PUBLISH</button>
-          <button type="button" id="saveDraftBtn">SAVE TO DRAFT</button>
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-1-back-btn" 
+            (click)="prevStep()">
+             BACK
+          </button>
+          <button 
+            type="button" 
+            class="step-1-next-btn" 
+            (click)="nextStep()">
+              NEXT
+          </button>
         </div>
       </div>
-    </div>
 
-    <div class="tabs">
-      <button class="tab active">UPCOMING</button>
-      <button class="tab">RECURRING</button>
-      <button class="tab">DRAFTS</button>
-    </div>
+      <!-- Caption & Poster Form -->
+      <div *ngIf="currentStep === 2">
+        <h2>EVENT FORM</h2>
+        <h4>Publication Material</h4>
+        <label for="eventCaption">Write a caption:</label>
+        <textarea
+          id="eventCaption"
+          formControlName="eventCaption"
+          placeholder="Write a maximum of 500 characters caption">
+        </textarea>
+        <label for="eventPoster">Upload a poster:</label>
+        <input 
+          type="file" 
+          id="eventPoster" 
+          formControlName="eventPoster"
+        />
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-2-back-btn" 
+            (click)="prevStep()">
+             BACK
+          </button>
+          <button 
+            type="button" 
+            class="step-2-next-btn" 
+            (click)="nextStep()">
+              NEXT
+          </button>
+        </div>
+      </div>
 
-    <div class="event-list">
-      <!-- Event cards go here / It's under process-->
+      <!-- Final Buttons -->
+      <div *ngIf="currentStep === 3">
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="back-btn" 
+            (click)="prevStep()">
+              BACK
+          </button>
+          <button
+            type="submit"
+            class="publish-btn"
+            (click)="submitForm('publish')">
+              PUBLISH
+          </button>
+          <button
+            type="button"
+            class="save-draft-btn"
+            (click)="submitForm('draft')">
+              SAVE TO DRAFT
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="tabs">
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'UPCOMING' }"
+    (click)="displayEvents('UPCOMING')">
+      UPCOMING
+  </button>
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'RECURRING' }"
+    (click)="displayEvents('RECURRING')">
+      RECURRING
+  </button>
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'DRAFTS' }"
+    (click)="displayEvents('DRAFTS')">
+     DRAFTS
+  </button>
+</div>
+
+<div class="event-list">
+  <div
+    *ngFor="let event of filteredEvents"
+    class="event-card"
+    [class.registered]="event.registered"
+  >
+    <img src="event-image.jpg" />
+    <div>
+      <h2>{{ event.eventName }}</h2>
+      <p>{{ event.eventDate }} | {{ event.eventLocation }}</p>
+      <button class="manage-button">Manage</button>
     </div>
+  </div>
+</div>

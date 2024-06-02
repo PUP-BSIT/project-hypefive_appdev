@@ -1,153 +1,120 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css']
+  styleUrls: ['./events.component.css'],
 })
 export class EventsComponent implements OnInit {
-  ngOnInit(): void {
-    document.addEventListener('DOMContentLoaded', () => {
-      const createEventBtn = document.getElementById(
-        'createEventBtn'
-      ) as HTMLElement;
-      const modal = document.getElementById('eventFormModal') as HTMLElement;
-      const closeBtn = document.querySelector('.close') as HTMLElement;
-      const formSections = document.querySelectorAll('.form-section');
-      const nextButtons = document.querySelectorAll('.next-btn');
-      const backButtons = document.querySelectorAll('.back-btn');
-      const finalButtons = document.getElementById(
-        'finalButtons'
-      ) as HTMLElement;
+  eventForm: FormGroup; // Form group for event input fields
+  currentStep = 0; // Tracks the current step in the form
+  activeTab = 'UPCOMING'; // Tracks the active tab
+  events: any[] = []; // Array to store upcoming events
+  drafts: any[] = []; // Array to store draft events
+  filteredEvents: any[] = []; // Array to store events based on active tab
+  isModalVisible = false; // To control visibility of modal
 
-      // Function to show modal
-      function showModal(): void {
-        modal.style.display = 'block';
-        showFormSection(0);
-      }
-
-      // Function to close modal
-      function closeModal(): void {
-        modal.style.display = 'none';
-      }
-
-      // Function to show a specific form section and hide others
-      function showFormSection(index: number): void {
-        formSections.forEach((section: Element, i: number) => {
-          if (i === index) {
-            section.classList.add('visible');
-            section.classList.remove('hidden');
-          } else {
-            section.classList.add('hidden');
-            section.classList.remove('visible');
-          }
-        });
-        // Show final buttons only after the last form section
-        if (index === formSections.length) {
-          finalButtons.classList.remove('hidden');
-        } else {
-          finalButtons.classList.add('hidden');
-        }
-      }
-
-      // Event listener for create event button
-      createEventBtn.addEventListener('click', showModal);
-
-      // Event listener for close button
-      closeBtn.addEventListener('click', closeModal);
-
-      // Event listeners for next buttons
-      nextButtons.forEach((button: Element, index: number) => {
-        button.addEventListener('click', () => {
-          if (index < formSections.length - 1) {
-            showFormSection(index + 1);
-          } else {
-            showFormSection(formSections.length);
-          }
-        });
-      });
-
-      // Event listeners for back buttons
-      backButtons.forEach((button: Element, index: number) => {
-        button.addEventListener('click', () => {
-          if (index < formSections.length) {
-            showFormSection(index);
-          } else {
-            showFormSection(formSections.length - 1);
-          }
-        });
-      });
-
-      // Event listener for radio buttons to show/hide registration fee input
-      const regFeeYes = document.getElementById(
-        'regFeeYes'
-      ) as HTMLInputElement;
-      const regFeeInput = document.getElementById('regAmount') as HTMLElement;
-      regFeeYes.addEventListener('change', () => {
-        regFeeInput.classList.remove('hidden');
-      });
-      const regFeeNo = document.getElementById('regFeeNo') as HTMLInputElement;
-      regFeeNo.addEventListener('change', () => {
-        regFeeInput.classList.add('hidden');
-      });
-
-      // From this part it will be move after further implementation
-      // Example event data to just see how it could look like
-      const events = [
-        {
-          title: 'Event Title 1',
-          date: 'May 30, 2024',
-          location: 'Venue 1',
-          registered: true,
-        },
-        {
-          title: 'Event Title 2',
-          date: 'June 15, 2024',
-          location: 'Venue 2',
-          registered: false,
-        },
-      ];
-
-      // Function to display events based on selected tab
-      function displayEvents(tab: string): void {
-        const eventList = document.querySelector('.event-list') as HTMLElement;
-        eventList.innerHTML = '';
-
-        const filteredEvents = events.filter((event) => {
-          return true;
-        });
-
-        filteredEvents.forEach((event) => {
-          const eventCard = document.createElement('div');
-          eventCard.classList.add('event-card');
-          if (event.registered) {
-            eventCard.classList.add('registered');
-          }
-
-          eventCard.innerHTML = `
-                    <img src="event-image.jpg" alt="${event.title}">
-                    <div>
-                        <h2>${event.title}</h2>
-                        <p>${event.date} | ${event.location}</p>
-                        <button class="register-button">Register</button>
-                    </div>
-                `;
-
-          eventList.appendChild(eventCard);
-        });
-      }
-
-      //will further improve in next prints
-      // Event listener for tab clicks
-      document.querySelectorAll('.tab').forEach((tab: Element) => {
-        tab.addEventListener('click', function () {
-          const selectedTab = (this as HTMLElement).textContent;
-          displayEvents(selectedTab);
-        });
-      });
-
-      // Initial display
-      displayEvents('UPCOMING');
+  // Initialize the form group with form controls and validators
+  constructor(private fb: FormBuilder) {
+    this.eventForm = this.fb.group({
+      eventName: ['', Validators.required],
+      eventLocation: ['', Validators.required],
+      eventDate: ['', Validators.required],
+      eventTime: ['', Validators.required],
+      attendance: ['', Validators.required],
+      regFee: ['', Validators.required],
+      regAmount: [{ value: '', disabled: true }],
+      maxAttendees: ['', Validators.required],
+      eventCaption: [''],
+      eventPoster: [''],
     });
+  }
+
+  ngOnInit(): void {
+    // Display events based on the active tab 
+    this.displayEvents(this.activeTab);
+
+    // Enable/disable if nag yes si user
+    this.eventForm.get('regFee')?.valueChanges.subscribe((value) => {
+      const regAmountControl = this.eventForm.get('regAmount');
+      if (value === 'yes') {
+        regAmountControl?.enable();
+      } else {
+        regAmountControl?.disable();
+      }
+    });
+  }
+
+  openModal(): void {
+    // Open the modal
+    this.isModalVisible = true;
+  }
+
+  closeModal(): void {
+    // Close the modal
+    this.isModalVisible = false;
+  }
+
+  displayEvents(tab: string): void {
+    // Update active tab and filter events accordingly
+    this.activeTab = tab;
+
+    if (tab === 'UPCOMING') {
+      this.filteredEvents = this.events; // Display upcoming events
+    } else if (tab === 'DRAFTS') {
+      this.filteredEvents = this.drafts; // Display draft events
+    }
+  }
+
+  get formControls() {
+    // Getter for form controls to simplify template code
+    return this.eventForm.controls;
+  }
+
+  nextStep(): void {
+    // Move to the next step in a multi-step form
+    if (this.currentStep < 3) {
+      this.currentStep++;
+    }
+  }
+
+  prevStep(): void {
+    // Move to the previous step in a multi-step form
+    if (this.currentStep > 0) {
+      this.currentStep--;
+    }
+  }
+
+  submitForm(type: string): void {
+    // Submit the form and add the event to either events or drafts 
+    if (this.eventForm.valid) {
+      const newEvent = { 
+        eventName: this.eventForm.value.eventName,
+        eventLocation: this.eventForm.value.eventLocation,
+        eventDate: this.eventForm.value.eventDate,
+        eventTime: this.eventForm.value.eventTime,
+        attendance: this.eventForm.value.attendance,
+        regFee: this.eventForm.value.regFee,
+        regAmount: this.eventForm.value.regAmount,
+        maxAttendees: this.eventForm.value.maxAttendees,
+        eventCaption: this.eventForm.value.eventCaption,
+        eventPoster: this.eventForm.value.eventPoster,
+      };
+
+      if (type === 'publish') { 
+        this.events.push(newEvent);
+      } else { 
+        this.drafts.push(newEvent);
+      }
+
+      this.closeModal();
+      this.currentStep = 0;
+      this.eventForm.reset();
+      this.displayEvents(this.activeTab);
+    } else {
+      // alert user to fill in all required fields
+      alert('Please fill in all required fields.');
+    }
   }
 }
