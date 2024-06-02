@@ -23,7 +23,7 @@
         </mat-card>
 
         <!-- TOOLS: ANNOUNCEMENT!-->
-        <mat-card class="example-card" (click)="toggleModalAnnouncement()">
+        <mat-card class="example-card" (click)="toggleModal()">
           <mat-card-header>
             <span class="material-symbols-outlined custom-icon">
               campaign
@@ -41,7 +41,6 @@
       </div>
     </div>
 
-   
     <div class="container">
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
@@ -90,185 +89,29 @@
       </div>
 
       <!--VIEW ANNOUNCEMENT MODAL-->
-      <div class="modal" *ngIf="showModal">
+      <div class="modal" *ngIf="showOneAnnouncement">
         <div class="modal-content">
-          <span class="close" (click)="closeModal()">&times;</span>
+          <span class="close" (click)="closeOneAnnouncement()">&times;</span>
           <h2>{{ modalSubject }}</h2>
           <p>{{ modalContent }}</p>
         </div>
       </div>
 
        <!--EDIT ANNOUNCEMENT MODAL-->
-      <div class="modal-edit-announcement" *ngIf="openModalEditAnnouncement">
-        <div class="modal-announcement-content">
-          <span class="close" (click)="closeModalEditAnnouncement()">&times;
-          </span>
-          <h2>Edit Announcement</h2>
-          <form
-          [formGroup]="announcementForm"
-          (ngSubmit)="submitEditAnnouncement()">
-          <div class="an-modal-content">
-            <div class="form-group subject">
-              <label for="subject">Subject:</label>
-              <div class="input-wrapper">
-                <input
-                  type="text"
-                  id="subject"
-                  formControlName="subject"
-                  required
-                  (input)="updateSubjectCharacterCount()" />
-                <span class="character-counter-subject">{{
-                    subjectControl.value
-                      ? subjectControl.value.length
-                      : 0 }}/30
-                </span>
-              </div>
-
-              <!--FORM VALIDATORS-->
-              @if(subjectControl.invalid && subjectControl.touched){
-                @if(subjectControl.errors?.['required']){
-                  <div class="error-required-subject">
-                    Subject is required.
-                  </div>
-                }
-               }
-            </div>
-
-            <div class="form-group message">
-              <label for="message">Message:</label>
-              <div class="textarea-wrapper">
-                <textarea
-                  id="message"
-                  formControlName="message"
-                  required
-                  (input)="updateMessageCharacterCount()">
-                </textarea>
-                <span class="character-counter-message">
-                  {{messageControl.value
-                      ? messageControl.value.length
-                      : 0}}/850
-                </span>
-              </div>
-
-              @if(messageControl.invalid && messageControl.touched){
-                @if(messageControl.errors?.['required']){
-                  <div class="error-required-message">
-                    Message is required.
-                  </div>
-                }
-               }
-            </div>
-
-            <div class="form-group recipient">
-              <mat-radio-group formControlName="recipient">
-                <mat-radio-button value="0">Everyone</mat-radio-button>
-                <mat-radio-button value="1">Officers Only</mat-radio-button>
-              </mat-radio-group>
-              @if(recipientControl.invalid && recipientControl.touched){
-                @if(recipientControl.errors?.['required']){
-                  <div class="error-required-recipient">
-                    Recipient is required.
-                  </div>
-                }
-               }
-            </div>
-            
-            <button type="submit" class="submit-button">
-              PUBLISH ANNOUNCEMENT
-            </button>
-
-          </div>
-        </form>
-        </div>
-      </div>
-
+       <app-an-edit-modal
+       [selectedAnnouncement]="selectedAnnouncement"
+       [showEditModal]="showEditModal"
+       (closeModal)="closeModalEditAnnouncement()"
+       (announcementUpdated)="handleAnnouncementUpdated($event)">
+   </app-an-edit-modal>
+   
   <!--CREATE ANNOUNCEMENT MODAL-->
-      <div class="modal-announcement" *ngIf="openModalAnnouncement">
-        <div class="modal-announcement-content">
-          <span class="close" (click)="closeModalAnnouncement()">&times;</span>
-          <h2>Announcement</h2>
-
-          <form
-            [formGroup]="announcementForm"
-            (ngSubmit)="submitAnnouncement()">
-            <div class="an-modal-content">
-              <div class="form-group subject">
-                <label for="subject">Subject:</label>
-                <div class="input-wrapper">
-                  <input
-                    type="text"
-                    id="subject"
-                    formControlName="subject"
-                    required
-                    (input)="updateSubjectCharacterCount()" />
-                  <span class="character-counter-subject">{{
-                      subjectControl.value
-                        ? subjectControl.value.length
-                        : 0 }}/30
-                  </span>
-                </div>
-
-                <!--FORM VALIDATORS-->
-                @if(subjectControl.invalid && subjectControl.touched){
-                  @if(subjectControl.errors?.['required']){
-                    <div class="error-required-subject">
-                      Subject is required.
-                    </div>
-                  }
-                 }
-              </div>
-
-              <div class="form-group message">
-                <label for="message">Message:</label>
-                <div class="textarea-wrapper">
-                  <textarea
-                    id="message"
-                    formControlName="message"
-                    required
-                    (input)="updateMessageCharacterCount()">
-                  </textarea>
-                  <span class="character-counter-message">
-                    {{messageControl.value
-                        ? messageControl.value.length
-                        : 0}}/850
-                  </span>
-                </div>
-
-                @if(messageControl.invalid && messageControl.touched){
-                  @if(messageControl.errors?.['required']){
-                    <div class="error-required-message">
-                      Message is required.
-                    </div>
-                  }
-                 }
-              </div>
-
-              <div class="form-group recipient">
-                <mat-radio-group formControlName="recipient">
-                  <mat-radio-button value="0">Everyone</mat-radio-button>
-                  <mat-radio-button value="1">Officers Only</mat-radio-button>
-                </mat-radio-group>
-                @if(recipientControl.invalid && recipientControl.touched){
-                  @if(recipientControl.errors?.['required']){
-                    <div class="error-required-recipient">
-                      Recipient is required.
-                    </div>
-                  }
-                 }
-              </div>
-              
-              <button type="submit" class="submit-button">
-                PUBLISH ANNOUNCEMENT
-              </button>
-
-            </div>
-          </form>
-        </div>
-      </div>
+  <app-an-modal
+    [showModal]="showModal"
+    (closeModal)="closeModal()"
+    (announcementCreated)="handleAnnouncementCreated($event)">
+    [announcementForm]="announcementForm">
+  </app-an-modal>
     </div>
   </div>
-</div>
- <div class="container">
-  <app-sidebar></app-sidebar>
-  <app-display></app-display>
 </div>

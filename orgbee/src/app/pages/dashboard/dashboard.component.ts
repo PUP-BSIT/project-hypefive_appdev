@@ -25,29 +25,30 @@ export interface Announcement {
 export class DashboardComponent implements OnInit {
   announcements: Announcement[] = [];
   currentAnnouncement: Announcement | null = null;
-
+  selectedAnnouncement: Announcement | null = null;
   showModal: boolean = false;
+  
+  showOneAnnouncement: boolean = false;
   modalSubject: string = '';
   modalContent: string = '';
   openModalAnnouncement: boolean = false;
-  openModalEditAnnouncement = false;
+  showEditModal = false; 
+  userData: any = {}; 
 
   announcementForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,   private loginService: LoginService, private announcementService: AnnouncementService ) {}
-
-  updateSubjectCharacterCount(): void {
-    const subjectControl = this.announcementForm.get('subject');
-    if (subjectControl && subjectControl.value.length > 30) {
-      subjectControl.setValue(subjectControl.value.substring(0, 30));
-    }
+  toggleModal(): void {
+    this.showModal = !this.showModal;
   }
 
-  updateMessageCharacterCount(): void {
-    const messageControl = this.announcementForm.get('message');
-    if (messageControl && messageControl.value.length > 850) {
-      messageControl.setValue(messageControl.value.substring(0, 850));
-    }
+ closeModal(): void {
+    this.showModal = false;
+  }
+
+
+  closeOneAnnouncement(): void {
+    this.showOneAnnouncement = false;
   }
 
   ngOnInit(): void {
@@ -56,11 +57,23 @@ export class DashboardComponent implements OnInit {
       message: ['', [Validators.required]],
       recipient: ['', Validators.required],
       
-      
     });
 
     this.fetchAnnouncements();
+    /*this.retrieveUserData();*/
   }
+  
+  /*retrieveUserData(): void {
+    this.loginService.retrieveStudentData().subscribe(
+      (userData) => {
+        this.userData = userData;
+        console.log('User Data:', this.userData);
+      },
+      (error) => {
+        console.error('Error retrieving user data:', error);
+      }
+    );
+  }*/
 
   fetchAnnouncements(): void {
     this.announcementService.getAnnouncements().subscribe(
@@ -93,26 +106,14 @@ export class DashboardComponent implements OnInit {
     });
     this.modalSubject = announcement.subject;
     this.modalContent = announcement.content;
-    this.showModal = true;
+    this.showOneAnnouncement = true;
   }
 
   openEditModal(announcement: Announcement) {
-    this.currentAnnouncement = announcement; 
-    this.announcementForm.patchValue({
-      subject: announcement.subject,
-      message: announcement.content,
-      recipient: announcement.recipient.toString(),
-    });
-
-    this.openModalEditAnnouncement = true; 
-  }
-  
-
-  closeModal() {
-    this.showModal = false;
-    this.modalSubject = '';
-    this.modalContent = '';
-  }
+    this.selectedAnnouncement = announcement; 
+    console.log('Selected Announcement:', this.selectedAnnouncement); // Log the selected announcement
+    this.showEditModal = true;
+}
 
   toggleModalAnnouncement() {
     this.openModalAnnouncement = true;
@@ -124,98 +125,25 @@ export class DashboardComponent implements OnInit {
   }
 
   closeModalEditAnnouncement() {
-    this.openModalEditAnnouncement = false;
+    this.showEditModal = false;
   }
 
-  submitEditAnnouncement() {
-    if (this.announcementForm.valid && this.currentAnnouncement) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const currentUserId = this.loginService.extractUserIdFromToken(token);
-        if (currentUserId) {
-          const updatedAnnouncement={
-            id: this.currentAnnouncement.id, // Include the id property
-            subject: this.announcementForm.get('subject')?.value,
-            content: this.announcementForm.get('message')?.value,
-            recipient: this.announcementForm.get('recipient')?.value,
-            student_id: currentUserId, // Include the student_id property
-          };
-      
-          this.announcementService.updateAnnouncement(this.currentAnnouncement.id, updatedAnnouncement).subscribe(
-            (updatedAnnouncementResponse: Announcement) => {
-              const index = this.announcements.findIndex(
-                (a) => a.id === this.currentAnnouncement.id
-              );
-              if (index > -1) {
-                this.announcements[index] = updatedAnnouncementResponse;
-              }
-              this.closeModalEditAnnouncement();
-              this.announcementForm.reset();
-              console.log('Announcement updated successfully.');
-            },
-            (error) => {
-              console.error('Error updating announcement:', error);
-              // Handle error as needed
-            }
-          );
-        } else {
-          console.error('Error extracting user ID from token.');
-          alert('Error updating announcement. Please try again later.');
-        }
-      } else {
-        console.error('JWT token not found.');
-        alert('Error updating announcement. Please try again later.');
-      }
-    } else {
-      this.announcementForm.markAllAsTouched();
+  handleAnnouncementUpdated(updatedAnnouncement: Announcement): void {
+    const index = this.announcements.findIndex((a) => a.id === updatedAnnouncement.id);
+    if (index > -1) {
+      this.announcements[index] = updatedAnnouncement;
     }
+    this.closeModalEditAnnouncement();
   }
   
-  
-  submitAnnouncement() {
-    if (this.announcementForm.valid) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const currentUserId = this.loginService.extractUserIdFromToken(token);
-        if (currentUserId) {
-          const newAnnouncement = {
-            subject: this.announcementForm.get('subject')?.value,
-            content: this.announcementForm.get('message')?.value,
-            recipient: this.announcementForm.get('recipient')?.value,
-            student_id: currentUserId,
-            id: 0
-          };
-  
-          this.announcementService.createAnnouncement(newAnnouncement).subscribe(
-            (announcementId: number) => { // Updated subscription to receive announcement ID
-              this.fetchAnnouncements(); // Refresh the announcements list (optional)
-              this.announcementForm.reset();
-              this.closeModalAnnouncement();
-              alert('Announcement created successfully! ID: ' + announcementId);
-            },
-            (error) => {
-              console.error('Error creating announcement:', error);
-              alert('Error creating announcement. Please try again later.');
-            }
-          );
-        } else {
-          console.error('Error extracting user ID from token.');
-          alert('Error creating announcement. Please try again later.');
-        }
-      } else {
-        console.error('JWT token not found.');
-        alert('Error creating announcement. Please try again later.');
-      }
-    } else {
-      this.announcementForm.markAllAsTouched();
-    }
+  handleAnnouncementCreated(newAnnouncement: Announcement): void {
+    this.announcements.push(newAnnouncement);
   }
-  
   
   deleteAnnouncement(announcement: Announcement) {
     const index = this.announcements.indexOf(announcement);
     if (index > -1) {
-      const announcementId = announcement.id; // Assuming 'id' is the property representing the ID of the announcement
+      const announcementId = announcement.id; 
       this.announcementService.deleteAnnouncement(announcementId).subscribe(
         () => {
           this.announcements.splice(index, 1);
@@ -223,16 +151,11 @@ export class DashboardComponent implements OnInit {
         },
         (error) => {
           console.error('Error deleting announcement:', error);
-          // Handle error as needed
         }
       );
     }
   }
   
-  
-  
-  
-
   truncateText(text: string, limit: number): string {
     if (text.length > limit) {
       return text.substring(0, limit) + '...';
