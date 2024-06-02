@@ -9,8 +9,8 @@ body {
   left: 1vw;
   top: 1vw;
   height: calc(100% - 2vw);
-  color: #161b1e;
-  background: #161b1e;
+  color: #242424;
+  background: #242424;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -35,8 +35,8 @@ body {
   position: relative;
   flex: 1;
   width: 80px;
-  background: #161b1e;
-  box-shadow: 0 0 0 16px #161b1e;
+  background: #242424;
+  box-shadow: 0 0 0 16px #242424;
   direction: rtl;
   overflow-x: hidden;
   transition: width 0.2s;
