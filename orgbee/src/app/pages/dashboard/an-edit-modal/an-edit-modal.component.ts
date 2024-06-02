@@ -21,7 +21,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   @Output() announcementUpdated: EventEmitter<Announcement> = new EventEmitter<Announcement>();
   @Input() showEditModal: boolean = false;
   announcementForm: FormGroup;
-
+  userInfo: any = {};
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -47,6 +47,10 @@ export class AnEditModalComponent implements OnInit, OnChanges {
       subject: ['', [Validators.required]],
       message: ['', [Validators.required]],
       recipient: ['', Validators.required]
+    });
+
+    this.loginService.onDataRetrieved((data: any) => {
+      this.userInfo = data;
     });
   }
 
@@ -81,7 +85,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
     if (this.announcementForm.valid && this.selectedAnnouncement) {
       const token = localStorage.getItem('token');
       if (token) {
-        const currentUserId = this.loginService.extractUserIdFromToken(token);
+        const currentUserId = this.userInfo.user_id;
         if (currentUserId) {
           const updatedAnnouncement = {
             id: this.selectedAnnouncement.id,

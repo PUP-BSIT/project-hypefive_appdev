@@ -24,7 +24,7 @@ export interface Announcement {
 
 export class AnModalComponent implements OnInit {
   announcements: Announcement[] = [];
-  userData: any = {}; // Initialize as an empty object
+  userInfo: any = {};
 
   @Input() showModal: boolean = false;
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
@@ -61,6 +61,10 @@ export class AnModalComponent implements OnInit {
       message: ['', [Validators.required]],
       recipient: ['', Validators.required],
     });
+
+    this.loginService.onDataRetrieved((data: any) => {
+      this.userInfo = data;
+    });
   }
 
   get subjectControl(): AbstractControl {
@@ -79,7 +83,7 @@ export class AnModalComponent implements OnInit {
     if (this.announcementForm.valid) {
       const token = localStorage.getItem('token');
       if (token) {
-        const currentUserId = this.loginService.extractUserIdFromToken(token);
+        const currentUserId = this.userInfo.user_id;
         if (currentUserId) {
           const newAnnouncement = {
             subject: this.announcementForm.get('subject')?.value,
@@ -90,10 +94,12 @@ export class AnModalComponent implements OnInit {
           };
 
           this.announcementService.createAnnouncement(newAnnouncement).subscribe(
-            (announcementId: number) => { 
+           (announcementId: number) => { 
+            newAnnouncement.id = announcementId;
               this.announcementForm.reset();
               this.close();
               this.announcementCreated.emit(newAnnouncement);
+              
               alert('Announcement created successfully! ID: ' + announcementId);
             },
             (error) => {
