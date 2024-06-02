@@ -22,12 +22,11 @@ export interface Announcement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
+
 export class DashboardComponent implements OnInit {
   announcements: Announcement[] = [];
-  currentAnnouncement: Announcement | null = null;
   selectedAnnouncement: Announcement | null = null;
   showModal: boolean = false;
-  
   showOneAnnouncement: boolean = false;
   modalSubject: string = '';
   modalContent: string = '';
@@ -45,19 +44,12 @@ export class DashboardComponent implements OnInit {
  closeModal(): void {
     this.showModal = false;
   }
-
-
+  
   closeOneAnnouncement(): void {
     this.showOneAnnouncement = false;
   }
 
   ngOnInit(): void {
-    this.announcementForm = this.formBuilder.group({
-      subject:  ['', [Validators.required]],
-      message: ['', [Validators.required]],
-      recipient: ['', Validators.required],
-      
-    });
 
     this.fetchAnnouncements();
     /*this.retrieveUserData();*/
@@ -84,18 +76,6 @@ export class DashboardComponent implements OnInit {
         console.error('Error fetching announcements:', error);
       }
     );
-  }
-
-  get subjectControl(): AbstractControl {
-    return this.announcementForm.get('subject')!;
-  }
-
-  get messageControl(): AbstractControl {
-    return this.announcementForm.get('message')!;
-  }
-
-  get recipientControl(): AbstractControl {
-    return this.announcementForm.get('recipient')!;
   }
 
   openModal(announcement: any) {

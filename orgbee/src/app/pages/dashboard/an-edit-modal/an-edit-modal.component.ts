@@ -27,6 +27,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
     private loginService: LoginService,
     private announcementService: AnnouncementService
   ) {}
+
   updateSubjectCharacterCount(): void {
     const subjectControl = this.announcementForm.get('subject');
     if (subjectControl && subjectControl.value.length > 30) {

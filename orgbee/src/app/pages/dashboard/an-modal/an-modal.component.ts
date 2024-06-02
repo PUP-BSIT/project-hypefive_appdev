@@ -19,11 +19,11 @@ export interface Announcement {
 @Component({
   selector: 'app-an-modal',
   templateUrl: './an-modal.component.html',
-  styleUrls: ['../dashboard.component.css'] // Change styleUrl to styleUrls
+  styleUrls: ['../dashboard.component.css'] 
 })
+
 export class AnModalComponent implements OnInit {
   announcements: Announcement[] = [];
-  currentAnnouncement: Announcement | null = null;
   userData: any = {}; // Initialize as an empty object
 
   @Input() showModal: boolean = false;
@@ -55,28 +55,12 @@ export class AnModalComponent implements OnInit {
     this.closeModal.emit();
   }
 
-
   ngOnInit(): void {
     this.announcementForm = this.formBuilder.group({
       subject: ['', [Validators.required]],
       message: ['', [Validators.required]],
       recipient: ['', Validators.required],
     });
-
-    
-    this.fetchAnnouncements();
-  
-  }
-
-  fetchAnnouncements(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
-        this.announcements = announcements;
-      },
-      (error) => {
-        console.error('Error fetching announcements:', error);
-      }
-    );
   }
 
   get subjectControl(): AbstractControl {
@@ -106,8 +90,7 @@ export class AnModalComponent implements OnInit {
           };
 
           this.announcementService.createAnnouncement(newAnnouncement).subscribe(
-            (announcementId: number) => { // Updated subscription to receive announcement ID
-              this.fetchAnnouncements(); // Refresh the announcements list (optional)
+            (announcementId: number) => { 
               this.announcementForm.reset();
               this.close();
               this.announcementCreated.emit(newAnnouncement);
