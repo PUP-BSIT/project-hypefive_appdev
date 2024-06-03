@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 
 export interface Post {
+  title: string;
   text: string;
   backgroundColor: string;
+  showOptions?: boolean;
 }
 
 @Component({
@@ -13,6 +15,7 @@ export interface Post {
   styleUrl: './freedom-wall.component.css'
 })
 export class FreedomWallComponent {
+  newPostTitle = '';
   newPostText = '';
   posts: Post[] = [];
   showModal = false;
@@ -23,10 +26,12 @@ export class FreedomWallComponent {
   addPost() {
     if (this.newPostText.trim()) {
       const newPost: Post = {
+        title: this.newPostTitle,
         text: this.newPostText,
         backgroundColor: this.getRandomColor(),
       };
       this.posts.push(newPost);
+      this.newPostTitle = '';
       this.newPostText = '';
       this.toggleModal();
     }
@@ -36,6 +41,7 @@ export class FreedomWallComponent {
     this.selectedPost = post;
     this.dialog.open(PostDialogComponent, {
       data: {
+        title: post.title,
         text: post.text,
         backgroundColor: post.backgroundColor,
       }
@@ -49,6 +55,22 @@ export class FreedomWallComponent {
 
   toggleModal() {
     this.showModal = !this.showModal;
+  }
+
+  toggleOptions(post: Post) {
+    post.showOptions = !post.showOptions;
+  }
+
+  editPost(post: Post) {
+    // To do: edit logic for backend
+    alert('Edit Post: ' + post.text);
+  }
+
+  deletePost(post: Post) {
+    const index = this.posts.indexOf(post);
+    if (index > -1) {
+      this.posts.splice(index, 1);
+    }
   }
 
 }

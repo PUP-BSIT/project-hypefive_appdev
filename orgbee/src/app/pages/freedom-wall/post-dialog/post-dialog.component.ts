@@ -21,11 +21,22 @@ export class PostDialogComponent implements AfterViewInit {
   ngAfterViewInit() {
     const dialogContent = this.elementRef.nativeElement.querySelector('.dialog-content');
     if (dialogContent) {
-      const textHeight = dialogContent.querySelector('p').scrollHeight;
-      const maxHeight = window.innerHeight - 100;
-      const newHeight = Math.min(textHeight + 40, maxHeight);
+      this.adjustDialogHeight(dialogContent);
+    }
+  }
 
-      dialogContent.style.height = newHeight + 'px';
+  adjustDialogHeight(dialogContent: HTMLElement) {
+    const titleHeight = dialogContent.querySelector('h4').scrollHeight;
+    const textHeight = dialogContent.querySelector('p').scrollHeight;
+    const totalHeight = titleHeight + textHeight + 30; 
+    const maxHeight = window.innerHeight - 100;
+
+    dialogContent.style.height = Math.min(totalHeight, maxHeight) + 'px';
+
+    if (totalHeight > maxHeight) {
+      dialogContent.style.overflowY = 'auto';
+    } else {
+      dialogContent.style.overflowY = 'visible';
     }
   }
 }
