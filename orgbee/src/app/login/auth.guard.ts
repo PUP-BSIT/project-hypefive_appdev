@@ -7,7 +7,8 @@ import { LoginService } from '../../service/login.service';
 })
 export class AuthGuard implements CanActivate {
     constructor(private loginService: LoginService, private router: Router) {}
-
+    
+//TODO: Ternal, April Joy A. revise code: use observable
     canActivate(): Promise<boolean> {
         const token = this.loginService.getToken();
         if (token) {

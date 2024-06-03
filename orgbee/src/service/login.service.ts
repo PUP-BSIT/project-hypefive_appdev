@@ -6,6 +6,7 @@ import {jwtDecode} from "jwt-decode";
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
   isAuthenticated: boolean = false;
   isDataRetrieved: boolean = false;
@@ -21,7 +22,7 @@ export class LoginService {
   getAuthStatus() {
     return this.isAuthenticated;
   }
-
+//TODO: Ternal, April Joy A. revise code: use observable
   decodeToken(token: string): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
