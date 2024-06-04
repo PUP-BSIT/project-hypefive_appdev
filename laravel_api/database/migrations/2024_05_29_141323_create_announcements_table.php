@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('content', 850);
             $table->integer('recipient');
             $table->unsignedBigInteger('student_id');
-            $table->integer('is_posted');
+            $table->boolean('is_posted')->default(false);
+            $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('students')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');
