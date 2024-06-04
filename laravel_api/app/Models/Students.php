@@ -24,10 +24,6 @@ class Students extends Model {
         return $this->hasOne(Roles::class, 'role_id', 'id');
     }
 
-    public function account_status() {
-        return $this->hasOne(Account_Status::class, 'account_status_id', 'id');
-    }
-
     public function announcements() {
         return $this->belongsTo(Students::class, 'student_id', 'id');
     }

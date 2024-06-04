@@ -26,6 +26,11 @@ class User extends Authenticatable implements JWTSubject {
         return $this->belongsTo(Students::class, 'user_id', 'id');
     }
 
+    
+    public function account_status() {
+        return $this->hasOne(Account_Status::class, 'account_status_id', 'id');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

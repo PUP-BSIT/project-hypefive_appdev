@@ -18,17 +18,12 @@ return new class extends Migration {
             $table->string('gender', 10);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('role_id')->default(1);
-            $table->unsignedBigInteger('account_status_id')->default(1);
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->foreign('role_id')->references('id')->on('roles')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');
-                
-            $table->foreign('account_status_id')->references('id')
-                ->on('account_statuses')->onDelete('CASCADE')
-                ->onUpdate('CASCADE');
         });
 
     }

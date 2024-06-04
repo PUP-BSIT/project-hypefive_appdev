@@ -15,13 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
+            $table->unsignedBigInteger('account_status_id')->default(1);
             $table->timestamps();
+            
+            $table->foreign('account_status_id')->references('id')
+                ->on('account_statuses')->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
+
         });
 
         Schema::create('sessions', function (Blueprint $table) {
