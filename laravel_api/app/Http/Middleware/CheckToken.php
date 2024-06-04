@@ -30,5 +30,16 @@ class CheckToken
             // No token found, redirect to login
             return Redirect::to('/login');
         }
+        // if (!$token) {
+        //     // No token found, redirect to login
+        //     return Redirect::to('/login');
+        // }
+        
+        // if ($request->is('login')){
+        //     return redirect('/'); //Redirect to the default page
+        // }
+        
+        // // Token exists and not in the login route, proceed to the requested route
+        // return $next($request);
     }
 }
