@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use App\Models\Students;
 use App\Models\User;
 
@@ -63,8 +64,17 @@ class StudentsController extends Controller
 
             return response()->json($response);
         }
-
+        
         $user = auth()->user();
+
+        // Check the account status of the user
+        if ($user->account_status_id != 2) {
+            $response['status'] = 0;
+            $response['code'] = 401;
+            $response['message'] = 'Please wait for the confirmation';
+            return response()->json($response);
+        }
+
         $data['token'] = auth()->claims([
             'user_id'=>$user->id,
             'email' =>$user->email
@@ -73,45 +83,52 @@ class StudentsController extends Controller
         $response['data'] = $data;
         $response['status'] = 1;
         $response['code'] = 200;
-        $response['message'] = 'Login successfully';
+        $response['message'] = 'Login successful';
 
         return response()->json($response);
+
     }
 
     public function retrieve(Request $request, $id, $email)
-    {
+{
+    try {
         // Verify JWT token
         $user = JWTAuth::parseToken()->authenticate();
-    
-        // Check if the user's ID and email match the parameters
-        if ($user->id == $id && $user->email == $email) {
-            
-            // Retrieve student and user information based on user_id
-            $student = Students::where('user_id', $id)->first();
-            $userInfo = User::where('email', $email)->first();
-    
-
-            if ($student && $userInfo) {
-                return response()->json([
-                    'first_name' => $student->first_name,
-                    'last_name' => $student->last_name,
-                    'email' => $userInfo->email,
-                    'student_number' => $student->student_number,
-                    'birthday' => $student->birthday,
-                    'gender' => $student->gender,
-                    'user_id' => $student->user_id,
-                    'role_id' => $student->role_id, 
-                    'account_status_id' => $student->account_status_id, 
-                ]);
-            } else {
-                // Student or user not found
-                return response()->json(['message' => 'Student or user not found'], 404);
-            }
-        } else {
-            // Unauthorized access
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+    } catch (TokenExpiredException $e) {
+        return response()->json(['message' => 'Token expired'], 401);
+    } catch (TokenInvalidException $e) {
+        return response()->json(['message' => 'Token invalid'], 401);
+    } catch (JWTException $e) {
+        return response()->json(['message' => 'Token absent'], 401);
     }
+
+    // Check if the user's ID and email match the parameters
+    if ($user->id == $id && $user->email == $email) {
+        // Retrieve student and user information based on user_id
+        $student = Students::where('user_id', $id)->first();
+        $userInfo = User::where('email', $email)->first();
+
+        if ($student && $userInfo) {
+            return response()->json([
+                'first_name' => $student->first_name,
+                'last_name' => $student->last_name,
+                'email' => $userInfo->email,
+                'student_number' => $student->student_number,
+                'birthday' => $student->birthday,
+                'gender' => $student->gender,
+                'user_id' => $student->user_id,
+                'role_id' => $student->role_id, 
+                'account_status_id' => $student->account_status_id, 
+            ]);
+        } else {
+            // Student or user not found
+            return response()->json(['message' => 'Student or user not found'], 404);
+        }
+    } else {
+        // Unauthorized access
+        return response()->json(['message' => 'Unauthorized'], 403);
+    }
+}
     }
     
     

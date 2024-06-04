@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class LoginService {
   isAuthenticated: boolean = false;
   isDataRetrieved: boolean = false;
@@ -28,6 +27,13 @@ export class LoginService {
   decodeToken(token: string): Observable<void> {
     return new Observable<void>(observer => {
       try {
+        if (this.isTokenExpired(token)) {
+          this.setAuthStatus(false);
+          this.router.navigate(['login']);
+          observer.error('Token expired');
+          return;
+        }
+
         const decodedToken: any = jwtDecode(token);
         this.userInfo.email = decodedToken.email;
         this.userInfo.id = decodedToken.user_id;
@@ -52,6 +58,17 @@ export class LoginService {
         observer.error(error);
       }
     });
+  }
+
+  isTokenExpired(token: string): boolean {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const exp = decodedToken.exp;
+      return Date.now() >= exp * 1000;
+    } catch (e) {
+      console.error('Error decoding JWT token:', e);
+      return true;
+    }
   }
 
   getUserInfo(headers: HttpHeaders): Observable<void> {
@@ -82,6 +99,7 @@ export class LoginService {
       return throwError('User info incomplete');
     }
   }
+
 
   private invokeDataRetrievedCallbacks() {
     if (this.isDataRetrieved) {
