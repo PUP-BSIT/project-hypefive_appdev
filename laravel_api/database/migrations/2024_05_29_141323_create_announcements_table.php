@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
+            $table->string('subject', 350);
             $table->string('content', 850);
-            $table->integer('visibility');
+            $table->integer('recipient');
             $table->unsignedBigInteger('student_id');
             $table->integer('is_posted');
 
