@@ -63,26 +63,28 @@ class StudentsController extends Controller
 
             return response()->json($response);
         }
+        
         $user = auth()->user();
-        $student = $user->student; 
 
         // Check the account status of the user
-        if ($student && $student->account_status == 2) {
-            $data['token'] = auth()->claims([
-                'user_id' => $user->id,
-                'email' => $user->email
-            ])->attempt($credentials);
-
-            $response['data'] = $data;
-            $response['status'] = 1;
-            $response['code'] = 200;
-            $response['message'] = 'Login successfully';
-        } else {
+        if ($user->account_status_id != 2) {
             $response['status'] = 0;
-            $response['code'] = 403; 
-            $response['message'] = 'Please wait for confirmation.';
+            $response['code'] = 401;
+            $response['message'] = 'Please wait for the confirmation';
+            return response()->json($response);
         }
 
+        $data['token'] = auth()->claims([
+            'user_id'=>$user->id,
+            'email' =>$user->email
+        ])->attempt($credentials);
+
+        $response['data'] = $data;
+        $response['status'] = 1;
+        $response['code'] = 200;
+        $response['message'] = 'Login successful';
+
         return response()->json($response);
+
     }
 }
