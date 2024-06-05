@@ -7,18 +7,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./events.component.css'],
 })
 export class EventsComponent implements OnInit {
-  eventForm: FormGroup; // Form group for event input fields
-  currentStep = 0; // Tracks the current step in the form
-  activeTab = 'UPCOMING'; // Tracks the active tab
-  events: any[] = []; // Array to store upcoming events
-  drafts: any[] = []; // Array to store draft events
-  occurringEvents: any[] = []; // Array to store occurring events
-  filteredEvents: any[] = []; // Array to store events based on active tab
-  isModalVisible = false; // To control visibility of modal
-  isManageModalVisible = false; // To control visibility of manage modal
-  selectedEvent: any; // The event currently being managed
-  isEditMode = false; // Flag to track if we are in edit mode
-  editingEventIndex = -1; // Index of the event being edited
+  eventForm: FormGroup; 
+  currentStep = 0; 
+  activeTab = 'UPCOMING'; 
+  events: any[] = []; 
+  drafts: any[] = []; 
+  occurringEvents: any[] = []; 
+  filteredEvents: any[] = []; 
+  isModalVisible = false; 
+  isManageModalVisible = false; 
+  selectedEvent: any; 
+  isEditMode = false; 
+  editingEventIndex = -1; 
 
   constructor(private fb: FormBuilder) {
     this.eventForm = this.fb.group({

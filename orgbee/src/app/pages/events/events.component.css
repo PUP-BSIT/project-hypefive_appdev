@@ -56,7 +56,7 @@ h1 {
   border: 1px solid #888;
   width: 30%;
   border-radius: 10px;
-  height: 450px; /* Fixed height for consistency */
+  height: 450px;
 }
 
 .close {
@@ -200,8 +200,6 @@ button:hover {
   background-color: #ffca10;
 }
 
-/* Other existing styles */
-
 .tabs {
   display: flex;
   justify-content: center;
@@ -252,12 +250,12 @@ button:hover {
   display: flex;
 }
 
-.event-img img{
-  flex:1;
+.event-img img {
+  flex: 1;
   width: 13%;
 }
 
-.event-details{
+.event-details {
   flex: 1;
   align-items: start;
   margin-left: -70%;
@@ -269,7 +267,7 @@ button:hover {
   font-weight: bolder;
 }
 
-.event-details p{
+.event-details p {
   font-size: 0.9rem;
   color: #777;
 }
@@ -286,7 +284,6 @@ button:hover {
   cursor: pointer;
 }
 
-/* Add the following styles */
 .modal.visible {
   display: block;
 }
@@ -298,7 +295,7 @@ button:hover {
   border: 1px solid #888;
   width: 30%;
   border-radius: 10px;
-  height: auto; /* Adjust height for manage modal */
+  height: auto; 
 }
 
 .edit-btn {
