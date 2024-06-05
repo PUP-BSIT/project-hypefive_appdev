@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -92,7 +92,10 @@ export class LoginComponent implements OnInit {
         validators: [Validators.required, Validators.email]
       }],
       birthday: ['', {
-        validators: [Validators.required]
+        validators: [
+          Validators.required, 
+          this.minAgeValidator(18), 
+          this.maxAgeValidator(80)]
       }],
       gender: ['', {
         validators: [Validators.required]
@@ -106,6 +109,34 @@ export class LoginComponent implements OnInit {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     }as AbstractControlOptions);
+  }
+
+  maxAgeValidator(maxAge: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (control.value) {
+        const today = new Date();
+        const birthDate = new Date(control.value);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        if (age > maxAge) {
+          return { 'maxAge': { value: age } };
+        }
+      }
+      return null;
+    };
+  }
+
+  minAgeValidator(minAge: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (control.value) {
+        const today = new Date();
+        const birthDate = new Date(control.value);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        if (age < minAge) {
+          return { 'minAge': { value: age } };
+        }
+      }
+      return null;
+    };
   }
 
   onSubmit() {

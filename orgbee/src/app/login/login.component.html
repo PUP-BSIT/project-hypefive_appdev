@@ -130,6 +130,12 @@
                     @if(bdayControl.errors?.['required']){
                         <div>Birth date is required</div>
                     }
+                    @if(bdayControl.errors.minAge) {
+                      <div>You must be at least 18 years old.</div>
+                    }
+                    @if(bdayControl.errors.maxAge) {
+                      <div>You must be at least below 80 years old.</div>
+                    }
                 </div>
               }
             </div>
