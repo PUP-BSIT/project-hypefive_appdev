@@ -8,7 +8,8 @@ import { Component } from '@angular/core';
 
 export class MembersComponent {
   modalName = '';
-  showModal = false;
+  showModalMember = false;
+  showModalOfficer = false;
 
   members = [
     { name: 'John Doe', icon: '../../../assets/icon.jpg' },
@@ -22,18 +23,49 @@ export class MembersComponent {
     { name: 'John Doe', icon: '../../../assets/icon.jpg' },
   ]
 
-  memberClick(memberName: string) {
-    this.showModal = true;
-    this.modalName = memberName;
+  details = [
+    { 
+      firstname: 'John',
+      lastname: 'Doe',
+      birthday: 'March 2, 2003',
+      studentNumber: '2021-00000-TG-0',
+      gender: 'Female',
+      email: 'johndoe@gmail.com',
+    },
+  ]
+
+  memberClick() {
+    this.showModalMember = true;
+  }
+
+  officerClick() {
+    this.showModalOfficer = true;
   }
 
   closeModal() {
-    this.showModal = false;
+    this.showModalMember = false;
+    this.showModalOfficer = false;
   }
 
-  removeMember(){
-    this.members = 
-      this.members.filter(member => member.name !== this.modalName);
+  addOfficer(index: number) {
+    const officer = this.members.splice(index, 1)[0];
+    this.officers.push(officer);
+    this.closeModal();
+  }
+
+  addMember(index: number) {
+    const officerToMember = this.officers.splice(index, 1)[0];
+    this.members.push(officerToMember);
+    this.closeModal();
+  }
+
+  removeMember(index: number) {
+    this.members.splice(index, 1);
+    this.closeModal();
+  }
+
+  removeOfficer(index:number) {
+    this.officers.splice(index, 1);
     this.closeModal();
   }
 
@@ -45,4 +77,5 @@ export class MembersComponent {
   declineRequest(index: number) {
     this.membershipRequests.splice(index, 1);
   }
+ 
 }

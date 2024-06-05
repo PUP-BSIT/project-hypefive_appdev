@@ -39,7 +39,7 @@
                             class="accept" 
                             (click)="acceptRequest(i)">
                                 Accept
-                            </button>
+                        </button>
                         <button 
                             class="decline" 
                             (click)="declineRequest(i)">
@@ -52,32 +52,99 @@
             <div class="officers">
                 <h2>OFFICERS</h2>
                 @for(officer of officers; track officers) {
-                    <div class="officer">
+                    <div class="officer" (click)="officerClick(officer.name)">
                         <div class="profile">
                             <img [src]="officer.icon" alt="Profile Picture"/>
                             <p>{{ officer.name }}</p>
                         </div>
                     </div>
-                }
+                } 
             </div>
         </div>
     </div>
 </div>
 
   
-@if(showModal){
+@if(showModalMember){
 <div class="modal" id="memberModal">
     <div class="modal-content">
         <span class="close" (click)="closeModal()">&times;</span>
-        <div class="profile">
-            <img
+        @for(detail of details; track details) {
+            <div class="modal-profile">
+                <img
                 id="modal-icon"
                 src="../../../assets/icon.jpg"
                 alt="Profile Picture"
-            />
-            <p id="modal-name">{{ modalName }}</p>
-        </div>
-        <button class="remove" (click)="removeMember()">Remove Member</button>
+                />
+            </div>
+            <div class="details">
+                <div class="left-column-details">
+                    <p class="label">First Name</p>
+                    <p class="value">{{ detail.firstname }}</p>
+                    <p class="label">Birthday</p>
+                    <p class="value">{{ detail.birthday }}</p>
+                    <p class="label">Student Number</p>
+                    <p class="value">{{ detail.studentNumber }}</p>
+                </div>
+
+                <div class="right-column-details">
+                    <p class="label">Last Name</p>
+                    <p class="value">{{ detail.lastname }}</p>
+                    <p class="label">Gender</p>
+                    <p class="value">{{ detail.gender }}</p>
+                    <p class="label">Email</p>
+                    <p class="value">{{ detail.email }}</p>
+                </div>
+            </div>
+        }
+        <button class="modal-button-officer" (click)="addOfficer(i)">
+            Make Officer
+        </button>
+        <button class="modal-button-member" (click)="removeMember()">
+            Remove Member
+        </button>
+    </div>
+</div>
+}
+
+@if(showModalOfficer){
+<div class="modal" id="memberModal">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        @for(detail of details; track details) {
+            <div class="modal-profile">
+                <img
+                id="modal-icon"
+                src="../../../assets/icon.jpg"
+                alt="Profile Picture"
+                />
+            </div>
+            <div class="details">
+                <div class="left-column-details">
+                    <p class="label">First Name</p>
+                    <p class="value">{{ detail.firstname }}</p>
+                    <p class="label">Birthday</p>
+                    <p class="value">{{ detail.birthday }}</p>
+                    <p class="label">Student Number</p>
+                    <p class="value">{{ detail.studentNumber }}</p>
+                </div>
+
+                <div class="right-column-details">
+                    <p class="label">Last Name</p>
+                    <p class="value">{{ detail.lastname }}</p>
+                    <p class="label">Gender</p>
+                    <p class="value">{{ detail.gender }}</p>
+                    <p class="label">Email</p>
+                    <p class="value">{{ detail.email }}</p>
+                </div>
+            </div>
+        }
+        <button class="modal-button-officer" (click)="addMember(i)">
+            Make Member
+        </button>
+        <button class="modal-button-member" (click)="removeOfficer()">
+            Remove Member
+        </button>
     </div>
 </div>
 }

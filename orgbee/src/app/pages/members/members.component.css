@@ -62,6 +62,7 @@ body {
   border-radius: 20px;
   padding: 10px;
   background-color: #eeeeed;
+  padding-bottom: 45%;
 }
 
 .all-members {
@@ -147,6 +148,7 @@ body {
 }
 
 .officers {
+  cursor: pointer;
   margin-top: 20px;
   border-radius: 20px;
   background-color: #eeeeed;
@@ -273,15 +275,65 @@ body {
   cursor: pointer;
 }
 
-button.remove {
+button.modal-button-member {
   background-color: #242424;
   color: #ffffff;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+button.modal-button-officer {
+  background-color: #ffca10;
+  color: #242424;
+  border: none;
+  border-radius: 15px;
   padding: 10px 20px;
   cursor: pointer;
 }
 
-button.remove:hover {
+button.modal-officer-button:hover,
+button.modal-member-button:hover {
   background-color: #eeeeed;
+}
+
+.modal-content {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 5px;
+  max-width: 100%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-left: 15%;
+}
+
+.details .label {
+  text-align: start;
+  font-weight: bold;
+}
+.details .value {
+  text-align: start;
+  margin-top: -5%;
+}
+
+.modal-profile{
+  text-align: center;
+  justify-content: center;
+}
+
+.modal-profile img{
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
 }
