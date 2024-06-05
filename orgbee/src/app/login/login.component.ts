@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControlOptions  } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -84,7 +84,9 @@ export class LoginComponent implements OnInit {
         validators: [Validators.required]
       }],
       student_number: ['', {
-        validators: [Validators.required]
+        validators: [
+          Validators.required, 
+          Validators.pattern(/^\d{4}-\d{5}-TG-0$/)]
       }],
       email: ['', {
         validators: [Validators.required, Validators.email]

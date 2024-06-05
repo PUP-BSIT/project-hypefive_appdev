@@ -92,11 +92,14 @@
           <div class="form-row">
             <div>
               <label for="signup-studentnumber">Student Number</label>
-              <input type="text" formControlName="student_number" />
+              <input type="text" formControlName="student_number"/>
               @if(studentNumberControl.invalid && studentNumberControl.touched){
                 <div class="inc">
                     @if(studentNumberControl.errors?.['required']){
                         <div>Student number is required</div>
+                    }
+                    @if(studentNumberControl.errors?.['pattern']) {
+                      <div>Invalid student number format. </div>
                     }
                 </div>
               }
