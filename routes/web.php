@@ -13,10 +13,6 @@ Route::middleware([CheckToken::class])->group(function () {
         return view('welcome');
     });
 
-    Route::get('/dashboard', function () {
-        return view('welcome');
-    });
-
     Route::get('/freedom-wall', function () {
         return view('welcome');
     });
