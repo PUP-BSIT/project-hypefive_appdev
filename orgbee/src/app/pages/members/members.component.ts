@@ -22,6 +22,19 @@ interface SelectedMember {
 interface MembershipRequests {
   first_name: string;
   last_name: string;
+  birthday: Date;
+  gender: string;
+  student_number: string;
+  email: string;
+}
+
+interface Officers {
+  first_name: string;
+  last_name: string;
+  birthday: Date;
+  gender: string;
+  student_number: string;
+  email: string;
 }
 
 @Component({
@@ -38,35 +51,67 @@ export class MembersComponent implements OnInit {
   members: Member[];
   details: SelectedMember [];
   membershipRequests: MembershipRequests[];
-
+  officers: Officers[];
+  // TODO: VILLA-VILLA: remove the "any" data type
+  response:any;
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void{
+    this.showMembers();
+    this.showRequest();
+    this.showOfficers();
+    this.details = [];
+    this.membershipRequests=[];
+  }
+
+  showMembers() {
     this.dataService.getMembers().subscribe((members: Member[])=>{
       this.members = members;
     });
-    this.details = [];
-    this.membershipRequests=[];
+  }
 
+  showRequest() {
     this.dataService.getMembershipRequest().subscribe((request: MembershipRequests[])=>{
       this.membershipRequests = request;
       console.log(this.membershipRequests);
     })
   }
 
-  // members = [
+  showOfficers() {
+    this.dataService.getOfficers().subscribe((request: Officers[])=>{
+      this.officers = request;
+      console.log(this.officers);
+    })
+  }
+  // officers = [
   //   { name: 'John Doe', icon: '../../../assets/icon.jpg' },
-  // ];
+  // ]
 
-  // membershipRequests = [
-  //   { name: 'Jane Smith', icon: '../../../assets/icon.jpg' },
-  // ];
+  acceptRequest(student_number: string) {
+    const data = {student_number: student_number };
+    console.log(data);
+    this.dataService.acceptMember(data).subscribe(res => {
+      this.response = res;
 
-  officers = [
-    { name: 'John Doe', icon: '../../../assets/icon.jpg' },
-  ]
+      // Remove the accepted student from the membershipRequests array
+      this.membershipRequests = this.membershipRequests.filter(request => request.student_number !== student_number);
+      this.showMembers();
+    });
+    
+  }
 
-  
+  declineRequest(student_number: string) {
+    const data = {student_number: student_number };
+    console.log(data);
+    this.dataService.declineMember(data).subscribe(res => {
+      this.response = res;
+      console.log(this.response);
+      
+      // Remove the accepted student from the membershipRequests array
+      this.membershipRequests = this.membershipRequests.filter(request => request.student_number !== student_number);
+      this.showRequest();
+    });
+  }
 
   memberClick(student_number: string) {
     const selectedMember = this.members.find(member => member.student_number === student_number);
@@ -74,14 +119,16 @@ export class MembersComponent implements OnInit {
     this.details.push(selectedMember);
   }
 
-  officerClick() {
-    this.showModalOfficer = true;
+  officerClick(student_number: string) {
+    const selectedMember = this.members.find(member => member.student_number === student_number);
+    this.showModalMember = true;
+    this.details.push(selectedMember);
   }
 
   closeModal() {
     this.showModalMember = false;
     this.showModalOfficer = false;
-    this.details=[];
+    this.details=[]; //Empty details
   }
 
   // addOfficer(index: number) {
@@ -96,23 +143,16 @@ export class MembersComponent implements OnInit {
   //   this.closeModal();
   // }
 
-  removeMember(index: number) {
-    this.members.splice(index, 1);
-    this.closeModal();
-  }
-
-  removeOfficer(index:number) {
-    this.officers.splice(index, 1);
-    this.closeModal();
-  }
-
-  // acceptRequest(index: number) {
-  //   const acceptedMember = this.membershipRequests.splice(index, 1)[0];
-  //   this.members.push(acceptedMember);
+  // removeMember(index: number) {
+  //   this.members.splice(index, 1);
+  //   this.closeModal();
   // }
 
-  // declineRequest(index: number) {
-  //   this.membershipRequests.splice(index, 1);
+  // removeOfficer(index:number) {
+  //   this.officers.splice(index, 1);
+  //   this.closeModal();
   // }
+
+  
  
 }

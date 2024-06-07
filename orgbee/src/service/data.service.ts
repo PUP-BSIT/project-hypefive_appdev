@@ -8,7 +8,7 @@ export class DataService {
 
   constructor(private http:HttpClient) { }
 
-  registerUser(data){
+  registerUser(data) {
     return this.http.post(this.apiUrl +'api/register/', data);
   }
 
@@ -16,11 +16,23 @@ export class DataService {
     return this.http.post(this.apiUrl +'api/login/', data);
   }
 
-  getMembers(){
+  getMembers() {
     return this.http.get(this.apiUrl +'api/members/');
   }
 
-  getMembershipRequest(){
+  getMembershipRequest() {
     return this.http.get(this.apiUrl +'api/request/');
+  }
+
+  getOfficers() {
+    return this.http.get(this.apiUrl +'api/getOfficers/');
+  }
+
+  acceptMember(data){
+    return this.http.post(this.apiUrl +'api/acceptMember/', data);
+  }
+
+  declineMember(data){
+    return this.http.post(this.apiUrl +'api/declineMember/', data);
   }
 }

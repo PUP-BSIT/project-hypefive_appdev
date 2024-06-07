@@ -39,12 +39,12 @@
                         </div>
                         <button 
                             class="accept" 
-                            (click)="acceptRequest(i)">
+                            (click)="acceptRequest(request.student_number)">
                                 Accept
                         </button>
                         <button 
                             class="decline" 
-                            (click)="declineRequest(i)">
+                            (click)="declineRequest(request.student_number)">
                                 Decline
                         </button>
                     </div>
@@ -54,10 +54,11 @@
             <div class="officers">
                 <h2>OFFICERS</h2>
                 @for(officer of officers; track officers) {
-                    <div class="officer" (click)="officerClick(officer.name)">
+                    <div class="officer" (click)="officerClick(officer.student_number)">
                         <div class="profile">
                             <img [src]="officer.icon" alt="Profile Picture"/>
-                            <p>{{ officer.name }}</p>
+                            <p>{{ officer.first_name + " " +
+                                officer.last_name }}</p>
                         </div>
                     </div>
                 } 
@@ -125,16 +126,16 @@
             <div class="details">
                 <div class="left-column-details">
                     <p class="label">First Name</p>
-                    <p class="value">{{ detail.firstname }}</p>
+                    <p class="value">{{ detail.first_name }}</p>
                     <p class="label">Birthday</p>
                     <p class="value">{{ detail.birthday }}</p>
                     <p class="label">Student Number</p>
-                    <p class="value">{{ detail.studentNumber }}</p>
+                    <p class="value">{{ detail.student_number }}</p>
                 </div>
 
                 <div class="right-column-details">
                     <p class="label">Last Name</p>
-                    <p class="value">{{ detail.lastname }}</p>
+                    <p class="value">{{ detail.last_name }}</p>
                     <p class="label">Gender</p>
                     <p class="value">{{ detail.gender }}</p>
                     <p class="label">Email</p>
