@@ -49,6 +49,7 @@ class MembersController extends Controller {
         
         if ($user_id) {
             DB::table('users')->where('id', $user_id)->update(['account_status_id' => 3]);
+            DB::table('students')->where('student_number', $student_number)->update(['role_id'=>1]);
             return response()->json(['message' => 'Student declined successfully'], 200);
         } else {
             return response()->json(['message' => 'User not found'], 404);
@@ -66,7 +67,8 @@ class MembersController extends Controller {
         ->get(['students.*', 'users.email']);
         return response()->json($students, 200);
     }
-    public function addToOfficer(Request $request) {
+
+    public function promoteToOfficer(Request $request) {
         $student_number = $request->only('student_number');
 
         if ($student_number){
@@ -75,6 +77,17 @@ class MembersController extends Controller {
         } else {
             return response()->json(['message' => 'User not found'], 404);
         }
-        
     }
+
+    public function demoteToMember(Request $request) {
+        $student_number = $request->only('student_number');
+
+        if ($student_number){
+            DB::table('students')->where('student_number', $student_number)->update(['role_id'=>1]);
+            return response()->json(['message' => 'Student demoted to member'], 200);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+
 }

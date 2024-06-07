@@ -36,7 +36,11 @@ export class DataService {
     return this.http.post(this.apiUrl +'api/declineMember/', data);
   }
 
-  addToOfficer(data) {
-    return this.http.post(this.apiUrl +'api/addToOfficer/', data);
+  promoteToOfficer(data) {
+    return this.http.post(this.apiUrl +'api/promoteToOfficer/', data);
+  }
+
+  demoteToMember(data) {
+    return this.http.post(this.apiUrl +'api/demoteToMember/', data);
   }
 }

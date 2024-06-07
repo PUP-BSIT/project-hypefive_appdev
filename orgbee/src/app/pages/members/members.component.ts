@@ -52,6 +52,7 @@ export class MembersComponent implements OnInit {
   details: SelectedMember [];
   membershipRequests: MembershipRequests[];
   officers: Officers[];
+  student_num:string;
   // TODO: VILLA-VILLA: remove the "any" data type
   response:any;
   constructor(private dataService: DataService) {}
@@ -73,23 +74,19 @@ export class MembersComponent implements OnInit {
   showRequest() {
     this.dataService.getMembershipRequest().subscribe((request: MembershipRequests[])=>{
       this.membershipRequests = request;
-      console.log(this.membershipRequests);
     })
   }
 
   showOfficers() {
     this.dataService.getOfficers().subscribe((request: Officers[])=>{
       this.officers = request;
-      console.log(this.officers);
+      
     })
   }
-  // officers = [
-  //   { name: 'John Doe', icon: '../../../assets/icon.jpg' },
-  // ]
 
   acceptRequest(student_number: string) {
     const data = {student_number: student_number };
-    console.log(data);
+    
     this.dataService.acceptMember(data).subscribe(res => {
       this.response = res;
 
@@ -102,27 +99,28 @@ export class MembersComponent implements OnInit {
 
   declineRequest(student_number: string) {
     const data = {student_number: student_number };
-    console.log(data);
+
     this.dataService.declineMember(data).subscribe(res => {
       this.response = res;
-      console.log(this.response);
       
       // Remove the accepted student from the membershipRequests array
       this.membershipRequests = this.membershipRequests.filter(request => request.student_number !== student_number);
       this.showRequest();
     });
   }
-
+  
   memberClick(student_number: string) {
     const selectedMember = this.members.find(member => member.student_number === student_number);
     this.showModalMember = true;
     this.details.push(selectedMember);
+    this.student_num=student_number;
   }
 
   officerClick(student_number: string) {
     const selectedMember = this.members.find(member => member.student_number === student_number);
-    this.showModalMember = true;
+    this.showModalOfficer = true;
     this.details.push(selectedMember);
+    this.student_num=student_number;
   }
 
   closeModal() {
@@ -131,22 +129,25 @@ export class MembersComponent implements OnInit {
     this.details=[]; //Empty details
   }
 
-  removeMember(student_number: string) {
-    const data = {student_number: student_number };
+  removeMember() {
+    const data = {student_number: this.student_num };
 
     this.dataService.declineMember(data).subscribe(res => {
       this.response = res;
-      console.log(this.response);
+      
       this.showModalMember = false;
+      this.showModalOfficer = false;
       this.details=[]; 
+      this.student_num ='';
       this.showMembers();
+      this.showOfficers();
     });
   }
 
-  addOfficer(student_number: string) {
-    const data = {student_number: student_number };
-    console.log(data);
-    this.dataService.addToOfficer(data).subscribe(res => {
+  promoteToOfficer() {
+    const data = {student_number: this.student_num };
+    
+    this.dataService.promoteToOfficer(data).subscribe(res => {
       this.response = res;
       this.showModalMember = false;
       this.showOfficers();
@@ -154,19 +155,15 @@ export class MembersComponent implements OnInit {
     });
   }
 
-  // addMember(index: number) {
-  //   const officerToMember = this.officers.splice(index, 1)[0];
-  //   this.members.push(officerToMember);
-  //   this.closeModal();
-  // }
-
-  
-
-  // removeOfficer(index:number) {
-  //   this.officers.splice(index, 1);
-  //   this.closeModal();
-  // }
-
-  
+  demoteToMember() {
+    const data = {student_number: this.student_num };
+    
+    this.dataService.demoteToMember(data).subscribe(res => {
+      this.response = res;
+      this.showModalOfficer = false;
+      this.showOfficers();
+      this.details=[]; 
+    });
+  }
  
 }

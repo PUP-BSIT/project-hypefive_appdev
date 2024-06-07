@@ -36,5 +36,9 @@ Route::get('/getOfficers', [\App\Http\Controllers\MembersController::class,
                         'getOfficers'])->name('api.getOfficers');
 
 //Add to officer
-Route::post('/addToOfficer', [\App\Http\Controllers\MembersController::class, 
-                                'addToOfficer'])->name('api.addToOfficer');
+Route::post('/promoteToOfficer', [\App\Http\Controllers\MembersController::class, 
+                            'promoteToOfficer'])->name('api.promoteToOfficer');
+
+//Add to officer
+Route::post('/demoteToMember', [\App\Http\Controllers\MembersController::class, 
+                            'demoteToMember'])->name('api.demoteToMember');

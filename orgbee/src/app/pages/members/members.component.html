@@ -69,87 +69,93 @@
 
   
 @if(showModalMember){
-<div class="modal" id="memberModal">
-    <div class="modal-content">
-        <span class="close" (click)="closeModal()">&times;</span>
-        @for(detail of details; track details) {
-            <div class="modal-profile">
-                <!-- TODO: VILLA-VILLA: Backend for profile picture -->
-                <img
-                id="modal-icon"
-                src="../../../assets/icon.jpg"
-                alt="Profile Picture"
-                />
-            </div>
-            <div class="details">
-                <div class="left-column-details">
-                    <p class="label">First Name</p>
-                    <p class="value">{{ detail.first_name }}</p>
-                    <p class="label">Birthday</p>
-                    <p class="value">{{ detail.birthday }}</p>
-                    <p class="label">Student Number</p>
-                    <p class="value">{{ detail.student_number }}</p>
+    <!-- IDs should be written in snake case. All lower case separated by underscore. -->
+    <div class="modal" id="memberModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            @for(detail of details; track details) {
+                <div class="modal-profile">
+                    <!-- TODO: VILLA-VILLA: Backend for profile picture -->
+                    <!-- IDs should be written in snake case. All lower case separated by underscore. -->
+                    <img
+                    id="modal-icon"
+                    src="../../../assets/icon.jpg"
+                    alt="Profile Picture"
+                    />
                 </div>
+                <div class="details">
+                    <div class="left-column-details">
+                        <p class="label">First Name</p>
+                        <p class="value">{{ detail.first_name }}</p>
+                        <p class="label">Birthday</p>
+                        <p class="value">{{ detail.birthday }}</p>
+                        <p class="label">Student Number</p>
+                        <p class="value">{{ detail.student_number }}</p>
+                    </div>
 
-                <div class="right-column-details">
-                    <p class="label">Last Name</p>
-                    <p class="value">{{ detail.last_name }}</p>
-                    <p class="label">Gender</p>
-                    <p class="value">{{ detail.gender }}</p>
-                    <p class="label">Email</p>
-                    <p class="value">{{ detail.email }}</p>
+                    <div class="right-column-details">
+                        <p class="label">Last Name</p>
+                        <p class="value">{{ detail.last_name }}</p>
+                        <p class="label">Gender</p>
+                        <p class="value">{{ detail.gender }}</p>
+                        <p class="label">Email</p>
+                        <p class="value">{{ detail.email }}</p>
+                    </div>
                 </div>
-            </div>
-            <button class="modal-button-officer" (click)="addOfficer(detail.student_number)">
+                
+            }
+            <button class="modal-button-officer" (click)="promoteToOfficer()">
                 Make Officer
             </button>
-            <button class="modal-button-member" (click)="removeMember(detail.student_number)">
+            <button class="modal-button-member" (click)="removeMember()">
                 Remove Member
             </button>
-        }
-        
+            
+        </div>
     </div>
-</div>
 }
 
 @if(showModalOfficer){
-<div class="modal" id="memberModal">
-    <div class="modal-content">
-        <span class="close" (click)="closeModal()">&times;</span>
-        @for(detail of details; track details) {
-            <div class="modal-profile">
-                <img
-                id="modal-icon"
-                src="../../../assets/icon.jpg"
-                alt="Profile Picture"
-                />
-            </div>
-            <div class="details">
-                <div class="left-column-details">
-                    <p class="label">First Name</p>
-                    <p class="value">{{ detail.first_name }}</p>
-                    <p class="label">Birthday</p>
-                    <p class="value">{{ detail.birthday }}</p>
-                    <p class="label">Student Number</p>
-                    <p class="value">{{ detail.student_number }}</p>
+    <!-- IDs should be written in snake case. All lower case separated by underscore. -->
+    <div class="modal" id="officerModal"> 
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            @for(detail of details; track details) {
+                <div class="modal-profile">
+                    <!-- TODO: VILLA-VILLA: Backend for profile picture -->
+                    <!-- IDs should be written in snake case. All lower case separated by underscore. -->
+                    <img
+                    id="modal-icon"
+                    src="../../../assets/icon.jpg"
+                    alt="Profile Picture"
+                    />
                 </div>
+                <div class="details">
+                    <div class="left-column-details">
+                        <p class="label">First Name</p>
+                        <p class="value">{{ detail.first_name }}</p>
+                        <p class="label">Birthday</p>
+                        <p class="value">{{ detail.birthday }}</p>
+                        <p class="label">Student Number</p>
+                        <p class="value">{{ detail.student_number }}</p>
+                    </div>
 
-                <div class="right-column-details">
-                    <p class="label">Last Name</p>
-                    <p class="value">{{ detail.last_name }}</p>
-                    <p class="label">Gender</p>
-                    <p class="value">{{ detail.gender }}</p>
-                    <p class="label">Email</p>
-                    <p class="value">{{ detail.email }}</p>
+                    <div class="right-column-details">
+                        <p class="label">Last Name</p>
+                        <p class="value">{{ detail.last_name }}</p>
+                        <p class="label">Gender</p>
+                        <p class="value">{{ detail.gender }}</p>
+                        <p class="label">Email</p>
+                        <p class="value">{{ detail.email }}</p>
+                    </div>
                 </div>
-            </div>
-        }
-        <button class="modal-button-officer" (click)="addMember(i)">
-            Make Member
-        </button>
-        <button class="modal-button-member" (click)="removeOfficer()">
-            Remove Member
-        </button>
+            }
+            <button class="modal-button-officer" (click)="demoteToMember()">
+                Make Member
+            </button>
+            <button class="modal-button-member" (click)="removeMember()">
+                Remove Member
+            </button>
+        </div>
     </div>
-</div>
 }
