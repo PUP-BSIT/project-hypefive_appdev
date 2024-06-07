@@ -58,16 +58,17 @@
     <div class="modal" id="eventModal">
         <div class="modal-content">
             <span class="close" (click)="closeModal()">&times;</span>
-            <div *ngFor="let detail of details; trackBy: trackByDetail">
+            @for(detail of details; track details){
                 <div class="modal-event">
-                    <h3>{{ detail.eventTitle }}</h3>
                     <img [src]="detail.icon" />
                 </div>
                 <div class="modal-details">
-                    <p>{{ detail.eventLocation }}</p>
-                    <p>{{ detail.eventDate }}</p>
+                    <h3>{{ detail.eventTitle }}</h3>
+                    <p class="label">Date: <span class="value">{{ detail.eventDate }}</span><p> 
+                    <p class="label">Location: <span class="value">{{ detail.eventLocation }}</span></p> 
+                    <p>{{ detail.eventCaption }}</p>
                 </div>
-            </div>
+            }
         </div>
     </div>
 }

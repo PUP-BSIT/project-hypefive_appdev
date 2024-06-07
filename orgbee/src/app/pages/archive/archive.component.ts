@@ -22,14 +22,14 @@ export class ArchiveComponent {
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    
   ];
 
   details = [
     { icon: '../../../assets/icon.jpg', 
       eventTitle: "Knights of Honor",
       eventLocation: "Gym",
-      eventDate: "March 10, 2020"
+      eventDate: "March 10, 2020",
+      eventCaption: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fringilla, nisi sit.'
     }
   ];
   currentSlide = 0;

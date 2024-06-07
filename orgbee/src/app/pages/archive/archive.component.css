@@ -200,32 +200,43 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
-  text-align: center;
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 3%;
-  border: 1px solid #888;
-  width: 50%;
-  max-width: 500px;
-  border-radius: 20px;
+.label {
+    font-weight: bolder;
 }
 
+.value {
+    font-weight: normal;
+}
+
+.modal-content {
+    position: relative; /* Ensure the close button is positioned relative to this */
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 3%;
+    border: 1px solid #888;
+    width: 50%;
+    height: 50%;
+    border-radius: 20px;
+    display: flex;
+  }
+
 .modal-event {
-  display: flex;
-  padding: 10px;
   margin: 10px;
   margin-bottom: 0px;
   background-color: #ffffff;
   border-radius: 20px;
+  flex: 1;
+  width: 100%;
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+    color: #aaa;
+    position: absolute;
+    top: 10px; /* Adjust top spacing as needed */
+    right: 10px; /* Adjust right spacing as needed */
+    font-size: 28px;
+    font-weight: bold;
+  }
 
 .close:hover,
 .close:focus {
@@ -234,27 +245,17 @@ body {
   cursor: pointer;
 }
 
-.modal-content,
 .modal-details {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
+  flex: 2;
   gap: 5px;
-  max-width: 100%;
   margin: 0 auto;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin-left: 15%;
+  justify-content: justify;
+  text-align: top;
 }
 
-.modal-content img {
-  width: 25%;
-  height: 25%;
+.modal-event img {
+    width: 100%;
+    height: auto;
+    object-fit:cover;
+    aspect-ratio: 3 / 4; 
 }
