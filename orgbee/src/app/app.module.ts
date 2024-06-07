@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EventsComponent } from './pages/events/events.component';
-import { FreedomWallComponent } from './pages/freedom-wall/freedom-wall.component';
+import { FreedomWallComponent } 
+  from './pages/freedom-wall/freedom-wall.component';
 import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 
 import { DataService } from '../service/data.service';
+import { LoginService } from '../service/login.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,7 @@ import { DataService } from '../service/data.service';
     BrowserAnimationsModule, 
     ToastrModule.forRoot(),
   ],
-  providers: [DataService],
+  providers: [DataService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

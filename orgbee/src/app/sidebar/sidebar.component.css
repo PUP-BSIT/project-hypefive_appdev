@@ -4,7 +4,7 @@ body {
   background: #fafafa;
 }
 
-#nav-bar {
+#nav_bar {
   position: absolute;
   left: 1vw;
   top: 1vw;
@@ -20,7 +20,7 @@ body {
   user-select: none;
 }
 
-#nav-bar hr {
+#nav_bar hr {
   margin: 0;
   position: relative;
   left: 16px;
@@ -29,7 +29,7 @@ body {
   border-top: solid 1px var(--navbar-dark-secondary);
 }
 
-#nav-content {
+#nav_content {
   margin-top: 20px;
   padding: 16px 0;
   position: relative;
@@ -42,7 +42,7 @@ body {
   transition: width 0.2s;
 }
 
-#nav-content-highlight {
+#nav_content_highlight {
   position: absolute;
   left: 10px;
   top: -65px;
@@ -54,8 +54,8 @@ body {
   transition: left 0.7s;
 }
 
-#nav-content-highlight:before,
-#nav-content-highlight:after {
+#nav_content_highlight:before,
+#nav_content_highlight:after {
   content: "";
   position: absolute;
   right: 0;
@@ -65,7 +65,8 @@ body {
   border-radius: 50%;
   box-shadow: 16px 16px #fafafa;
 }
-#nav-content-highlight:after {
+
+#nav_content_highlight:after {
   top: 100%;
   box-shadow: 16px -16px #fafafa;
 }
@@ -107,41 +108,41 @@ body {
 .nav-button:nth-of-type(1):hover {
   color: #ffca10;
 }
-.nav-button:nth-of-type(1):hover ~ #nav-content-highlight {
+.nav-button:nth-of-type(1):hover ~ #nav_content_highlight {
   top: 0px;
 }
 .nav-button:nth-of-type(2):hover {
   color: #ffca10;
 }
-.nav-button:nth-of-type(2):hover ~ #nav-content-highlight {
+.nav-button:nth-of-type(2):hover ~ #nav_content_highlight {
   top: 105px;
 }
 .nav-button:nth-of-type(3):hover {
   color: #ffca10;
 }
-.nav-button:nth-of-type(3):hover ~ #nav-content-highlight {
+.nav-button:nth-of-type(3):hover ~ #nav_content_highlight {
   top: 190px;
 }
 .nav-button:nth-of-type(4):hover {
   color: #ffca10;
 }
-.nav-button:nth-of-type(4):hover ~ #nav-content-highlight {
+.nav-button:nth-of-type(4):hover ~ #nav_content_highlight {
   top: 280px;
 }
 .nav-button:nth-of-type(5):hover {
   color: #ffca10;
 }
-.nav-button:nth-of-type(5):hover ~ #nav-content-highlight {
+.nav-button:nth-of-type(5):hover ~ #nav_content_highlight {
   top: 370px;
 }
 .nav-button:nth-of-type(6):hover {
   color: #ffca10;
 }
-.nav-button:nth-of-type(6):hover ~ #nav-content-highlight {
+.nav-button:nth-of-type(6):hover ~ #nav_content_highlight {
   top: 460px;
 }
 
-#nav-bar .fas {
+#nav_bar .fas {
   min-width: 3rem;
   text-align: center;
 }

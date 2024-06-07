@@ -9,11 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-use App\Models\Students;
 use App\Models\User;
 
-class StudentsController extends Controller
-{
+class StudentsController extends Controller {
     public function register(Request $request) {
         $student= User::where ('email', $request['email'])->first();
          
@@ -36,7 +34,7 @@ class StudentsController extends Controller
                 'user_id' => $student,
             ]);
             
-            $response['status']=1;
+            $response['status'] = 1;
             $response['message'] = 
                 'User registered successfully, please wait for the approval';
             $response['code'] = 200;
@@ -51,14 +49,14 @@ class StudentsController extends Controller
             if (!JWTAuth::attempt($credentials)) {
                 $response['status'] = 0;
                 $response['code'] = 401;
-                $response['data']=null;
+                $response['data'] = null;
                 $response['message'] = 'Email or password is incorrect';
 
                 return response()->json($response);
             }
         } catch(JWTException $e){
-            $response['data']=null;
-            $response['code']= 500;
+            $response['data'] = null;
+            $response['code'] = 500;
             $response['message'] = 'Could not create token';
 
             return response()->json($response);
@@ -85,6 +83,5 @@ class StudentsController extends Controller
         $response['message'] = 'Login successful';
 
         return response()->json($response);
-
     }
 }

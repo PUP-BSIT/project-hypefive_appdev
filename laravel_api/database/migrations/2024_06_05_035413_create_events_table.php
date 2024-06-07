@@ -33,9 +33,6 @@ return new class extends Migration
                 ->on('event_status')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreign('event_state_id')->references('id')
                 ->on('event_state')->onDelete('CASCADE')->onUpdate('CASCADE');
-
-
-            
         });
     }
 
