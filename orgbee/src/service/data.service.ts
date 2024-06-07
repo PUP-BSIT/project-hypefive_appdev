@@ -28,11 +28,15 @@ export class DataService {
     return this.http.get(this.apiUrl +'api/getOfficers/');
   }
 
-  acceptMember(data){
+  acceptMember(data) {
     return this.http.post(this.apiUrl +'api/acceptMember/', data);
   }
 
-  declineMember(data){
+  declineMember(data) {
     return this.http.post(this.apiUrl +'api/declineMember/', data);
+  }
+
+  addToOfficer(data) {
+    return this.http.post(this.apiUrl +'api/addToOfficer/', data);
   }
 }

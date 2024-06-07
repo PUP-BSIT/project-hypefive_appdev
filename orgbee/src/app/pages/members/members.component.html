@@ -100,13 +100,14 @@
                     <p class="value">{{ detail.email }}</p>
                 </div>
             </div>
+            <button class="modal-button-officer" (click)="addOfficer(detail.student_number)">
+                Make Officer
+            </button>
+            <button class="modal-button-member" (click)="removeMember(detail.student_number)">
+                Remove Member
+            </button>
         }
-        <button class="modal-button-officer" (click)="addOfficer(i)">
-            Make Officer
-        </button>
-        <button class="modal-button-member" (click)="removeMember()">
-            Remove Member
-        </button>
+        
     </div>
 </div>
 }

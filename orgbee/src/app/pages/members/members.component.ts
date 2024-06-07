@@ -131,11 +131,28 @@ export class MembersComponent implements OnInit {
     this.details=[]; //Empty details
   }
 
-  // addOfficer(index: number) {
-  //   const officer = this.members.splice(index, 1)[0];
-  //   this.officers.push(officer);
-  //   this.closeModal();
-  // }
+  removeMember(student_number: string) {
+    const data = {student_number: student_number };
+
+    this.dataService.declineMember(data).subscribe(res => {
+      this.response = res;
+      console.log(this.response);
+      this.showModalMember = false;
+      this.details=[]; 
+      this.showMembers();
+    });
+  }
+
+  addOfficer(student_number: string) {
+    const data = {student_number: student_number };
+    console.log(data);
+    this.dataService.addToOfficer(data).subscribe(res => {
+      this.response = res;
+      this.showModalMember = false;
+      this.showOfficers();
+      this.details=[]; 
+    });
+  }
 
   // addMember(index: number) {
   //   const officerToMember = this.officers.splice(index, 1)[0];
@@ -143,10 +160,7 @@ export class MembersComponent implements OnInit {
   //   this.closeModal();
   // }
 
-  // removeMember(index: number) {
-  //   this.members.splice(index, 1);
-  //   this.closeModal();
-  // }
+  
 
   // removeOfficer(index:number) {
   //   this.officers.splice(index, 1);
