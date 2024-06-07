@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
-  ValidatorFn, AbstractControl } from '@angular/forms';
+  ValidatorFn, AbstractControl, 
+  ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
@@ -120,7 +121,7 @@ export class LoginComponent implements OnInit {
   }
 
   maxAgeValidator(maxAge: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
+    return (control: AbstractControl): ValidationErrors | null => {
       if (control.value) {
         const today = new Date();
         const birthDate = new Date(control.value);
@@ -135,7 +136,7 @@ export class LoginComponent implements OnInit {
   }
 
   minAgeValidator(minAge: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
+    return (control: AbstractControl): ValidationErrors | null => {
       if (control.value) {
         const today = new Date();
         const birthDate = new Date(control.value);
