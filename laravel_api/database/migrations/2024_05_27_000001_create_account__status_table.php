@@ -9,7 +9,7 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('account_statuses', function (Blueprint $table) {
+        Schema::create('account_status', function (Blueprint $table) {
             $table->id();
             $table->string('status', 8);
         });
