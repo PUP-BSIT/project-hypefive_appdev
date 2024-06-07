@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 
 export class ArchiveComponent {
+  showEventModal= false;
   events = [
     { icon: '../../../assets/icon.jpg'},
     { icon: '../../../assets/logo.png'},
@@ -15,7 +16,36 @@ export class ArchiveComponent {
     { icon: '../../../assets/icon.jpg'},
     { icon: '../../../assets/logo.png'},
   ];
+
+  eventLists = [
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+  ];
+
+  details = [
+    { icon: '../../../assets/icon.jpg', 
+      eventTitle: "Knights of Honor",
+      eventLocation: "Gym",
+      eventDate: "March 10, 2020"
+    }
+  ];
   currentSlide = 0;
+
+  eventClick () {
+    this.showEventModal = true;
+  }
+  
+  closeModal() {
+    this.showEventModal = false;
+  }
 
   moveLeft() {
     if (this.currentSlide > 0) {

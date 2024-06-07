@@ -1,4 +1,3 @@
-<!-- archive.component.html -->
 <div class="members-page">
     <div class="container">
         <div class="header">
@@ -13,63 +12,65 @@
                     <p>April 2024</p>
                 </div>
 
-                <div class="page">
-                    <div class="archive-event" *ngFor="let event of events.slice
-                        (currentSlide, currentSlide + 3)">
-                            <img src="{{event.icon}}">
-                    </div>
+                <div class="page" (click)="eventClick()">
+                    @for(event of events.slice(currentSlide, currentSlide + 3); track events){
+                        <div class="archive-event">
+                            <img [src]="event.icon">
+                        </div>
+                    }
                 </div>
-                
+
                 <div class="carousel-buttons">
-                    <button class="carousel-button" 
-                        (click)="moveLeft()">
-                            &#60;
-                    </button>
-
-                    <span class="page-number">
-                        Page {{currentSlide / 3 + 1}}
-                    </span>
-
-                    <button 
-                        class="carousel-button" 
-                        (click)="moveRight()">
-                            &#62;
-                    </button>
+                    <button class="carousel-button" (click)="moveLeft()">&#60;</button>
+                    <span class="page-number">Page {{currentSlide / 3 + 1}}</span>
+                    <button class="carousel-button" (click)="moveRight()">&#62;</button>
                 </div>
             </div>
-        
+
             <div class="right-column">
                 <div class="previous-events">
                     <h2>Previous Events</h2>
                     <div id="search_container">
-                        <input 
-                            type="text" 
-                            id="search-input" 
-                            placeholder="Search event title">
-
+                        <input type="text" id="search-input" placeholder="Search event title">
                         <ul id="search-results"></ul>
                     </div>
-
                     <table class="event-list">
-                        <ng-container>
-                            <tr>
-                                <td>Event Title
-                                    <ol>
-                                        <li>1</li>
-                                        <li>2</li>
-                                    </ol>
-                                </td>
-                                <td>Event Date
-                                    <ol>
-                                        <li>1</li>
-                                        <li>2</li>
-                                    </ol>
-                                </td>
-                            </tr>
-                        </ng-container>
+                        <tr>
+                            <td>Event Title</td>
+                            <td>Event Date</td>
+                        </tr>
+                        @for(eventList of eventLists; track eventLists){
+                            <div class="event-list-table">
+                                <tr>
+                                    <td>{{ eventList.eventTitle }}</td>
+                                    <td>{{ eventList.eventDate }}</td>
+                                </tr>
+                            </div>
+                        }
                     </table>
+                </div>
+                <div class="view-more-container">
+                    <button class="view-more">View More</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@if(showEventModal) {
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <div *ngFor="let detail of details; trackBy: trackByDetail">
+                <div class="modal-event">
+                    <h3>{{ detail.eventTitle }}</h3>
+                    <img [src]="detail.icon" />
+                </div>
+                <div class="modal-details">
+                    <p>{{ detail.eventLocation }}</p>
+                    <p>{{ detail.eventDate }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
