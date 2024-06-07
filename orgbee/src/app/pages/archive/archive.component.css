@@ -46,6 +46,10 @@ body {
   padding: 10px;
   box-sizing: border-box;
   background-color: #eeeeed;
+  margin-top: 2%;
+  border-radius: 20px;
+  height: 80vh;
+  text-align: center;
 }
 
 .month-year {
@@ -83,9 +87,13 @@ body {
 .previous-events {
   border-radius: 20px;
   background-color: #eeeeed;
-  overflow-y: auto;
+  overflow-y: scroll;
   padding: 10px;
-  height: 70vh;
+  height: 50vh;
+}
+
+.previous-events::-webkit-scrollbar {
+  display: none;
 }
 
 .previous-events h2 {
@@ -94,31 +102,31 @@ body {
   text-align: center;
 }
 
-.event-list {
+.event-list,
+.event-list1 {
   width: 100%;
   border-collapse: collapse;
 }
 
+.event-list1 td {
+  padding: 10px;
+  text-align: center;
+}
+
 .event-list td {
-  padding: 5px;
+  padding: 10px;
+  text-align: justify;
 }
 
-.event-list tr:first-child {
+.event-list1 {
   font-weight: bold;
+  margin-top: 20px;
+  align-items: center;
 }
 
-.view-more-container {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.view-more {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    color: #242424;
+.event-list-table {
+  display: table-row;
+  text-align: center;
 }
 
 .carousel-buttons {

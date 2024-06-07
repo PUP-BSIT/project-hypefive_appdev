@@ -22,12 +22,7 @@ export class ArchiveComponent {
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
+    
   ];
 
   details = [

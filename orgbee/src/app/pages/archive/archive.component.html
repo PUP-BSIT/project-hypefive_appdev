@@ -28,29 +28,26 @@
             </div>
 
             <div class="right-column">
+                <h2>Previous Events</h2>
+                <div id="search_container">
+                    <input type="text" id="search-input" placeholder="Search event title">
+                    <ul id="search-results"></ul>
+                </div>
+                <table class="event-list1">
+                    <tr>
+                        <td>Event Title</td>
+                        <td>Event Date</td>
+                    </tr>
+                </table>
                 <div class="previous-events">
-                    <h2>Previous Events</h2>
-                    <div id="search_container">
-                        <input type="text" id="search-input" placeholder="Search event title">
-                        <ul id="search-results"></ul>
-                    </div>
                     <table class="event-list">
-                        <tr>
-                            <td>Event Title</td>
-                            <td>Event Date</td>
-                        </tr>
                         @for(eventList of eventLists; track eventLists){
                             <div class="event-list-table">
-                                <tr>
-                                    <td>{{ eventList.eventTitle }}</td>
-                                    <td>{{ eventList.eventDate }}</td>
-                                </tr>
+                                <td>{{ eventList.eventTitle }}</td>
+                                <td>{{ eventList.eventDate }}</td>   
                             </div>
                         }
                     </table>
-                </div>
-                <div class="view-more-container">
-                    <button class="view-more">View More</button>
                 </div>
             </div>
         </div>
