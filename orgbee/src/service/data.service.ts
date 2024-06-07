@@ -15,4 +15,12 @@ export class DataService {
   login(data) {
     return this.http.post(this.apiUrl +'api/login/', data);
   }
+
+  getMembers(){
+    return this.http.get(this.apiUrl +'api/members/');
+  }
+
+  getMembershipRequest(){
+    return this.http.get(this.apiUrl +'api/request/');
+  }
 }
