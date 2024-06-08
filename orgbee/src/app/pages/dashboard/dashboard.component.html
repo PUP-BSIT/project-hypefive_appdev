@@ -2,7 +2,7 @@
   <div class="content">
     
     <div class="main">  
-      <div class="dashboard-header">
+      <div class="dashboard-header" [class]="getHeaderClasses()">
         <div class="greetings">
           <h1 class="org-name">Computer Society</h1>
           <h1 class="user-name">Hello, {{ userInfo.first_name }}</h1>
@@ -47,11 +47,26 @@
         <div class="profile-details">
           <img src="assets/default.jpg" alt="Icon" class="icon" />
           <div class="details">
-            <p class="name">{{ userInfo.first_name }} {{ userInfo.last_name }} </p>
-            <p class="course">{{ userInfo.student_number }} </p>
+            <p class="name">{{ userInfo.first_name }} {{ userInfo.last_name }}</p>
+            <p class="course">{{ userInfo.student_number }}</p>
+            <div class="role-button" [class]="getHeaderClasses()">{{ getRoleName(userInfo.role_id) }}</div>
           </div>
         </div>
-        <div class="role">Admin</div>
+        <div class="dropdown-menu">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+            <mat-icon>expand_circle_down</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="profile-menu" xPosition="before" yPosition="below">
+            <button mat-menu-item class="profile-menu-item">
+              <mat-icon class="profile-menu-icon">edit</mat-icon>
+              <span class="profile-menu-text">Edit Profile</span>
+            </button>
+            <button mat-menu-item >
+              <mat-icon class="profile-menu-icon">exit_to_app</mat-icon>
+              <span class="profile-menu-text">Logout</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
 
       <!-- VIEW ANNOUNCEMENTS -->
@@ -106,12 +121,10 @@
    </app-an-edit-modal>
    
   <!--CREATE ANNOUNCEMENT MODAL-->
-  <app-an-modal
-    [showModal]="showModal"
-    (closeModal)="closeModal()"
-    (announcementCreated)="handleAnnouncementCreated($event)">
-    [announcementForm]="announcementForm">
-  </app-an-modal>
+ <app-an-modal
+  [showModal]="showModal"
+  [announcementForm]="announcementForm">
+</app-an-modal>
     </div>
   </div>
 </div>

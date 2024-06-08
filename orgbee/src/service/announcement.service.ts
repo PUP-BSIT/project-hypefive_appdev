@@ -8,12 +8,12 @@ export interface Announcement {
   subject: string;
   content: string;
   recipient: string;
+  student_id: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AnnouncementService {
   private apiUrl = 'http://127.0.0.1:8000/api/announcements';
 
@@ -24,8 +24,8 @@ export class AnnouncementService {
   }
 
   createAnnouncement(announcement: Announcement): Observable<number> {
-    return this.http.post<any>(this.apiUrl, announcement).pipe(
-      map((response: any) => response.announcement_id)
+    return this.http.post<{ announcement_id: number }>(this.apiUrl, announcement).pipe(
+      map(response => response.announcement_id)
     );
   }
   

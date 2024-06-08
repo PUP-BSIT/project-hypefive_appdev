@@ -2,8 +2,31 @@ import { Injectable } from "@angular/core";
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {jwtDecode} from "jwt-decode";
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
+export interface UserInfo {
+  email: string;
+  id: string;
+  first_name?: string;
+  last_name?: string;
+  student_number?: string;
+  birthday?: string;
+  gender?: string;
+  user_id?: number;
+  role_id?: number;
+}
+
+interface UserDataResponse {
+  first_name: string;
+  last_name: string;
+  email: string;
+  student_number: string;
+  birthday: string;
+  gender: string;
+  user_id: number;
+  role_id: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +34,10 @@ import { catchError, map } from 'rxjs/operators';
 export class LoginService {
   isAuthenticated: boolean = false;
   isDataRetrieved: boolean = false;
-  userInfo: any = {};
+  userInfo: UserInfo = {
+    email: '',
+    id: ''
+  };
   onDataRetrievedCallbacks: Function[] = [];
 
   constructor(private router: Router, private http: HttpClient) {}
@@ -73,9 +99,9 @@ export class LoginService {
 
   getUserInfo(headers: HttpHeaders): Observable<void> {
     if (this.userInfo.id && this.userInfo.email) {
-      return this.http.get<any>(`http://127.0.0.1:8000/api/retrieve/${this.userInfo.id}&${this.userInfo.email}`, { headers })
+      return this.http.get<UserDataResponse>(`http://127.0.0.1:8000/api/retrieve/${this.userInfo.id}&${this.userInfo.email}`, { headers })
         .pipe(
-          map((data) => {
+          map((data: UserDataResponse) => {
             this.userInfo.first_name = data.first_name;
             this.userInfo.last_name = data.last_name;
             this.userInfo.email = data.email;

@@ -36,6 +36,48 @@
   flex-wrap: wrap;
 }
 
+.dashboard-header.officer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid rgb(25, 25, 60);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: rgb(25, 25, 60);
+  max-width: 700px;
+  height: 115px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboard-header.student {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid rgb(48, 33, 1); 
+  border-radius: 10px;
+  padding: 20px;
+  background-color: rgb(48, 33, 1); 
+  max-width: 700px;
+  height: 115px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboard-header.admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid  rgb(47, 47, 47); 
+  border-radius: 10px;
+  padding: 20px;
+  background-color:  rgb(47, 47, 47); 
+  max-width: 700px;
+  height: 115px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
 .org-name {
   margin-top: 0px;
   font-weight: 200;
@@ -120,12 +162,53 @@
   color: black;
 }
 
-.role {
+.role-button.student {
   position: absolute;
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ffca10;
+  background-color: rgb(48, 33, 1); 
+  color: #ffca10;
+  border-radius: 20px;
+  padding: 3px;
+  width: 70px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.role-button.officer {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(25, 25, 60);
+  color: #ffca10;
+  border-radius: 20px;
+  padding: 3px;
+  width: 70px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 62%;
+  right: 68%;
+  transform: translateY(-50%);
+}
+
+.profile-menu mat-menu-item {
+  font-size: 8px; /* Adjust the font size as needed */
+}
+
+
+.role-button.admin {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(47, 47, 47); 
+  color: #ffca10;
   border-radius: 20px;
   padding: 3px;
   width: 70px;
@@ -220,7 +303,6 @@
   text-align: center;
 }
 
-/* Modal */
 .modal {
   display: block;
   position: fixed;
@@ -454,10 +536,10 @@
   color: #242424;
 }
 
-::ng-deep .mat-menu-item:hover {
-  background-color: #711b1b;
-  color: #ff0000;
-  cursor: pointer;
+::ng-deep .profile-menu-text,
+::ng-deep .profile-menu-icon {
+  font-size: 12px;
+  margin: 0;
 }
 
 mat-card-title {

@@ -3,18 +3,14 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl,
-  ValidatorFn,
 } from '@angular/forms';
-import { AnnouncementService } from '../../../service/announcement.service';
-import { LoginService } from '../../../service/login.service';
+import { AnnouncementService, Announcement } from '../../../service/announcement.service';
+import { LoginService, UserInfo } from '../../../service/login.service';
 
-export interface Announcement {
-  id: number; 
-  subject: string;
-  content: string;
-  recipient: string;
-
+enum Roles {
+  Student = 1,
+  Officer = 2,
+  Admin = 3
 }
 
 @Component({
@@ -26,25 +22,32 @@ export interface Announcement {
 export class DashboardComponent implements OnInit {
   announcements: Announcement[] = [];
   selectedAnnouncement: Announcement | null = null;
-  showModal: boolean = false;
-  showOneAnnouncement: boolean = false;
-  modalSubject: string = '';
-  modalContent: string = '';
-  openModalAnnouncement: boolean = false;
+  showModal = false;
+  showOneAnnouncement = false;
+  modalSubject = '';
+  modalContent = '';
+  openModalAnnouncement = false;
   showEditModal = false; 
-  userInfo: any = {};
+  userInfo: UserInfo = {
+    email: '',
+    id: ''
+  };
 
   announcementForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,   private loginService: LoginService, private announcementService: AnnouncementService ) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private loginService: LoginService,
+    private announcementService: AnnouncementService
+  ) {}
+
   toggleModal(): void {
     this.showModal = !this.showModal;
   }
 
- closeModal(): void {
+  closeModal(): void {
     this.showModal = false;
   }
-
 
   closeOneAnnouncement(): void {
     this.showOneAnnouncement = false;
@@ -52,19 +55,15 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.announcementForm = this.formBuilder.group({
-      subject:  ['', [Validators.required]],
+      subject: ['', [Validators.required]],
       message: ['', [Validators.required]],
-      recipient: ['', Validators.required],
-      
+      recipient: ['', Validators.required],  
     });
-    this.loginService.onDataRetrieved((data: any) => {
+    this.loginService.onDataRetrieved((data: UserInfo) => {
       this.userInfo = data;
     });
     this.fetchAnnouncements();
-    //this.retrieveUserData();
   }
-  
-
 
   fetchAnnouncements(): void {
     this.announcementService.getAnnouncements().subscribe(
@@ -77,7 +76,7 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  openModal(announcement: any) {
+  openModal(announcement: Announcement): void {
     this.announcementForm.patchValue({
       subject: announcement.subject,
       message: announcement.content,
@@ -88,22 +87,22 @@ export class DashboardComponent implements OnInit {
     this.showOneAnnouncement = true;
   }
 
-  openEditModal(announcement: Announcement) {
+  openEditModal(announcement: Announcement): void {
     this.selectedAnnouncement = announcement; 
     console.log('Selected Announcement:', this.selectedAnnouncement); // Log the selected announcement
     this.showEditModal = true;
-}
+  }
 
-  toggleModalAnnouncement() {
+  toggleModalAnnouncement(): void {
     this.openModalAnnouncement = true;
     this.announcementForm.reset();
   }
 
-  closeModalAnnouncement() {
+  closeModalAnnouncement(): void {
     this.openModalAnnouncement = false;
   }
 
-  closeModalEditAnnouncement() {
+  closeModalEditAnnouncement(): void {
     this.showEditModal = false;
   }
 
@@ -117,9 +116,12 @@ export class DashboardComponent implements OnInit {
   
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
     this.announcements.push(newAnnouncement);
-  }
-  
-  deleteAnnouncement(announcement: Announcement) {
+  // Log the updated announcements array
+  console.log('Updated announcements array:', this.announcements);
+}
+
+
+  deleteAnnouncement(announcement: Announcement): void {
     const index = this.announcements.indexOf(announcement);
     if (index > -1) {
       const announcementId = announcement.id; 
@@ -140,5 +142,21 @@ export class DashboardComponent implements OnInit {
       return text.substring(0, limit) + '...';
     }
     return text;
+  }
+
+  getRoleName(roleId: number): string {
+    return Roles[roleId] || 'Unknown Role';
+  }
+
+  getHeaderClasses(): string {
+    if (this.userInfo.role_id === 1) {
+      return 'student';
+    } else if (this.userInfo.role_id === 2) {
+      return 'officer';
+    } else if (this.userInfo.role_id === 3) {
+      return 'admin';
+    } else {
+      return ''; 
+    }
   }
 }
