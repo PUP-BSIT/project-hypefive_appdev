@@ -1,14 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { AnnouncementService } from '../../../../service/announcement.service';
-import { LoginService } from '../../../../service/login.service';
-
-export interface Announcement {
-  id: number;
-  subject: string;
-  content: string;
-  recipient: string;
-}
+import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
+import { LoginService, UserInfo } from '../../../../service/login.service';
 
 @Component({
   selector: 'app-an-edit-modal',
@@ -19,9 +12,10 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   @Input() selectedAnnouncement: Announcement | null = null;
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @Output() announcementUpdated: EventEmitter<Announcement> = new EventEmitter<Announcement>();
-  @Input() showEditModal: boolean = false;
+  @Input() showEditModal = false;
   announcementForm: FormGroup;
-  userInfo: any = {};
+  userInfo: UserInfo | null = null;
+
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -49,7 +43,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
       recipient: ['', Validators.required]
     });
 
-    this.loginService.onDataRetrieved((data: any) => {
+    this.loginService.onDataRetrieved((data: UserInfo) => {
       this.userInfo = data;
     });
   }
@@ -65,16 +59,16 @@ export class AnEditModalComponent implements OnInit, OnChanges {
     }
   }
 
-  get subjectControl(): AbstractControl {
-    return this.announcementForm.get('subject')!;
+  get subjectControl(): AbstractControl | null {
+    return this.announcementForm.get('subject');
   }
 
-  get messageControl(): AbstractControl {
-    return this.announcementForm.get('message')!;
+  get messageControl(): AbstractControl | null {
+    return this.announcementForm.get('message');
   }
 
-  get recipientControl(): AbstractControl {
-    return this.announcementForm.get('recipient')!;
+  get recipientControl(): AbstractControl | null {
+    return this.announcementForm.get('recipient');
   }
 
   close(): void {
@@ -82,36 +76,30 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   }
 
   submitEditAnnouncement(): void {
-    if (this.announcementForm.valid && this.selectedAnnouncement) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const currentUserId = this.userInfo.user_id;
-        if (currentUserId) {
-          const updatedAnnouncement = {
-            id: this.selectedAnnouncement.id,
-            subject: this.announcementForm.get('subject')?.value,
-            content: this.announcementForm.get('message')?.value,
-            recipient: this.announcementForm.get('recipient')?.value,
-            student_id: currentUserId
-          };
+    if (this.announcementForm.valid && this.selectedAnnouncement && this.userInfo) {
+      const currentUserId = this.userInfo.user_id;
+      if (currentUserId) {
+        const updatedAnnouncement: Announcement = {
+          id: this.selectedAnnouncement.id,
+          subject: this.announcementForm.get('subject')?.value,
+          content: this.announcementForm.get('message')?.value,
+          recipient: this.announcementForm.get('recipient')?.value,
+          student_id: currentUserId
+        };
 
-          this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe(
-            (updatedAnnouncementResponse: Announcement) => {
-              this.announcementUpdated.emit(updatedAnnouncementResponse);
-              this.closeModal.emit();
-              this.announcementForm.reset();
-              console.log('Announcement updated successfully.');
-            },
-            (error) => {
-              console.error('Error updating announcement:', error);
-            }
-          );
-        } else {
-          console.error('Error extracting user ID from token.');
-          alert('Error updating announcement. Please try again later.');
-        }
+        this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe(
+          (updatedAnnouncementResponse: Announcement) => {
+            this.announcementUpdated.emit(updatedAnnouncementResponse);
+            this.closeModal.emit();
+            this.announcementForm.reset();
+            console.log('Announcement updated successfully.');
+          },
+          (error) => {
+            console.error('Error updating announcement:', error);
+          }
+        );
       } else {
-        console.error('JWT token not found.');
+        console.error('Error extracting user ID from token.');
         alert('Error updating announcement. Please try again later.');
       }
     } else {
