@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreign('account_status_id')->references('id')
                 ->on('account_status')->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
+
+            $table->boolean('has_reg_fee')->default(false); 
+            $table->string('email_auth_token', 255);
         });
 
         // Schema::create('password_reset_tokens', function (Blueprint $table) {
