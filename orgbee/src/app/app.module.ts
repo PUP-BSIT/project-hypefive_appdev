@@ -16,6 +16,7 @@ import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
+import { VerifyComponent } from './login/verify/verify.component';
 
 
 import { DataService } from '../service/data.service';
@@ -42,7 +43,8 @@ import { FormsModule } from '@angular/forms';
     MembersComponent,
     DisplayComponent,
     SidebarComponent,
-    ArchiveComponent
+    ArchiveComponent,
+    VerifyComponent
   ],
   imports: [
     BrowserModule,

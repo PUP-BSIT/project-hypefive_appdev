@@ -7,6 +7,7 @@ import { FreedomWallComponent }
 import { EventsComponent } from './pages/events/events.component';
 import { MembersComponent } from './pages/members/members.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
+import { VerifyComponent } from './login/verify/verify.component';
 
 import { AuthGuard } from './login/auth.guard';
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
+  { path: 'verify', component: VerifyComponent },
   { path: 'freedom-wall', component: FreedomWallComponent, 
       canActivate:[AuthGuard]},
   { path: 'events', component: EventsComponent, canActivate:[AuthGuard] },

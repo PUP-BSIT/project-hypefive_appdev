@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
   ValidatorFn, AbstractControl, 
   ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { MustMatch } from './confirmed.validator';
 
@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private router: Router) {}
+    private router: Router,
+    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -78,6 +79,14 @@ export class LoginComponent implements OnInit {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
+
+    // this.route.queryParams.subscribe(params => {
+    //   if (params['verified'] === '1') {
+    //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
+    //   } else if (params['verified'] === '0') {
+    //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
+    //   }
+    // });
   }
 
   get emailControl() {
@@ -198,6 +207,7 @@ export class LoginComponent implements OnInit {
               timeOut: 2000,
               progressBar: true
           });
+          this.router.navigate(['./verify']);
         } else {
           this.toastr.error(JSON.stringify(this.data.message), 
             JSON.stringify(this.data.code),{

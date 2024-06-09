@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationMail;
 use App\Models\User;
 
 class StudentsController extends Controller {
@@ -33,6 +34,8 @@ class StudentsController extends Controller {
                 'gender' => $request->gender,
                 'user_id' => $student,
             ]);
+
+            $this->sendVerificationEmail($student);
             
             $response['status'] = 1;
             $response['message'] = 
@@ -84,4 +87,13 @@ class StudentsController extends Controller {
 
         return response()->json($response);
     }
+
+    public function sendVerificationEmail($studentId) {
+        $student = User::find($studentId);
+        $token = $student->generateVerificationToken();
+        $verificationLink = url('/api/verify-email?token=' . $token);
+        
+        Mail::to($student->email)->send(new VerificationMail($verificationLink));
+    }
+    
 }
