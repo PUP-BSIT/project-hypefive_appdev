@@ -15,4 +15,8 @@ export class DataService {
   login(data) {
     return this.http.post(this.apiUrl +'api/login/', data);
   }
+
+  getPosts() {
+    return this.http.get(this.apiUrl +'api/getPosts/');
+  }
 }

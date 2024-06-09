@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
+import { DataService } from '../../../service/data.service';
 
 export interface Post {
   title: string;
@@ -14,14 +15,17 @@ export interface Post {
   templateUrl: './freedom-wall.component.html',
   styleUrl: './freedom-wall.component.css'
 })
-export class FreedomWallComponent {
+
+export class FreedomWallComponent implements OnInit {
   newPostTitle = '';
   newPostText = '';
   posts: Post[] = [];
   showModal = false;
   selectedPost: Post;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private dataService: DataService) {}
+
+  ngOnInit(): void{}
 
   addPost() {
     if (this.newPostText.trim()) {
