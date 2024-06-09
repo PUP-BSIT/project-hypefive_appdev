@@ -7,7 +7,7 @@ export interface Announcement {
   id: number;
   subject: string;
   content: string;
-  recipient: string;
+  recipient: number;
   student_id: number;
 }
 

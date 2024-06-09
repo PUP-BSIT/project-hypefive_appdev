@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
@@ -6,16 +6,15 @@ import { AnnouncementService, Announcement } from '../../../../service/announcem
 @Component({
   selector: 'app-an-modal',
   templateUrl: './an-modal.component.html',
-  styleUrls: ['../dashboard.component.css'] 
+  styleUrls: ['../dashboard.component.css']
 })
-
 export class AnModalComponent implements OnInit {
   userInfo: UserInfo | null = null;
   announcements: Announcement[] = [];
 
   @Input() showModal = false;
   @Input() announcementForm: FormGroup;
-  @Input() handleAnnouncementCreated: (newAnnouncement: Announcement) => void;
+  @Output() announcementCreated = new EventEmitter<Announcement>(); 
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,15 +71,14 @@ export class AnModalComponent implements OnInit {
           recipient: this.recipientControl?.value,
           student_id: currentUserId
         };
-  
+
         this.announcementService.createAnnouncement(newAnnouncement).subscribe(
           (announcementId: number) => {
             newAnnouncement.id = announcementId;
-            this.announcements.push(newAnnouncement); 
             this.announcementForm.reset();
-            this.showModal = false; 
+            this.showModal = false;
+            this.announcementCreated.emit(newAnnouncement); 
             alert('Announcement created successfully! ID: ' + announcementId);
-            //TO-DO: handle announcement creation in ui
           },
           (error) => {
             console.error('Error creating announcement:', error);
@@ -95,7 +93,6 @@ export class AnModalComponent implements OnInit {
       this.announcementForm.markAllAsTouched();
     }
   }
-  
 
   closeModal(): void {
     this.showModal = false;

@@ -68,7 +68,11 @@ export class DashboardComponent implements OnInit {
   fetchAnnouncements(): void {
     this.announcementService.getAnnouncements().subscribe(
       (announcements) => {
-        this.announcements = announcements;
+        if (this.userInfo.role_id === 1) {
+          this.announcements = announcements.filter(a => a.recipient === 0);
+        } else if (this.userInfo.role_id === 2 || this.userInfo.role_id === 3) {
+          this.announcements = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        }
       },
       (error) => {
         console.error('Error fetching announcements:', error);
@@ -116,7 +120,6 @@ export class DashboardComponent implements OnInit {
   
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
     this.announcements.push(newAnnouncement);
-  // Log the updated announcements array
   console.log('Updated announcements array:', this.announcements);
 }
 

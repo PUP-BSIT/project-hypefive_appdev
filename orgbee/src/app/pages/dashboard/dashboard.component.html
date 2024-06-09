@@ -123,7 +123,8 @@
   <!--CREATE ANNOUNCEMENT MODAL-->
  <app-an-modal
   [showModal]="showModal"
-  [announcementForm]="announcementForm">
+  [announcementForm]="announcementForm"
+  (announcementCreated)="handleAnnouncementCreated($event)">
 </app-an-modal>
     </div>
   </div>
