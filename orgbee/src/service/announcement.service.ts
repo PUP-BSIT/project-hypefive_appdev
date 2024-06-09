@@ -11,6 +11,15 @@ export interface Announcement {
   student_id: number;
 }
 
+export interface AnnouncementDisplay {
+  id: number;
+  subject: string;
+  content: string;
+  recipient: number;
+  created_at: string;
+  author: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,8 +28,8 @@ export class AnnouncementService {
 
   constructor(private http: HttpClient) {}
 
-  getAnnouncements(): Observable<Announcement[]> {
-    return this.http.get<Announcement[]>(this.apiUrl);
+  getAnnouncements(): Observable<AnnouncementDisplay[]> {
+    return this.http.get<AnnouncementDisplay[]>(this.apiUrl);
   }
 
   createAnnouncement(announcement: Announcement): Observable<number> {
