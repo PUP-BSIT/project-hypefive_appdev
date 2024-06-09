@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   modalSubject = '';
   modalContent = '';
   modalDate='';
-  modalAuthor='';
+  modalAuthor=''
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  

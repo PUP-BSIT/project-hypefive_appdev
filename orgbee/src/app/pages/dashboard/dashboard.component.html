@@ -80,7 +80,7 @@
       <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
-        <div class="announcement" *ngFor="let announcement of announcements">
+        <div class="announcement" *ngFor="let announcement of announcementDisplay">
           <button *ngIf="userInfo.role_id !== 1 && announcement.student_id === userInfo.user_id"
             mat-icon-button
             [matMenuTriggerFor]="menu"
@@ -117,6 +117,7 @@
           <span class="close" (click)="closeOneAnnouncement()">&times;</span>
           <h2>{{ modalSubject }}</h2>
           <p>{{ modalContent }}</p>
+          <p>Posted on {{ modalDate }} by {{ modalAuthor}}</p>
         </div>
       </div>
 
