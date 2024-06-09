@@ -59,13 +59,11 @@
             }
            }
           </div>
-      
         <button type="submit" class="submit-button">POST ANONYMOUSLY</button>
       </form>      
     </div>
   </div>
 }
-
 
 <ngx-masonry>
   <!-- <div class="grid-container"> -->
@@ -78,8 +76,7 @@
             <span class="three-dots" (click)="toggleOptions(post)">&#x22EE;</span>
             <div class="dropdown-menu">
               @if(post.showOptions) {
-                <button (click)="editPost(post)">Edit</button>
-                <button (click)="deletePost(post)">Delete</button>
+                <button (click)="deletePost(post.id)">Delete</button>
               }
             </div>
           </div>

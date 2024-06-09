@@ -48,7 +48,11 @@ export class DataService {
     return this.http.get(this.apiUrl +'api/getPosts/');
   }
   
-  addPosts(data){
+  addPosts(data) {
     return this.http.post(this.apiUrl +'api/createPostFW/', data);
+  }
+
+  deletePosts(data) {
+    return this.http.post(this.apiUrl +'api/deletePost/', data);
   }
 }

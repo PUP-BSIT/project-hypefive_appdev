@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class FreedomWallController extends Controller
 {
     public function getPosts() {
-        $posts = DB::table('freedomwall')->get(); 
+        $posts = DB::table('freedomwall')->where('is_posted', 1)->get(); 
         return response()->json($posts, 200);
     }
     
@@ -20,6 +20,16 @@ class FreedomWallController extends Controller
             return response()->json(['message'=>'Posted'], 200);
         } else {
             return response()->json(['message' => 'Not posted'], 404);
+        } 
+    }
+
+    public function deletePost(Request $request){
+        $postId = $request->only('id');
+        if ($postId) {
+            DB::table('freedomwall')->where('id', $postId)->update(['is_posted'=>0]);
+            return response()->json(['message'=>'Post deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'The post is not deleted'], 404);
         } 
     }
 

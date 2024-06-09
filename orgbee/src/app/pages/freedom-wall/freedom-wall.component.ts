@@ -24,7 +24,8 @@ export class FreedomWallComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private dataService: DataService, private fb: FormBuilder) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void{
+    this.showPosts();
     this.initializeForm();
   }
 
@@ -57,7 +58,8 @@ export class FreedomWallComponent implements OnInit {
     return this.freedomwallForm.get('newPostText')!;
   }
   response:any;
-  addPost(): void {
+
+  addPost() {
     if (this.freedomwallForm.invalid) {
       this.freedomwallForm.markAllAsTouched();
       return;
@@ -68,15 +70,20 @@ export class FreedomWallComponent implements OnInit {
       content: this.freedomwallForm.value.newPostText,
       background_color: this.getRandomColor(),
     };
+    
     this.dataService.addPosts(newPost).subscribe(res=>{
-      this.response=res;
-      console.log(this.response);
+      this.response = res;
+      this.showPosts();
     })
 
-    this.posts.push(newPost);
-    console.log(this.posts);
     this.freedomwallForm.reset();
     this.toggleModal();
+  }
+
+  showPosts() {
+    this.dataService.getPosts().subscribe((posts: Post[])=>{
+      this.posts=posts;
+    })
   }
 
   closeModal(){
@@ -107,15 +114,12 @@ export class FreedomWallComponent implements OnInit {
     post.showOptions = !post.showOptions;
   }
 
-  editPost(post: Post) {
-    // To do: edit logic for backend
-    alert('Edit Post: ' + post.content);
-  }
-
-  deletePost(post: Post) {
-    const index = this.posts.indexOf(post);
-    if (index > -1) {
-      this.posts.splice(index, 1);
-    }
+  deletePost(id: number) {
+    const post_id ={id: id};
+    this.dataService.deletePosts(post_id).subscribe(res=>{
+      this.response=res;
+      this.showPosts();
+    });
+    
   }
 }
