@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AnnouncementService, Announcement } from '../../../service/announcement.service';
+import { AnnouncementService, Announcement, AnnouncementDisplay } from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
 
 enum Roles {
@@ -21,11 +21,14 @@ enum Roles {
 
 export class DashboardComponent implements OnInit {
   announcements: Announcement[] = [];
+  announcementDisplay: AnnouncementDisplay[]=[];
   selectedAnnouncement: Announcement | null = null;
   showModal = false;
   showOneAnnouncement = false;
   modalSubject = '';
   modalContent = '';
+  modalDate='';
+  modalAuthor='';
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
@@ -84,9 +87,9 @@ export class DashboardComponent implements OnInit {
     this.announcementService.getAnnouncements().subscribe(
       (announcements) => {
         if (this.userInfo.role_id === 1) {
-          this.announcements = announcements.filter(a => a.recipient === 0);
+          this.announcementDisplay = announcements.filter(a => a.recipient === 0);
         } else if (this.userInfo.role_id === 2 || this.userInfo.role_id === 3) {
-          this.announcements = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+          this.announcementDisplay = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
         }
       },
       (error) => {
@@ -95,14 +98,16 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  openModal(announcement: Announcement): void {
+  openModal(announcementDisplay: AnnouncementDisplay): void {
     this.announcementForm.patchValue({
-      subject: announcement.subject,
-      message: announcement.content,
-      recipient: announcement.recipient,
+      subject: announcementDisplay.subject,
+      message: announcementDisplay.content,
+      recipient: announcementDisplay.recipient,
     });
-    this.modalSubject = announcement.subject;
-    this.modalContent = announcement.content;
+    this.modalSubject = announcementDisplay.subject;
+    this.modalContent = announcementDisplay.content;
+    this.modalDate=announcementDisplay.created_at;
+    this.modalAuthor=announcementDisplay.author;
     this.showOneAnnouncement = true;
   }
 
