@@ -24,7 +24,16 @@ class Students extends Model {
         return $this->hasOne(Roles::class, 'role_id', 'id');
     }
 
+    public function icons() {
+        return $this->hasOne(Icons::class, 'icons_id', 'id');
+    }
+    
     public function announcements() {
+        return $this->belongsTo(Students::class, 'student_id', 'id');
+    }
+
+
+    public function student() {
         return $this->belongsTo(Students::class, 'student_id', 'id');
     }
 }
