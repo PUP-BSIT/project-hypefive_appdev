@@ -26,7 +26,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { FormsModule } from '@angular/forms';
@@ -56,7 +55,6 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatFormFieldModule,
     NgxMasonryModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     FormsModule
   ],
