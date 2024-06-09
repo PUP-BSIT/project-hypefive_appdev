@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
@@ -13,32 +14,67 @@ export interface Post {
 @Component({
   selector: 'app-freedom-wall',
   templateUrl: './freedom-wall.component.html',
-  styleUrl: './freedom-wall.component.css'
+  styleUrls: ['./freedom-wall.component.css']
 })
-
 export class FreedomWallComponent implements OnInit {
-  newPostTitle = '';
-  newPostText = '';
   posts: Post[] = [];
   showModal = false;
   selectedPost: Post;
+  freedomwallForm: FormGroup;
 
-  constructor(private dialog: MatDialog, private dataService: DataService) {}
+  constructor(private dialog: MatDialog, private dataService: DataService, private fb: FormBuilder) { }
 
-  ngOnInit(): void{}
+  ngOnInit(): void {
+    this.initializeForm();
+  }
 
-  addPost() {
-    if (this.newPostText.trim()) {
-      const newPost: Post = {
-        title: this.newPostTitle,
-        text: this.newPostText,
-        backgroundColor: this.getRandomColor(),
-      };
-      this.posts.push(newPost);
-      this.newPostTitle = '';
-      this.newPostText = '';
-      this.toggleModal();
+  initializeForm(): void {
+    this.freedomwallForm = this.fb.group({
+      newPostTitle: ['', Validators.required],
+      newPostText: ['', [Validators.required]]
+    });
+  }
+  updateTitleCharacterCount(): void {
+    const subjectControl = this.freedomwallForm.get('newPostTitle');
+    if (subjectControl && subjectControl.value.length > 30) {
+      subjectControl.setValue(subjectControl.value.substring(0, 30));
     }
+  }
+
+  updateTextCharacterCount(): void {
+    const messageControl = this.freedomwallForm.get('newPostText');
+    if (messageControl && messageControl.value.length > 500) {
+      messageControl.setValue(messageControl.value.substring(0, 500));
+    }
+  }
+
+  get newPostTitleControl(): AbstractControl {
+    return this.freedomwallForm.get('newPostTitle')!;
+  }
+
+  get newPostTextControl(): AbstractControl {
+    return this.freedomwallForm.get('newPostText')!;
+  }
+
+  addPost(): void {
+    if (this.freedomwallForm.invalid) {
+      this.freedomwallForm.markAllAsTouched();
+      return;
+    }
+
+    const newPost: Post = {
+      title: this.freedomwallForm.value.newPostTitle,
+      text: this.freedomwallForm.value.newPostText,
+      backgroundColor: this.getRandomColor(),
+    };
+
+    this.posts.push(newPost);
+    this.freedomwallForm.reset();
+    this.toggleModal();
+  }
+
+  closeModal(){
+    this.showModal = false;
   }
 
   openPost(post: Post) {
@@ -76,5 +112,4 @@ export class FreedomWallComponent implements OnInit {
       this.posts.splice(index, 1);
     }
   }
-
 }
