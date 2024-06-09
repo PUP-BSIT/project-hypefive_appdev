@@ -152,11 +152,10 @@ body {
 
 .masonry-item {
   border-radius: 8px;
-  padding-left: 15px;
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin: 7px;
   width: 257px;
   max-height: 200px;
 }

@@ -29,8 +29,9 @@
 }
 
 <ngx-masonry>
-  <div class="masonry-item" >
-    @for(post of posts; track posts){
+  <!-- <div class="grid-container"> -->
+  @for(post of posts; track posts){
+    <div ngxMasonryItem class="masonry-item">
       <div [style.background-color]="post.backgroundColor">
         <div class="post-header">
           <h4>{{ post.title }}</h4>
@@ -46,6 +47,7 @@
         </div>
         <p (click)="openPost(post)" #postBox>{{ post.text }}</p>
       </div>
-    }
-  </div>
+    </div>
+  }
+<!-- </div> -->
 </ngx-masonry>
