@@ -44,12 +44,17 @@
   font-size: 15px;
 }
 
-.choose-avatar .avatar {
+.choose-avatar img.avatar {
   width: 50px;
   height: 50px;
+  border: 5px solid transparent; /* Default border */
   border-radius: 100px;
   margin-inline: 20px;
   margin-block: 10px;
+}
+
+.choose-avatar img.avatar.selected {
+  border: 5px solid #ffca10; 
 }
 
 .options {

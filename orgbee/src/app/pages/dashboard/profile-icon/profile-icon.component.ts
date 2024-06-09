@@ -8,12 +8,21 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ProfileIconComponent {
   @Input() showProfileIconEdit: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  selectedAvatarPath: string = 'assets/default.jpg'; // Default avatar path
+  selectedAvatarPath: string = 'assets/default.jpg'; 
+  currentSelectedAvatar: string = ''; 
 
   selectAvatar(avatarPath: string): void {
-    this.selectedAvatarPath = avatarPath; // Update selected avatar path
+    this.selectedAvatarPath = avatarPath; 
+    this.currentSelectedAvatar = avatarPath;
   }
-  closeOverlay() {
-    this.close.emit();
+
+  closeModal() {
+    this.showProfileIconEdit = false;
+    this.close.emit(); 
+  }
+
+  saveAvatar() {
+    // Handle saving the avatar logic here
+    this.closeModal();
   }
 }
