@@ -26,6 +26,7 @@ import { DataService } from '../service/data.service';
 import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
 import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-ico
     MatButtonModule,
     MatMenuModule,
   ],
-  providers: [provideAnimationsAsync(), DataService],
+  providers: [provideAnimationsAsync(), DataService,  DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
