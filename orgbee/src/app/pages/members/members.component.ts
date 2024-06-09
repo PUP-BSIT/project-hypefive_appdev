@@ -8,6 +8,7 @@ interface Member {
   gender: string;
   student_number: string;
   email: string;
+  icon_location:string;
 }
 
 interface SelectedMember {
@@ -17,6 +18,7 @@ interface SelectedMember {
   gender: string;
   student_number: string;
   email: string;
+  icon_location:string;
 }
 
 interface MembershipRequests {
@@ -26,6 +28,7 @@ interface MembershipRequests {
   gender: string;
   student_number: string;
   email: string;
+  icon_location:string;
 }
 
 interface Officers {
@@ -35,6 +38,7 @@ interface Officers {
   gender: string;
   student_number: string;
   email: string;
+  icon_location:string;
 }
 
 @Component({
@@ -80,7 +84,6 @@ export class MembersComponent implements OnInit {
   showOfficers() {
     this.dataService.getOfficers().subscribe((request: Officers[])=>{
       this.officers = request;
-      
     })
   }
 

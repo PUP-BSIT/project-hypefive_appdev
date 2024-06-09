@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('gender', 10);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('role_id')->default(1);
-            $table->unsignedBigInteger('icon_id')->default(rand(1, 10));
+            $table->unsignedBigInteger('icon_id');
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');

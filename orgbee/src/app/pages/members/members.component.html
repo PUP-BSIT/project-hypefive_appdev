@@ -18,7 +18,7 @@
                             class="member" 
                             (click)="memberClick(member.student_number)">
                             <!-- TODO: VILLA-VILLA: Backend for profile picture -->
-                            <img [src]="" alt="Profile Picture"/>
+                            <img src={{member.icon_location}} alt="Profile Picture"/>
                             <p>{{ member.first_name + " " + 
                                 member.last_name }}</p>
                         </div>
@@ -34,7 +34,7 @@
                     <div class="request">
                         <div class="profile">
                              <!-- TODO: VILLA-VILLA: Backend for profile picture -->
-                            <img [src]="" alt="Profile Picture"/>
+                             <img src={{request.icon_location}} alt="Profile Picture"/>
                             <p>{{ request.first_name + " " + request.last_name}}</p>
                         </div>
                         <button 
@@ -56,7 +56,7 @@
                 @for(officer of officers; track officers) {
                     <div class="officer" (click)="officerClick(officer.student_number)">
                         <div class="profile">
-                            <img [src]="officer.icon" alt="Profile Picture"/>
+                            <img src={{officer.icon_location}} alt="Profile Picture"/>
                             <p>{{ officer.first_name + " " +
                                 officer.last_name }}</p>
                         </div>
@@ -77,11 +77,7 @@
                 <div class="modal-profile">
                     <!-- TODO: VILLA-VILLA: Backend for profile picture -->
                     <!-- IDs should be written in snake case. All lower case separated by underscore. -->
-                    <img
-                    id="modal-icon"
-                    src="../../../assets/icon.jpg"
-                    alt="Profile Picture"
-                    />
+                    <img src={{detail.icon_location}} id="modal-icon" alt="Profile Picture"/>
                 </div>
                 <div class="details">
                     <div class="left-column-details">
@@ -124,11 +120,7 @@
                 <div class="modal-profile">
                     <!-- TODO: VILLA-VILLA: Backend for profile picture -->
                     <!-- IDs should be written in snake case. All lower case separated by underscore. -->
-                    <img
-                    id="modal-icon"
-                    src="../../../assets/icons/1.png"
-                    alt="Profile Picture"
-                    />
+                    <img src={{detail.icon_location}} id="modal-icon" alt="Profile Picture"/>
                 </div>
                 <div class="details">
                     <div class="left-column-details">

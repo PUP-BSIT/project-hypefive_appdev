@@ -11,22 +11,24 @@ class MembersController extends Controller {
     public function getMembers() {
         $students = DB::table('students')
             ->join('users', 'students.user_id', '=', 'users.id')
+            ->join('icons', 'students.icon_id', '=', 'icons.id')
             //Get all student except superadmin
             ->where('students.id', '!=', 1) 
             //Fetch students with an account_status of accepted
             ->where('users.account_status_id', 2) 
-            ->get(['students.*', 'users.email']);
+            ->get(['students.*', 'users.email', 'icons.icon_location']);
         return response()->json($students, 200);
     }
 
     public function membershipRequest() {
         $students = DB::table('students')
         ->join('users', 'students.user_id', '=', 'users.id')
+        ->join('icons', 'students.icon_id', '=', 'icons.id')
         //Get all student except superadmin
         ->where('students.id', '!=', 1) 
         //Fetch students with an account_status of pending
         ->where('users.account_status_id', "=", 1) 
-        ->get(['students.*']);
+        ->get(['students.*', 'icons.icon_location']);
         
         return response()->json($students, 200);
     }
@@ -59,12 +61,13 @@ class MembersController extends Controller {
     public function getOfficers() {
         $students = DB::table('students')
         ->join('users', 'students.user_id', '=', 'users.id')
+        ->join('icons', 'students.icon_id', '=', 'icons.id')
         //Get all student except superadmin
         ->where('students.id', '!=', 1) 
         ->where('students.role_id', '=', 2) 
         //Fetch students with an account_status of accepted
         ->where('users.account_status_id', 2) 
-        ->get(['students.*', 'users.email']);
+        ->get(['students.*', 'users.email', 'icons.icon_location']);
         return response()->json($students, 200);
     }
 
