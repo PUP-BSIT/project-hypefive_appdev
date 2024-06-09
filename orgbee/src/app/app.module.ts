@@ -17,8 +17,20 @@ import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 
+
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
+
+import { PostDialogComponent } from './pages/freedom-wall/post-dialog/post-dialog.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +39,7 @@ import { LoginService } from '../service/login.service';
     DashboardComponent,
     EventsComponent,
     FreedomWallComponent,
+    PostDialogComponent,
     MembersComponent,
     DisplayComponent,
     SidebarComponent,
@@ -39,8 +52,16 @@ import { LoginService } from '../service/login.service';
     HttpClientModule,
     BrowserAnimationsModule, 
     ToastrModule.forRoot(),
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    NgxMasonryModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    FormsModule
   ],
-  providers: [DataService, LoginService],
+  providers: [DataService, LoginService,  provideAnimationsAsync()],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

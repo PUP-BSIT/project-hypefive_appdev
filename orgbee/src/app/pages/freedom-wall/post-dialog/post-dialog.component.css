@@ -1,0 +1,29 @@
+.dialog-content {
+  margin: 0;
+  width: 400px;
+  padding: 10px 20px;
+  height: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: justify;
+}
+
+.dialog-content h4 {
+  margin: 0;
+  font-size: 1.2em;
+  white-space: normal; 
+  word-wrap: break-word; 
+  overflow: visible;
+}
+
+.dialog-content p {
+  margin: 0;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: justify;
+  padding-top: 10px;
+}

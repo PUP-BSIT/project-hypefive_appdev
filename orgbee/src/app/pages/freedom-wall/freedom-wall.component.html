@@ -1,1 +1,45 @@
-<p>freedom-wall works!</p>
+<div class="top">
+  <div class="header">
+    <h3>Welcome to</h3>
+    <h1>Computer Society 2024 Freedom Wall</h1>
+  </div>
+
+  <div class="button-container">
+    <button class="create-post-btn" (click)="toggleModal()">
+      <img src="../../../assets/logo.png">
+        Create an anonymous post</button>
+    <div>
+      <button class="delete-post-btn">Delete Post</button>
+      <button class="manage-wall-btn">Manage Wall</button>
+    </div>
+  </div>
+</div>
+
+<div class="post-creation-modal" *ngIf="showModal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="showModal = false">&times;</span>
+    <input [(ngModel)]="newPostTitle" placeholder="Enter post title" />
+    <textarea [(ngModel)]="newPostText" 
+        placeholder="Write your post here..." rows="4">
+    </textarea>
+    <button (click)="addPost(); showModal = false">Add Post</button>
+  </div>
+</div>
+
+<ngx-masonry>
+  <div ngxMasonryItem *ngFor="let post of posts" class="masonry-item" >
+    <div [style.background-color]="post.backgroundColor">
+        <div class="post-header">
+          <h4>{{ post.title }}</h4>
+          <div class="post-options">
+            <span class="three-dots" (click)="toggleOptions(post)">&#x22EE;</span>
+            <div class="dropdown-menu" *ngIf="post.showOptions">
+              <button (click)="editPost(post)">Edit</button>
+              <button (click)="deletePost(post)">Delete</button>
+            </div>
+          </div>
+        </div>
+      <p (click)="openPost(post)" #postBox>{{ post.text }}</p>
+    </div>
+  </div>
+</ngx-masonry>
