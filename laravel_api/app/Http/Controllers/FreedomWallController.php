@@ -13,7 +13,7 @@ class FreedomWallController extends Controller
     }
     
     public function createPostFW(Request $request) {
-        $post = $request->only('subject', 'content');
+        $post = $request->only('subject', 'content', 'background_color');
 
         if ($post) {
             DB::table('freedomwall')->insert($post);

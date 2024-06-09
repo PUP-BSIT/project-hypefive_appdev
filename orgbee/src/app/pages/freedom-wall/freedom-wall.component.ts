@@ -5,9 +5,9 @@ import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
 
 export interface Post {
-  title: string;
-  text: string;
-  backgroundColor: string;
+  subject: string;
+  content: string;
+  background_color: string;
   showOptions?: boolean;
 }
 
@@ -56,7 +56,7 @@ export class FreedomWallComponent implements OnInit {
   get newPostTextControl(): AbstractControl {
     return this.freedomwallForm.get('newPostText')!;
   }
-
+  response:any;
   addPost(): void {
     if (this.freedomwallForm.invalid) {
       this.freedomwallForm.markAllAsTouched();
@@ -64,10 +64,14 @@ export class FreedomWallComponent implements OnInit {
     }
 
     const newPost: Post = {
-      title: this.freedomwallForm.value.newPostTitle,
-      text: this.freedomwallForm.value.newPostText,
-      backgroundColor: this.getRandomColor(),
+      subject: this.freedomwallForm.value.newPostTitle,
+      content: this.freedomwallForm.value.newPostText,
+      background_color: this.getRandomColor(),
     };
+    this.dataService.addPosts(newPost).subscribe(res=>{
+      this.response=res;
+      console.log(this.response);
+    })
 
     this.posts.push(newPost);
     console.log(this.posts);
@@ -83,9 +87,9 @@ export class FreedomWallComponent implements OnInit {
     this.selectedPost = post;
     this.dialog.open(PostDialogComponent, {
       data: {
-        title: post.title,
-        text: post.text,
-        backgroundColor: post.backgroundColor,
+        subject: post.subject,
+        content: post.content,
+        background_color: post.background_color,
       }
     });
   }
@@ -105,7 +109,7 @@ export class FreedomWallComponent implements OnInit {
 
   editPost(post: Post) {
     // To do: edit logic for backend
-    alert('Edit Post: ' + post.text);
+    alert('Edit Post: ' + post.content);
   }
 
   deletePost(post: Post) {
