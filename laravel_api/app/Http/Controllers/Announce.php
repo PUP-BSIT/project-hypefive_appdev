@@ -18,6 +18,7 @@ class Announce extends Controller
                     'content' => $announcement->content,
                     'recipient' => $announcement->recipient,
                     'created_at' => $announcement->created_at,
+                    'student_id' => $announcement->student_id,
                     'author' => $announcement->student->first_name . ' ' . $announcement->student->last_name,
                 ];
             });
