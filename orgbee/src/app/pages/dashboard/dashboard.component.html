@@ -70,7 +70,11 @@
         </div>
       </div>
 
-      <app-profile-icon (avatarSaved)="updateUserInfo($event)" [showProfileIconEdit]="showProfileIconEdit"></app-profile-icon>
+      <app-profile-icon 
+      (avatarSaved)="updateUserInfo($event)" 
+      (close)="handleProfileIconClose()"
+      [showProfileIconEdit]="showProfileIconEdit">
+    </app-profile-icon>
 
 
       <!-- VIEW ANNOUNCEMENTS -->

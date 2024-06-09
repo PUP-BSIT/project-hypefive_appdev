@@ -51,6 +51,11 @@ export class DashboardComponent implements OnInit {
     this.showProfileIconEdit = !this.showProfileIconEdit;
   }
 
+  handleProfileIconClose(): void {
+    this.showProfileIconEdit = false;
+  }
+
+
   toggleModal(): void {
     this.showModal = !this.showModal;
   }
