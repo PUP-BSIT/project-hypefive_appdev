@@ -12,20 +12,37 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div>
         <label for="email"></label>
-        <input
+        <input 
           type="email"
-          formControlName="email"
+          id = "email"
           placeholder="Email Address"
-        />
+          formControlName="email"/>
+        @if(emailControl.invalid && emailControl.touched) {
+          <div class="inc">
+            @if(emailControl.errors?.['required']) {
+              <div>Email is Required.</div>
+            }
+            @if(emailControl.errors?.['email']) {
+              <div>Invalid Email format.</div>
+            }
+          </div>
+        }
       </div>
 
       <div>
         <label for="password"></label>
-        <input
+        <input 
           type="password"
-          formControlName="password"
+          id = "password"
           placeholder="Password"
-        />
+          formControlName="password"/>
+        @if(passwordControl.invalid && passwordControl.touched) {
+          <div class="inc">
+            @if(passwordControl.errors?.['required']) {
+              <div>Password is Required.</div>
+            }
+          </div>
+        }
       </div>
 
       <button type="submit">Log In to OrgBee</button>
@@ -39,64 +56,169 @@
 </div>
 
 <!-- Signup Popup -->
-<div *ngIf="showSignup" class="popup">
-  <div class="popup-content">
-    <span class="close" (click)="hideSignupPopup()">&times;</span>
-    <h3>Sign Up</h3>
-    <div class="signup-form">
-      <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
-        <div class="form-row">
-          <div>
-            <label for="signup-firstname">First Name</label>
-            <input type="text" formControlName="firstName" />
+@if(showSignup) {
+  <div class="popup">
+    <div class="popup-content">
+      <span class="close" (click)="hideSignupPopup()">&times;</span>
+  
+      <h3>Sign Up</h3>
+  
+      <div class="signup-form">
+        <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
+          <div class="form-row">
+            <div> 
+              <label for="signup_first_name">First Name</label>
+              <input 
+                type="text"
+                id ="signup_first_name" 
+                formControlName="first_name" />
+              @if(firstNameControl.invalid && firstNameControl.touched) {
+                <div class="inc">
+                  @if(firstNameControl.errors?.['required']) {
+                    <div>First name is required</div>
+                  }
+                </div>
+              }
+            </div>
+  
+            <div>
+              <label for="signup_last_name">Last Name</label>
+              <input 
+                type="text" 
+                id="signup_last_name" 
+                formControlName="last_name" />
+              @if(lastNameControl.invalid && lastNameControl.touched) {
+                <div class="inc">
+                  @if(lastNameControl.errors?.['required']) {
+                    <div>Last name is required</div>
+                  }
+                </div>
+              }
+            </div>
           </div>
-          <div>
-            <label for="signup-lastname">Last Name</label>
-            <input type="text" formControlName="lastName" />
+  
+          <div class="form-row">
+            <div>
+              <label for="signup_student_number">Student Number</label>
+              <input 
+                type="text"  
+                id="signup_student_number" 
+                formControlName="student_number"/>
+              @if(studentNumberControl.invalid && 
+                studentNumberControl.touched) {
+                  <div class="inc">
+                    @if(studentNumberControl.errors?.['required']) {
+                      <div>Student number is required</div>
+                    }
+                    @if(studentNumberControl.errors?.['pattern']) {
+                      <div>Invalid student number format. </div>
+                    }
+                  </div>
+              }
+            </div>
+  
+            <div>
+              <label for="signup_email">Email</label>
+              <input 
+                type="email" 
+                id="signup_email" 
+                formControlName="email" />
+              @if(signUpEmailControl.invalid && signUpEmailControl.touched) {
+                <div class="inc">
+                  @if(signUpEmailControl.errors?.['required']) {
+                    <div>Email is Required.</div>
+                  }
+                  @if(signUpEmailControl.errors?.['email']) {
+                    <div>Invalid Email format.</div>
+                  }
+                </div>
+              }
+            </div>
           </div>
-        </div>
-
-        <div class="form-row">
-          <div>
-            <label for="signup-studentnumber">Student Number</label>
-            <input type="text" formControlName="studentNumber" />
+  
+          <div class="form-row">
+            <div>
+              <label for="signup_birthday">Birthday</label>
+              <input 
+                type="date" 
+                id="signup_birthday" 
+                formControlName="birthday" />
+              @if(bdayControl.invalid && bdayControl.touched) {
+                <div class="inc">
+                  @if(bdayControl.errors?.['required']) {
+                    <div>Birth date is required</div>
+                  }
+                  @if(bdayControl.errors.minAge) {
+                    <div>You must be at least 18 years old.</div>
+                  }
+                  @if(bdayControl.errors.maxAge) {
+                    <div>You must be at least below 80 years old.</div>
+                  }
+                </div>
+              }
+            </div>
+  
+            <div>
+              <label for="signup_gender">Gender</label>
+              <select id= "signup_gender" formControlName="gender">
+                <option value="" disabled selected>Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              @if(genderControl.invalid && genderControl.touched) {
+                <div class="inc">
+                   @if(genderControl.errors?.['required']) {
+                    <div>Gender is required</div>
+                  }
+                </div>
+              }
+            </div>
           </div>
-          <div>
-            <label for="signup-email">Email</label>
-            <input type="email" formControlName="email" />
+  
+          <div class="form-row">
+            <div>
+              <label for="signup_password">Password</label>
+              <input 
+                type="password" 
+                id="signup_password"
+                minlength="8"
+                formControlName="password" />
+              @if(signUpPasswordControl.invalid && signUpPasswordControl.touched){
+                <div class="inc">
+                  @if(signUpPasswordControl.errors?.['required']){
+                    <div>Password is Required.</div>
+                  }
+                  @if(signUpPasswordControl.errors?.['minlength']){
+                    <div>Password must be 8 characters long</div>
+                  }
+                </div>
+              }
+            </div>
+  
+            <div>
+              <label for="signup_confirm_password">Confirm Password</label>
+              <input 
+                type="password" 
+                id="signup_confirm_password" 
+                formControlName="confirmPassword" />
+              @if(confirmPassControl.invalid && confirmPassControl.touched) {
+                <div class="inc">
+                  @if(confirmPassControl.errors?.['required']){
+                    <div>Please confirm your password</div>
+                  }
+                  @if(confirmPassControl.getError('mustMatch')){
+                    <div>Password not matching</div>
+                  }
+                </div>
+              }
+            </div>
           </div>
-        </div>
-
-        <div class="form-row">
-          <div>
-            <label for="signup-bday">Birthday</label>
-            <input type="date" formControlName="bday" />
-          </div>
-
-          <div>
-            <label for="signup-gender">Gender</label>
-            <select formControlName="gender">
-              <option value="" disabled selected>Select your gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div>
-            <label for="signup-password">Password</label>
-            <input type="password" formControlName="password" />
-          </div>
-          <div>
-            <label for="signup-confirm-password">Confirm Password</label>
-            <input type="password" formControlName="confirmPassword" />
-          </div>
-        </div>
-
-        <button type="submit">Sign Up</button>
-      </form>
+  
+          <button type="submit">Sign Up</button>
+  
+        </form>
+      </div>
     </div>
-  </div>
-</div>
+  </div>    
+}

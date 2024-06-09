@@ -13,10 +13,10 @@ body {
 }
 
 .app-logo img {
-    padding-top: 5%;
-    margin-bottom: 5px;
-    width: 10%; 
-    height: 10%; 
+  padding-top: 5%;
+  margin-bottom: 5px;
+  width: 10%; 
+  height: 10%; 
 }
 
 .form {
@@ -159,4 +159,11 @@ button:hover {
 
 .form-row > div:last-child {
   margin-right: 10px;
+}
+
+.inc {
+  font-size: 12px;
+  padding: 0;
+  margin-top: -8px;
+  color: red;
 }
