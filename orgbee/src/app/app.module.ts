@@ -13,7 +13,7 @@ import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
-import { EmailAuthComponent } from './email-auth/email-auth.component';
+import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
 
 @NgModule({
@@ -27,7 +27,7 @@ import { EmailAuthComponent } from './email-auth/email-auth.component';
     DisplayComponent,
     SidebarComponent,
     ArchiveComponent,
-    EmailAuthComponent
+    ForgotPassComponent
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ForgotPassComponent } from './forgot.pass.component'; 
 
-import { EmailAuthComponent } from './email-auth.component';
-
-describe('EmailAuthComponent', () => {
-  let component: EmailAuthComponent;
-  let fixture: ComponentFixture<EmailAuthComponent>;
+describe('ForgotPassComponent', () => {
+  let component: ForgotPassComponent;
+  let fixture: ComponentFixture<ForgotPassComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EmailAuthComponent]
+      declarations: [ForgotPassComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(EmailAuthComponent);
+
+    fixture = TestBed.createComponent(ForgotPassComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
