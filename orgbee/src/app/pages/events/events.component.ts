@@ -1,24 +1,58 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+interface Event {
+  eventName: string;
+  eventLocation: string;
+  eventDate: string;
+  eventTime: string;
+  attendance: string;
+  regFee: string;
+  regAmount?: string;
+  maxAttendees: string;
+  eventCaption?: string;
+  eventPoster?: string;
+}
+
+interface SelectedEvent {
+  eventName: string;
+  eventLocation: string;
+  eventDate: string;
+  eventTime: string;
+  attendance: string;
+  regFee: string;
+  regAmount?: string;
+  maxAttendees: string;
+  eventCaption?: string;
+  eventPoster?: string;
+}
+
+interface Member {
+  name: string;
+}
+
+interface SelectedEvent extends Event {
+  registeredMembers?: Member[];
+}
+
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css'],
 })
 export class EventsComponent implements OnInit {
-  eventForm: FormGroup; 
-  currentStep = 0; 
-  activeTab = 'UPCOMING'; 
-  events: any[] = []; 
-  drafts: any[] = []; 
-  occurringEvents: any[] = []; 
-  filteredEvents: any[] = []; 
-  isModalVisible = false; 
-  isManageModalVisible = false; 
-  selectedEvent: any; 
-  isEditMode = false; 
-  editingEventIndex = -1; 
+  eventForm: FormGroup;
+  currentStep = 0;
+  activeTab = 'UPCOMING';
+  events: Event[] = [];
+  drafts: Event[] = [];
+  occurringEvents: Event[] = [];
+  filteredEvents: Event[] = [];
+  isModalVisible = false;
+  isManageModalVisible = false;
+  selectedEvent: SelectedEvent | null = null;
+  isEditMode = false;
+  editingEventIndex = -1;
 
   constructor(private fb: FormBuilder) {
     this.eventForm = this.fb.group({
@@ -57,7 +91,7 @@ export class EventsComponent implements OnInit {
     this.editingEventIndex = -1;
   }
 
-  openManageModal(event: any): void {
+  openManageModal(event: Event): void {
     this.selectedEvent = event;
     this.isManageModalVisible = true;
   }
@@ -66,7 +100,7 @@ export class EventsComponent implements OnInit {
     this.isManageModalVisible = false;
   }
 
-  editEvent(event: any): void {
+  editEvent(event: Event): void {
     this.closeManageModal();
     this.openModal();
     this.eventForm.patchValue(event);
@@ -74,7 +108,7 @@ export class EventsComponent implements OnInit {
     this.editingEventIndex = this.filteredEvents.indexOf(event);
   }
 
-  markAsOccurring(event: any): void {
+  markAsOccurring(event: Event): void {
     if (this.activeTab === 'UPCOMING') {
       const index = this.events.indexOf(event);
       if (index > -1) {
@@ -92,7 +126,7 @@ export class EventsComponent implements OnInit {
     this.displayEvents(this.activeTab);
   }
 
-  cancelEvent(event: any): void {
+  cancelEvent(event: Event): void {
     if (this.activeTab === 'UPCOMING') {
       const index = this.events.indexOf(event);
       if (index > -1) {
@@ -138,7 +172,7 @@ export class EventsComponent implements OnInit {
 
   submitForm(type: string): void {
     if (this.eventForm.valid) {
-      const newEvent = this.eventForm.value;
+      const newEvent = this.eventForm.value as Event;
       if (this.isEditMode) {
         if (this.activeTab === 'UPCOMING') {
           if (type === 'publish') {

@@ -33,6 +33,7 @@ h1 {
 }
 
 /* Modal for create event button */
+
 .modal {
   display: none;
   position: fixed;
@@ -40,9 +41,10 @@ h1 {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
-  overflow: auto;
+  height: 125%;
+  overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
+  margin-top: -7%;
 }
 
 .modal.visible {
@@ -327,6 +329,10 @@ button:hover {
 
 .manage-content button:hover {
   background-color: #e0ac00;
+}
+
+#manageEventModal {
+  overflow: hidden;
 }
 
 #manageEventModal img {
