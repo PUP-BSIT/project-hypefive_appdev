@@ -28,7 +28,8 @@ class AdminSeeder extends Seeder
              'birthday'=>'1992-09-09', 
              'gender'=>'Other',
              'user_id'=>'1',
-             'role_id'=>'3']
+             'role_id'=>'3',
+             'icon_id'=>'10']
         ]);
     }
 }

@@ -34,6 +34,7 @@ export class FreedomWallComponent implements OnInit {
       newPostText: ['', [Validators.required]]
     });
   }
+
   updateTitleCharacterCount(): void {
     const subjectControl = this.freedomwallForm.get('newPostTitle');
     if (subjectControl && subjectControl.value.length > 30) {
@@ -69,6 +70,7 @@ export class FreedomWallComponent implements OnInit {
     };
 
     this.posts.push(newPost);
+    console.log(this.posts);
     this.freedomwallForm.reset();
     this.toggleModal();
   }
