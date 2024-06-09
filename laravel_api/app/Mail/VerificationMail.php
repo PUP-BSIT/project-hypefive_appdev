@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class VerificationMail extends Mailable
 {
@@ -32,8 +33,14 @@ class VerificationMail extends Mailable
      */
     public function build()
     {
+        $imagePath = public_path('storage/images/logo.png');
+        $imageData = file_get_contents($imagePath);
+        $imageMimeType = mime_content_type($imagePath);
+    
         return $this->view('emails.verify')
                     ->subject('Email Verification')
-                    ->with(['verificationLink' => $this->verificationLink]);
+                    ->with(['verificationLink' => $this->verificationLink])
+                    ->attachData($imageData, 'logo.png', ['mime' => $imageMimeType]);
     }
+    
 }
