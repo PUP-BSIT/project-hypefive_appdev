@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl }
+   from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
@@ -21,18 +22,23 @@ export class FreedomWallComponent implements OnInit {
   showModal = false;
   selectedPost: Post;
   freedomwallForm: FormGroup;
+  response:any;  // TODO: VILLA-VILLA: remove the "any" data type
 
-  constructor(private dialog: MatDialog, private dataService: DataService, private fb: FormBuilder) { }
+  constructor(
+    private dialog: MatDialog, 
+    private dataService: DataService, 
+    private fb: FormBuilder) { }
+    
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.showPosts();
-    this.initializeForm();
-  }
-
-  initializeForm(): void {
     this.freedomwallForm = this.fb.group({
-      newPostTitle: ['', Validators.required],
-      newPostText: ['', [Validators.required]]
+      newPostTitle: ['', {
+        validators: [Validators.required]
+      }],
+      newPostText: ['', {
+        validators: [Validators.required]
+      }]
     });
   }
 
@@ -57,7 +63,6 @@ export class FreedomWallComponent implements OnInit {
   get newPostTextControl(): AbstractControl {
     return this.freedomwallForm.get('newPostText')!;
   }
-  response:any;
 
   addPost() {
     if (this.freedomwallForm.invalid) {
