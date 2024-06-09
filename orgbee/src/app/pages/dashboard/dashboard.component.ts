@@ -131,19 +131,37 @@ export class DashboardComponent implements OnInit {
   }
 
   handleAnnouncementUpdated(updatedAnnouncement: Announcement): void {
-    const index = this.announcements.findIndex((a) => a.id === updatedAnnouncement.id);
+    const index = this.announcementDisplay.findIndex((a) => a.id === updatedAnnouncement.id);
     if (index > -1) {
-      this.announcements[index] = updatedAnnouncement;
+      this.announcementDisplay[index] = {
+        ...updatedAnnouncement,
+        created_at: this.getCurrentDateTime(), 
+        author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
+      };
     }
     this.closeModalEditAnnouncement();
   }
   
+  
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
-    this.announcements.push(newAnnouncement);
-  console.log('Updated announcements array:', this.announcements);
-}
-
-
+    const newAnnouncementDisplay: AnnouncementDisplay = {
+      id: newAnnouncement.id,
+      subject: newAnnouncement.subject,
+      content: newAnnouncement.content,
+      recipient: newAnnouncement.recipient,
+      student_id: newAnnouncement.student_id, 
+      created_at: this.getCurrentDateTime(), 
+      author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
+    };
+    this.announcementDisplay.push(newAnnouncementDisplay);
+    console.log('Updated announcements array:', this.announcementDisplay);
+  }
+  
+  getCurrentDateTime(): string {
+    const now = new Date();
+    return now.toISOString(); 
+  }
+  
   deleteAnnouncement(announcement: Announcement): void {
     const index = this.announcements.indexOf(announcement);
     if (index > -1) {

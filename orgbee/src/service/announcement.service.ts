@@ -16,9 +16,11 @@ export interface AnnouncementDisplay {
   id: number;
   subject: string;
   content: string;
+  student_id: number;
   recipient: number;
   created_at: string;
   author: string;
+ 
 }
 
 @Injectable({
