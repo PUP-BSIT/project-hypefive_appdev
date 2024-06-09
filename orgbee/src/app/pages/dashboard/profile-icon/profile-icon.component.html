@@ -1,0 +1,25 @@
+<div class="change-profile-icon" *ngIf="showProfileIconEdit">
+    <div class="change-icon-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <img class="current-icon" [src]="selectedAvatarPath" alt="Current Icon">
+  
+      <div class="choose-avatar">
+        <h3>Choose an avatar</h3>
+        <!--TODO: update src-->
+        <img class="avatar" src="assets/icon2.jpg" (click)="selectAvatar('assets/icon2.jpg')">
+        <img class="avatar" src="assets/icon3.jpg" (click)="selectAvatar('assets/icon3.jpg')">
+        <img class="avatar" src="assets/icon4.jpg" (click)="selectAvatar('assets/icon4.jpg')">
+        <img class="avatar" src="assets/icon2.jpg" (click)="selectAvatar('assets/icon2.jpg')">
+        <img class="avatar" src="assets/icon3.jpg" (click)="selectAvatar('assets/icon3.jpg')">
+        <img class="avatar" src="assets/icon4.jpg" (click)="selectAvatar('assets/icon4.jpg')">
+        <img class="avatar" src="assets/icon2.jpg" (click)="selectAvatar('assets/icon2.jpg')">
+        <img class="avatar" src="assets/icon2.jpg" (click)="selectAvatar('assets/icon2.jpg')">
+        <img class="avatar" src="assets/icon3.jpg" (click)="selectAvatar('assets/icon3.jpg')">
+        <img class="avatar" src="assets/icon4.jpg" (click)="selectAvatar('assets/icon4.jpg')">
+      </div>
+      <div class="options">
+      <button class="cancel">Cancel</button>
+      <button class="save" (click)="saveAvatar()">Save</button>
+    </div>
+    </div>
+  </div>

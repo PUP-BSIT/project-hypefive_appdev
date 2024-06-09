@@ -25,6 +25,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { DataService } from '../service/data.service';
 import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
+import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-mo
     ArchiveComponent,
     AnModalComponent,
     AnEditModalComponent,
+    ProfileIconComponent,
 
 
   ],
