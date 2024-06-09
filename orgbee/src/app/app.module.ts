@@ -13,6 +13,7 @@ import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ArchiveComponent } from './pages/archive/archive.component';
     MembersComponent,
     DisplayComponent,
     SidebarComponent,
-    ArchiveComponent
+    ArchiveComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

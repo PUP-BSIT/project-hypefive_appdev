@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 5%;
+    margin: 5%;
+    text-align: center;
+}
+
+.left-column {
+    flex: 1;
+    text-align: center;
+}
+
+.left-column img {
+    width: 40%;
+    margin-left: -60%;
+}
+
+.left-column h3 {
+    text-align: start;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.right-column {
+    flex: 1;
+    border: 0.5px solid gray;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Changed to flex-start for aligning items to the left */
+    margin-left: 15%;
+    padding: 2%;
+    padding-left: 5%;
+    width: auto; /* Changed width to auto to fit content */
+}
+
+.right-column p {
+    text-align: start;
+    width: 100%; /* Ensure p elements take full width */
+}
+
+.header {
+    color: #ffca10;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: start;
+    margin-bottom: -5%;
+}
+
+.right-column button {
+    background-color: #ffca10;
+    border: none;
+    border-radius: 20px;
+    align-self: center;
+    cursor: pointer;
+    margin-top: 20px; 
+    padding: 3%;
+}
