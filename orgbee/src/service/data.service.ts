@@ -42,5 +42,9 @@ export class DataService {
 
   demoteToMember(data) {
     return this.http.post(this.apiUrl +'api/demoteToMember/', data);
+
+  getPosts() {
+    return this.http.get(this.apiUrl +'api/getPosts/');
+
   }
 }

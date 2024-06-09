@@ -42,3 +42,11 @@ Route::post('/promoteToOfficer', [\App\Http\Controllers\MembersController::class
 //Add to officer
 Route::post('/demoteToMember', [\App\Http\Controllers\MembersController::class, 
                             'demoteToMember'])->name('api.demoteToMember');
+
+Route::get('/getPosts', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getPosts'])->name('api.getPosts');     
+
+Route::post('/createPostFW', 
+        [\App\Http\Controllers\FreedomWallController::class, 'createPostFW'])
+            ->name('api.createPostFW');
+
