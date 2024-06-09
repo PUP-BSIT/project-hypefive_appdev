@@ -8,7 +8,19 @@ class Announce extends Controller
 {
     public function getAnnouncements()
     {
-        return Announcement::where('is_posted', 1)->get();
+        return Announcement::where('is_posted', 1)
+            ->with('student') 
+            ->get()
+            ->map(function ($announcement) {
+                return [
+                    'id' => $announcement->id,
+                    'subject' => $announcement->subject,
+                    'content' => $announcement->content,
+                    'recipient' => $announcement->recipient,
+                    'created_at' => $announcement->created_at,
+                    'author' => $announcement->student->first_name . ' ' . $announcement->student->last_name,
+                ];
+            });
     }
 
     public function createAnnouncement(Request $request)
