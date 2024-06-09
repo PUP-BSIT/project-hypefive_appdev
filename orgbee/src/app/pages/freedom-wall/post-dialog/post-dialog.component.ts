@@ -24,7 +24,7 @@ export class PostDialogComponent implements AfterViewInit {
       this.adjustDialogHeight(dialogContent);
     }
   }
-
+// TODO: Tapispisan: Don't use vanilla js here.
   adjustDialogHeight(dialogContent: HTMLElement) {
     const titleHeight = dialogContent.querySelector('h4').scrollHeight;
     const textHeight = dialogContent.querySelector('p').scrollHeight;
