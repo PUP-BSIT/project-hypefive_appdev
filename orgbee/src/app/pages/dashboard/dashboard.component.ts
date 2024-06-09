@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   modalContent = '';
   openModalAnnouncement = false;
   showEditModal = false; 
+  showProfileIconEdit = false;  
   userInfo: UserInfo = {
     email: '',
     id: ''
@@ -40,6 +41,15 @@ export class DashboardComponent implements OnInit {
     private loginService: LoginService,
     private announcementService: AnnouncementService
   ) {}
+
+  //TODO: update later according to new table in database
+  updateUserInfo(selectedAvatarPath: string): void {
+    //this.userInfo.icon = selectedAvatarPath; 
+  }
+  
+  toggleProfileIconEdit(): void { 
+    this.showProfileIconEdit = !this.showProfileIconEdit;
+  }
 
   toggleModal(): void {
     this.showModal = !this.showModal;

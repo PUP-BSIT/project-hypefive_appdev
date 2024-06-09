@@ -57,10 +57,11 @@
             <mat-icon>expand_circle_down</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="profile-menu" xPosition="before" yPosition="below">
-            <button mat-menu-item class="profile-menu-item">
+            <button mat-menu-item class="profile-menu-item" (click)="toggleProfileIconEdit()">
               <mat-icon class="profile-menu-icon">edit</mat-icon>
-              <span class="profile-menu-text">Edit Profile</span>
-            </button>
+              <span class="profile-menu-text">Change Profile</span>
+          </button>
+          
             <button mat-menu-item >
               <mat-icon class="profile-menu-icon">exit_to_app</mat-icon>
               <span class="profile-menu-text">Logout</span>
@@ -68,6 +69,9 @@
           </mat-menu>
         </div>
       </div>
+
+      <app-profile-icon (avatarSaved)="updateUserInfo($event)" [showProfileIconEdit]="showProfileIconEdit"></app-profile-icon>
+
 
       <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
