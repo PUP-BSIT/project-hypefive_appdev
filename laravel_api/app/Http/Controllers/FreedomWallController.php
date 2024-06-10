@@ -17,9 +17,13 @@ class FreedomWallController extends Controller
 
         if ($post) {
             DB::table('freedomwall')->insert($post);
-            return response()->json(['message'=>'Posted'], 200);
+            $response ['message'] = 'Post submitted successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
         } else {
-            return response()->json(['message' => 'Not posted'], 404);
+            $response ['message'] = 'Failed to post';
+            $response ['code'] = 404;
+            return response()->json($response);
         } 
     }
 
@@ -27,9 +31,13 @@ class FreedomWallController extends Controller
         $postId = $request->only('id');
         if ($postId) {
             DB::table('freedomwall')->where('id', $postId)->update(['is_posted'=>0]);
-            return response()->json(['message'=>'Post deleted successfully'], 200);
+            $response ['message'] = 'Post successfully deleted.';
+            $response ['code'] = 200;
+            return response()->json($response);
         } else {
-            return response()->json(['message' => 'The post is not deleted'], 404);
+            $response ['message'] = 'Failed to delete post.';
+            $response ['code'] = 404;
+            return response()->json($response);
         } 
     }
 

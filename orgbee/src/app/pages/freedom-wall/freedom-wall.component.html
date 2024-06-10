@@ -40,7 +40,7 @@
                 Subject is required.
               </div>
             }
-           }
+          }
         </div>
       
         <div class="form-group new-post-text">
@@ -55,7 +55,7 @@
             <span class="character-counter-message">
               {{ freedomwallForm.get('newPostText').value ? 
                 freedomwallForm.get('newPostText').value.length : 0 }}/500
-              </span>
+            </span>
           </div>
           @if(newPostTextControl.invalid && newPostTextControl.touched) {
             @if(newPostTextControl.errors?.['required']) {
@@ -63,8 +63,8 @@
                 Message is required.
               </div>
             }
-           }
-          </div>
+          }
+        </div>
         <button 
           type="submit" 
           class="submit-button" 
@@ -77,14 +77,15 @@
 }
 
 <ngx-masonry>
-  <!-- <div class="grid-container"> -->
   @for(post of posts; track posts) {
     <div ngxMasonryItem class="masonry-item">
       <div [style.background-color]="post.background_color">
         <div class="post-header">
-          <h4>{{ post.subject }}</h4>
+          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
           <div class="post-options">
-            <span class="three-dots" (click)="toggleOptions(post)">&#x22EE;</span>
+            <span class="three-dots" (click)="toggleOptions(post)">
+              &#x22EE;
+            </span>
             <div class="dropdown-menu">
               @if(post.showOptions) {
                 <button (click)="deletePost(post.id)">Delete</button>
@@ -96,5 +97,4 @@
       </div>
     </div>
   }
-<!-- </div> -->
 </ngx-masonry>

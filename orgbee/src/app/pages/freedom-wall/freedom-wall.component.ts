@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators, AbstractControl }
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
+import { ToastrService } from 'ngx-toastr';
+
+import { Response } from '../../app.component';
 
 export interface Post {
   subject: string;
@@ -18,15 +21,16 @@ export interface Post {
   styleUrls: ['./freedom-wall.component.css']
 })
 export class FreedomWallComponent implements OnInit {
-  posts: Post[] = [];
+  posts: Post[];
   showModal = false;
   selectedPost: Post;
   freedomwallForm: FormGroup;
-  response:any;  // TODO: VILLA-VILLA: remove the "any" data type
+  response: Response;
 
   constructor(
     private dialog: MatDialog, 
     private dataService: DataService, 
+    private toastr: ToastrService,
     private fb: FormBuilder) { }
     
 
@@ -76,8 +80,21 @@ export class FreedomWallComponent implements OnInit {
       background_color: this.getRandomColor(),
     };
     
-    this.dataService.addPosts(newPost).subscribe(res=>{
+    this.dataService.addPosts(newPost).subscribe((res: Response)=>{
       this.response = res;
+      if (this.response.code===200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
       this.showPosts();
     })
 
@@ -121,8 +138,21 @@ export class FreedomWallComponent implements OnInit {
 
   deletePost(id: number) {
     const post_id ={id: id};
-    this.dataService.deletePosts(post_id).subscribe(res=>{
+    this.dataService.deletePosts(post_id).subscribe((res: Response)=>{
       this.response=res;
+      if (this.response.code===200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
       this.showPosts();
     });
     

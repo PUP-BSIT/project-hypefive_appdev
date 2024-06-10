@@ -29,3 +29,21 @@ app-display {
   align-items: center;
   justify-content: center;
 }
+
+::ng-deep .custom-toast {
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .custom-toast-font.success {
+  background-color: #B2CF8B;
+}
+
+::ng-deep .custom-toast-font.error {
+  background-color: #c5e3bd;
+}

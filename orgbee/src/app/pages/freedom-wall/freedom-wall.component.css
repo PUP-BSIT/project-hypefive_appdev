@@ -215,13 +215,12 @@ body {
   padding: 20px;
   border: 1px solid #888;
   border-radius: 20px;
-  width: 550px; 
-  height: auto; 
-  max-height: 80vh; 
+  width: 550px;
+  height: auto;
+  max-height: 80vh;
   overflow-y: hidden;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
-
 
 #new_post_title {
   background-color: #ffffff;
@@ -311,15 +310,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffca10; 
-  color: #212121; 
-  border-radius: 20px; 
-  padding: 10px 20px; 
-  font-size: 13px; 
-  font-weight: 400; 
-  border: none; 
-  cursor: pointer; 
-  margin: 0 auto; 
+  background-color: #ffca10;
+  color: #212121;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  margin: 0 auto;
   font-family: "Outfit";
   margin-top: 15px;
 }
