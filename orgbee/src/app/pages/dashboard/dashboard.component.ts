@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AnnouncementService, Announcement, AnnouncementDisplay } from '../../../service/announcement.service';
+import { AnnouncementService, Announcement } from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
 
 enum Roles {
@@ -21,20 +21,26 @@ enum Roles {
 
 export class DashboardComponent implements OnInit {
   announcements: Announcement[] = [];
-  announcementDisplay: AnnouncementDisplay[]=[];
   selectedAnnouncement: Announcement | null = null;
   showModal = false;
   showOneAnnouncement = false;
   modalSubject = '';
   modalContent = '';
-  modalDate='';
-  modalAuthor=''
+  modalDate = '';
+  modalAuthor = '';
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
   userInfo: UserInfo = {
     email: '',
-    id: ''
+    id: '',
+    role_id: 0,
+    first_name: '',
+    last_name: '',
+    student_number: '',
+    birthday: '',
+    gender: '',
+    user_id: 0
   };
 
   announcementForm: FormGroup;
@@ -44,12 +50,11 @@ export class DashboardComponent implements OnInit {
     private loginService: LoginService,
     private announcementService: AnnouncementService
   ) {}
-
+  
   //TODO: update later according to new table in database
   updateUserInfo(selectedAvatarPath: string): void {
     //this.userInfo.icon = selectedAvatarPath; 
   }
-  
   toggleProfileIconEdit(): void { 
     this.showProfileIconEdit = !this.showProfileIconEdit;
   }
@@ -85,10 +90,10 @@ export class DashboardComponent implements OnInit {
   fetchAnnouncements(): void {
     this.announcementService.getAnnouncements().subscribe(
       (announcements) => {
-        if (this.userInfo.role_id === 1) {
-          this.announcementDisplay = announcements.filter(a => a.recipient === 0);
-        } else if (this.userInfo.role_id === 2 || this.userInfo.role_id === 3) {
-          this.announcementDisplay = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        if (this.userInfo.role_id === Roles.Student) {
+          this.announcements = announcements.filter(a => a.recipient === 0);
+        } else if (this.userInfo.role_id === Roles.Officer || this.userInfo.role_id === Roles.Admin) {
+          this.announcements = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
         }
       },
       (error) => {
@@ -97,22 +102,21 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  openModal(announcementDisplay: AnnouncementDisplay): void {
-    this.announcementForm.patchValue({
-      subject: announcementDisplay.subject,
-      message: announcementDisplay.content,
-      recipient: announcementDisplay.recipient,
-    });
-    this.modalSubject = announcementDisplay.subject;
-    this.modalContent = announcementDisplay.content;
-    this.modalDate=announcementDisplay.created_at;
-    this.modalAuthor=announcementDisplay.author;
+  openModal(announcement: Announcement): void {
+    this.modalSubject = announcement.subject;
+    this.modalContent = announcement.content;
+    this.modalDate = announcement.created_at || '';
+    this.modalAuthor = announcement.author || '';
     this.showOneAnnouncement = true;
   }
 
   openEditModal(announcement: Announcement): void {
     this.selectedAnnouncement = announcement; 
-    console.log('Selected Announcement:', this.selectedAnnouncement); // Log the selected announcement
+    this.announcementForm.patchValue({
+      subject: announcement.subject,
+      message: announcement.content,
+      recipient: announcement.recipient,
+    });
     this.showEditModal = true;
   }
 
@@ -130,9 +134,9 @@ export class DashboardComponent implements OnInit {
   }
 
   handleAnnouncementUpdated(updatedAnnouncement: Announcement): void {
-    const index = this.announcementDisplay.findIndex((a) => a.id === updatedAnnouncement.id);
+    const index = this.announcements.findIndex((a) => a.id === updatedAnnouncement.id);
     if (index > -1) {
-      this.announcementDisplay[index] = {
+      this.announcements[index] = {
         ...updatedAnnouncement,
         created_at: this.getCurrentDateTime(), 
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
@@ -141,19 +145,13 @@ export class DashboardComponent implements OnInit {
     this.closeModalEditAnnouncement();
   }
   
-
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
-    const newAnnouncementDisplay: AnnouncementDisplay = {
-      id: newAnnouncement.id,
-      subject: newAnnouncement.subject,
-      content: newAnnouncement.content,
-      recipient: newAnnouncement.recipient,
-      student_id: newAnnouncement.student_id, 
+    const newAnnouncementDisplay: Announcement = {
+      ...newAnnouncement,
       created_at: this.getCurrentDateTime(), 
       author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
     };
-    this.announcementDisplay.push(newAnnouncementDisplay);
-    console.log('Updated announcements array:', this.announcementDisplay);
+    this.announcements.push(newAnnouncementDisplay);
   }
   
   getCurrentDateTime(): string {
@@ -162,19 +160,14 @@ export class DashboardComponent implements OnInit {
   }
   
   deleteAnnouncement(announcement: Announcement): void {
-    const index = this.announcements.indexOf(announcement);
-    if (index > -1) {
-      const announcementId = announcement.id; 
-      this.announcementService.deleteAnnouncement(announcementId).subscribe(
-        () => {
-          this.announcements.splice(index, 1);
-          console.log('Announcement deleted successfully.');
-        },
-        (error) => {
-          console.error('Error deleting announcement:', error);
-        }
-      );
-    }
+    this.announcementService.deleteAnnouncement(announcement.id).subscribe(
+      () => {
+        this.announcements = this.announcements.filter(a => a.id !== announcement.id);
+      },
+      (error) => {
+        console.error('Error deleting announcement:', error);
+      }
+    );
   }
   
   truncateText(text: string, limit: number): string {
@@ -189,14 +182,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getHeaderClasses(): string {
-    if (this.userInfo.role_id === 1) {
-      return 'student';
-    } else if (this.userInfo.role_id === 2) {
-      return 'officer';
-    } else if (this.userInfo.role_id === 3) {
-      return 'admin';
-    } else {
-      return ''; 
+    switch (this.userInfo.role_id) {
+      case Roles.Student:
+        return 'student';
+      case Roles.Officer:
+        return 'officer';
+      case Roles.Admin:
+        return 'admin';
+      default:
+        return ''; 
     }
   }
 }
