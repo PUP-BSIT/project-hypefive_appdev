@@ -65,7 +65,7 @@ export class MembersComponent implements OnInit {
     this.showRequest();
     this.showOfficers();
     this.details = [];
-    this.membershipRequests=[];
+    this.membershipRequests = [];
   }
 
   showMembers() {
@@ -75,15 +75,16 @@ export class MembersComponent implements OnInit {
   }
 
   showRequest() {
-    this.dataService.getMembershipRequest().subscribe((request: MembershipRequests[])=>{
-      this.membershipRequests = request;
-    })
+    this.dataService.getMembershipRequest()
+      .subscribe((request: MembershipRequests[])=>{
+        this.membershipRequests = request;
+    });
   }
 
   showOfficers() {
     this.dataService.getOfficers().subscribe((request: Officers[])=>{
       this.officers = request;
-    })
+    });
   }
 
   acceptRequest(student_number: string) {
@@ -91,9 +92,9 @@ export class MembersComponent implements OnInit {
     
     this.dataService.acceptMember(data).subscribe((res: Response) => {
       this.response = res;
-
       // Remove the accepted student from the membershipRequests array
-      this.membershipRequests = this.membershipRequests.filter(request => request.student_number !== student_number);
+      this.membershipRequests = this.membershipRequests
+        .filter(request => request.student_number !== student_number);
       this.showMembers();
     });
     
@@ -104,22 +105,24 @@ export class MembersComponent implements OnInit {
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
-      
       // Remove the accepted student from the membershipRequests array
-      this.membershipRequests = this.membershipRequests.filter(request => request.student_number !== student_number);
+      this.membershipRequests = this.membershipRequests
+        .filter(request => request.student_number !== student_number);
       this.showRequest();
     });
   }
   
   memberClick(student_number: string) {
-    const selectedMember = this.members.find(member => member.student_number === student_number);
+    const selectedMember = this.members
+      .find(member => member.student_number === student_number);
     this.showModalMember = true;
     this.details.push(selectedMember);
     this.student_num=student_number;
   }
 
   officerClick(student_number: string) {
-    const selectedMember = this.members.find(member => member.student_number === student_number);
+    const selectedMember = this.members
+      .find(member => member.student_number === student_number);
     this.showModalOfficer = true;
     this.details.push(selectedMember);
     this.student_num=student_number;
@@ -136,11 +139,13 @@ export class MembersComponent implements OnInit {
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
-      
+
       this.showModalMember = false;
       this.showModalOfficer = false;
+
       this.details=[]; 
       this.student_num ='';
+      
       this.showMembers();
       this.showOfficers();
     });
@@ -167,5 +172,4 @@ export class MembersComponent implements OnInit {
       this.details=[]; 
     });
   }
- 
 }
