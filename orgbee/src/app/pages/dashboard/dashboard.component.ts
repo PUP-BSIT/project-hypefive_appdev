@@ -58,7 +58,6 @@ export class DashboardComponent implements OnInit {
     this.showProfileIconEdit = false;
   }
 
-
   toggleModal(): void {
     this.showModal = !this.showModal;
   }
@@ -142,7 +141,7 @@ export class DashboardComponent implements OnInit {
     this.closeModalEditAnnouncement();
   }
   
-  
+
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
     const newAnnouncementDisplay: AnnouncementDisplay = {
       id: newAnnouncement.id,

@@ -12,32 +12,32 @@
 
     <!-- TODO(Ternal, AprilJoy): make this tools a  component -->
       <!----- TOOLS: CREATE EVENT ---->
-      <h2 class="section-title">Tools</h2>
-      <div class="tools">
-        <mat-card class="example-card">
-          <mat-card-header> </mat-card-header>
-          <span class="material-symbols-outlined custom-icon">
-            edit_square
-          </span>
-          <mat-card-title>Create Event</mat-card-title>
-        </mat-card>
-
-        <!-- TOOLS: ANNOUNCEMENT!-->
-        <mat-card class="example-card" (click)="toggleModal()">
-          <mat-card-header>
+      <div [ngClass]="{'hidden': userInfo.role_id === 1}">
+        <h2 class="section-title">Tools</h2>
+        <div class="tools">
+          <mat-card class="example-card">
+            <mat-card-header> </mat-card-header>
             <span class="material-symbols-outlined custom-icon">
-              campaign
+              edit_square
             </span>
-          </mat-card-header>
-          <mat-card-title>Make Announcement</mat-card-title>
-        </mat-card>
+            <mat-card-title>Create Event</mat-card-title>
+          </mat-card>
 
-       <!-- TOOLS: VIEW MEMBERSHIP REQUESTS!-->
-        <mat-card class="example-card">
-          <mat-card-header> </mat-card-header>
-          <span class="material-symbols-outlined custom-icon"> groups </span>
-          <mat-card-title>View Membership Requests</mat-card-title>
-        </mat-card>
+          <mat-card class="example-card" (click)="toggleModal()">
+            <mat-card-header>
+              <span class="material-symbols-outlined custom-icon">
+                campaign
+              </span>
+            </mat-card-header>
+            <mat-card-title>Make Announcement</mat-card-title>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <mat-card-header> </mat-card-header>
+            <span class="material-symbols-outlined custom-icon"> groups </span>
+            <mat-card-title>View Membership Requests</mat-card-title>
+          </mat-card>
+        </div>
       </div>
     </div>
 
