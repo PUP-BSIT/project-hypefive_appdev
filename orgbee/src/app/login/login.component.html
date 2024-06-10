@@ -190,15 +190,16 @@
                 id="signup_password"
                 minlength="8"
                 formControlName="password" />
-              @if(signUpPasswordControl.invalid && signUpPasswordControl.touched){
-                <div class="inc">
-                  @if(signUpPasswordControl.errors?.['required']){
-                    <div>Password is Required.</div>
-                  }
-                  @if(signUpPasswordControl.errors?.['minlength']){
-                    <div>Password must be 8 characters long</div>
-                  }
-                </div>
+              @if(signUpPasswordControl.invalid && 
+                signUpPasswordControl.touched){
+                  <div class="inc">
+                    @if(signUpPasswordControl.errors?.['required']){
+                      <div>Password is Required.</div>
+                    }
+                    @if(signUpPasswordControl.errors?.['minlength']){
+                      <div>Password must be 8 characters long</div>
+                    }
+                  </div>
               }
             </div>
   
