@@ -22,7 +22,6 @@ export class ProfileIconComponent {
   }
 
   saveAvatar() {
-    // Handle saving the avatar logic here
     this.closeModal();
   }
 }
