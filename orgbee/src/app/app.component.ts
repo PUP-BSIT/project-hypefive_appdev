@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../service/login.service';
+import { LoginService, UserInfo } from '../service/login.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +8,14 @@ import { LoginService } from '../service/login.service';
 })
 export class AppComponent implements OnInit {
   title = 'homepage';
-  userData: any; // Variable to store retrieved user data
+  userData: UserInfo; 
 
   constructor(private loginService: LoginService) {}
 
   ngOnInit() {
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userData = data;
+    });
   }
 
   isLoggedIn() {
