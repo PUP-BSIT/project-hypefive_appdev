@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../service/data.service';
-
+import { Response } from '../../app.component';
 interface Member {
   first_name: string;
   last_name: string;
@@ -48,7 +48,6 @@ interface Officers {
 })
 
 export class MembersComponent implements OnInit {
-  modalName = '';
   showModalMember = false;
   showModalOfficer = false;
 
@@ -57,8 +56,8 @@ export class MembersComponent implements OnInit {
   membershipRequests: MembershipRequests[];
   officers: Officers[];
   student_num:string;
-  // TODO: VILLA-VILLA: remove the "any" data type
-  response:any;
+  response: Response;
+
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void{
@@ -90,7 +89,7 @@ export class MembersComponent implements OnInit {
   acceptRequest(student_number: string) {
     const data = {student_number: student_number };
     
-    this.dataService.acceptMember(data).subscribe(res => {
+    this.dataService.acceptMember(data).subscribe((res: Response) => {
       this.response = res;
 
       // Remove the accepted student from the membershipRequests array
@@ -103,7 +102,7 @@ export class MembersComponent implements OnInit {
   declineRequest(student_number: string) {
     const data = {student_number: student_number };
 
-    this.dataService.declineMember(data).subscribe(res => {
+    this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
       
       // Remove the accepted student from the membershipRequests array
@@ -135,7 +134,7 @@ export class MembersComponent implements OnInit {
   removeMember() {
     const data = {student_number: this.student_num };
 
-    this.dataService.declineMember(data).subscribe(res => {
+    this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
       
       this.showModalMember = false;
@@ -150,7 +149,7 @@ export class MembersComponent implements OnInit {
   promoteToOfficer() {
     const data = {student_number: this.student_num };
     
-    this.dataService.promoteToOfficer(data).subscribe(res => {
+    this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
       this.response = res;
       this.showModalMember = false;
       this.showOfficers();
@@ -161,7 +160,7 @@ export class MembersComponent implements OnInit {
   demoteToMember() {
     const data = {student_number: this.student_num };
     
-    this.dataService.demoteToMember(data).subscribe(res => {
+    this.dataService.demoteToMember(data).subscribe((res: Response) => {
       this.response = res;
       this.showModalOfficer = false;
       this.showOfficers();
