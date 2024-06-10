@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,10 +17,15 @@ use App\Models\User;
 class StudentsController extends Controller {
     public function register(Request $request) {
         $student= User::where ('email', $request['email'])->first();
+        $student_number= Students::where('student_number', $request['student_number'])->first();
          
-        if ($student) {
+        if ($student ) {
             $response['status'] = 0;
             $response['message'] = 'Email already exists';
+            $response['code'] = 409;
+        } else if($student_number) {
+            $response['status'] = 0;
+            $response['message'] = 'Student number already exists';
             $response['code'] = 409;
         } else {
             $verificationCode = Str::random(15);
@@ -29,7 +35,7 @@ class StudentsController extends Controller {
                 'password' => bcrypt($request->password),
                 'email_auth_token' => $verificationCode,
             ]);
-            DB::table('students')->insertGetId([
+            DB::table('students')->insert([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'student_number' => $request->student_number,

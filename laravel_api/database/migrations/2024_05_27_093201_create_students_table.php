@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
-            $table->string('student_number', 15);
+            $table->string('student_number', 15)->unique();
             $table->date('birthday');
             $table->string('gender', 10);
             $table->unsignedBigInteger('user_id');
