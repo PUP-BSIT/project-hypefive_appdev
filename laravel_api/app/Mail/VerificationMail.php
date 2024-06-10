@@ -14,16 +14,16 @@ class VerificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $verificationLink;
+    public $verificationCode;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($verificationLink)
+    public function __construct($verificationCode)
     {
-        $this->verificationLink = $verificationLink;
+        $this->verificationCode = $verificationCode;
     }
 
     /**
@@ -39,7 +39,7 @@ class VerificationMail extends Mailable
     
         return $this->view('emails.verify')
                     ->subject('Email Verification')
-                    ->with(['verificationLink' => $this->verificationLink])
+                    ->with(['verificationCode' => $this->verificationCode])
                     ->attachData($imageData, 'logo.png', ['mime' => $imageMimeType]);
     }
     

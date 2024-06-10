@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -21,10 +22,12 @@ class StudentsController extends Controller {
             $response['message'] = 'Email already exists';
             $response['code'] = 409;
         } else {
+            $verificationCode = Str::random(15);
             //Insert the data 
             $student = DB::table('users')->insertGetId([
                 'email' => $request->email,
-                'password' => bcrypt($request->password) ,
+                'password' => bcrypt($request->password),
+                'email_auth_token' => $verificationCode,
             ]);
             DB::table('students')->insertGetId([
                 'first_name' => $request->first_name,
@@ -34,7 +37,7 @@ class StudentsController extends Controller {
                 'gender' => $request->gender,
                 'user_id' => $student,
             ]);
-
+            $student = User::find($student);
             $this->sendVerificationEmail($student);
             
             $response['status'] = 1;
@@ -88,12 +91,10 @@ class StudentsController extends Controller {
         return response()->json($response);
     }
 
-    public function sendVerificationEmail($studentId) {
-        $student = User::find($studentId);
-        $token = $student->generateVerificationToken();
-        $verificationLink = url('/api/verify-email?token=' . $token);
+    public function sendVerificationEmail($student) {
+        $verificationCode = $student->email_auth_token;
         
-        Mail::to($student->email)->send(new VerificationMail($verificationLink));
+        Mail::to($student->email)->send(new VerificationMail($verificationCode));
     }
     
 }

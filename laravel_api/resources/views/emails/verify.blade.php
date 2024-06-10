@@ -3,6 +3,7 @@
 <head>
     <title>Verify Your Email</title>
     <style>
+        /* TODO: Move the styling into a css file */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f8f8;
@@ -38,23 +39,15 @@
             font-size: 16px;
             margin: 20px 0;
         }
-        .btn {
+        .code {
             display: inline-block;
             padding: 15px 30px;
             margin: 20px 0;
             background-color: #f0c419;
             color: #333;
-            text-decoration: none;
-            border-radius: 100px;
+            border-radius: 60px;
             font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #e0b417;
-        }
-        .note {
-            color: #999;
-            font-size: 14px;
-            margin-top: 30px;
+            font-size: 18px;
         }
         .footer {
             margin-top: 40px;
@@ -66,22 +59,22 @@
         }
     </style>
 </head>
-<body>
+    <body>
     <div class="container">
-        <div class="logo">
-            <img src="cid:logo.png" alt="OrgBee Logo">
-        </div>
-        <div class="content">
-            <h1>EMAIL CONFIRMATION</h1>
-            <p>Almost there! Click below to confirm your email and join our organizational hive:</p>
-            <a href="{{ $verificationLink }}" class="btn">Confirm Email Address</a>
-            <p class="note">If you didn't sign up for this, just buzz off this email.</p>
-
-            <div class="footer">
-            <p>Best Regards,<br>The OrgBee Team</p>
+            <div class="logo">
+                <img src="cid:logo.png" alt="Logo">
             </div>
+            <div class="content">
+                <h1>EMAIL CONFIRMATION</h1>
+                <p>Use the following code to verify your email address:</p>
+                <div class="code">{{ $verificationCode }}</div>
+                <p>If you didn't sign up for this, please ignore this email.</p>
 
+                <div class="footer">
+                    <p>Best Regards,<br>The Team</p>
+                </div>
+
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

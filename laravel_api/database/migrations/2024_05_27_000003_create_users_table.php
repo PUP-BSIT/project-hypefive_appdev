@@ -22,8 +22,8 @@ return new class extends Migration
                 ->on('account_status')->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
 
-            $table->boolean('has_reg_fee')->default(false); 
-            $table->string('email_auth_token', 255);
+            $table->boolean('is_verified')->default(false); 
+            $table->string('email_auth_token', 255)->nullable();
         });
 
         // Schema::create('password_reset_tokens', function (Blueprint $table) {

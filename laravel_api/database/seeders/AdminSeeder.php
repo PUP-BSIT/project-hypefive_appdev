@@ -18,7 +18,9 @@ class AdminSeeder extends Seeder
             ['id'=>'1', 
              'email'=>'admin@gmail.com', 
              'password'=>Hash::make('password'), 
-             'account_status_id'=>'2']
+             'account_status_id'=>'2',
+             'is_verified'=>1,
+             'email_auth_token'=>'']
         ]);
         DB::table('students')-> insert([
             ['id'=>'1',
