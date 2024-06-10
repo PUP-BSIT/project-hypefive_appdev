@@ -123,6 +123,17 @@ export class FreedomWallComponent implements OnInit {
     });
   }
 
+  getBackgroundColorClass(post: Post): string[] {
+    const colorClass = 
+      `background-color-class-${this.getColorIndex(post.background_color)}`;
+    return [colorClass];
+  }
+  
+  getColorIndex(color: string): number {
+    const colors = ['#FAA49E', '#E5B769', '#BBA0CA', '#90E0EF', '#C2FDB2'];
+    return colors.indexOf(color) + 1;
+  }  
+  
   getRandomColor(): string {
     const colors = ['#FAA49E', '#E5B769', '#BBA0CA', '#90E0EF', '#C2FDB2'];
     return colors[Math.floor(Math.random() * colors.length)];

@@ -79,7 +79,7 @@
 <ngx-masonry>
   @for(post of posts; track posts) {
     <div ngxMasonryItem class="masonry-item">
-      <div [style.background-color]="post.background_color">
+      <div [ngClass]="getBackgroundColorClass(post)">
         <div class="post-header">
           <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
           <div class="post-options">
