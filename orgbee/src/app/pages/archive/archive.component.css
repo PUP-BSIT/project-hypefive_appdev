@@ -2,7 +2,7 @@ body {
   font-family: "Outfit", sans-serif;
 }
 
-.members-page {
+.archive-page {
   margin-top: 0px;
   padding-top: 0%;
 }
@@ -209,7 +209,7 @@ body {
 }
 
 .modal-content {
-    position: relative; /* Ensure the close button is positioned relative to this */
+    position: relative;
     background-color: #fefefe;
     margin: 15% auto;
     padding: 3%;
