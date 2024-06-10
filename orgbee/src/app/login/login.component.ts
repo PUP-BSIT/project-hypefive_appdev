@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
-  ValidatorFn, AbstractControl, 
+  ValidatorFn, AbstractControl, FormControl,
   ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -48,10 +48,10 @@ export class LoginComponent implements OnInit {
 
     this.signupForm = this.formBuilder.group({
       first_name: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, this.noNumbersValidator]
       }],
       last_name: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, this.noNumbersValidator]
       }],
       student_number: ['', {
         validators: [
@@ -127,6 +127,11 @@ export class LoginComponent implements OnInit {
 
   get confirmPassControl() {
     return this.signupForm.get('confirmPassword');
+  }
+
+  noNumbersValidator(control: FormControl) {
+    const containsNumbers = /[0-9]/.test(control.value);
+    return containsNumbers ? { containsNumbers: true } : null;
   }
 
   maxAgeValidator(maxAge: number): ValidatorFn {

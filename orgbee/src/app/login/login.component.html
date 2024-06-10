@@ -77,6 +77,9 @@
                   @if(firstNameControl.errors?.['required']) {
                     <div>First name is required</div>
                   }
+                  @if(firstNameControl.errors?.['containsNumbers']) {
+                    <div>First name should not contain numbers</div>
+                  }
                 </div>
               }
             </div>
@@ -91,6 +94,9 @@
                 <div class="inc">
                   @if(lastNameControl.errors?.['required']) {
                     <div>Last name is required</div>
+                  }
+                  @if(lastNameControl.errors?.['containsNumbers']) {
+                    <div>Last name should not contain numbers</div>
                   }
                 </div>
               }
@@ -215,7 +221,7 @@
             </div>
           </div>
   
-          <button type="submit">Sign Up</button>
+          <button type="submit" [disabled]="!signupForm.valid">Sign Up</button>
   
         </form>
       </div>
