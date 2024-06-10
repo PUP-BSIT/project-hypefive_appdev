@@ -1,7 +1,6 @@
 <div class="dashboard">
   <div class="content">
-    
-    <div class="main">  
+    <div class="main">
       <div class="dashboard-header" [class]="getHeaderClasses()">
         <div class="greetings">
           <h1 class="org-name">Computer Society</h1>
@@ -10,9 +9,9 @@
         <img src="assets/default.jpg" alt="Icon" class="org-icon" />
       </div>
 
-    <!-- TODO(Ternal, AprilJoy): make this tools a  component -->
+      <!-- TODO(Ternal, AprilJoy): make this tools a  component -->
       <!----- TOOLS: CREATE EVENT ---->
-      <div [ngClass]="{'hidden': userInfo.role_id === 1}">
+      <div [ngClass]="{ hidden: userInfo.role_id === 1 }">
         <h2 class="section-title">Tools</h2>
         <div class="tools">
           <mat-card class="example-card">
@@ -47,61 +46,73 @@
         <div class="profile-details">
           <img src="assets/default.jpg" alt="Icon" class="icon" />
           <div class="details">
-            <p class="name">{{ userInfo.first_name }} {{ userInfo.last_name }}</p>
+            <p class="name">
+              {{ userInfo.first_name }} {{ userInfo.last_name }}
+            </p>
             <p class="course">{{ userInfo.student_number }}</p>
-            <div class="role-button" [class]="getHeaderClasses()">{{ getRoleName(userInfo.role_id) }}</div>
+            <div class="role-button" [class]="getHeaderClasses()">
+              {{ getRoleName(userInfo.role_id) }}
+            </div>
           </div>
         </div>
         <div class="dropdown-menu">
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
             <mat-icon>expand_circle_down</mat-icon>
           </button>
-          <mat-menu #menu="matMenu" class="profile-menu" xPosition="before" yPosition="below">
-            <button mat-menu-item class="profile-menu-item" (click)="toggleProfileIconEdit()">
-              <mat-icon class="profile-menu-icon">edit</mat-icon>
-              <span class="profile-menu-text">Change Profile</span>
-          </button>
-          
-            <button mat-menu-item >
-              <mat-icon class="profile-menu-icon">exit_to_app</mat-icon>
-              <span class="profile-menu-text">Logout</span>
+          <mat-menu #menu="matMenu"
+                  class="profile-menu"
+               xPosition="before"
+              yPosition="below">
+            <button mat-menu-item
+                      class="profile-menu-item"
+                    (click)="toggleProfileIconEdit()">
+                  <mat-icon class="profile-menu-icon">edit</mat-icon>
+                <span class="profile-menu-text">Change Profile</span>
+            </button>
+
+            <button mat-menu-item>
+                  <mat-icon mat-icon class="profile-menu-icon">exit_to_app</mat-icon>
+                <span class="profile-menu-text">Logout</span>
             </button>
           </mat-menu>
         </div>
       </div>
 
-      <app-profile-icon 
-      (avatarSaved)="updateUserInfo($event)" 
-      (close)="handleProfileIconClose()"
-      [showProfileIconEdit]="showProfileIconEdit">
-    </app-profile-icon>
-
+      <app-profile-icon
+                (avatarSaved)="updateUserInfo($event)"
+            (close)="handleProfileIconClose()"
+            [showProfileIconEdit]="showProfileIconEdit">
+      </app-profile-icon>
 
       <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
-        <div class="announcement" *ngFor="let announcement of announcementDisplay">
-          <button *ngIf="userInfo.role_id !== 1 && announcement.student_id === userInfo.user_id"
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            aria-label="Example icon-button with a menu"
-            class="menu-button">
-        <mat-icon>more_vert</mat-icon>
-    </button>
+        @for (announcement of announcements; track announcement){
+        <div class="announcement">
+          @if (userInfo.role_id !== 1 && announcement.student_id ===
+          userInfo.user_id)
+          {
+          <button mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              class="menu-button">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          }
 
-        <!--ANNOUNCEMENT MENU: edit & delete-->
+          <!--ANNOUNCEMENT MENU: edit & delete-->
           <mat-menu #menu="matMenu" class="an-menu">
-            <button mat-menu-item (click)="deleteAnnouncement(announcement)">
-              <mat-icon class="menu-icon">delete</mat-icon>
-              <span class="menu-item-text">Delete</span>
-            </button>
+              <button mat-menu-item (click)="deleteAnnouncement(announcement)">
+                  <mat-icon class="menu-icon">delete</mat-icon>
+                <span class="menu-item-text">Delete</span>
+              </button>
             <button mat-menu-item (click)="openEditModal(announcement)">
-              <mat-icon class="menu-icon">edit</mat-icon>
-              <span class="menu-item-text">Edit</span>
+                  <mat-icon class="menu-icon">edit</mat-icon>
+                <span class="menu-item-text">Edit</span>
             </button>
           </mat-menu>
 
-        <!--ANNOUNCEMENTS-->
+          <!--ANNOUNCEMENTS-->
           <div class="an-content" (click)="openModal(announcement)">
             <p class="announcement-subject">{{ announcement.subject }}</p>
             <p class="announcement-text">
@@ -109,32 +120,35 @@
             </p>
           </div>
         </div>
+        }
       </div>
 
       <!--VIEW ANNOUNCEMENT MODAL-->
-      <div class="modal" *ngIf="showOneAnnouncement">
+      @if(showOneAnnouncement){
+      <div class="modal">
         <div class="modal-content">
           <span class="close" (click)="closeOneAnnouncement()">&times;</span>
           <h2>{{ modalSubject }}</h2>
           <p>{{ modalContent }}</p>
-          <p>Posted on {{ modalDate }} by {{ modalAuthor}}</p>
+          <p>Posted on {{ modalDate }} by {{ modalAuthor }}</p>
         </div>
       </div>
+      }
 
-       <!--EDIT ANNOUNCEMENT MODAL-->
-       <app-an-edit-modal
-       [selectedAnnouncement]="selectedAnnouncement"
-       [showEditModal]="showEditModal"
-       (closeModal)="closeModalEditAnnouncement()"
-       (announcementUpdated)="handleAnnouncementUpdated($event)">
-   </app-an-edit-modal>
-   
-  <!--CREATE ANNOUNCEMENT MODAL-->
- <app-an-modal
-  [showModal]="showModal"
-  [announcementForm]="announcementForm"
-  (announcementCreated)="handleAnnouncementCreated($event)">
-</app-an-modal>
+      <!--EDIT ANNOUNCEMENT MODAL-->
+      <app-an-edit-modal
+                [selectedAnnouncement]="selectedAnnouncement"
+              [showEditModal]="showEditModal"
+            (closeModal)="closeModalEditAnnouncement()"
+          (announcementUpdated)="handleAnnouncementUpdated($event)">
+      </app-an-edit-modal>
+
+      <!--CREATE ANNOUNCEMENT MODAL-->
+      <app-an-modal
+              [showModal]="showModal"
+            [announcementForm]="announcementForm"
+          (announcementCreated)="handleAnnouncementCreated($event)">
+      </app-an-modal>
     </div>
   </div>
 </div>
