@@ -1,4 +1,5 @@
-<div class="change-profile-icon" *ngIf="showProfileIconEdit">
+@if(showProfileIconEdit) {
+ <div class="change-profile-icon">
     <div class="change-icon-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <img class="current-icon" [src]="selectedAvatarPath" alt="Current Icon">
@@ -10,62 +11,52 @@
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon2.jpg'"
           src="assets/icon2.jpg"
-          (click)="selectAvatar('assets/icon2.jpg')"
-        >
+          (click)="selectAvatar('assets/icon2.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon3.jpg'"
           src="assets/icon3.jpg"
-          (click)="selectAvatar('assets/icon3.jpg')"
-        >
+          (click)="selectAvatar('assets/icon3.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon4.jpg'"
           src="assets/icon4.jpg"
-          (click)="selectAvatar('assets/icon4.jpg')"
-        >
+          (click)="selectAvatar('assets/icon4.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon2.jpg'"
           src="assets/icon2.jpg"
-          (click)="selectAvatar('assets/icon2.jpg')"
-        >
+          (click)="selectAvatar('assets/icon2.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon3.jpg'"
           src="assets/icon3.jpg"
-          (click)="selectAvatar('assets/icon3.jpg')"
-        >
+          (click)="selectAvatar('assets/icon3.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon4.jpg'"
           src="assets/icon4.jpg"
-          (click)="selectAvatar('assets/icon4.jpg')"
-        >
+          (click)="selectAvatar('assets/icon4.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon2.jpg'"
           src="assets/icon2.jpg"
-          (click)="selectAvatar('assets/icon2.jpg')"
-        >
+          (click)="selectAvatar('assets/icon2.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon2.jpg'"
           src="assets/icon2.jpg"
-          (click)="selectAvatar('assets/icon2.jpg')"
-        >
+          (click)="selectAvatar('assets/icon2.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon3.jpg'"
           src="assets/icon3.jpg"
-          (click)="selectAvatar('assets/icon3.jpg')"
-        >
+          (click)="selectAvatar('assets/icon3.jpg')">
         <img
           class="avatar"
           [class.selected]="currentSelectedAvatar === 'assets/icon4.jpg'"
           src="assets/icon4.jpg"
-          (click)="selectAvatar('assets/icon4.jpg')"
-        >
+          (click)="selectAvatar('assets/icon4.jpg')">
       </div>
       <div class="options">
         <button class="cancel" (click)="closeModal()">Cancel</button>
@@ -73,3 +64,4 @@
       </div>
     </div>
   </div>
+}

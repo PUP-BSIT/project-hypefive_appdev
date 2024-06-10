@@ -12,9 +12,9 @@ import { LoginService, UserInfo } from '../../../../service/login.service';
 })
 export class AnEditModalComponent implements OnInit, OnChanges {
   @Input() selectedAnnouncement: Announcement | null = null;
+  @Input() showEditModal = false;
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @Output() announcementUpdated: EventEmitter<Announcement> = new EventEmitter<Announcement>();
-  @Input() showEditModal = false;
   announcementForm: FormGroup;
   userInfo: UserInfo | null = null;
 

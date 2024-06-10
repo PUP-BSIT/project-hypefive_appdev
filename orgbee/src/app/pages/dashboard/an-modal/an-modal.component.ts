@@ -9,13 +9,14 @@ import { AnnouncementService, Announcement } from '../../../../service/announcem
   styleUrls: ['../dashboard.component.css']
 })
 export class AnModalComponent implements OnInit {
-  userInfo: UserInfo | null = null;
-  announcements: Announcement[] = [];
 
   @Input() showModal = false;
   @Input() announcementForm: FormGroup;
   @Output() announcementCreated = new EventEmitter<Announcement>(); 
 
+  userInfo: UserInfo | null = null;
+  announcements: Announcement[] = [];
+  
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,

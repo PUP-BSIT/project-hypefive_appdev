@@ -1,4 +1,5 @@
-<div class="modal-announcement" *ngIf="showModal">
+@if(showModal) {
+<div class="modal-announcement">
     <div class="modal-announcement-content">
         <span class="close" (click)="closeModal()">&times;</span>
       <h2>Announcement</h2>
@@ -80,3 +81,4 @@
       </form>
     </div>
   </div>
+}

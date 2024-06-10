@@ -44,7 +44,6 @@ import { DatePipe } from '@angular/common';
     AnEditModalComponent,
     ProfileIconComponent,
 
-
   ],
   imports: [
     BrowserModule,

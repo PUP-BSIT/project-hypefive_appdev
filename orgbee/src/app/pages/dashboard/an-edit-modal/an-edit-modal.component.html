@@ -1,4 +1,5 @@
-<div class="modal-edit-announcement" *ngIf="showEditModal">
+@if(showEditModal) {
+<div class="modal-edit-announcement">
     <div class="modal-announcement-content">
       <span class="close" (click)="close()">&times;
       </span>
@@ -80,3 +81,4 @@
     </form>
     </div>
   </div>
+}
