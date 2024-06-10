@@ -16,14 +16,18 @@
       <i class="fas fa-thumbtack"></i>
     </div>
 
-    <div class="nav-button" routerLink="/events" *ngIf="userInfo.role_id !== 1">
-      <i class="fas fa-calendar"></i>
-    </div>
+    @if(userInfo.role_id!==1){
+      <div class="nav-button" routerLink="/events">
+        <i class="fas fa-calendar"></i>
+      </div>
+    }
 
-    <div class="nav-button" routerLink="/members" *ngIf="userInfo.role_id !== 1">
-      <i class="fas fa-users"></i>
-    </div>
-
+    @if(userInfo.role_id!==1){
+      <div class="nav-button" routerLink="/members">
+        <i class="fas fa-users"></i>
+      </div>
+    }
+    
     <div class="nav-button" routerLink="/archive">
       <i class="fas fa-archive"></i>
     </div>
