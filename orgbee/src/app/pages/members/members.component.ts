@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../service/data.service';
 import { Response } from '../../app.component';
+import { ToastrService } from 'ngx-toastr';
+
 interface Member {
   first_name: string;
   last_name: string;
@@ -58,7 +60,9 @@ export class MembersComponent implements OnInit {
   student_num:string;
   response: Response;
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void{
     this.showMembers();
@@ -69,20 +73,20 @@ export class MembersComponent implements OnInit {
   }
 
   showMembers() {
-    this.dataService.getMembers().subscribe((members: Member[])=>{
+    this.dataService.getMembers().subscribe((members: Member[]) => {
       this.members = members;
     });
   }
 
   showRequest() {
     this.dataService.getMembershipRequest()
-      .subscribe((request: MembershipRequests[])=>{
+      .subscribe((request: MembershipRequests[]) => {
         this.membershipRequests = request;
     });
   }
 
   showOfficers() {
-    this.dataService.getOfficers().subscribe((request: Officers[])=>{
+    this.dataService.getOfficers().subscribe((request: Officers[]) => {
       this.officers = request;
     });
   }
@@ -92,9 +96,21 @@ export class MembersComponent implements OnInit {
     
     this.dataService.acceptMember(data).subscribe((res: Response) => {
       this.response = res;
-      // Remove the accepted student from the membershipRequests array
-      this.membershipRequests = this.membershipRequests
-        .filter(request => request.student_number !== student_number);
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
+      this.showRequest();
       this.showMembers();
     });
     
@@ -105,9 +121,21 @@ export class MembersComponent implements OnInit {
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
-      // Remove the accepted student from the membershipRequests array
-      this.membershipRequests = this.membershipRequests
-        .filter(request => request.student_number !== student_number);
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      
+      this.showRequest();
       this.showRequest();
     });
   }
@@ -115,6 +143,7 @@ export class MembersComponent implements OnInit {
   memberClick(student_number: string) {
     const selectedMember = this.members
       .find(member => member.student_number === student_number);
+    
     this.showModalMember = true;
     this.details.push(selectedMember);
     this.student_num=student_number;
@@ -123,6 +152,7 @@ export class MembersComponent implements OnInit {
   officerClick(student_number: string) {
     const selectedMember = this.members
       .find(member => member.student_number === student_number);
+
     this.showModalOfficer = true;
     this.details.push(selectedMember);
     this.student_num=student_number;
@@ -131,7 +161,7 @@ export class MembersComponent implements OnInit {
   closeModal() {
     this.showModalMember = false;
     this.showModalOfficer = false;
-    this.details=[]; //Empty details
+    this.details=[]; 
   }
 
   removeMember() {
@@ -139,6 +169,19 @@ export class MembersComponent implements OnInit {
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
 
       this.showModalMember = false;
       this.showModalOfficer = false;
@@ -156,6 +199,20 @@ export class MembersComponent implements OnInit {
     
     this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
       this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
       this.showModalMember = false;
       this.showOfficers();
       this.details=[]; 
@@ -167,6 +224,20 @@ export class MembersComponent implements OnInit {
     
     this.dataService.demoteToMember(data).subscribe((res: Response) => {
       this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
       this.showModalOfficer = false;
       this.showOfficers();
       this.details=[]; 

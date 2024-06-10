@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MembersController extends Controller {
-    //To do: VILLA-VILLA: Format response 
     public function getMembers() {
         $students = DB::table('students')
             ->join('users', 'students.user_id', '=', 'users.id')
@@ -35,26 +34,44 @@ class MembersController extends Controller {
 
     public function acceptMember(Request $request) {
         $student_number = $request->only('student_number');
-        $user_id = DB::table('students')->where('student_number', $student_number)->value('user_id');
+        $user_id = DB::table('students')
+            ->where('student_number', $student_number)
+            ->value('user_id');
     
         if ($user_id) {
-            DB::table('users')->where('id', $user_id)->update(['account_status_id' => 2]);
-            return response()->json(['message' => 'Account status updated successfully'], 200);
+            DB::table('users')->where('id', $user_id)
+                ->update(['account_status_id' => 2]);
+            
+            $response ['message'] = 'Student accepted successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
         } else {
-            return response()->json(['message' => 'User not found'], 404);
+            $response ['message'] = 'User not found';
+            $response ['code'] = 404;
+            return response()->json($response);
         }
     }
 
     public function declineMember(Request $request) {
         $student_number = $request->only('student_number');
-        $user_id = DB::table('students')->where('student_number', $student_number)->value('user_id');
+        $user_id = DB::table('students')
+            ->where('student_number', $student_number)
+            ->value('user_id');
         
         if ($user_id) {
-            DB::table('users')->where('id', $user_id)->update(['account_status_id' => 3]);
-            DB::table('students')->where('student_number', $student_number)->update(['role_id'=>1]);
-            return response()->json(['message' => 'Student declined successfully'], 200);
+            DB::table('users')->where('id', $user_id)
+                ->update(['account_status_id' => 3]);
+
+            DB::table('students')->where('student_number', $student_number)
+                ->update(['role_id'=>1]);
+
+            $response ['message'] = 'Student declined successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
         } else {
-            return response()->json(['message' => 'User not found'], 404);
+            $response ['message'] = 'User not found';
+            $response ['code'] = 404;
+            return response()->json($response);
         }
     }
     
@@ -75,10 +92,16 @@ class MembersController extends Controller {
         $student_number = $request->only('student_number');
 
         if ($student_number){
-            DB::table('students')->where('student_number', $student_number)->update(['role_id'=>2]);
-            return response()->json(['message' => 'Student added as officer'], 200);
+            DB::table('students')->where('student_number', $student_number)
+                ->update(['role_id'=>2]);
+
+            $response ['message'] = 'Student added as an officer';
+            $response ['code'] = 200;
+            return response()->json($response);
         } else {
-            return response()->json(['message' => 'User not found'], 404);
+            $response ['message'] = 'Member accepted successfully';
+            $response ['code'] = 404;
+            return response()->json($response);
         }
     }
 
@@ -86,10 +109,16 @@ class MembersController extends Controller {
         $student_number = $request->only('student_number');
 
         if ($student_number){
-            DB::table('students')->where('student_number', $student_number)->update(['role_id'=>1]);
-            return response()->json(['message' => 'Student demoted to member'], 200);
+            DB::table('students')->where('student_number', $student_number)
+                ->update(['role_id'=>1]);
+
+            $response ['message'] = 'Student demoted to member';
+            $response ['code'] = 200;
+            return response()->json($response);
         } else {
-            return response()->json(['message' => 'User not found'], 404);
+            $response ['message'] = 'User not found';
+            $response ['code'] = 404;
+            return response()->json($response);
         }
     }
 
