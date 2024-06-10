@@ -31,6 +31,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { FormsModule } from '@angular/forms';
 
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './login/auth.guard';
+
 
 @NgModule({
   declarations: [
@@ -58,9 +61,16 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     NgxMasonryModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        }
+      }
+    })
   ],
-  providers: [DataService, LoginService,  provideAnimationsAsync()],
+  providers: [AuthGuard, DataService, LoginService,  provideAnimationsAsync()],
   
   bootstrap: [AppComponent]
 })
