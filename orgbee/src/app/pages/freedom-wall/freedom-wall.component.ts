@@ -20,6 +20,7 @@ export interface Post {
   templateUrl: './freedom-wall.component.html',
   styleUrls: ['./freedom-wall.component.css']
 })
+
 export class FreedomWallComponent implements OnInit {
   posts: Post[];
   showModal = false;
@@ -155,6 +156,5 @@ export class FreedomWallComponent implements OnInit {
       }
       this.showPosts();
     });
-    
   }
 }

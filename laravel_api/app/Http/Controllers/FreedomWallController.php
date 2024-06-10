@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class FreedomWallController extends Controller
-{
+class FreedomWallController extends Controller {
     public function getPosts() {
         $posts = DB::table('freedomwall')->where('is_posted', 1)->get(); 
         return response()->json($posts, 200);
@@ -30,7 +29,8 @@ class FreedomWallController extends Controller
     public function deletePost(Request $request){
         $postId = $request->only('id');
         if ($postId) {
-            DB::table('freedomwall')->where('id', $postId)->update(['is_posted'=>0]);
+            DB::table('freedomwall')->where('id', $postId)
+                ->update(['is_posted'=>0]);
             $response ['message'] = 'Post successfully deleted.';
             $response ['code'] = 200;
             return response()->json($response);
