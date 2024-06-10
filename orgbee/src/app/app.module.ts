@@ -18,7 +18,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 
-
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
 
@@ -33,7 +32,6 @@ import { FormsModule } from '@angular/forms';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
-
 
 @NgModule({
   declarations: [
