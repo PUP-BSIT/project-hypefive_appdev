@@ -34,7 +34,6 @@ export class FreedomWallComponent implements OnInit {
     private toastr: ToastrService,
     private fb: FormBuilder) { }
     
-
   ngOnInit(): void {
     this.showPosts();
     this.freedomwallForm = this.fb.group({
@@ -81,16 +80,16 @@ export class FreedomWallComponent implements OnInit {
       background_color: this.getRandomColor(),
     };
     
-    this.dataService.addPosts(newPost).subscribe((res: Response)=>{
+    this.dataService.addPosts(newPost).subscribe((res: Response) => {
       this.response = res;
       if (this.response.code===200) {
-        this.toastr.success(JSON.stringify(this.response.message), '',{
+        this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
           progressBar:true,
           toastClass: 'custom-toast success'
         });
       } else {
-        this.toastr.error(JSON.stringify(this.response.message),'',{
+        this.toastr.error(JSON.stringify(this.response.message),'', {
           timeOut: 2000,
           progressBar:true,
           toastClass: 'custom-toast error'
@@ -104,7 +103,7 @@ export class FreedomWallComponent implements OnInit {
   }
 
   showPosts() {
-    this.dataService.getPosts().subscribe((posts: Post[])=>{
+    this.dataService.getPosts().subscribe((posts: Post[]) => {
       this.posts=posts;
     })
   }
@@ -139,16 +138,16 @@ export class FreedomWallComponent implements OnInit {
 
   deletePost(id: number) {
     const post_id ={id: id};
-    this.dataService.deletePosts(post_id).subscribe((res: Response)=>{
+    this.dataService.deletePosts(post_id).subscribe((res: Response) => {
       this.response=res;
       if (this.response.code===200) {
-        this.toastr.success(JSON.stringify(this.response.message), '',{
+        this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
           progressBar:true,
           toastClass: 'custom-toast success'
         });
       } else {
-        this.toastr.error(JSON.stringify(this.response.message), '',{
+        this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
           progressBar:true,
           toastClass: 'custom-toast error'
