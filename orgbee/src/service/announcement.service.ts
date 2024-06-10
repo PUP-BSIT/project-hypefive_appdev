@@ -36,7 +36,7 @@ export class AnnouncementService {
   }
 
   private formatDate(dateString: string): string {
-    return this.datePipe.transform(dateString, 'MMMM d, yyyy');
+    return this.datePipe.transform(dateString, 'MMMM d, yyyy h:mm a') || '';
   }
 
   createAnnouncement(announcement: Announcement): Observable<number> {

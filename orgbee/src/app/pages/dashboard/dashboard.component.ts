@@ -4,6 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { AnnouncementService, Announcement } from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
 
@@ -48,9 +49,10 @@ export class DashboardComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private datePipe: DatePipe
   ) {}
-  
+
   //TODO: update later according to new table in database
   updateUserInfo(selectedAvatarPath: string): void {
     //this.userInfo.icon = selectedAvatarPath; 
@@ -156,7 +158,7 @@ export class DashboardComponent implements OnInit {
   
   getCurrentDateTime(): string {
     const now = new Date();
-    return now.toISOString(); 
+    return this.datePipe.transform(now, 'MMMM d, yyyy h:mm a') || '';
   }
   
   deleteAnnouncement(announcement: Announcement): void {
