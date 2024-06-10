@@ -15,78 +15,86 @@
   </div>
 </div>
 
-@if(showModal){
+@if(showModal) {
   <div class="modal">
     <div class="modal-content">
       <span class="close-btn" (click)="closeModal()">&times;</span>
       <form [formGroup]="freedomwallForm" (ngSubmit)="addPost()">
-        <div class="form-group newPostTitle">
-          <label for="newPostTitle">Subject:</label>
+        <div class="form-group new-post-title">
+          <label for="new_post_title">Subject:</label>
           <div class="input-wrapper">
             <input
               type="text"
-              id="newPostTitle"
+              id="new_post_title"
               formControlName="newPostTitle"
               required
               (input)="updateTitleCharacterCount()" />
-            <span class="character-counter-subject">{{ freedomwallForm.get('newPostTitle').value ? freedomwallForm.get('newPostTitle').value.length : 0 }}/30</span>
+            <span class="character-counter-subject">
+              {{ freedomwallForm.get('newPostTitle').value ? 
+                freedomwallForm.get('newPostTitle').value.length : 0 }}/30
+            </span>
           </div>
-          @if(newPostTitleControl.invalid && newPostTitleControl.touched){
-            @if(newPostTitleControl.errors?.['required']){
+          @if(newPostTitleControl.invalid && newPostTitleControl.touched) {
+            @if(newPostTitleControl.errors?.['required']) {
               <div class="error-required-subject">
                 Subject is required.
               </div>
             }
-           }
+          }
         </div>
       
-        <div class="form-group newPostText">
-          <label for="newPostText">Message:</label>
+        <div class="form-group new-post-text">
+          <label for="new_post_text">Message:</label>
           <div class="textarea-wrapper">
             <textarea
-              id="newPostText"
+              id="new_post_text"
               formControlName="newPostText"
               required
               (input)="updateTextCharacterCount()">
             </textarea>
-            <span class="character-counter-message">{{ freedomwallForm.get('newPostText').value ? freedomwallForm.get('newPostText').value.length : 0 }}/500</span>
+            <span class="character-counter-message">
+              {{ freedomwallForm.get('newPostText').value ? 
+                freedomwallForm.get('newPostText').value.length : 0 }}/500
+            </span>
           </div>
-          @if(newPostTextControl.invalid && newPostTextControl.touched){
-            @if(newPostTextControl.errors?.['required']){
+          @if(newPostTextControl.invalid && newPostTextControl.touched) {
+            @if(newPostTextControl.errors?.['required']) {
               <div class="error-required-message">
                 Message is required.
               </div>
             }
-           }
-          </div>
-      
-        <button type="submit" class="submit-button">POST ANONYMOUSLY</button>
+          }
+        </div>
+        <button 
+          type="submit" 
+          class="submit-button" 
+          [disabled]="freedomwallForm.invalid">
+            POST ANONYMOUSLY
+        </button>
       </form>      
     </div>
   </div>
 }
 
-
 <ngx-masonry>
-  <!-- <div class="grid-container"> -->
-  @for(post of posts; track posts){
+  @for(post of posts; track posts) {
     <div ngxMasonryItem class="masonry-item">
-      <div [style.background-color]="post.backgroundColor">
+      <div [style.background-color]="post.background_color">
         <div class="post-header">
-          <h4>{{ post.title }}</h4>
+          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
           <div class="post-options">
-            <span class="three-dots" (click)="toggleOptions(post)">&#x22EE;</span>
+            <span class="three-dots" (click)="toggleOptions(post)">
+              &#x22EE;
+            </span>
             <div class="dropdown-menu">
               @if(post.showOptions) {
-                <button (click)="editPost(post)">Edit</button>
-                <button (click)="deletePost(post)">Delete</button>
+                <button (click)="deletePost(post.id)">Delete</button>
               }
             </div>
           </div>
         </div>
-        <p (click)="openPost(post)" #postBox>{{ post.text }}</p>
+        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
       </div>
     </div>
   }
-<!-- </div> -->
 </ngx-masonry>

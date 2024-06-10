@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../service/login.service';
 
+export interface Response {
+  message: string;
+  code: number;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
+
 export class AppComponent {
   title = 'homepage';
   constructor(private loginService: LoginService) {}

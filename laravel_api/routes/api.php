@@ -50,3 +50,7 @@ Route::post('/createPostFW',
         [\App\Http\Controllers\FreedomWallController::class, 'createPostFW'])
             ->name('api.createPostFW');
 
+Route::post('/deletePost', 
+        [\App\Http\Controllers\FreedomWallController::class, 'deletePost'])
+            ->name('api.deletePost');
+

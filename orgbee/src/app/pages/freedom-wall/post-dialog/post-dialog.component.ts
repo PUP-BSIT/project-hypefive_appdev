@@ -7,6 +7,7 @@ import { Post } from '../freedom-wall.component';
   templateUrl: './post-dialog.component.html',
   styleUrls: ['./post-dialog.component.css']
 })
+
 export class PostDialogComponent  {
   @Input() postSelected: Post;
 

@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl }
+   from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
+import { ToastrService } from 'ngx-toastr';
+
+import { Response } from '../../app.component';
 
 export interface Post {
-  title: string;
-  text: string;
-  backgroundColor: string;
+  subject: string;
+  content: string;
+  background_color: string;
   showOptions?: boolean;
 }
 
@@ -16,24 +20,33 @@ export interface Post {
   templateUrl: './freedom-wall.component.html',
   styleUrls: ['./freedom-wall.component.css']
 })
+
 export class FreedomWallComponent implements OnInit {
-  posts: Post[] = [];
+  posts: Post[];
   showModal = false;
   selectedPost: Post;
   freedomwallForm: FormGroup;
+  response: Response;
 
-  constructor(private dialog: MatDialog, private dataService: DataService, private fb: FormBuilder) { }
+  constructor(
+    private dialog: MatDialog, 
+    private dataService: DataService, 
+    private toastr: ToastrService,
+    private fb: FormBuilder) { }
+    
 
   ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  initializeForm(): void {
+    this.showPosts();
     this.freedomwallForm = this.fb.group({
-      newPostTitle: ['', Validators.required],
-      newPostText: ['', [Validators.required]]
+      newPostTitle: ['', {
+        validators: [Validators.required]
+      }],
+      newPostText: ['', {
+        validators: [Validators.required]
+      }]
     });
   }
+
   updateTitleCharacterCount(): void {
     const subjectControl = this.freedomwallForm.get('newPostTitle');
     if (subjectControl && subjectControl.value.length > 30) {
@@ -56,21 +69,44 @@ export class FreedomWallComponent implements OnInit {
     return this.freedomwallForm.get('newPostText')!;
   }
 
-  addPost(): void {
+  addPost() {
     if (this.freedomwallForm.invalid) {
       this.freedomwallForm.markAllAsTouched();
       return;
     }
 
     const newPost: Post = {
-      title: this.freedomwallForm.value.newPostTitle,
-      text: this.freedomwallForm.value.newPostText,
-      backgroundColor: this.getRandomColor(),
+      subject: this.freedomwallForm.value.newPostTitle,
+      content: this.freedomwallForm.value.newPostText,
+      background_color: this.getRandomColor(),
     };
+    
+    this.dataService.addPosts(newPost).subscribe((res: Response)=>{
+      this.response = res;
+      if (this.response.code===200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.showPosts();
+    })
 
-    this.posts.push(newPost);
     this.freedomwallForm.reset();
     this.toggleModal();
+  }
+
+  showPosts() {
+    this.dataService.getPosts().subscribe((posts: Post[])=>{
+      this.posts=posts;
+    })
   }
 
   closeModal(){
@@ -81,9 +117,9 @@ export class FreedomWallComponent implements OnInit {
     this.selectedPost = post;
     this.dialog.open(PostDialogComponent, {
       data: {
-        title: post.title,
-        text: post.text,
-        backgroundColor: post.backgroundColor,
+        subject: post.subject,
+        content: post.content,
+        background_color: post.background_color,
       }
     });
   }
@@ -101,15 +137,24 @@ export class FreedomWallComponent implements OnInit {
     post.showOptions = !post.showOptions;
   }
 
-  editPost(post: Post) {
-    // To do: edit logic for backend
-    alert('Edit Post: ' + post.text);
-  }
-
-  deletePost(post: Post) {
-    const index = this.posts.indexOf(post);
-    if (index > -1) {
-      this.posts.splice(index, 1);
-    }
+  deletePost(id: number) {
+    const post_id ={id: id};
+    this.dataService.deletePosts(post_id).subscribe((res: Response)=>{
+      this.response=res;
+      if (this.response.code===200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.showPosts();
+    });
   }
 }
