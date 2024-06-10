@@ -94,8 +94,10 @@ export class DashboardComponent implements OnInit {
       (announcements) => {
         if (this.userInfo.role_id === Roles.Student) {
           this.announcements = announcements.filter(a => a.recipient === 0);
-        } else if (this.userInfo.role_id === Roles.Officer || this.userInfo.role_id === Roles.Admin) {
-          this.announcements = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        } else if (this.userInfo.role_id === Roles.Officer || 
+                        this.userInfo.role_id === Roles.Admin) {
+          this.announcements = 
+            announcements.filter(a => a.recipient === 0 || a.recipient === 1);
         }
       },
       (error) => {
@@ -136,7 +138,8 @@ export class DashboardComponent implements OnInit {
   }
 
   handleAnnouncementUpdated(updatedAnnouncement: Announcement): void {
-    const index = this.announcements.findIndex((a) => a.id === updatedAnnouncement.id);
+    const index = 
+      this.announcements.findIndex((a) => a.id === updatedAnnouncement.id);
     if (index > -1) {
       this.announcements[index] = {
         ...updatedAnnouncement,
@@ -164,7 +167,8 @@ export class DashboardComponent implements OnInit {
   deleteAnnouncement(announcement: Announcement): void {
     this.announcementService.deleteAnnouncement(announcement.id).subscribe(
       () => {
-        this.announcements = this.announcements.filter(a => a.id !== announcement.id);
+        this.announcements = 
+          this.announcements.filter(a => a.id !== announcement.id);
       },
       (error) => {
         console.error('Error deleting announcement:', error);
