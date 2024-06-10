@@ -34,16 +34,16 @@ app-display {
   color: #ffffff;
   font-family: "Outfit", sans-serif;
   font-size: 14px;
-  font-weight: 100;
-  padding: 15px;
+  font-weight: 500;
+  padding: 20px 15px;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-::ng-deep .custom-toast-font.success {
-  background-color: #B2CF8B;
+::ng-deep .custom-toast.success {
+  background-color: #31AA65;
 }
 
-::ng-deep .custom-toast-font.error {
-  background-color: #c5e3bd;
+::ng-deep .custom-toast.error {
+  background-color: #C0564B;
 }
