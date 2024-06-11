@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('registration_fee');
             $table->integer('max_attendees');
             $table->string('caption', 850);
-            $table->string('poster_loc', 255);
+            $table->string('poster_loc', 255)->nullable(); //temporary
             $table->unsignedBigInteger('event_status_id')->default(1);
             $table->unsignedBigInteger('event_state_id')->default(1);
             $table->timestamps();

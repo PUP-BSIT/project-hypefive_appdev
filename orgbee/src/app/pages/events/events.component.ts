@@ -178,8 +178,10 @@ export class EventsComponent implements OnInit {
       if (this.isEditMode) {
         if (this.activeTab === 'UPCOMING') {
           if (type === 'publish') {
+            //event_status = 2; use enum?
             this.events[this.editingEventIndex] = newEvent;
           } else {
+            //event_status = 1
             this.drafts[this.editingEventIndex] = newEvent;
           }
         } else if (this.activeTab === 'DRAFTS') {
