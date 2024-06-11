@@ -8,7 +8,7 @@ body {
 }
 
 .left-column {
-  flex: 3; 
+  flex: 3;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
@@ -36,8 +36,8 @@ body {
 }
 
 .header img {
-  height: 50px;
-  margin-right: 20px;
+  height: 20px;
+  margin: 10px;
 }
 
 .header h1 {
@@ -116,7 +116,7 @@ body {
 .request p {
   margin: 0;
   border-radius: 20px;
-  padding: 0; 
+  padding: 0;
   width: 200%;
 }
 
@@ -237,8 +237,8 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
@@ -328,12 +328,12 @@ button.modal-member-button:hover {
   margin-top: -5%;
 }
 
-.modal-profile{
+.modal-profile {
   text-align: center;
   justify-content: center;
 }
 
-.modal-profile img{
+.modal-profile img {
   width: 25%;
   height: 25%;
   border-radius: 50%;

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_posted')->default(true);
             //By default, the freedomwall is ACCESSIBLE
             $table->boolean('accessibility')->default(true);
+            $table->string('background_color', 8);
             $table->timestamps();
         });
     }

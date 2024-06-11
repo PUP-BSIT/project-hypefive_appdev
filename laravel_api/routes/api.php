@@ -22,3 +22,42 @@ Route::put('/announcements/{announcement}', [Announce::class, 'updateAnnouncemen
 Route::delete('/announcements/{announcement}', [Announce::class, 'deleteAnnouncement']);
                                
 Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', [\App\Http\Controllers\StudentsController::class, 'retrieve']);
+
+//Members
+Route::get('/members', [\App\Http\Controllers\MembersController::class, 
+                                'getMembers'])->name('api.getMembers');
+
+//Member Requests
+Route::get('/request', [\App\Http\Controllers\MembersController::class, 
+                        'membershipRequest'])->name('api.membershipRequest');
+
+//Accept Member Request                        
+Route::post('/acceptMember', [\App\Http\Controllers\MembersController::class, 
+                                'acceptMember'])->name('api.acceptMember');
+
+//Decline Member Request                        
+Route::post('/declineMember', [\App\Http\Controllers\MembersController::class, 
+                                'declineMember'])->name('api.declineMember');
+
+//Get officers
+Route::get('/getOfficers', [\App\Http\Controllers\MembersController::class, 
+                        'getOfficers'])->name('api.getOfficers');
+
+//Add to officer
+Route::post('/promoteToOfficer', [\App\Http\Controllers\MembersController::class, 
+                            'promoteToOfficer'])->name('api.promoteToOfficer');
+
+//Add to officer
+Route::post('/demoteToMember', [\App\Http\Controllers\MembersController::class, 
+                            'demoteToMember'])->name('api.demoteToMember');
+
+Route::get('/getPosts', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getPosts'])->name('api.getPosts');     
+
+Route::post('/createPostFW', 
+        [\App\Http\Controllers\FreedomWallController::class, 'createPostFW'])
+            ->name('api.createPostFW');
+
+Route::post('/deletePost', 
+        [\App\Http\Controllers\FreedomWallController::class, 'deletePost'])
+            ->name('api.deletePost');

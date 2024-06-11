@@ -19,7 +19,17 @@ use App\Models\User;
 class StudentsController extends Controller {
     public function register(Request $request) {
         $student= User::where ('email', $request['email'])->first();
+
         $student_number= Students::where('student_number', $request['student_number'])->first();
+      
+        $iconId = null;
+        if ($request->gender === 'female') {
+            $iconId = rand(1, 6); // Random picker from 1 to 6 for females
+        } elseif ($request->gender === 'male') {
+            $iconId = rand(7, 10); // Random picker from 7 to 10 for males
+        } else {
+            $iconId = rand(1, 10); // Random picker from 1 to 10 for others
+        }
          
         if ($student ) {
             $response['status'] = 0;
@@ -44,6 +54,7 @@ class StudentsController extends Controller {
                 'birthday' => $request->birthday,
                 'gender' => $request->gender,
                 'user_id' => $student,
+                'icon_id' => $iconId
             ]);
             $student = User::find($student);
             $this->sendVerificationEmail($student);
