@@ -10,11 +10,16 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EventsComponent } from './pages/events/events.component';
-import { FreedomWallComponent } from './pages/freedom-wall/freedom-wall.component';
+import { FreedomWallComponent } 
+  from './pages/freedom-wall/freedom-wall.component';
 import { MembersComponent } from './pages/members/members.component';
 import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
+import { VerifyComponent } from './login/verify/verify.component';
+import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
+import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
+import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
@@ -23,11 +28,25 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DataService } from '../service/data.service';
-import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
-import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
-import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
+import { LoginService } from '../service/login.service';
+
+import { PostDialogComponent } from './pages/freedom-wall/post-dialog/post-dialog.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './login/auth.guard';
 
 @NgModule({
   declarations: [
@@ -36,6 +55,7 @@ import { DatePipe } from '@angular/common';
     DashboardComponent,
     EventsComponent,
     FreedomWallComponent,
+    PostDialogComponent,
     MembersComponent,
     DisplayComponent,
     SidebarComponent,
@@ -43,7 +63,7 @@ import { DatePipe } from '@angular/common';
     AnModalComponent,
     AnEditModalComponent,
     ProfileIconComponent,
-
+    VerifyComponent
   ],
   imports: [
     BrowserModule,
@@ -55,10 +75,23 @@ import { DatePipe } from '@angular/common';
     MatCardModule,
     MatIconModule,
     MatRadioModule,
-    MatButtonModule,
     MatMenuModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    NgxMasonryModule,
+    MatDialogModule,
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        }
+      }
+    })
   ],
-  providers: [provideAnimationsAsync(), DataService,  DatePipe],
-  bootstrap: [AppComponent],
+  providers: [AuthGuard, DataService, LoginService,  provideAnimationsAsync(),  DatePipe],
+  
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

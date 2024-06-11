@@ -6,17 +6,17 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AccountStatusSeeder extends Seeder
+class EventStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('account_status')-> insert([
-            ['status'=>'pending'],
-            ['status'=>'accepted'],
-            ['status'=>'declined']
+        DB::table('event_status')-> insert([
+            ['status_name'=>'draft'],
+            ['status_name'=>'posted'],
+            ['status_name'=>'deleted']
         ]);
     }
 }

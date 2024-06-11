@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Redirect;
 
-class CheckToken
-{
+class CheckToken {
     /**
      * Handle an incoming request.
      *
@@ -17,11 +16,10 @@ class CheckToken
     public function handle(Request $request, Closure $next): Response
     {
         /// Retrieve the token from local storage
-        $token = $request->cookie('XSRF-TOKEN'); 
-
+        $token = $request->cookie('XSRF-TOKEN');
         // Check if the token exists
         if ($token) {
-            if ($request->is('login')){
+            if ($request->is('login')) {
                 return redirect('/'); //Redirect to the default page
             }
             // Token exists, proceed to the requested route
@@ -30,16 +28,5 @@ class CheckToken
             // No token found, redirect to login
             return Redirect::to('/login');
         }
-        // if (!$token) {
-        //     // No token found, redirect to login
-        //     return Redirect::to('/login');
-        // }
-        
-        // if ($request->is('login')){
-        //     return redirect('/'); //Redirect to the default page
-        // }
-        
-        // // Token exists and not in the login route, proceed to the requested route
-        // return $next($request);
     }
 }

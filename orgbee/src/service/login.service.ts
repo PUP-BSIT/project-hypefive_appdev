@@ -126,7 +126,6 @@ export class LoginService {
     }
   }
 
-
   private invokeDataRetrievedCallbacks() {
     if (this.isDataRetrieved) {
       this.onDataRetrievedCallbacks.forEach(callback => callback(this.userInfo));
