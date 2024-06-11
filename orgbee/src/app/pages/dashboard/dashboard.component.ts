@@ -85,7 +85,6 @@ export class DashboardComponent implements OnInit {
     });
     this.loginService.onDataRetrieved((data: UserInfo) => {
       this.userInfo = data;
-      console.log(this.userInfo);
     });
     this.fetchAnnouncements();
   }

@@ -10,6 +10,7 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 
 import { AuthGuard } from './login/auth.guard';
+import { LoginGuard } from './login/login.guard'; // Import the LoginGuard
 
 const routes: Routes = [
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

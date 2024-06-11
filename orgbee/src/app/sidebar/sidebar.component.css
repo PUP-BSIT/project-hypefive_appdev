@@ -42,6 +42,18 @@ body {
   transition: width 0.2s;
 }
 
+#nav_content.nav-content-role1 {
+  background-color: rgb(48, 33, 1); 
+}
+
+#nav_content.nav-content-role2 {
+  background-color: rgb(25, 25, 60);
+}
+
+#nav_content.nav-content-role3 {
+  background-color: rgb(47, 47, 47); 
+}
+
 #nav_content_highlight {
   position: absolute;
   left: 10px;
