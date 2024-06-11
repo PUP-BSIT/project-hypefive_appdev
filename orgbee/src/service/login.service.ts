@@ -28,9 +28,8 @@ interface UserDataResponse {
   role_id: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
+
 export class LoginService {
   isAuthenticated: boolean = false;
   isDataRetrieved: boolean = false;

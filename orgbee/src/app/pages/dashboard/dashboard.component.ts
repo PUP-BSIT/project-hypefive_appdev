@@ -5,7 +5,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { AnnouncementService, Announcement } from '../../../service/announcement.service';
+import { AnnouncementService, Announcement } 
+  from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
 
 enum Roles {

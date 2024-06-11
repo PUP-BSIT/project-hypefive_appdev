@@ -14,9 +14,8 @@ export interface Announcement {
   author?: string;      // Optional for creation and update
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
+
 export class AnnouncementService {
   private apiUrl = 'http://127.0.0.1:8000/api/announcements';
 
