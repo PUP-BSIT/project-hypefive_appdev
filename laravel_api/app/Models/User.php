@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 class User extends Authenticatable implements JWTSubject {
     use HasFactory, Notifiable;
 
@@ -72,5 +74,9 @@ class User extends Authenticatable implements JWTSubject {
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function generateVerificationToken() {
+        return JWTAuth::fromUser($this);
     }
 }

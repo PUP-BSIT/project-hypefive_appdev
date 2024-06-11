@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
-  ValidatorFn, AbstractControl, 
+  ValidatorFn, AbstractControl, FormControl,
   ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { MustMatch } from './confirmed.validator';
+import { LoginService } from '../../service/login.service'; 
 
 interface ResponseData {
   status: number;
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private router: Router) {}
+    private router: Router,
+    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -47,10 +49,10 @@ export class LoginComponent implements OnInit {
 
     this.signupForm = this.formBuilder.group({
       first_name: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, this.noNumbersValidator]
       }],
       last_name: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, this.noNumbersValidator]
       }],
       student_number: ['', {
         validators: [
@@ -78,6 +80,14 @@ export class LoginComponent implements OnInit {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
+
+    // this.route.queryParams.subscribe(params => {
+    //   if (params['verified'] === '1') {
+    //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
+    //   } else if (params['verified'] === '0') {
+    //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
+    //   }
+    // });
   }
 
   get emailControl() {
@@ -118,6 +128,11 @@ export class LoginComponent implements OnInit {
 
   get confirmPassControl() {
     return this.signupForm.get('confirmPassword');
+  }
+
+  noNumbersValidator(control: FormControl) {
+    const containsNumbers = /[0-9]/.test(control.value);
+    return containsNumbers ? { containsNumbers: true } : null;
   }
 
   maxAgeValidator(maxAge: number): ValidatorFn {
@@ -161,11 +176,11 @@ export class LoginComponent implements OnInit {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-
         this.toastr.success(JSON.stringify(this.data.message), 
           JSON.stringify(this.data.code),{
             timeOut: 2000,
             progressBar:true
+
         });
       } else if (this.data.status === 0) {
         this.toastr.error(JSON.stringify(this.data.message), 
@@ -198,6 +213,7 @@ export class LoginComponent implements OnInit {
               timeOut: 2000,
               progressBar: true
           });
+          this.router.navigate(['./verify']);
         } else {
           this.toastr.error(JSON.stringify(this.data.message), 
             JSON.stringify(this.data.code),{
