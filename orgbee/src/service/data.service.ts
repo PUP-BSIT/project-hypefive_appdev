@@ -56,4 +56,8 @@ export class DataService {
   deletePosts(data) {
     return this.http.post(this.apiUrl +'api/deletePost/', data);
   }
+
+  createEvent(data) {
+    return this.http.post(this.apiUrl +'api/createEvent/', data);
+  }
 }

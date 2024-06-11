@@ -1,6 +1,7 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../../../service/data.service';
 
 interface Event {
   event_name: string; 
@@ -13,6 +14,7 @@ interface Event {
   max_attendees: number; 
   caption?: string;
   poster_loc?: string; 
+  event_status_id: number;
 }
 
 interface SelectedEvent {
@@ -26,6 +28,7 @@ interface SelectedEvent {
   max_attendees: number; 
   caption?: string;
   poster_loc?: string; 
+  event_status_id: number;
 }
 
 interface Member {
@@ -55,7 +58,11 @@ export class EventsComponent implements OnInit {
   isEditMode = false;
   editingEventIndex = -1;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private dataService: DataService) {}
+
+  ngOnInit(): void {
+    this.displayEvents(this.activeTab);
     this.eventForm = this.fb.group({
       event_name: ['', Validators.required],
       location: ['', Validators.required],
@@ -68,10 +75,7 @@ export class EventsComponent implements OnInit {
       caption: [''],
       poster_loc: [''],
     });
-  }
 
-  ngOnInit(): void {
-    this.displayEvents(this.activeTab);
     this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {
       const registration_feeControl = this.eventForm.get('registration_fee');
       if (parseInt(value) === 1) {
@@ -171,17 +175,32 @@ export class EventsComponent implements OnInit {
     }
   }
 
+  response:any; //temporary
   submitForm(type: string): void {
     if (this.eventForm.valid) {
       const newEvent = this.eventForm.value as Event;
-      console.log(newEvent);
+
+      if (type === 'publish') {
+        newEvent.event_status_id = 2; //set the status to publish
+        console.log(newEvent); //review the details
+        this.dataService.createEvent(newEvent).subscribe(res=>{
+          this.response=res;
+          console.log(this.response);
+        })
+      } else {
+        newEvent.event_status_id = 1; //set the status to draft
+        console.log(newEvent); //review the details
+        this.dataService.createEvent(newEvent).subscribe(res=>{
+          this.response=res;
+          console.log(this.response); 
+        })
+      }
+      //Under review
       if (this.isEditMode) {
         if (this.activeTab === 'UPCOMING') {
           if (type === 'publish') {
-            //event_status = 2; use enum?
             this.events[this.editingEventIndex] = newEvent;
           } else {
-            //event_status = 1
             this.drafts[this.editingEventIndex] = newEvent;
           }
         } else if (this.activeTab === 'DRAFTS') {
