@@ -1,40 +1,35 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from '@angular/router';
 import { LoginService } from '../../service/login.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
-  constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private jwtHelper: JwtHelperService) {}
+  constructor(private loginService: LoginService, private router: Router) {}
 
-  canActivate() {
-    const token = localStorage.getItem('token');
+  canActivate(): Observable<boolean> {
+    const token = this.loginService.getToken();
     if (token) {
-      try {
-        if (!this.jwtHelper.isTokenExpired(token)) {
-          this.loginService.setAuthStatus(true); // User is authenticated
-          return true;
-        } else {
-          throw new Error('Token expired');
-        }
-      } catch (error) {
-        //TODO: VILLA-VILLA: Create a toastr popup for this.
-        console.error('Invalid token or token expired:', error);
-        this.handleInvalidToken();
-        return false;
-      }
+      return this.loginService.decodeToken(token).pipe(
+        switchMap(() => {
+          if (this.loginService.getAuthStatus()) {
+            return of(true);
+          } else {
+            this.router.navigate(['login']);
+            return of(false);
+          }
+        }),
+        catchError((error) => {
+          this.router.navigate(['login']);
+          return of(false);
+        })
+      );
     } else {
-      this.handleInvalidToken();
-      return false;
+      this.router.navigate(['login']);
+      return of(false);
     }
-  }
-
-  private handleInvalidToken() {
-    this.loginService.setAuthStatus(false); // User is not authenticated
-    localStorage.removeItem('token'); // Remove expired or invalid token
-    this.router.navigate(['login']);
   }
 }
