@@ -16,28 +16,28 @@
       @if(currentStep === 0){
         <h2>EVENT FORM</h2>
         <h4>Event Information</h4>
-        <label for="eventName">Name:</label>
+        <label for="event_name">Name:</label>
         <input
           type="text"
-          id="eventName"
-          formControlName="eventName"
+          id="event_name"
+          formControlName="event_name"
           placeholder="Event Name"/>
-        <label for="eventLocation">Location:</label>
+        <label for="location">Location:</label>
         <input
           type="text"
-          id="eventLocation"
-          formControlName="eventLocation"
+          id="location"
+          formControlName="location"
           placeholder="Location"/>
 
         <!-- Inline container for date and time inputs -->
         <div class="inline-container">
           <div>
-            <label for="eventDate">Date:</label>
-            <input type="date" id="eventDate" formControlName="eventDate" />
+            <label for="date">Date:</label>
+            <input type="date" id="date" formControlName="date" />
           </div>
           <div>
-            <label for="eventTime">Time:</label>
-            <input type="time" id="eventTime" formControlName="eventTime" />
+            <label for="time">Time:</label>
+            <input type="time" id="time" formControlName="time" />
           </div>
         </div>
 
@@ -59,44 +59,43 @@
           <label>Are all members required to attend?</label>
           <input
             type="radio"
-            id="attendanceYes"
-            formControlName="attendance"
-            value="yes"/>
-          <label for="attendanceYes">Yes</label>
+            id="all_members_requiredYes"
+            formControlName="all_members_required"
+            value=1/>
+          <label for="all_members_requiredYes">Yes</label>
           <input
             type="radio"
-            id="attendanceNo"
-            formControlName="attendance"
-            value="no"/>
-          <label for="attendanceNo">No</label>
+            id="all_members_requiredNo"
+            formControlName="all_members_required"
+            value=0/>
+          <label for="all_members_requiredNo">No</label>
         </div>
 
         <div class="inline-radio">
           <label>Will there be a registration fee?</label>
           <input
             type="radio"
-            id="regFeeYes"
-            formControlName="regFee"
-            value="yes"/>
-          <label for="regFeeYes">Yes</label>
+            id="has_reg_fee_yes"
+            formControlName="has_reg_fee"
+            value=1/>
+          <label for="has_reg_fee_yes">Yes</label>
           <input
             type="radio"
-            id="regFeeNo"
-            formControlName="regFee"
-            value="no"/>
-          <label for="regFeeNo">No</label>
+            id="has_reg_fee_no"
+            formControlName="has_reg_fee"
+            value=0/>
+          <label for="has_reg_fee_no">No</label>
         </div>
 
         <input
           type="number"
-          id="regAmount"
-          formControlName="regAmount"
-          placeholder="Specify the amount"
-          [disabled]="eventForm.get('regFee').value !== 'yes'"/>
+          id="registration_fee"
+          formControlName="registration_fee"
+          placeholder="Specify the amount"/>
         <input
           type="number"
-          id="maxAttendees"
-          formControlName="maxAttendees"
+          id="max_attendees"
+          formControlName="max_attendees"
           placeholder="Max no. of attendees"/>
 
         <div class="button-container">
@@ -113,14 +112,14 @@
       @if(currentStep === 2){
         <h2>EVENT FORM</h2>
         <h4>Publication Material</h4>
-        <label for="eventCaption">Write a caption:</label>
+        <label for="caption">Write a caption:</label>
         <textarea
-          id="eventCaption"
-          formControlName="eventCaption"
+          id="caption"
+          formControlName="caption"
           placeholder="Write a maximum of 500 characters caption">
         </textarea>
-        <label for="eventPoster">Upload a poster:</label>
-        <input type="file" id="eventPoster" formControlName="eventPoster" />
+        <label for="poster_loc">Upload a poster:</label>
+        <input type="file" id="poster_loc" formControlName="poster_loc" />
         <div class="button-container">
           <button 
             type="button" 
@@ -197,8 +196,8 @@
       <img src="../../../assets/icon.jpg" />
     </div>
     <div class="event-details">
-      <h3>{{ event.eventName }}</h3>
-      <p>{{ event.eventDate }} | {{ event.eventLocation }}</p>
+      <h3>{{ event.event_name }}</h3>
+      <p>{{ event.date }} | {{ event.location }}</p>
     </div>
     <div>
       <button 
@@ -220,9 +219,9 @@
         <h3 class="eventtag">Event</h3>
         <img src="../../../assets/icon.jpg" alt="Event Poster" />
         <div class="eventinfo">
-          <p class="title">{{ selectedEvent?.eventName }}</p>
-          <p>{{ selectedEvent?.eventLocation }}</p>
-          <p>{{ selectedEvent?.eventDate }}</p>
+          <p class="title">{{ selectedEvent?.event_name }}</p>
+          <p>{{ selectedEvent?.location }}</p>
+          <p>{{ selectedEvent?.date }}</p>
         </div>
         <button class="edit-btn" (click)="editEvent(selectedEvent)">
           Edit Details

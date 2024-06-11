@@ -61,3 +61,7 @@ Route::post('/createPostFW',
 Route::post('/deletePost', 
         [\App\Http\Controllers\FreedomWallController::class, 'deletePost'])
             ->name('api.deletePost');
+
+Route::post('/createEvent', 
+        [\App\Http\Controllers\EventsController::class, 'createEvent'])
+            ->name('api.createEvent');

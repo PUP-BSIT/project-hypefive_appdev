@@ -1,30 +1,31 @@
+import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Event {
-  eventName: string;
-  eventLocation: string;
-  eventDate: string;
-  eventTime: string;
-  attendance: string;
-  regFee: string;
-  regAmount?: string;
-  maxAttendees: string;
-  eventCaption?: string;
-  eventPoster?: string;
+  event_name: string; 
+  location: string; 
+  date: Date; 
+  time: Time; 
+  all_members_required: number; 
+  has_reg_fee: number;  
+  registration_fee?: number; 
+  max_attendees: number; 
+  caption?: string;
+  poster_loc?: string; 
 }
 
 interface SelectedEvent {
-  eventName: string;
-  eventLocation: string;
-  eventDate: string;
-  eventTime: string;
-  attendance: string;
-  regFee: string;
-  regAmount?: string;
-  maxAttendees: string;
-  eventCaption?: string;
-  eventPoster?: string;
+  event_name: string; 
+  location: string; 
+  date: Date; 
+  time: Time; 
+  all_members_required: number; 
+  has_reg_fee: number;  
+  registration_fee?: number; 
+  max_attendees: number; 
+  caption?: string;
+  poster_loc?: string; 
 }
 
 interface Member {
@@ -56,27 +57,27 @@ export class EventsComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.eventForm = this.fb.group({
-      eventName: ['', Validators.required],
-      eventLocation: ['', Validators.required],
-      eventDate: ['', Validators.required],
-      eventTime: ['', Validators.required],
-      attendance: ['', Validators.required],
-      regFee: ['', Validators.required],
-      regAmount: [{ value: '', disabled: true }],
-      maxAttendees: ['', Validators.required],
-      eventCaption: [''],
-      eventPoster: [''],
+      event_name: ['', Validators.required],
+      location: ['', Validators.required],
+      date: ['', Validators.required],
+      time: ['', Validators.required],
+      all_members_required: ['', Validators.required],
+      has_reg_fee: ['', Validators.required],
+      registration_fee: [{ value: '', disabled: true }],
+      max_attendees: ['', Validators.required],
+      caption: [''],
+      poster_loc: [''],
     });
   }
 
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
-    this.eventForm.get('regFee')?.valueChanges.subscribe((value) => {
-      const regAmountControl = this.eventForm.get('regAmount');
-      if (value === 'yes') {
-        regAmountControl?.enable();
+    this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {
+      const registration_feeControl = this.eventForm.get('registration_fee');
+      if (parseInt(value) === 1) {
+        registration_feeControl?.enable();
       } else {
-        regAmountControl?.disable();
+        registration_feeControl?.disable();
       }
     });
   }
@@ -173,6 +174,7 @@ export class EventsComponent implements OnInit {
   submitForm(type: string): void {
     if (this.eventForm.valid) {
       const newEvent = this.eventForm.value as Event;
+      console.log(newEvent);
       if (this.isEditMode) {
         if (this.activeTab === 'UPCOMING') {
           if (type === 'publish') {
