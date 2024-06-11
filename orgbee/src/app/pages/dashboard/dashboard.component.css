@@ -1,17 +1,152 @@
-.dashboard {
+.header-container {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow-y: hidden;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15%;
 }
 
-.content {
-  flex: 1;
+.header-container h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header-container p {
+  margin-right: 50%; /*adjust the size according to the page */
+}
+
+.event-card {
+  background-color: #eeeeed;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 50%; /*adjust the size according to the page */
+  margin: 10px 0;
   display: flex;
-  flex-wrap: wrap;
+}
+
+.event-img img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+}
+
+.event-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.event-details h3 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.event-details p {
+  font-size: 0.6rem;
+  color: #777;
+}
+
+#reg_fee {
+  color: #ffca10;
+  background-color: #242424;
+  padding: 0.5% 1%; 
+  border-radius: 3px;
+  display: block; 
+  width: fit-content; 
+}
+
+.view-more-button {
+  background-color: #ffca10;
+  color: #242424;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 100%;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.visible {
+  display: block;
+}
+
+.modal-content {
+  background-color: #eeeeed;
+  margin: 10% auto;
   padding: 20px;
-  background-color: #fff7c9;
-  gap: 20px;
-  justify-content: center;
+  padding-left: 5%;
+  padding-right: 5%;
+  border: 1px solid #888;
+  width: 30%;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  color: #888;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute; 
+  top: 10px; 
+  right: 20px; 
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content img {
+  width: 50%;
+  margin-bottom: 3%;
+  border-radius: 10px;
+}
+
+.modal-content h3 {
+  font-size: 20px;
+  margin: 0%;
+}
+
+.modal-content p {
+  font-size: 0.9rem;
+  margin: 0%;
+}
+
+#modal_reg_fee {
+  color: #ffca10;
+  background-color: #242424;
+  padding: 0.5% 1%; 
+  border-radius: 3px;
+  width: fit-content; 
+  margin: auto;
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+.caption {
+  text-align: center;
+}
+
+.register-btn {
+  background-color: #ffca10;
+  color: #242424;
+  border: none;
+  margin-top: 5%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
 }
