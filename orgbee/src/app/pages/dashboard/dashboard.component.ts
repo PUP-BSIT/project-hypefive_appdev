@@ -9,6 +9,8 @@ import { AnnouncementService, Announcement }
   from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
 
+import { Router } from '@angular/router';
+
 enum Roles {
   Student = 1,
   Officer = 2,
@@ -51,7 +53,8 @@ export class DashboardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private announcementService: AnnouncementService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router:Router
   ) {}
 
   //TODO: update later according to new table in database
@@ -199,5 +202,10 @@ export class DashboardComponent implements OnInit {
       default:
         return ''; 
     }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }
