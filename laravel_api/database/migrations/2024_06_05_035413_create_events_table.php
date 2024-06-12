@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('all_members_required')->default(false); 
             //By default, the event DOESN"T HAVE A FEE
             $table->boolean('has_reg_fee')->default(false); 
-            $table->integer('registration_fee');
+            $table->integer('registration_fee')->nullable();
             $table->integer('max_attendees');
             $table->string('caption', 850);
             $table->string('poster_loc', 255)->nullable(); //temporary

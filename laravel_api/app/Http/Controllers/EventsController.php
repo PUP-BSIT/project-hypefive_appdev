@@ -23,4 +23,22 @@ class EventsController extends Controller
             return response()->json($response);
         } 
     }
+    //event_state = 1 with status of 2
+    public function getUpcomingEvents() {
+        $upcoming = DB::table('events')->where('event_state_id', '=', 1)
+        ->where('event_status_id', '=', 2)->get();
+        return response()->json($upcoming, 200);
+    }
+
+    public function getDraftEvents() {
+        $upcoming = DB::table('events')->where('event_state_id', '=', 1)
+        ->where('event_status_id', '=', 1)->get();
+        return response()->json($upcoming, 200);
+    }
+
+    public function getRecurringEvents() {
+        $upcoming = DB::table('events')->where('event_state_id', '=', 2)
+        ->where('event_status_id', '=', 2)->get();
+        return response()->json($upcoming, 200);
+    }
 }

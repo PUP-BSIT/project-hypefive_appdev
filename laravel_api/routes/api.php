@@ -65,3 +65,15 @@ Route::post('/deletePost',
 Route::post('/createEvent', 
         [\App\Http\Controllers\EventsController::class, 'createEvent'])
             ->name('api.createEvent');
+
+Route::get('/getUpcomingEvents', 
+        [\App\Http\Controllers\EventsController::class, 'getUpcomingEvents'])
+            ->name('api.getUpcomingEvents');
+
+Route::get('/getDraftEvents', 
+        [\App\Http\Controllers\EventsController::class, 'getDraftEvents'])
+            ->name('api.getDraftEvents');
+
+Route::get('/getRecurringEvents', 
+        [\App\Http\Controllers\EventsController::class, 'getRecurringEvents'])
+            ->name('api.getRecurringEvents');

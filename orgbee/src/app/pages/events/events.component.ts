@@ -48,7 +48,7 @@ export class EventsComponent implements OnInit {
   eventForm: FormGroup;
   currentStep = 0;
   activeTab = 'UPCOMING';
-  events: Event[] = [];
+  events: Event[] = []; //Upcoming?
   drafts: Event[] = [];
   occurringEvents: Event[] = [];
   filteredEvents: Event[] = [];
@@ -64,6 +64,7 @@ export class EventsComponent implements OnInit {
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
     this.eventForm = this.fb.group({
+      //TO DO: Add additional validators
       event_name: ['', Validators.required],
       location: ['', Validators.required],
       date: ['', Validators.required],
@@ -84,6 +85,10 @@ export class EventsComponent implements OnInit {
         registration_feeControl?.disable();
       }
     });
+
+    this.showUpcomingEvents();
+    this.showRecurringEvents();
+    this.showDraftEvents();
   }
 
   openModal(): void {
@@ -152,14 +157,38 @@ export class EventsComponent implements OnInit {
     this.displayEvents(this.activeTab);
   }
 
+  showUpcomingEvents() {
+    //Get events with event_state = 1 with status of 2
+    this.dataService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
+      this.filteredEvents=upcoming;
+    })
+  }
+
+  showDraftEvents() {
+    //Get events with event_state = 1 and status of 1
+    this.dataService.getDraftEvents().subscribe((draft: Event[])=>{
+      this.filteredEvents=draft;
+    })
+  }
+
+  showRecurringEvents(){
+    //Get events with event_state = 2 and status of 2
+    this.dataService.getRecurringEvents().subscribe((recuring: Event[])=>{
+      this.filteredEvents=recuring;
+    })
+  }
+
   displayEvents(tab: string): void {
     this.activeTab = tab;
     if (tab === 'UPCOMING') {
-      this.filteredEvents = this.events;
+      // this.filteredEvents = this.events;
+      this.showUpcomingEvents();
     } else if (tab === 'DRAFTS') {
-      this.filteredEvents = this.drafts;
+      // this.filteredEvents = this.drafts;
+      this.showDraftEvents();
     } else if (tab === 'RECURRING') {
-      this.filteredEvents = this.occurringEvents;
+      // this.filteredEvents = this.occurringEvents;
+      this.showRecurringEvents();
     }
   }
 
@@ -186,6 +215,7 @@ export class EventsComponent implements OnInit {
         this.dataService.createEvent(newEvent).subscribe(res=>{
           this.response=res;
           console.log(this.response);
+          this.showUpcomingEvents();
         })
       } else {
         newEvent.event_status_id = 1; //set the status to draft
@@ -193,6 +223,7 @@ export class EventsComponent implements OnInit {
         this.dataService.createEvent(newEvent).subscribe(res=>{
           this.response=res;
           console.log(this.response); 
+          this.showDraftEvents();
         })
       }
       //Under review

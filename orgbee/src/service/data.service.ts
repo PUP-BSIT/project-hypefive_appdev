@@ -60,4 +60,16 @@ export class DataService {
   createEvent(data) {
     return this.http.post(this.apiUrl +'api/createEvent/', data);
   }
+
+  getUpcomingEvents() {
+    return this.http.get(this.apiUrl +'api/getUpcomingEvents/');
+  }
+
+  getDraftEvents() {
+    return this.http.get(this.apiUrl +'api/getDraftEvents/');
+  }
+
+  getRecurringEvents() {
+    return this.http.get(this.apiUrl +'api/getRecurringEvents/');
+  }
 }
