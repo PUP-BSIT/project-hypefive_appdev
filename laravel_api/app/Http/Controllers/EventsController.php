@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
 {
+    //TO DO: VILLA-VILLA: Format response
     public function createEvent(Request $request) {
         $event = $request->only('event_name', 'location', 'date', 'time', 
             'all_members_required', 'has_reg_fee', 'registration_fee',
             'max_attendees', 'caption','poster_loc', 'event_status_id');
+        $event['created_at'] = now();
 
         if ($event) {
             DB::table('events')->insert($event);
@@ -23,22 +25,24 @@ class EventsController extends Controller
             return response()->json($response);
         } 
     }
-    //event_state = 1 with status of 2
+
     public function getUpcomingEvents() {
-        $upcoming = DB::table('events')->where('event_state_id', '=', 1)
-        ->where('event_status_id', '=', 2)->get();
+        $upcoming = DB::table('events')->where('event_status_id', '=', 2)
+            ->where('event_state_id', '=', 1)
+            ->whereNotIn('event_state_id', [4])->orderBy('date', 'desc')->get();
         return response()->json($upcoming, 200);
     }
 
     public function getDraftEvents() {
-        $upcoming = DB::table('events')
-        ->where('event_status_id', '=', 1)->get();
+        $upcoming = DB::table('events')->where('event_status_id', '=', 1)
+            ->whereNotIn('event_state_id', [4])->orderBy('date', 'desc')->get();
         return response()->json($upcoming, 200);
     }
 
-    public function getRecurringEvents() {
-        $upcoming = DB::table('events')->where('event_state_id', '=', 2)
-        ->where('event_status_id', '=', 2)->get();
+    public function getOccuringEvents() {
+        $upcoming = DB::table('events')->where('event_status_id', '=', 2)
+            ->where('event_state_id', '=', 2)
+            ->whereNotIn('event_state_id', [4])->orderBy('date', 'desc')->get();
         return response()->json($upcoming, 200);
     }
 
@@ -47,7 +51,7 @@ class EventsController extends Controller
 
         if ($updateState) {
             DB::table('events')->where('id', $updateState)
-                ->update(['event_state_id'=>2]);
+                ->update(['event_state_id'=>2, 'updated_at' => now()]);
             $response ['message'] = 'Event state updated successfully';
             $response ['code'] = 200;
             return response()->json($response);
@@ -63,7 +67,7 @@ class EventsController extends Controller
 
         if ($updateState) {
             DB::table('events')->where('id', $updateState)
-                ->update(['event_state_id'=>3]);
+                ->update(['event_state_id'=>3, 'updated_at' => now()]);
             $response ['message'] = 'Event state updated successfully';
             $response ['code'] = 200;
             return response()->json($response);
@@ -79,7 +83,9 @@ class EventsController extends Controller
 
         if ($updateState) {
             DB::table('events')->where('id', $updateState)
-                ->update(['event_state_id'=>1, 'event_status_id'=>2]);
+                ->update(['event_state_id'=>1, 
+                'event_status_id'=>2, 
+                'updated_at' => now()]);
             $response ['message'] = 'Event state updated successfully';
             $response ['code'] = 200;
             return response()->json($response);
@@ -95,7 +101,7 @@ class EventsController extends Controller
 
         if ($cancelEvent) {
             DB::table('events')->where('id', $cancelEvent)
-                ->update(['event_state_id'=>4]);
+                ->update(['event_state_id'=>4, 'updated_at' => now()]);
             $response ['message'] = 'Event canceled updated successfully';
             $response ['code'] = 200;
             return response()->json($response);
@@ -110,7 +116,7 @@ class EventsController extends Controller
         $updateDetails = $request->only('id','event_name', 'location', 'date', 'time', 
             'all_members_required', 'has_reg_fee', 'registration_fee',
             'max_attendees', 'caption','poster_loc', 'event_status_id');
-            
+        $updateDetails['update_at'] = now();
         $updateId = $request->id;
 
         if($updateDetails) {

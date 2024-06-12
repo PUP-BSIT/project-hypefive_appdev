@@ -7,6 +7,7 @@
 </button>
 
 <!-- Event Form Modal -->
+ <!-- TODO: Add more validators -->
 <div id="eventFormModal" class="modal" [class.visible]="createEventModal">
   <div class="modal-content">
     <span class="close" (click)="closeCreateEditModal()">&times;</span>
@@ -332,9 +333,9 @@
   </button>
   <button
     class="tab"
-    [ngClass]="{ active: activeTab === 'RECURRING' }"
-    (click)="displayEvents('RECURRING')">
-      RECURRING
+    [ngClass]="{ active: activeTab === 'OCCURING' }"
+    (click)="displayEvents('OCCURING')">
+      OCCURING
   </button>
   <button
     class="tab"
@@ -392,10 +393,7 @@
             Cancel Event
           </button>
         }
-        @if(showModalRecurring){
-          <button class="edit-btn" (click)="editEvent(selectedEvent)">
-            Edit Details
-          </button>
+        @if(showModalOccuring){
           <button class="occurring-btn" (click)="markAsComplete(selectedEvent)">
             Mark as Complete
           </button>

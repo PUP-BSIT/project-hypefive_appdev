@@ -74,9 +74,9 @@ Route::get('/getDraftEvents',
         [\App\Http\Controllers\EventsController::class, 'getDraftEvents'])
             ->name('api.getDraftEvents');
 
-Route::get('/getRecurringEvents', 
-        [\App\Http\Controllers\EventsController::class, 'getRecurringEvents'])
-            ->name('api.getRecurringEvents');
+Route::get('/getOccuringEvents', 
+        [\App\Http\Controllers\EventsController::class, 'getOccuringEvents'])
+            ->name('api.getOccuringEvents');
 
 Route::post('/markAsOccuring', 
         [\App\Http\Controllers\EventsController::class, 'markAsOccuring'])

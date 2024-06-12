@@ -59,7 +59,7 @@ export class EventsComponent implements OnInit {
   selectedEvent: SelectedEvent | null = null;
 
   showModalUpcoming = false;
-  showModalRecurring = false;
+  showModalOccuring = false;
   showModalDraft = false;
 
   response: any; //temporary
@@ -110,18 +110,18 @@ editModalTab:string;
     if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1 ) {
       this.showModalUpcoming = true;
       this.showModalDraft = false;
-      this.showModalRecurring = false;
+      this.showModalOccuring = false;
 
       this.editModalTab = 'UPCOMING';
     } else if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id ===2  ) {
-      this.showModalRecurring = true;
+      this.showModalOccuring = true;
       this.showModalUpcoming = false;
       this.showModalDraft = false;
 
-      this.editModalTab = 'RECURRING';
+      this.editModalTab = 'OCCURING';
     } else if(this.selectedEvent.event_status_id === 1){
       this.showModalDraft=true;
-      this.showModalRecurring = false;
+      this.showModalOccuring = false;
       this.showModalUpcoming = false;
 
       this.editModalTab = 'DRAFT';
@@ -157,7 +157,7 @@ editModalTab:string;
     this.dataService.markAsComplete(id).subscribe(res =>{
       this.response=res;
 
-      this.showRecurringEvents();
+      this.showOccuringEvents();
       this.closeManageModal();
     });
   }
@@ -169,11 +169,12 @@ editModalTab:string;
       if (this.editModalTab === 'UPCOMING') {
         this.showUpcomingEvents();
         this.editModalTab = "";
-      } else if (this.editModalTab === 'RECURRING') {
-        this.showRecurringEvents();
+      } else if (this.editModalTab === 'OCCURING') {
+        this.showOccuringEvents();
         this.editModalTab = "";
       } else if (this.editModalTab === 'DRAFT') {
         this.showDraftEvents();
+        this.editModalTab = "";
       }
       this.closeManageModal();
     });
@@ -193,10 +194,10 @@ editModalTab:string;
     })
   }
 
-  showRecurringEvents(){
+  showOccuringEvents(){
     //Get events with event_state = 2 and status of 2
-    this.dataService.getRecurringEvents().subscribe((recuring: Event[])=>{
-      this.filteredEvents = recuring;
+    this.dataService.getOccuringEvents().subscribe((occuring: Event[])=>{
+      this.filteredEvents = occuring;
     })
   }
 
@@ -206,8 +207,8 @@ editModalTab:string;
       this.showUpcomingEvents();
     } else if (tab === 'DRAFTS') {
       this.showDraftEvents();
-    } else if (tab === 'RECURRING') {
-      this.showRecurringEvents();
+    } else if (tab === 'OCCURING') {
+      this.showOccuringEvents();
     }
   }
 
@@ -268,7 +269,6 @@ editModalTab:string;
     updateEvent.id = this.updateEventId;
 
     if(updateEvent){
-
       if(type ==='publish'){
         updateEvent.event_status_id = 2; //set the status to publish
         this.dataService.updateEvent(updateEvent).subscribe(res=>{
