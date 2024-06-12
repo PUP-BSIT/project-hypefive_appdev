@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DataService {
   apiUrl = 'http://127.0.0.1:8000/';
   // apiUrl = 'https://orgbee.online/';

@@ -1,12 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControlOptions  } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
+  ValidatorFn, AbstractControl, FormControl,
+  ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
-import { Student } from '../model/student';
 import { MustMatch } from './confirmed.validator';
 import { LoginService } from '../../service/login.service'; 
+
+interface ResponseData {
+  status: number;
+  data: {
+    token: string;
+  };
+  message: string;
+  code: number;
+}
 
 @Component({
   selector: 'app-login',
@@ -17,21 +26,69 @@ import { LoginService } from '../../service/login.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   signupForm: FormGroup;
-  showSignup: boolean = false;
+  data: ResponseData;
+  token: string;
+  showSignup = false;
 
-  student = new Student();
-  data: any;
-  token: any;
-  userData:any;
-  constructor(private formBuilder:FormBuilder, 
-    private dataService:DataService, 
+  constructor(
+    private formBuilder: FormBuilder, 
+    private dataService: DataService, 
     private toastr: ToastrService,
-    private router:Router,
-    private loginService:LoginService) {
-      
-    }
+    private router: Router,
+    private route: ActivatedRoute) {}
 
-    
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', {
+        validators: [Validators.required, Validators.email],
+      }],
+      password: ['', {
+        validators: [Validators.required]
+      }]
+    });
+
+    this.signupForm = this.formBuilder.group({
+      first_name: ['', {
+        validators: [Validators.required, this.noNumbersValidator]
+      }],
+      last_name: ['', {
+        validators: [Validators.required, this.noNumbersValidator]
+      }],
+      student_number: ['', {
+        validators: [
+          Validators.required, 
+          Validators.pattern(/^\d{4}-\d{5}-TG-0$/)]
+      }],
+      email: ['', {
+        validators: [Validators.required, Validators.email]
+      }],
+      birthday: ['', {
+        validators: [
+          Validators.required, 
+          this.minAgeValidator(18), 
+          this.maxAgeValidator(80)]
+      }],
+      gender: ['', {
+        validators: [Validators.required]
+      }],
+      password: ['', {
+        validators: [Validators.required, Validators.minLength(8)]
+      }],
+      confirmPassword: ['', {
+        validators: [Validators.required]
+      }]
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
+    } as AbstractControlOptions);
+
+    // this.route.queryParams.subscribe(params => {
+    //   if (params['verified'] === '1') {
+    //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
+    //   } else if (params['verified'] === '0') {
+    //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
+    //   }
+    // });
+  }
 
   get emailControl() {
     return this.loginForm.get('email');
@@ -73,65 +130,63 @@ export class LoginComponent implements OnInit {
     return this.signupForm.get('confirmPassword');
   }
 
-  ngOnInit(): void {
-    
-    this.loginForm = this.formBuilder.group( {
-      email: ['', {
-        validators: [Validators.required, Validators.email],
-      }],
-      password: ['', {
-        validators: [Validators.required]
-      }]
-    });
+  noNumbersValidator(control: FormControl) {
+    const containsNumbers = /[0-9]/.test(control.value);
+    return containsNumbers ? { containsNumbers: true } : null;
+  }
 
-    this.signupForm = this.formBuilder.group({
-      first_name: ['', {
-        validators: [Validators.required]
-      }],
-      last_name: ['', {
-        validators: [Validators.required]
-      }],
-      student_number: ['', {
-        validators: [Validators.required]
-      }],
-      email: ['', {
-        validators: [Validators.required, Validators.email]
-      }],
-      birthday: ['', {
-        validators: [Validators.required]
-      }],
-      gender: ['', {
-        validators: [Validators.required]
-      }],
-      password: ['', {
-        validators: [Validators.required, Validators.minLength(8)]
-      }],
-      confirmPassword: ['', {
-        validators: [Validators.required]
-      }]
-    }, {
-      validator: MustMatch('password', 'confirmPassword')
-    }as AbstractControlOptions);
+  maxAgeValidator(maxAge: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        const today = new Date();
+        const birthDate = new Date(control.value);
+        const age = today.getFullYear() - birthDate.getFullYear();
+
+        if (age > maxAge) {
+          return { 'maxAge': { value: age } };
+        }
+      }
+      return null;
+    };
+  }
+
+  minAgeValidator(minAge: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        const today = new Date();
+        const birthDate = new Date(control.value);
+        const age = today.getFullYear() - birthDate.getFullYear();
+
+        if (age < minAge) {
+          return { 'minAge': { value: age } };
+        }
+      }
+      return null;
+    };
   }
 
   onSubmit() {
     if (!this.loginForm.valid) return;
 
-    this.dataService.login(this.loginForm.value).subscribe(res=>{
+    this.dataService.login(this.loginForm.value)
+        .subscribe((res: ResponseData)=>{
       this.data = res;
       
       if (this.data.status === 1) {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-        this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
-          timeOut: 2000,
-          progressBar:true
+        this.toastr.success(JSON.stringify(this.data.message), 
+          JSON.stringify(this.data.code),{
+            timeOut: 2000,
+            progressBar:true
+
         });
-      } else if(this.data.status === 0){
-        this.toastr.error(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
-          timeOut: 2000,
-          progressBar:true
+      } else if (this.data.status === 0) {
+        this.toastr.error(JSON.stringify(this.data.message), 
+          JSON.stringify(this.data.code),{
+            timeOut: 2000,
+            progressBar:true
         });
       }
     });
@@ -149,23 +204,26 @@ export class LoginComponent implements OnInit {
   onSignupSubmit() {
     if (!this.signupForm.valid) return;
 
-    this.dataService.registerUser(this.signupForm.value).subscribe(res=>{
-      this.data=res;
-      if(this.data.status === 1) {
-        this.toastr.success(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
-          timeOut:2000,
-          progressBar: true
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.data.message), JSON.stringify(this.data.code),{
-          timeOut:2000,
-          progressBar: true
-        });
-      }
+    this.dataService.registerUser(this.signupForm.value)
+      .subscribe((res: ResponseData)=>{
+        this.data = res;
+        if(this.data.status === 1) {
+          this.toastr.success(JSON.stringify(this.data.message), 
+            JSON.stringify(this.data.code),{
+              timeOut: 2000,
+              progressBar: true
+          });
+          this.router.navigate(['./verify']);
+        } else {
+          this.toastr.error(JSON.stringify(this.data.message), 
+            JSON.stringify(this.data.code),{
+              timeOut: 2000,
+              progressBar: true
+          });
+        }
 
-      this.showSignup = false;
-      this.signupForm.reset();//reset fields
+        this.showSignup = false;
+        this.signupForm.reset(); //reset fields
     });
   }
-
 }
