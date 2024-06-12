@@ -21,12 +21,6 @@ import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component'
 import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
 import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
 
