@@ -74,8 +74,8 @@
 </div>
 
 <!-- Event Modal -->
-<div id="eventModal" class="modal" [class.visible]="isEventModalVisible">
-  <div class="modal-content">
+<div id="eventModal" class="modal" [class.visible]="isEventModalVisible" >
+  <div class="modal-content" [@modalAnimation]="isEventModalVisible ? 'open' : 'closed'">
     <span class="close" (click)="closeEventModal()">&times;</span>
     <img src="../../../assets/icon.jpg" alt="Event Poster" />
     <h3>Event Title</h3>
