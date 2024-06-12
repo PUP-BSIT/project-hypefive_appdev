@@ -6,6 +6,13 @@
   overflow-y: hidden;
 }
 
+.main {
+  flex: 2; 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
 }
@@ -22,20 +29,6 @@
   gap: 20px;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid #000;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #242424;
-  max-width: 700px;
-  height: 115px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
 .dashboard-header.officer {
   display: flex;
   justify-content: space-between;
@@ -44,8 +37,7 @@
   border-radius: 10px;
   padding: 20px;
   background-color: rgb(25, 25, 60);
-  max-width: 700px;
-  height: 115px;
+  height: 110px;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
