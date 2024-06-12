@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { DashboardComponent } from './pages/homepage-events/homepage-events.component';
 import { EventsComponent } from './pages/events/events.component';
 import { FreedomWallComponent } from './pages/freedom-wall/freedom-wall.component';
 import { MembersComponent } from './pages/members/members.component';
