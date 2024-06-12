@@ -1,13 +1,24 @@
+.container {
+  margin-top: 20px;
+  box-sizing: border-box;
+  height: 400px;
+  overflow-y: auto;
+}
+
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 15%;
+  position: sticky;
+  top: 0;
+  background-color: white; 
+  z-index: 1000; 
 }
 
 .header-container h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: 350;
 }
 
 .header-container p {
@@ -20,7 +31,7 @@
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 50%; /*adjust the size according to the page */
+  width: 97%; 
   margin: 10px 0;
   display: flex;
 }
@@ -75,6 +86,7 @@
   height: 100%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000; 
 }
 
 .modal.visible {

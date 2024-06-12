@@ -20,6 +20,7 @@ import { VerifyComponent } from './login/verify/verify.component';
 import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
 import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
+import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
 
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
@@ -57,7 +58,8 @@ import { AuthGuard } from './login/auth.guard';
     AnModalComponent,
     AnEditModalComponent,
     ProfileIconComponent,
-    VerifyComponent
+    VerifyComponent,
+    HomepageEventsComponent
   ],
   imports: [
     BrowserModule,
