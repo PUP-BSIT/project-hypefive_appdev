@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../../service/data.service';
 
 interface Event {
+  id: number;
   event_name: string; 
   location: string; 
   date: Date; 
@@ -15,9 +16,11 @@ interface Event {
   caption?: string;
   poster_loc?: string; 
   event_status_id: number;
+  event_state_id: number;
 }
 
 interface SelectedEvent {
+  id: number;
   event_name: string; 
   location: string; 
   date: Date; 
@@ -29,6 +32,7 @@ interface SelectedEvent {
   caption?: string;
   poster_loc?: string; 
   event_status_id: number;
+  event_state_id: number;
 }
 
 interface Member {
@@ -52,12 +56,17 @@ export class EventsComponent implements OnInit {
   drafts: Event[] = [];
   occurringEvents: Event[] = [];
   filteredEvents: Event[] = [];
-  isModalVisible = false;
+  createEventModal = false;
   isManageModalVisible = false;
   selectedEvent: SelectedEvent | null = null;
   isEditMode = false;
   editingEventIndex = -1;
 
+  showModalUpcoming = false;
+  showModalRecurring = false;
+  showModalDraft = false;
+
+  
   constructor(private fb: FormBuilder,
     private dataService: DataService) {}
 
@@ -92,11 +101,11 @@ export class EventsComponent implements OnInit {
   }
 
   openModal(): void {
-    this.isModalVisible = true;
+    this.createEventModal = true;
   }
 
   closeModal(): void {
-    this.isModalVisible = false;
+    this.createEventModal = false;
     this.isEditMode = false;
     this.editingEventIndex = -1;
   }
@@ -104,6 +113,19 @@ export class EventsComponent implements OnInit {
   openManageModal(event: Event): void {
     this.selectedEvent = event;
     this.isManageModalVisible = true;
+    if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1) {
+      this.showModalUpcoming = true;
+      this.showModalDraft = false;
+      this.showModalRecurring = false;
+    } else if(this.selectedEvent.event_status_id === 1 && this.selectedEvent.event_state_id === 1){
+      this.showModalDraft=true;
+      this.showModalRecurring = false;
+      this.showModalUpcoming = false;
+    } else if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 2) {
+      this.showModalRecurring = true;
+      this.showModalUpcoming = false;
+      this.showModalDraft = false;
+    }
   }
 
   closeManageModal(): void {
@@ -119,42 +141,35 @@ export class EventsComponent implements OnInit {
   }
 
   markAsOccurring(event: Event): void {
-    if (this.activeTab === 'UPCOMING') {
-      const index = this.events.indexOf(event);
-      if (index > -1) {
-        this.events.splice(index, 1);
-        this.occurringEvents.push(event);
-      }
-    } else if (this.activeTab === 'DRAFTS') {
-      const index = this.drafts.indexOf(event);
-      if (index > -1) {
-        this.drafts.splice(index, 1);
-        this.occurringEvents.push(event);
-      }
-    }
-    this.closeManageModal();
-    this.displayEvents(this.activeTab);
+    const id = {id : event.id};
+    this.dataService.markAsOccuring(id).subscribe(res =>{
+      this.response=res;
+
+      this.showUpcomingEvents();
+      this.closeManageModal();
+    });
+  }
+
+  markAsComplete(event: Event) {
+    const id = {id : event.id};
+    this.dataService.markAsComplete(id).subscribe(res =>{
+      this.response=res;
+
+      this.showRecurringEvents();
+      this.closeManageModal();
+    });
   }
 
   cancelEvent(event: Event): void {
-    if (this.activeTab === 'UPCOMING') {
-      const index = this.events.indexOf(event);
-      if (index > -1) {
-        this.events.splice(index, 1);
-      }
-    } else if (this.activeTab === 'DRAFTS') {
-      const index = this.drafts.indexOf(event);
-      if (index > -1) {
-        this.drafts.splice(index, 1);
-      }
-    } else if (this.activeTab === 'RECURRING') {
-      const index = this.occurringEvents.indexOf(event);
-      if (index > -1) {
-        this.occurringEvents.splice(index, 1);
-      }
-    }
-    this.closeManageModal();
-    this.displayEvents(this.activeTab);
+    const id = {id : event.id};
+    this.dataService.cancelEvent(id).subscribe(res =>{
+      this.response=res;
+
+      this.showUpcomingEvents();
+      this.showRecurringEvents();
+      this.showDraftEvents();
+      this.closeManageModal();
+    });
   }
 
   showUpcomingEvents() {

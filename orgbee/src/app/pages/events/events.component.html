@@ -7,7 +7,7 @@
 </button>
 
 <!-- Event Form Modal -->
-<div id="eventFormModal" class="modal" [class.visible]="isModalVisible">
+<div id="eventFormModal" class="modal" [class.visible]="createEventModal">
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
 
@@ -223,15 +223,40 @@
           <p>{{ selectedEvent?.location }}</p>
           <p>{{ selectedEvent?.date }}</p>
         </div>
-        <button class="edit-btn" (click)="editEvent(selectedEvent)">
-          Edit Details
-        </button>
-        <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
-          Mark as Occurring
-        </button>
-        <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
-          Cancel Event
-        </button>
+        @if(showModalUpcoming){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
+            Mark as Occurring
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        @if(showModalRecurring){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="markAsComplete(selectedEvent)">
+            Mark as Complete
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        @if(showModalDraft){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
+            Publish
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        
       </div>
       <div class="manage-members">
         <span class="close" (click)="closeManageModal()">&times;</span>

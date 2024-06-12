@@ -41,4 +41,52 @@ class EventsController extends Controller
         ->where('event_status_id', '=', 2)->get();
         return response()->json($upcoming, 200);
     }
+
+    public function markAsOccuring(Request $request) {
+        $updateState = $request->only('id');
+
+        if ($updateState) {
+            DB::table('events')->where('id', $updateState)
+                ->update(['event_state_id'=>2]);
+            $response ['message'] = 'Event state updated successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
+        } else{
+            $response ['message'] = 'Failed to update';
+            $response ['code'] = 400;
+            return response()->json($response);
+        }
+    }
+
+    public function markAsComplete(Request $request) {
+        $updateState = $request->only('id');
+
+        if ($updateState) {
+            DB::table('events')->where('id', $updateState)
+                ->update(['event_state_id'=>3]);
+            $response ['message'] = 'Event state updated successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
+        } else{
+            $response ['message'] = 'Failed to update';
+            $response ['code'] = 400;
+            return response()->json($response);
+        }
+    }
+
+    public function cancelEvent(Request $request) {
+        $cancelEvent = $request->only('id');
+
+        if ($cancelEvent) {
+            DB::table('events')->where('id', $cancelEvent)
+                ->update(['event_state_id'=>4]);
+            $response ['message'] = 'Event canceled updated successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
+        } else{
+            $response ['message'] = 'Failed to cancel';
+            $response ['code'] = 400;
+            return response()->json($response);
+        }
+    }
 }
