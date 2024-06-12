@@ -82,6 +82,10 @@ Route::post('/markAsOccuring',
         [\App\Http\Controllers\EventsController::class, 'markAsOccuring'])
             ->name('api.markAsOccuring');
 
+Route::post('/publishDraft', 
+        [\App\Http\Controllers\EventsController::class, 'publishDraft'])
+            ->name('api.publishDraft');
+
 Route::post('/markAsComplete', 
         [\App\Http\Controllers\EventsController::class, 'markAsComplete'])
             ->name('api.markAsComplete');
@@ -89,3 +93,7 @@ Route::post('/markAsComplete',
 Route::post('/cancelEvent', 
         [\App\Http\Controllers\EventsController::class, 'cancelEvent'])
             ->name('api.cancelEvent');
+
+Route::post('/updateEvent', 
+        [\App\Http\Controllers\EventsController::class, 'updateEvent'])
+            ->name('api.updateEvent');

@@ -73,15 +73,23 @@ export class DataService {
     return this.http.get(this.apiUrl +'api/getRecurringEvents/');
   }
 
-  markAsOccuring(data){
+  markAsOccuring(data) {
     return this.http.post(this.apiUrl +'api/markAsOccuring/', data);
   }
 
-  markAsComplete(data){
+  markAsComplete(data) {
     return this.http.post(this.apiUrl +'api/markAsComplete/', data);
+  }
+
+  publishDraft(data) {
+    return this.http.post(this.apiUrl +'api/publishDraft/', data);
   }
 
   cancelEvent(data) {
     return this.http.post(this.apiUrl +'api/cancelEvent/', data);
+  }
+
+  updateEvent(data) {
+    return this.http.post(this.apiUrl +'api/updateEvent/', data);
   }
 }

@@ -31,7 +31,7 @@ class EventsController extends Controller
     }
 
     public function getDraftEvents() {
-        $upcoming = DB::table('events')->where('event_state_id', '=', 1)
+        $upcoming = DB::table('events')
         ->where('event_status_id', '=', 1)->get();
         return response()->json($upcoming, 200);
     }
@@ -74,6 +74,22 @@ class EventsController extends Controller
         }
     }
 
+    public function publishDraft(Request $request) {
+        $updateState = $request->only('id');
+
+        if ($updateState) {
+            DB::table('events')->where('id', $updateState)
+                ->update(['event_state_id'=>1, 'event_status_id'=>2]);
+            $response ['message'] = 'Event state updated successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
+        } else{
+            $response ['message'] = 'Failed to update';
+            $response ['code'] = 400;
+            return response()->json($response);
+        }
+    }
+
     public function cancelEvent(Request $request) {
         $cancelEvent = $request->only('id');
 
@@ -85,6 +101,25 @@ class EventsController extends Controller
             return response()->json($response);
         } else{
             $response ['message'] = 'Failed to cancel';
+            $response ['code'] = 400;
+            return response()->json($response);
+        }
+    }
+
+    public function updateEvent(Request $request) {
+        $updateDetails = $request->only('id','event_name', 'location', 'date', 'time', 
+            'all_members_required', 'has_reg_fee', 'registration_fee',
+            'max_attendees', 'caption','poster_loc', 'event_status_id');
+            
+        $updateId = $request->id;
+
+        if($updateDetails) {
+            DB::table('events')->where('id', $updateId)->update($updateDetails);
+            $response ['message'] = 'Event updated successfully';
+            $response ['code'] = 200;
+            return response()->json($response);
+        } else {
+            $response ['message'] = 'Failed to update';
             $response ['code'] = 400;
             return response()->json($response);
         }

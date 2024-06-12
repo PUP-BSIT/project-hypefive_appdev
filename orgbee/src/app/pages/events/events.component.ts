@@ -52,19 +52,18 @@ export class EventsComponent implements OnInit {
   eventForm: FormGroup;
   currentStep = 0;
   activeTab = 'UPCOMING';
-  events: Event[] = []; //Upcoming?
-  drafts: Event[] = [];
-  occurringEvents: Event[] = [];
-  filteredEvents: Event[] = [];
+  filteredEvents: Event[];
   createEventModal = false;
+  editEventModal = false;
   isManageModalVisible = false;
   selectedEvent: SelectedEvent | null = null;
-  isEditMode = false;
-  editingEventIndex = -1;
 
   showModalUpcoming = false;
   showModalRecurring = false;
   showModalDraft = false;
+
+  response: any; //temporary
+  updateEventId: number;
 
   
   constructor(private fb: FormBuilder,
@@ -94,50 +93,53 @@ export class EventsComponent implements OnInit {
         registration_feeControl?.disable();
       }
     });
-
-    this.showUpcomingEvents();
-    this.showRecurringEvents();
-    this.showDraftEvents();
   }
 
-  openModal(): void {
+  openCreateModal(): void {
     this.createEventModal = true;
   }
 
-  closeModal(): void {
+  closeCreateEditModal(): void {
     this.createEventModal = false;
-    this.isEditMode = false;
-    this.editingEventIndex = -1;
+    this.editEventModal = false;
   }
-
+editModalTab:string;
   openManageModal(event: Event): void {
     this.selectedEvent = event;
     this.isManageModalVisible = true;
-    if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1) {
+    if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1 ) {
       this.showModalUpcoming = true;
       this.showModalDraft = false;
       this.showModalRecurring = false;
-    } else if(this.selectedEvent.event_status_id === 1 && this.selectedEvent.event_state_id === 1){
-      this.showModalDraft=true;
-      this.showModalRecurring = false;
-      this.showModalUpcoming = false;
-    } else if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 2) {
+
+      this.editModalTab = 'UPCOMING';
+    } else if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id ===2  ) {
       this.showModalRecurring = true;
       this.showModalUpcoming = false;
       this.showModalDraft = false;
-    }
+
+      this.editModalTab = 'RECURRING';
+    } else if(this.selectedEvent.event_status_id === 1){
+      this.showModalDraft=true;
+      this.showModalRecurring = false;
+      this.showModalUpcoming = false;
+
+      this.editModalTab = 'DRAFT';
+    } 
   }
 
   closeManageModal(): void {
     this.isManageModalVisible = false;
   }
 
-  editEvent(event: Event): void {
-    this.closeManageModal();
-    this.openModal();
-    this.eventForm.patchValue(event);
-    this.isEditMode = true;
-    this.editingEventIndex = this.filteredEvents.indexOf(event);
+  publishDraft(event:Event) {
+    const id = {id : event.id};
+    this.dataService.publishDraft(id).subscribe(res =>{
+      this.response=res;
+      console.log(this.response);
+      this.showDraftEvents();
+      this.closeManageModal();
+    });
   }
 
   markAsOccurring(event: Event): void {
@@ -164,10 +166,15 @@ export class EventsComponent implements OnInit {
     const id = {id : event.id};
     this.dataService.cancelEvent(id).subscribe(res =>{
       this.response=res;
-
-      this.showUpcomingEvents();
-      this.showRecurringEvents();
-      this.showDraftEvents();
+      if (this.editModalTab === 'UPCOMING') {
+        this.showUpcomingEvents();
+        this.editModalTab = "";
+      } else if (this.editModalTab === 'RECURRING') {
+        this.showRecurringEvents();
+        this.editModalTab = "";
+      } else if (this.editModalTab === 'DRAFT') {
+        this.showDraftEvents();
+      }
       this.closeManageModal();
     });
   }
@@ -175,34 +182,31 @@ export class EventsComponent implements OnInit {
   showUpcomingEvents() {
     //Get events with event_state = 1 with status of 2
     this.dataService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
-      this.filteredEvents=upcoming;
+      this.filteredEvents = upcoming;
     })
   }
 
   showDraftEvents() {
     //Get events with event_state = 1 and status of 1
     this.dataService.getDraftEvents().subscribe((draft: Event[])=>{
-      this.filteredEvents=draft;
+      this.filteredEvents = draft;
     })
   }
 
   showRecurringEvents(){
     //Get events with event_state = 2 and status of 2
     this.dataService.getRecurringEvents().subscribe((recuring: Event[])=>{
-      this.filteredEvents=recuring;
+      this.filteredEvents = recuring;
     })
   }
 
-  displayEvents(tab: string): void {
+  displayEvents(tab: string) {
     this.activeTab = tab;
     if (tab === 'UPCOMING') {
-      // this.filteredEvents = this.events;
       this.showUpcomingEvents();
     } else if (tab === 'DRAFTS') {
-      // this.filteredEvents = this.drafts;
       this.showDraftEvents();
     } else if (tab === 'RECURRING') {
-      // this.filteredEvents = this.occurringEvents;
       this.showRecurringEvents();
     }
   }
@@ -219,7 +223,7 @@ export class EventsComponent implements OnInit {
     }
   }
 
-  response:any; //temporary
+
   submitForm(type: string): void {
     if (this.eventForm.valid) {
       const newEvent = this.eventForm.value as Event;
@@ -231,7 +235,7 @@ export class EventsComponent implements OnInit {
           this.response=res;
           console.log(this.response);
           this.showUpcomingEvents();
-        })
+        });
       } else {
         newEvent.event_status_id = 1; //set the status to draft
         console.log(newEvent); //review the details
@@ -239,36 +243,51 @@ export class EventsComponent implements OnInit {
           this.response=res;
           console.log(this.response); 
           this.showDraftEvents();
-        })
+        });
       }
-      //Under review
-      if (this.isEditMode) {
-        if (this.activeTab === 'UPCOMING') {
-          if (type === 'publish') {
-            this.events[this.editingEventIndex] = newEvent;
-          } else {
-            this.drafts[this.editingEventIndex] = newEvent;
-          }
-        } else if (this.activeTab === 'DRAFTS') {
-          this.drafts[this.editingEventIndex] = newEvent;
-        } else if (this.activeTab === 'RECURRING') {
-          this.occurringEvents[this.editingEventIndex] = newEvent;
-        }
-        this.isEditMode = false;
-        this.editingEventIndex = -1;
-      } else {
-        if (type === 'publish') {
-          this.events.push(newEvent);
-        } else {
-          this.drafts.push(newEvent);
-        }
-      }
-      this.closeModal();
+
+      this.closeCreateEditModal();
       this.currentStep = 0;
       this.eventForm.reset();
       this.displayEvents(this.activeTab);
-    } else {
+    } else { 
       alert('Please fill in all required fields.');
+    }
+  }
+
+
+  editEvent(event: Event): void {
+    this.editEventModal = true;
+    this.closeManageModal();
+    this.eventForm.patchValue(event); //pass the value of the selected event
+    this.updateEventId = event.id;
+  }
+
+  saveEdit(type:string){
+    const updateEvent = this.eventForm.value as Event;
+    updateEvent.id = this.updateEventId;
+
+    if(updateEvent){
+
+      if(type ==='publish'){
+        updateEvent.event_status_id = 2; //set the status to publish
+        this.dataService.updateEvent(updateEvent).subscribe(res=>{
+          this.response=res;
+          console.log(this.response);
+          this.showUpcomingEvents();
+        });
+      } else {
+        updateEvent.event_status_id = 1; //set the status to draft
+        this.dataService.updateEvent(updateEvent).subscribe(res=>{
+          this.response=res;
+          console.log(this.response);
+          this.showDraftEvents();
+          this.showUpcomingEvents();
+        });
+      }
+      this.closeCreateEditModal();
+      this.currentStep = 0;
+      this.eventForm.reset();
     }
   }
 }
