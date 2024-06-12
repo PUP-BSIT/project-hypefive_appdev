@@ -573,11 +573,8 @@ mat-card-title {
   background-color: #e6b800; 
 }
 
-.hidden {
+.notstudent {
   visibility: hidden;
-  height: 0;
-  margin: 0;
-  padding: 0;
 }
 
 @media screen and (max-width: 525px) { 
