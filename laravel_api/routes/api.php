@@ -101,3 +101,7 @@ Route::post('/updateEvent',
 Route::get('/getYearlyEvents', 
         [\App\Http\Controllers\ArchiveController::class, 'getYearlyEvents'])
             ->name('api.getYearlyEvents');
+
+Route::get('/getOldEvents', 
+        [\App\Http\Controllers\ArchiveController::class, 'getOldEvents'])
+            ->name('api.getOldEvents');

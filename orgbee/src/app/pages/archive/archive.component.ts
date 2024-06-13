@@ -28,32 +28,18 @@ interface Event {
 export class ArchiveComponent implements OnInit  {
   showEventModal= false;
   events: Event[] = [];
-  selectedEvent: Event[];
+  selectedEvent: Event[] = [];
+  oldEvents: Event[] = [];
+  
+  currentSlide = 0;
+  currentDate: Date = new Date();
 
   constructor(private dataService: DataService) {}
 
-  eventLists = [
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-    { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
-  ];
-
-  details = [
-    { icon: '../../../assets/icon.jpg', 
-      eventTitle: "Knights of Honor",
-      eventLocation: "Gym",
-      eventDate: "March 10, 2020",
-      eventCaption: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fringilla, nisi sit.'
-    }
-  ];
-  currentSlide = 0;
-
-  currentDate: Date = new Date();
 
   ngOnInit(): void {
     this.getYearlyEvents();
-    this.selectedEvent = [];
+    this.getOldEvents() ;
   } 
 
   getCurrentMonthYear(): string {
@@ -66,9 +52,14 @@ export class ArchiveComponent implements OnInit  {
     });
   }
 
+  getOldEvents() {
+    this.dataService.getOldEvents().subscribe((oldEvents: Event[])=>{
+      this.oldEvents = oldEvents;
+    });
+  }
+
   eventClick (event: Event) {
     this.showEventModal = true;
-
     this.selectedEvent.push(event);
   }
   

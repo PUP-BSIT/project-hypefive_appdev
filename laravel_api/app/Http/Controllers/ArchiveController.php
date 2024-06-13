@@ -13,11 +13,16 @@ class ArchiveController extends Controller
 
         $upcoming = DB::table('events')
             ->whereNotIn('event_state_id', [4])
-            ->whereYear('date', '=', $currentYear)->orderBy('date', 'desc')->get();
+            ->whereYear('date', '=', $currentYear)->orderBy('date', 'asc')->get();
         return response()->json($upcoming, 200);
     }
 
     public function getOldEvents() {
-        
+        $currentYear = Carbon::now()->year;
+
+        $upcoming = DB::table('events')
+            ->whereNotIn('event_state_id', [4])
+            ->whereYear('date', '!=', $currentYear)->orderBy('date', 'asc')->get();
+        return response()->json($upcoming, 200);
     }
 }

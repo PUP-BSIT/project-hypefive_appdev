@@ -96,4 +96,8 @@ export class DataService {
   getYearlyEvents() {
     return this.http.get(this.apiUrl +'api/getYearlyEvents/');
   }
+
+  getOldEvents() {
+    return this.http.get(this.apiUrl +'api/getOldEvents/');
+  }
 }
