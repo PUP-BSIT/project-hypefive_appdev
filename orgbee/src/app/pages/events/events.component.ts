@@ -19,29 +19,13 @@ interface Event {
   event_state_id: number;
 }
 
-interface SelectedEvent {
-  id: number;
-  event_name: string; 
-  location: string; 
-  date: Date; 
-  time: Time; 
-  all_members_required: number; 
-  has_reg_fee: number;  
-  registration_fee?: number; 
-  max_attendees: number; 
-  caption?: string;
-  poster_loc?: string; 
-  event_status_id: number;
-  event_state_id: number;
-}
+// interface Member {
+//   name: string;
+// }
 
-interface Member {
-  name: string;
-}
-
-interface SelectedEvent extends Event {
-  registeredMembers?: Member[];
-}
+// interface SelectedEvent extends Event {
+//   registeredMembers?: Member[];
+// }
 
 @Component({
   selector: 'app-events',
@@ -56,7 +40,7 @@ export class EventsComponent implements OnInit {
   createEventModal = false;
   editEventModal = false;
   isManageModalVisible = false;
-  selectedEvent: SelectedEvent | null = null;
+  selectedEvent: Event | null = null;
 
   showModalUpcoming = false;
   showModalOccuring = false;
