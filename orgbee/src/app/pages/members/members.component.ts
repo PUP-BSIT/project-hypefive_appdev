@@ -13,36 +13,6 @@ interface Member {
   icon_location:string;
 }
 
-interface SelectedMember {
-  first_name: string;
-  last_name: string;
-  birthday: Date;
-  gender: string;
-  student_number: string;
-  email: string;
-  icon_location:string;
-}
-
-interface MembershipRequests {
-  first_name: string;
-  last_name: string;
-  birthday: Date;
-  gender: string;
-  student_number: string;
-  email: string;
-  icon_location:string;
-}
-
-interface Officers {
-  first_name: string;
-  last_name: string;
-  birthday: Date;
-  gender: string;
-  student_number: string;
-  email: string;
-  icon_location:string;
-}
-
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
@@ -54,9 +24,9 @@ export class MembersComponent implements OnInit {
   showModalOfficer = false;
 
   members: Member[];
-  details: SelectedMember [];
-  membershipRequests: MembershipRequests[];
-  officers: Officers[];
+  details: Member [];
+  membershipRequests: Member[];
+  officers: Member[];
   student_num:string;
   response: Response;
 
@@ -80,13 +50,13 @@ export class MembersComponent implements OnInit {
 
   showRequest() {
     this.dataService.getMembershipRequest()
-      .subscribe((request: MembershipRequests[]) => {
+      .subscribe((request: Member[]) => {
         this.membershipRequests = request;
     });
   }
 
   showOfficers() {
-    this.dataService.getOfficers().subscribe((request: Officers[]) => {
+    this.dataService.getOfficers().subscribe((request: Member[]) => {
       this.officers = request;
     });
   }
