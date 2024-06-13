@@ -92,4 +92,8 @@ export class DataService {
   updateEvent(data) {
     return this.http.post(this.apiUrl +'api/updateEvent/', data);
   }
+
+  getYearlyEvents() {
+    return this.http.get(this.apiUrl +'api/getYearlyEvents/');
+  }
 }

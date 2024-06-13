@@ -97,3 +97,7 @@ Route::post('/cancelEvent',
 Route::post('/updateEvent', 
         [\App\Http\Controllers\EventsController::class, 'updateEvent'])
             ->name('api.updateEvent');
+
+Route::get('/getYearlyEvents', 
+        [\App\Http\Controllers\ArchiveController::class, 'getYearlyEvents'])
+            ->name('api.getYearlyEvents');

@@ -1,4 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Time } from '@angular/common';
+
+import { DataService } from '../../../service/data.service';
+
+interface Event {
+  id: number;
+  event_name: string; 
+  location: string; 
+  date: Date; 
+  time: Time; 
+  all_members_required: number; 
+  has_reg_fee: number;  
+  registration_fee?: number; 
+  max_attendees: number; 
+  caption?: string;
+  poster_loc?: string; 
+  event_status_id: number;
+  event_state_id: number;
+}
 
 @Component({
   selector: 'app-archive',
@@ -6,16 +25,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./archive.component.css']
 })
 
-export class ArchiveComponent {
+export class ArchiveComponent implements OnInit  {
   showEventModal= false;
-  events = [
-    { icon: '../../../assets/icon.jpg'},
-    { icon: '../../../assets/logo.png'},
-    { icon: '../../../assets/icon.jpg'},
-    { icon: '../../../assets/icon.jpg'},
-    { icon: '../../../assets/icon.jpg'},
-    { icon: '../../../assets/logo.png'},
-  ];
+  events: Event[] = [];
+  selectedEvent: Event[];
+
+  constructor(private dataService: DataService) {}
 
   eventLists = [
     { eventTitle: "Knights of Honor", eventDate: "03/10/2020"},
@@ -34,12 +49,32 @@ export class ArchiveComponent {
   ];
   currentSlide = 0;
 
-  eventClick () {
+  currentDate: Date = new Date();
+
+  ngOnInit(): void {
+    this.getYearlyEvents();
+    this.selectedEvent = [];
+  } 
+
+  getCurrentMonthYear(): string {
+    return this.currentDate.toLocaleString('en-US', { month: 'long' }) + ' ' + this.currentDate.getFullYear();
+  }
+
+  getYearlyEvents() {
+    this.dataService.getYearlyEvents().subscribe((yearlyEvents: Event[])=>{
+      this.events = yearlyEvents;
+    });
+  }
+
+  eventClick (event: Event) {
     this.showEventModal = true;
+
+    this.selectedEvent.push(event);
   }
   
   closeModal() {
     this.showEventModal = false;
+    this.selectedEvent = [];
   }
 
   moveLeft() {

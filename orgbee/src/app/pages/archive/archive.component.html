@@ -9,13 +9,15 @@
             <div class="left-column">
                 <p>Events that have already ended will be viewed here</p>
                 <div class="month-year">
-                    <p>April 2024</p>
+                    <p>{{ getCurrentMonthYear() }}</p>
                 </div>
 
-                <div class="page" (click)="eventClick()">
+                <div class="page" >
                     @for(event of events.slice(currentSlide, currentSlide + 3); track events){
-                        <div class="archive-event">
-                            <img [src]="event.icon">
+                        <div class="archive-event"(click)="eventClick(event)">
+                            <!-- Temporary -->
+                            <img src="../../../assets/logo.png">
+                            <p>{{ event.eventTitle }}</p>
                         </div>
                     }
                 </div>
@@ -43,8 +45,10 @@
                     <table class="event-list">
                         @for(eventList of eventLists; track eventLists){
                             <div class="event-list-table">
-                                <td>{{ eventList.eventTitle }}</td>
-                                <td>{{ eventList.eventDate }}</td>   
+                                <div (click)="eventClick(eventList)">
+                                    <td>{{ eventList.eventTitle }}</td>
+                                    <td>{{ eventList.eventDate }}</td> 
+                                </div>  
                             </div>
                         }
                     </table>
@@ -58,15 +62,16 @@
     <div class="modal" id="eventModal">
         <div class="modal-content">
             <span class="close" (click)="closeModal()">&times;</span>
-            @for(detail of details; track details){
+            @for(detail of selectedEvent; track selectedEvent){
                 <div class="modal-event">
-                    <img [src]="detail.icon" />
+                    <!-- Temporary -->
+                    <img src="../../../assets/logo.png">
                 </div>
                 <div class="modal-details">
-                    <h3>{{ detail.eventTitle }}</h3>
-                    <p class="label">Date: <span class="value">{{ detail.eventDate }}</span><p> 
-                    <p class="label">Location: <span class="value">{{ detail.eventLocation }}</span></p> 
-                    <p>{{ detail.eventCaption }}</p>
+                    <h3>{{ detail.event_name }}</h3>
+                    <p class="label">Date: <span class="value">{{ detail.date }}</span><p> 
+                    <p class="label">Location: <span class="value">{{ detail.location }}</span></p> 
+                    <p>{{ detail.caption }}</p>
                 </div>
             }
         </div>
