@@ -418,10 +418,11 @@
         <span class="close" (click)="closeManageModal()">&times;</span>
         <h3>Registered Members</h3>
         <ul>
-          @for(member of selectedEvent?.registeredMembers; track selectedEvent)
+          <!-- TODO: VILLA-VILLA: Get the registered members per event -->
+          <!-- @for(member of selectedEvent?.registeredMembers; track selectedEvent)
           {
             <li> {{ member.name }} </li>
-          }
+          } -->
         </ul>
       </div>
     </div>
