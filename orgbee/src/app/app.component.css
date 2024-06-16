@@ -11,17 +11,20 @@ html {
   width: 100%;
 }
 
-@media screen and (max-width: 525px) {
-  app-sidebar{
-    display: none;
-  }
-}
 
 app-sidebar {
   width: 110px;
   margin-right: 10px;
   overflow-y: auto; 
   height: 100%;
+}
+
+
+@media screen and (max-width: 767px) {
+  app-sidebar {
+    width: 0px;
+  }
+  
 }
 
 app-display {
