@@ -130,8 +130,9 @@
         <div class="modal-content">
           <span class="close" (click)="closeOneAnnouncement()">&times;</span>
           <h2>{{ modalSubject }}</h2>
-          <p>{{ modalContent }}</p>
-          <p>Posted on {{ modalDate }} by {{ modalAuthor }}</p>
+          <p class="details">Posted on: {{ modalDate }} </p>
+          <p class="details">Published by: {{ modalAuthor }}</p>
+          <p class="content">{{ modalContent }}</p>
         </div>
       </div>
       }
