@@ -130,7 +130,11 @@
         <div class="modal-content">
           <span class="close" (click)="closeOneAnnouncement()">&times;</span>
           <h2>{{ modalSubject }}</h2>
-          <p class="details">Posted on: {{ modalDate }} </p>
+          <p class="details">
+            <span *ngIf="modalUpdated">Updated at: </span>
+            <span *ngIf="!modalUpdated">Posted on: </span>
+            {{ modalDate }}
+          </p>
           <p class="details">Published by: {{ modalAuthor }}</p>
           <p class="content">{{ modalContent }}</p>
         </div>

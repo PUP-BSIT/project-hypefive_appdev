@@ -10,8 +10,9 @@ export interface Announcement {
   content: string;
   recipient: number;
   student_id: number;
-  created_at?: string;  // Optional for creation and update
-  author?: string;      // Optional for creation and update
+  updated_at?: string; 
+  created_at?: string;  
+  author?: string;   
 }
 
 @Injectable({

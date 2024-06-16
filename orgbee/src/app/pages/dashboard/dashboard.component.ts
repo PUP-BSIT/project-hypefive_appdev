@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   modalContent = '';
   modalDate = '';
   modalAuthor = '';
+  modalUpdated = false;
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
@@ -112,6 +113,7 @@ export class DashboardComponent implements OnInit {
     this.modalDate = announcement.created_at || '';
     this.modalAuthor = announcement.author || '';
     this.showOneAnnouncement = true;
+    this.modalUpdated = !!announcement.updated_at;
   }
 
   openEditModal(announcement: Announcement): void {
@@ -145,6 +147,7 @@ export class DashboardComponent implements OnInit {
         ...updatedAnnouncement,
         created_at: this.getCurrentDateTime(), 
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
+        updated_at: this.getCurrentDateTime(), 
       };
     }
     this.closeModalEditAnnouncement();

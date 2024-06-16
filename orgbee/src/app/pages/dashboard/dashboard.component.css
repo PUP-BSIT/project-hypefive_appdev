@@ -343,6 +343,7 @@ height: 100%;
   word-wrap: break-word; 
   word-break: break-word; 
   margin-top: 20px; 
+  font-size: 15px;
 }
 
 .modal-content h2{
