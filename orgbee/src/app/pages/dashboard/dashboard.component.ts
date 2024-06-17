@@ -57,10 +57,6 @@ export class DashboardComponent implements OnInit {
     private router:Router
   ) {}
 
-  //TODO: update later according to new table in database
-  updateUserInfo(selectedAvatarPath: string): void {
-    //this.userInfo.icon = selectedAvatarPath; 
-  }
   toggleProfileIconEdit(): void { 
     this.showProfileIconEdit = !this.showProfileIconEdit;
   }
