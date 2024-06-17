@@ -23,6 +23,7 @@ import { AnEditModalComponent }
   from './pages/dashboard/an-edit-modal/an-edit-modal.component';
 import { ProfileIconComponent } 
   from './pages/dashboard/profile-icon/profile-icon.component';
+import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
@@ -63,7 +64,8 @@ import { AuthGuard } from './login/auth.guard';
     AnModalComponent,
     AnEditModalComponent,
     ProfileIconComponent,
-    VerifyComponent
+    VerifyComponent,
+    ForgotPassComponent
   ],
   imports: [
     BrowserModule,
