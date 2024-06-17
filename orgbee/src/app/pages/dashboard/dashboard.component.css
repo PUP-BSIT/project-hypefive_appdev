@@ -247,6 +247,15 @@ height: 100%;
   transition: background-color 0.3s ease;
 }
 
+.no-announcement {
+  display: flex;
+  margin-top: 40%;
+  font-size: 14px;
+  justify-content: center;
+  align-items: center;
+  color:#333;
+}
+
 .announcement-container::-webkit-scrollbar {
   width: 0;
 }

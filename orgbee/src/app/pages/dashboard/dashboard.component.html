@@ -88,6 +88,10 @@
       <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
+        <!-- Check if announcements array is empty -->
+        <ng-container *ngIf="announcements.length === 0">
+          <p class="no-announcement">No announcements yet.</p>
+        </ng-container>
         @for (announcement of announcements; track announcement){
         <div class="announcement">
           @if (userInfo.role_id !== 1 && announcement.student_id ===
