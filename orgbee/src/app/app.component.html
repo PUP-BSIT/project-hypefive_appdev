@@ -1,9 +1,6 @@
 <div class="container">
-  <app-sidebar></app-sidebar>
+  @if(isLoggedIn()){
+    <app-sidebar></app-sidebar>
+  }
   <app-display></app-display>
 </div>
-
-<div class="login">
-  <app-login></app-login>
-</div>
-
