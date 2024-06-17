@@ -16,12 +16,17 @@ Route::post('/register', [\App\Http\Controllers\StudentsController::class,
 Route::post('/login', [\App\Http\Controllers\StudentsController::class, 
                                 'login'])->name('api.login');
 
+//Announcement CRUD
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
 Route::post('/announcements', [Announce::class, 'createAnnouncement']);
 Route::put('/announcements/{announcement}', [Announce::class, 'updateAnnouncement']);
 Route::delete('/announcements/{announcement}', [Announce::class, 'deleteAnnouncement']);
-                               
+                       
+//User Data
 Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', [\App\Http\Controllers\StudentsController::class, 'retrieve']);
+
+//Update Icon
+Route::put('students/update-icon', [\App\Http\Controllers\StudentsController::class, 'updateIcon']);
 
 //Members
 Route::get('/members', [\App\Http\Controllers\MembersController::class, 
