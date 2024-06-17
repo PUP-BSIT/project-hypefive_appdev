@@ -145,6 +145,7 @@ class StudentsController extends Controller {
                     'user_id' => $student->user_id,
                     'role_id' => $student->role_id, 
                     'account_status_id' => $student->account_status_id, 
+                    'icon_id' => $student->icon_id
                 ]);
             } else {
                 // Student or user not found
