@@ -49,12 +49,18 @@ body {
   cursor: pointer;
   margin-top: 20px;
   flex: 1;
-  overflow-y: scroll;
   padding: 10px 0;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   background-color: #eeeeed;
+  height: fit-content;
+}
+
+.all-members1 {
+  overflow-y: scroll;
+  background-color: #eeeeed;
+  height: 400px;
 }
 
 .members {
@@ -62,11 +68,14 @@ body {
   border-radius: 20px;
   padding: 10px;
   background-color: #eeeeed;
-  padding-bottom: 45%;
+  height: 500px;
 }
 
 .all-members {
   border-radius: 20px;
+}
+
+.all-members1 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -182,7 +191,7 @@ body {
   scrollbar-width: none;
 }
 
-.all-members::-webkit-scrollbar,
+.all-members1::-webkit-scrollbar,
 .membership-request::-webkit-scrollbar,
 .officers::-webkit-scrollbar {
   display: none;
@@ -337,4 +346,9 @@ button.modal-member-button:hover {
   width: 25%;
   height: 25%;
   border-radius: 50%;
+}
+
+.no-request {
+  padding: 10%;
+  text-align: center;
 }
