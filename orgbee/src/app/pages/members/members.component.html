@@ -12,13 +12,15 @@
           <ul class="search-results"></ul>
         </div>
   
-        <div class="all-members">
-          @for(member of members; track members) {
-            <div class="member" (click)="memberClick(member.student_number)">
-              <img src="{{ member.icon_location }}" alt="Profile Picture" />
-              <p>{{ member.first_name + " " + member.last_name }}</p>
-            </div>
-          }
+        <div class="all-members1">
+          <div class="all-members">
+            @for(member of members; track members) {
+              <div class="member" (click)="memberClick(member.student_number)">
+                <img src="{{ member.icon_location }}" alt="Profile Picture" />
+                <p>{{ member.first_name + " " + member.last_name }}</p>
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>

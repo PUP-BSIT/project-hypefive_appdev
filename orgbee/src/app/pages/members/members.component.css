@@ -54,18 +54,28 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   background-color: #eeeeed;
+  height: fit-content;
+}
+
+.all-members1 {
+  overflow-y: scroll;
+  background-color: #eeeeed;
+  height: 400px;
 }
 
 .members {
-  overflow-y: scroll;
   margin: 20px;
   border-radius: 20px;
   padding: 10px;
   background-color: #eeeeed;
+  height: 500px;
 }
 
 .all-members {
   border-radius: 20px;
+}
+
+.all-members1 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -181,7 +191,7 @@ body {
   scrollbar-width: none;
 }
 
-.members::-webkit-scrollbar,
+.all-members1::-webkit-scrollbar,
 .membership-request::-webkit-scrollbar,
 .officers::-webkit-scrollbar {
   display: none;
