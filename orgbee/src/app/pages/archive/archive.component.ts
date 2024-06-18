@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Time } from '@angular/common';
 
 import { DataService } from '../../../service/data.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
+import { Response } from '../../app.component';
 interface Event {
   id: number;
   event_name: string; 
@@ -30,16 +34,24 @@ export class ArchiveComponent implements OnInit  {
   events: Event[] = [];
   selectedEvent: Event[] = [];
   oldEvents: Event[] = [];
-  
+  searchArchive: FormGroup;
   currentSlide = 0;
   currentDate: Date = new Date();
 
-  constructor(private dataService: DataService) {}
+  isSearchResult=false;
+  retrievedEvent: Event[];
+  response: Response;
+  constructor(
+    private dataService: DataService,
+    private fb:FormBuilder) {
+  }
 
 
   ngOnInit(): void {
+    this.searchArchive = this.fb.group({keyword:[''] });
     this.getYearlyEvents();
     this.getOldEvents() ;
+    this.searchEvents();
   } 
 
   getCurrentMonthYear(): string {
@@ -62,6 +74,12 @@ export class ArchiveComponent implements OnInit  {
     this.showEventModal = true;
     this.selectedEvent.push(event);
   }
+
+  searchClick(retrievedEvent:Event) {
+    this.isSearchResult=true;
+    this.showEventModal = true;
+    this.selectedEvent.push(retrievedEvent);
+  }
   
   closeModal() {
     this.showEventModal = false;
@@ -80,4 +98,37 @@ export class ArchiveComponent implements OnInit  {
       this.currentSlide += 3;
     }
   }
+
+  searchEvents(){
+    this.searchArchive.get('keyword')!.valueChanges.pipe(
+      switchMap((keyword)=>{
+        console.log(keyword);
+        return this.dataService.searchArchive(keyword).pipe(
+          debounceTime(2000),
+          catchError((error: HttpErrorResponse)=>{
+            console.log(error);
+            return EMPTY;
+        }))
+        
+      }))
+      .subscribe((value:Event[] | Response)=>{
+        if (Array.isArray(value)){
+          this.retrievedEvent=value;
+          this.response = null;
+        } else{
+          this.retrievedEvent=[];
+          this.response = value;
+        }
+      });
+  }
+
+  seeResults(){
+    this.isSearchResult=true;
+  }
+
+  exitSearch(){
+    this.retrievedEvent = [];
+    this.isSearchResult = false;
+  }
+  
 }

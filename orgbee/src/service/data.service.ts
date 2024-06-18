@@ -100,4 +100,8 @@ export class DataService {
   getOldEvents() {
     return this.http.get(this.apiUrl +'api/getOldEvents/');
   }
+
+  searchArchive(data) {
+    return this.http.get(this.apiUrl +`api/archive/search_archive?search_archive=${data}`);
+  }
 }

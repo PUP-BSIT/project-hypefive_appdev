@@ -163,8 +163,8 @@ body {
 }
 
 #search-input {
-  width: 80%;
-  max-width: 80%;
+  width: 100%;
+  max-width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -172,19 +172,31 @@ body {
   box-sizing: border-box;
 }
 
-#search-results {
+.search-results {
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  overflow-y: auto; 
+  width: 15%;
+  margin-top: 3px;
+}
+
+#search_results {
   list-style-type: none;
-  padding: 0;
+  width: 100%;
+  padding:0;
   margin: 0;
 }
 
-#search-results li {
+#search_results li {
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
 
-#search-results li.highlight {
-  background-color: #f9f9f9;
+#search_results:hover {
+  background-color: #ffca10;
 }
 
 .modal {

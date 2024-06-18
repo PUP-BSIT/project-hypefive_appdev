@@ -32,8 +32,26 @@
             <div class="right-column">
                 <h2>Previous Events</h2>
                 <div id="search_container">
-                    <input type="text" id="search-input" placeholder="Search event title">
-                    <ul id="search-results"></ul>
+                    <form [formGroup]="searchArchive">
+                        <input type="text" id="search-input" placeholder="Search event title" formControlName="keyword" (input)="seeResults()"
+                            (blur)="exitSearch()" autocomplete="off" >
+                        @if(isSearchResult){
+                            <div class="search-results">
+                                @if(response){
+                                    <div id="search_results">
+                                        <li> {{response.message}} </li>
+                                    </div>
+                                } 
+                                @for(retrievedEvent of retrievedEvent; track retrievedEvent){
+                                    <div id="search_results" (mousedown)="searchClick(retrievedEvent)">
+                                        <li >{{retrievedEvent.event_name}}</li> 
+                                    </div>
+                                    
+                                }
+                            </div>
+                        }
+                        
+                    </form>
                 </div>
                 <table class="event-list1">
                     <tr>
