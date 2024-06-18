@@ -104,12 +104,6 @@ height: 100%;
   margin-top: 50px;
 }
 
-.tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
 
 .container {
   margin-right: 20px;
@@ -218,10 +212,10 @@ height: 100%;
   position: relative;
   background-color: #f8f8f8;
   padding: 0 20px 20px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px ;
   margin-top: 20px;
   width: 310px;
-  height: 300px;
+  height: 280px;
   overflow-y: auto;
 }
 
@@ -611,3 +605,104 @@ mat-card-title {
     display: none;
   }
 }
+
+.below-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.data-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 30%;
+}
+
+.create {
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  background-color: #f8f8f8;
+  height: 60px;
+}
+
+.create-announcement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  position: sticky;
+  background-color: #2d2d2d;
+  color: #e6b800;
+  height: 30px;
+  width: 170px;
+  border-radius: 20px;
+  margin-left: 25%;
+  font-size: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.create-announcement mat-icon {
+  margin-right: 5px; 
+  margin-top: 5px;
+  font-size: 16px; 
+}
+
+.data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fcfcfc;
+  border: 1px solid rgb(210, 210, 210);
+  width: calc(100% - 10px); 
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.data-people-icon mat-icon {
+  font-size: 24px;
+  color: #ffca10;
+  }
+
+.data-people-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background-color: #fffbd8;
+  border-radius: 50%;
+  margin-bottom: 10px; /* Adjust spacing between icon and text */
+}
+
+.data-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.data-number {
+  color: #ffca10;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.data-text {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.today-calendar {
+  background-color: red;
+  width: 70%;
+}
+
