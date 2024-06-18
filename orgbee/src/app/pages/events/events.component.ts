@@ -266,7 +266,6 @@ editModalTab:string;
           this.response=res;
           console.log(this.response);
           this.showDraftEvents();
-          this.showUpcomingEvents();
         });
       }
       this.closeCreateEditModal();
