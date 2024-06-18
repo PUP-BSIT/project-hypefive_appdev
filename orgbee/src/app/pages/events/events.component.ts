@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DataService } from '../../../service/data.service';
 
 interface Event {
@@ -50,23 +50,25 @@ export class EventsComponent implements OnInit {
   updateEventId: number;
 
   
-  constructor(private fb: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
     private dataService: DataService) {}
 
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
-    this.eventForm = this.fb.group({
-      //TO DO: Add additional validators
-      event_name: ['', Validators.required],
-      location: ['', Validators.required],
-      date: ['', Validators.required],
-      time: ['', Validators.required],
-      all_members_required: ['', Validators.required],
-      has_reg_fee: ['', Validators.required],
-      registration_fee: [{ value: '', disabled: true }],
-      max_attendees: ['', Validators.required],
-      caption: [''],
-      poster_loc: [''],
+    this.eventForm = this.formBuilder.group({
+      event_name: ['', {validators: [Validators.required, Validators.maxLength(10)],}],
+      location: ['', {validators: [Validators.required],}],
+      date: ['', {validators: [Validators.required],}],
+      time: ['', {validators: [Validators.required],}],
+      all_members_required: ['', {validators: [Validators.required],}],
+      has_reg_fee: ['', {validators: [Validators.required],}],
+      registration_fee: [{ value: '', disabled: true }, 
+        {validators: [Validators.required],}],
+      max_attendees: ['', 
+        {validators: [Validators.required, Validators.min(10)],}], 
+      caption: ['',
+        {validators: [Validators.required,  Validators.maxLength(500)],}], // Adding maxLength validator for caption
+        poster_loc: ['', { validators: [Validators.required, this.imageValidator] }],
     });
 
     this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {
@@ -77,6 +79,50 @@ export class EventsComponent implements OnInit {
         registration_feeControl?.disable();
       }
     });
+  }
+
+  imageValidator(control: FormControl) {
+    const imgValue = control.value;
+    if (imgValue && imgValue.length > 0) {
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; 
+      const extension = imgValue.split('.').pop().toLowerCase();
+      if (allowedExtensions.indexOf(extension) === -1) {
+        return { invalidImage: true }; 
+      }
+    }
+    return null;
+  }
+
+  get event_name() {
+    return this.eventForm.get('event_name');
+  }
+
+  get location() {
+    return this.eventForm.get('location');
+  }
+
+  get date() {
+    return this.eventForm.get('date');
+  }
+
+  get time() {
+    return this.eventForm.get('time');
+  }
+
+  get registration_fee() {
+    return this.eventForm.get('registration_fee');
+  }
+
+  get max_attendees() {
+    return this.eventForm.get('max_attendees');
+  }
+
+  get caption() {
+    return this.eventForm.get('caption')
+  }
+
+  get poster_loc() {
+    return this.eventForm.get('poster_loc')
   }
 
   openCreateModal(): void {

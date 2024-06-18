@@ -396,3 +396,8 @@ button:hover {
   font-weight: bold;
   font-size: 20px;
 }
+
+.inc {
+  font-size: 12px;
+  color: red;
+}
