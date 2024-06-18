@@ -303,16 +303,17 @@ button:hover {
 
 .event-img img {
   flex: 1;
-  width: 14%;
+  width: 15%;
   max-width: 100%;
   height: auto;
   display: block;
+  margin-left: 1%;
 }
 
 .event-details {
   flex: 1;
   align-items: start;
-  margin-left: -83%;
+  margin-left: -81%;
 }
 
 .event-details h3 {
@@ -342,7 +343,7 @@ button:hover {
   border: none;
   padding: 10px 25px;
   border-radius: 10px;
-  margin-top: 95%;
+  margin-top: 100%;
   margin-left: -20%;
   cursor: pointer;
 }
