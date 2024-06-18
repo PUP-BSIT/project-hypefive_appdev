@@ -97,13 +97,11 @@
             #menu="matMenu"
             class="profile-menu"
             xPosition="before"
-            yPosition="below"
-          >
+            yPosition="below">
             <button
               mat-menu-item
               class="profile-menu-item"
-              (click)="toggleProfileIconEdit()"
-            >
+              (click)="toggleProfileIconEdit()">
               <mat-icon class="profile-menu-icon">edit</mat-icon>
               <span class="profile-menu-text">Change Profile</span>
             </button>
@@ -167,12 +165,13 @@
           </div>
         </div>
         }
+        <div class="create">
+          <button class="create-announcement" (click)="toggleModal()">
+            <mat-icon>campaign</mat-icon>Create Announcement
+          </button>
+        </div>
       </div>
-      <div class="create">
-        <button class="create-announcement" (click)="toggleModal()">
-          <mat-icon>campaign</mat-icon>Create Announcement
-        </button>
-      </div>
+     
     </div>
   </div>
 </div>
