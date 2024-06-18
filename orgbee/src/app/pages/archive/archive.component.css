@@ -1,0 +1,273 @@
+body {
+  font-family: "Outfit", sans-serif;
+}
+
+.archive-page {
+  margin-top: 0px;
+  padding-top: 0%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  padding: 10px;
+  background-color: #242424;
+  border-bottom: 1px solid #ddd;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.header img {
+  height: 50px;
+  margin-right: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #ffca10;
+}
+
+.row {
+  display: flex;
+}
+
+.left-column {
+  flex: 3;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.right-column {
+  flex: 1;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #eeeeed;
+  margin-top: 2%;
+  border-radius: 20px;
+  height: 80vh;
+  text-align: center;
+}
+
+.month-year {
+  background-color: #ffca10;
+  padding: 1px;
+  text-align: center;
+  border-radius: 20px;
+  margin-top: 5%;
+}
+
+.page {
+  justify-content: center;
+  margin-top: 7%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.archive-event {
+  cursor: pointer;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  background-color: #eeeeed;
+  width: calc(33.33% - 10px);
+  box-sizing: border-box;
+}
+
+.archive-event img {
+  border-radius: 10px;
+  width: 80%;
+  height: auto;
+}
+
+.previous-events {
+  border-radius: 20px;
+  background-color: #eeeeed;
+  overflow-y: scroll;
+  padding: 10px;
+  height: 50vh;
+}
+
+.previous-events::-webkit-scrollbar {
+  display: none;
+}
+
+.previous-events h2 {
+  margin: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.event-list,
+.event-list1 {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.event-list1 td {
+  padding: 10px;
+  text-align: center;
+}
+
+.event-list td {
+  padding: 10px;
+  text-align: justify;
+}
+
+.event-list1 {
+  font-weight: bold;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.event-list-table {
+  display: table-row;
+  text-align: center;
+}
+
+.carousel-buttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.carousel-button {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin: 0;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.carousel-button:focus {
+  outline: none;
+}
+
+.page-number {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 5px;
+  color: #000;
+}
+
+#search_container {
+  margin-bottom: 0px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#search-input {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  box-sizing: border-box;
+}
+
+.search-results {
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  overflow-y: auto; 
+  width: 15%;
+  margin-top: 3px;
+}
+
+#search_results {
+  list-style-type: none;
+  width: 100%;
+  padding:0;
+  margin: 0;
+}
+
+#search_results li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+#search_results:hover {
+  background-color: #ffca10;
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.label {
+    font-weight: bolder;
+}
+
+.value {
+    font-weight: normal;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 3%;
+    border: 1px solid #888;
+    width: 50%;
+    height: 50%;
+    border-radius: 20px;
+    display: flex;
+  }
+
+.modal-event {
+  margin: 10px;
+  margin-bottom: 0px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  flex: 1;
+  width: 100%;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px; /* Adjust top spacing as needed */
+    right: 10px; /* Adjust right spacing as needed */
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+.close:hover,
+.close:focus {
+  color: #242424;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-details {
+  flex: 2;
+  gap: 5px;
+  margin: 0 auto;
+  justify-content: justify;
+  text-align: top;
+}
+
+.modal-event img {
+    width: 100%;
+    height: auto;
+    object-fit:cover;
+    aspect-ratio: 3 / 4; 
+}

@@ -15,6 +15,8 @@ export interface UserInfo {
   gender?: string;
   user_id?: number;
   role_id?: number;
+  icon_id?: number;
+  icon_path?: string;
 }
 
 interface UserDataResponse {
@@ -26,6 +28,7 @@ interface UserDataResponse {
   gender: string;
   user_id: number;
   role_id: number;
+  icon_id: number;
 }
 
 @Injectable()
@@ -40,6 +43,19 @@ export class LoginService {
   onDataRetrievedCallbacks: Function[] = [];
 
   constructor(private router: Router, private http: HttpClient) {}
+  
+  private iconPaths: { [key: number]: string } = {
+    1: 'assets/icons/1.png',
+    2: 'assets/icons/2.png',
+    3: 'assets/icons/3.png',
+    4: 'assets/icons/4.png',
+    5: 'assets/icons/5.png',
+    6: 'assets/icons/6.png',
+    7: 'assets/icons/7.png',
+    8: 'assets/icons/8.png',
+    9: 'assets/icons/9.png',
+    10: 'assets/icons/10.png'
+  };
 
   setAuthStatus(status: boolean) {
     this.isAuthenticated = status;
@@ -109,6 +125,8 @@ export class LoginService {
             this.userInfo.gender = data.gender;
             this.userInfo.user_id = data.user_id;
             this.userInfo.role_id = data.role_id;
+            this.userInfo.icon_id = data.icon_id;
+            this.userInfo.icon_path = this.getIconPath(data.icon_id);
             this.setAuthStatus(true);
             this.isDataRetrieved = true;
             this.invokeDataRetrievedCallbacks();
@@ -123,6 +141,25 @@ export class LoginService {
     } else {
       return throwError('User info incomplete');
     }
+  }
+
+  private getIconPath(iconId: number): string {
+    return this.iconPaths[iconId];
+  }
+
+  updateIconId(iconId: number): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.getToken());
+    return this.http.put<any>(`http://127.0.0.1:8000/api/students/update-icon`, { icon_id: iconId }, { headers }).pipe(
+      map((data: any) => {
+        this.userInfo.icon_id = iconId;
+        this.userInfo.icon_path = this.getIconPath(iconId);
+        return data; // Optionally return data if needed
+      }),
+      catchError((error) => {
+        console.error('Error updating icon:', error);
+        return throwError(error);
+      })
+    );
   }
 
   private invokeDataRetrievedCallbacks() {
@@ -143,4 +180,6 @@ export class LoginService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  
 }

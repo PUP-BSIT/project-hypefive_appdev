@@ -145,6 +145,7 @@ class StudentsController extends Controller {
                     'user_id' => $student->user_id,
                     'role_id' => $student->role_id, 
                     'account_status_id' => $student->account_status_id, 
+                    'icon_id' => $student->icon_id
                 ]);
             } else {
                 // Student or user not found
@@ -153,6 +154,34 @@ class StudentsController extends Controller {
         } else {
             // Unauthorized access
             return response()->json(['message' => 'Unauthorized'], 403);
+        }
+    }
+
+    public function updateIcon(Request $request) {
+        try {
+            // Verify JWT token
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json(['message' => 'Token expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['message' => 'Token invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['message' => 'Token absent'], 401);
+        }
+    
+   
+        $user_id = $user->id;
+    
+        $request->validate([
+            'icon_id' => 'required|integer|' 
+        ]);
+    
+        $updated = Students::where('user_id', $user_id)->update(['icon_id' => $request->icon_id]);
+    
+        if ($updated) {
+            return response()->json(['message' => 'Icon ID updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to update icon ID'], 500);
         }
     }
 }
