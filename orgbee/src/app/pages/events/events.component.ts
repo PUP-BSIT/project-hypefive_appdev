@@ -68,7 +68,7 @@ export class EventsComponent implements OnInit {
       max_attendees: ['', 
         {validators: [Validators.required, Validators.min(10)],}], 
       caption: ['',
-        {validators: [Validators.required,  Validators.maxLength(500)],}], 
+        {validators: [Validators.required,  Validators.maxLength(300)],}], 
         poster_loc: 
           ['', { validators: [Validators.required, this.imageValidator] }],
     });
@@ -235,8 +235,8 @@ editModalTab:string;
 
   updateTextCharacterCount(): void {
     const messageControl = this.eventForm.get('caption');
-    if (messageControl && messageControl.value.length > 500) {
-      messageControl.setValue(messageControl.value.substring(0, 500));
+    if (messageControl && messageControl.value.length > 300) {
+      messageControl.setValue(messageControl.value.substring(0, 300));
     }
   }
 

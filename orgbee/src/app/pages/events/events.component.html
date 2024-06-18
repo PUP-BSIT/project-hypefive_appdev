@@ -168,12 +168,12 @@
           <textarea
             id="caption"
             formControlName="caption"
-            placeholder="Write a maximum of 500 characters caption"
+            placeholder="Write a maximum of 300 characters caption"
             (input)="updateTextCharacterCount()"
             class="caption-textarea">
           </textarea>
           <span class="character-counter-message">
-            {{ eventForm.get('caption').value ? eventForm.get('caption').value.length : 0 }}/500
+            {{ eventForm.get('caption').value ? eventForm.get('caption').value.length : 0 }}/300
           </span>
         </div>
         @if(caption.invalid && caption.touched){
@@ -182,7 +182,7 @@
              <div>Caption is required</div>
            }
            @if(caption.errors?.['maxlength']){
-            <div>Caption should contain 500 characters only</div>
+            <div>Caption should contain 300 characters only</div>
           }
           </div>
         }
