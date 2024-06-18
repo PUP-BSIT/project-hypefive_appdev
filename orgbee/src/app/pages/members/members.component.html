@@ -8,8 +8,27 @@
   
       <div class="members">
         <div id="search_container">
-          <input type="text" class="search-input" placeholder="Search" />
-          <ul class="search-results"></ul>
+          <form [formGroup]="searchMember">
+            <input type="text" class="search-input" placeholder="Search"
+              formControlName="keyword" (input)="seeResults()"
+              (blur)="exitSearch()" autocomplete="off" />
+            @if(isSearchResult) {
+              <div class="search-results">
+                @if(response){
+                    <div id="search_results">
+                        <li> {{response.message}} </li>
+                    </div>
+                } 
+                @for(retrievedMember of retrievedMember; track retrievedMember){
+                    <div id="search_results" (mousedown)="memberClick(retrievedMember.student_number)">
+                        <li >{{retrievedMember.first_name + ' ' +  retrievedMember.last_name}}</li> 
+                    </div>
+                    
+                }
+            </div>
+            }
+            
+          </form>
         </div>
   
         <div class="all-members1">

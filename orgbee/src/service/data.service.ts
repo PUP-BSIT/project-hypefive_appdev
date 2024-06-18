@@ -104,4 +104,8 @@ export class DataService {
   searchArchive(data) {
     return this.http.get(this.apiUrl +`api/archive/search_archive?search_archive=${data}`);
   }
+
+  searchMember(data) {
+    return this.http.get(this.apiUrl +`api/member/search_member?search_member=${data}`);
+  }
 }

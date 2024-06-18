@@ -113,3 +113,6 @@ Route::get('/getOldEvents',
 
 Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::class, 
                                 'searchArchive'])->name('api.searchArchive');
+
+Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
+                                'searchMember'])->name('api.searchMember');

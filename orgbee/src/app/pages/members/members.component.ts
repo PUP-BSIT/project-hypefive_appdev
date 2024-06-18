@@ -3,6 +3,10 @@ import { DataService } from '../../../service/data.service';
 import { Response } from '../../app.component';
 import { ToastrService } from 'ngx-toastr';
 
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+
 interface Member {
   first_name: string;
   last_name: string;
@@ -30,14 +34,20 @@ export class MembersComponent implements OnInit {
   student_num:string;
   response: Response;
 
+  searchMember: FormGroup;
+  retrievedMember: Member[];
+  isSearchResult = false;
   constructor(
     private dataService: DataService,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService,
+    private fb:FormBuilder) {}
 
   ngOnInit(): void{
+    this.searchMember = this.fb.group({keyword:['']});
     this.showMembers();
     this.showRequest();
     this.showOfficers();
+    this.searchMembers();
     this.details = [];
     this.membershipRequests = [];
   }
@@ -212,5 +222,37 @@ export class MembersComponent implements OnInit {
       this.showOfficers();
       this.details=[]; 
     });
+  }
+
+  searchMembers() {
+    this.searchMember.get('keyword')!.valueChanges.pipe(
+      switchMap((keyword)=>{
+        console.log(keyword);
+        return this.dataService.searchMember(keyword).pipe(
+          debounceTime(2000),
+          catchError((error: HttpErrorResponse)=>{
+            console.log(error);
+            return EMPTY;
+        }))
+        
+      }))
+      .subscribe((value:Member[] | Response)=>{
+        if (Array.isArray(value)){
+          this.retrievedMember=value;
+          this.response = null;
+        } else{
+          this.retrievedMember=[];
+          this.response = value;
+        }
+      });
+  }
+
+  seeResults(){
+    this.isSearchResult=true;
+  }
+
+  exitSearch(){
+    this.retrievedMember = [];
+    this.isSearchResult = false;
   }
 }
