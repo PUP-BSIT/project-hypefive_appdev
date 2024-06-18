@@ -338,3 +338,8 @@ button.modal-member-button:hover {
   height: 25%;
   border-radius: 50%;
 }
+
+.no-request {
+  padding: 10%;
+  text-align: center;
+}

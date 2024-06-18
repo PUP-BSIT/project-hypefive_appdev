@@ -26,6 +26,11 @@
     <div class="right-column">
       <div class="membership-request">
         <h2>MEMBERSHIP REQUESTS</h2>
+        @if(membershipRequests.length === 0){
+          <ng-container>
+            <p class="no-request">No requests yet.</p>
+          </ng-container>
+        }
         @for(request of membershipRequests; track membershipRequests) {
           <div class="request">
             <div class="profile">
