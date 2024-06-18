@@ -156,9 +156,34 @@ textarea {
   background-color: #ffca10;
 }
 
+.textarea-container {
+  margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+.textarea-wrapper {
+  position: relative;
+}
+
+.caption-textarea {
+  width: 96%; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  padding: 10px;
+  font-size: 14px; /* Adjust font size as needed */
+  border: 1px solid #ccc; /* Example border */
+}
+
+.character-counter-message {
+  position: absolute;
+  right: 10px; /* Adjust right position as needed */
+  bottom: 16px; /* Adjust bottom position as needed */
+  font-size: 12px;
+  color: gray;
+  pointer-events: none; /* Ensure the span does not interfere with textarea input */
+}
+
 .step-2-back-btn,
 .step-2-next-btn {
-  margin-top: 20%;
+  margin-top: 1%;
 }
 
 .step-2-back-btn {
@@ -167,6 +192,23 @@ textarea {
 
 .step-2-next-btn {
   background-color: #ffca10;
+}
+
+/* Optional: If you want to hide the default file input text */
+#poster_loc::-webkit-file-upload-button {
+  display: none;
+}
+#poster_loc::before {
+  content: 'Upload Event Poster'; /* Custom text for the file input */
+  display: inline-block;
+  background: white;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 3%;
+  margin-right: 2%;
 }
 
 .button-container {
@@ -268,7 +310,7 @@ button:hover {
 }
 
 .event-details h3 {
-  font-size: 20px;
+  font-size: 18px;
   text-align: start;
   font-weight: bolder;
 }
@@ -276,6 +318,15 @@ button:hover {
 .event-details p {
   font-size: 0.9rem;
   color: #777;
+  margin: 3px 0; /* Adds space above and below p */
+}
+
+#reg_fee {
+  color: #ffca10;
+  background-color: #242424;
+  padding: 0.5% 1%;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 .manage-button {
@@ -285,7 +336,7 @@ button:hover {
   border: none;
   padding: 5px 10px;
   border-radius: 10px;
-  margin-top: 80%;
+  margin-top: 100%;
   margin-left: -20%;
   cursor: pointer;
 }
@@ -396,6 +447,7 @@ button:hover {
   font-weight: bold;
   font-size: 20px;
 }
+
 
 .inc {
   font-size: 12px;

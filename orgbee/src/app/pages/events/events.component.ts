@@ -231,6 +231,13 @@ editModalTab:string;
     })
   }
 
+  updateTextCharacterCount(): void {
+    const messageControl = this.eventForm.get('caption');
+    if (messageControl && messageControl.value.length > 500) {
+      messageControl.setValue(messageControl.value.substring(0, 500));
+    }
+  }
+
   displayEvents(tab: string) {
     this.activeTab = tab;
     if (tab === 'UPCOMING') {
