@@ -10,8 +10,8 @@ h1 {
   background-color: #242424;
   color: #ffca10;
   padding: 40px;
-  padding-right: 31%; 
-  padding-left: 10%; 
+  padding-right: 31%;
+  padding-left: 10%;
   display: inline-block;
   border-radius: 10px;
 }
@@ -24,7 +24,7 @@ h1 {
   border: none;
   padding: 40px;
   padding-right: 9%;
-  padding-left: 8%; 
+  padding-left: 8%;
   font-size: 24px;
   cursor: pointer;
   border-radius: 10px;
@@ -41,7 +41,7 @@ h1 {
   height: 125%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
-  margin-top: -5%; 
+  margin-top: -5%;
 }
 
 .modal.visible {
@@ -155,7 +155,7 @@ textarea {
 }
 
 .textarea-container {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .textarea-wrapper {
@@ -163,20 +163,20 @@ textarea {
 }
 
 .caption-textarea {
-  width: 96%; 
-  height: 100px; 
+  width: 96%;
+  height: 100px;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
 }
 
 .character-counter-message {
   position: absolute;
-  right: 10px; 
-  bottom: 16px; 
+  right: 10px;
+  bottom: 16px;
   font-size: 12px;
   color: gray;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .step-2-back-btn,
@@ -192,12 +192,12 @@ textarea {
   background-color: #ffca10;
 }
 
-
 #poster_loc::-webkit-file-upload-button {
   display: none;
 }
+
 #poster_loc::before {
-  content: 'Upload Event Poster'; 
+  content: "Upload Event Poster";
   display: inline-block;
   background: white;
   color: black;
@@ -254,7 +254,7 @@ button:hover {
   margin-right: 1%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  width: 95%; /*add 1*/
+  width: 95.6%; 
 }
 
 .tab {
@@ -281,7 +281,7 @@ button:hover {
   margin-right: 1%;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  width: 93.3%; /*add 2*/
+  width: 93.9%;
 }
 
 .event-card {
@@ -297,18 +297,17 @@ button:hover {
 }
 
 .event-img {
-  width: 100%; 
-  max-width: 100%; 
-  position: relative; 
+  width: 100%;
+  max-width: 100%;
+  position: relative;
 }
 
 .event-img img {
-  width: 14%; 
-  max-width: 100%; 
-  height: auto; 
-  display: block; 
+  width: 14%;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
-
 
 .event-details {
   flex: 1;
@@ -325,7 +324,7 @@ button:hover {
 .event-details p {
   font-size: 0.9rem;
   color: #777;
-  margin: 7px 0; 
+  margin: 7px 0;
 }
 
 #reg_fee {
@@ -359,7 +358,7 @@ button:hover {
   border: 1px solid #888;
   width: 30%;
   border-radius: 10px;
-  height: auto; 
+  height: auto;
 }
 
 .edit-btn {
@@ -454,7 +453,6 @@ button:hover {
   font-weight: bold;
   font-size: 20px;
 }
-
 
 .inc {
   font-size: 12px;
