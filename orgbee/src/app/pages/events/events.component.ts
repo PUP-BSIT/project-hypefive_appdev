@@ -56,7 +56,8 @@ export class EventsComponent implements OnInit {
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
     this.eventForm = this.formBuilder.group({
-      event_name: ['', {validators: [Validators.required, Validators.maxLength(10)],}],
+      event_name: 
+        ['', {validators: [Validators.required, Validators.maxLength(100)],}],
       location: ['', {validators: [Validators.required],}],
       date: ['', {validators: [Validators.required],}],
       time: ['', {validators: [Validators.required],}],
@@ -67,8 +68,9 @@ export class EventsComponent implements OnInit {
       max_attendees: ['', 
         {validators: [Validators.required, Validators.min(10)],}], 
       caption: ['',
-        {validators: [Validators.required,  Validators.maxLength(500)],}], // Adding maxLength validator for caption
-        poster_loc: ['', { validators: [Validators.required, this.imageValidator] }],
+        {validators: [Validators.required,  Validators.maxLength(500)],}], 
+        poster_loc: 
+          ['', { validators: [Validators.required, this.imageValidator] }],
     });
 
     this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {

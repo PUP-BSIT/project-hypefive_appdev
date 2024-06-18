@@ -299,10 +299,10 @@ button:hover {
 .event-img {
   width: 100%;
   max-width: 100%;
-  position: relative;
 }
 
 .event-img img {
+  flex: 1;
   width: 14%;
   max-width: 100%;
   height: auto;
@@ -322,9 +322,9 @@ button:hover {
 }
 
 .event-details p {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #777;
-  margin: 7px 0;
+  margin: 8px 0;
 }
 
 #reg_fee {
@@ -338,11 +338,11 @@ button:hover {
 .manage-button {
   flex: 1;
   background-color: #ffca10;
-  color: #fff;
+  color: black;
   border: none;
-  padding: 5px 10px;
+  padding: 10px 25px;
   border-radius: 10px;
-  margin-top: 135%;
+  margin-top: 95%;
   margin-left: -20%;
   cursor: pointer;
 }
