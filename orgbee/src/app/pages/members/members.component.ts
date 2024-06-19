@@ -1,4 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../../service/data.service';
+import { Response } from '../../app.component';
+import { ToastrService } from 'ngx-toastr';
+
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+
+interface Member {
+  first_name: string;
+  last_name: string;
+  birthday: Date;
+  gender: string;
+  student_number: string;
+  email: string;
+  icon_location:string;
+}
 
 @Component({
   selector: 'app-members',
@@ -6,76 +23,236 @@ import { Component } from '@angular/core';
   styleUrls: ['./members.component.css'],
 })
 
-export class MembersComponent {
-  modalName = '';
+export class MembersComponent implements OnInit {
   showModalMember = false;
   showModalOfficer = false;
 
-  members = [
-    { name: 'John Doe', icon: '../../../assets/icon.jpg' },
-  ];
+  members: Member[];
+  details: Member [];
+  membershipRequests: Member[];
+  officers: Member[];
+  student_num:string;
+  response: Response;
 
-  membershipRequests = [
-    { name: 'Jane Smith', icon: '../../../assets/icon.jpg' },
-  ];
+  searchMember: FormGroup;
+  retrievedMember: Member[];
+  isSearchResult = false;
+  constructor(
+    private dataService: DataService,
+    private toastr: ToastrService,
+    private fb:FormBuilder) {}
 
-  officers = [
-    { name: 'John Doe', icon: '../../../assets/icon.jpg' },
-  ]
-
-  details = [
-    { 
-      firstname: 'John',
-      lastname: 'Doe',
-      birthday: 'March 2, 2003',
-      studentNumber: '2021-00000-TG-0',
-      gender: 'Female',
-      email: 'johndoe@gmail.com',
-    },
-  ]
-
-  memberClick() {
-    this.showModalMember = true;
+  ngOnInit(): void{
+    this.searchMember = this.fb.group({keyword:['']});
+    this.showMembers();
+    this.showRequest();
+    this.showOfficers();
+    this.searchMembers();
+    this.details = [];
+    this.membershipRequests = [];
   }
 
-  officerClick() {
+  showMembers() {
+    this.dataService.getMembers().subscribe((members: Member[]) => {
+      this.members = members;
+    });
+  }
+
+  showRequest() {
+    this.dataService.getMembershipRequest()
+      .subscribe((request: Member[]) => {
+        this.membershipRequests = request;
+    });
+  }
+
+  showOfficers() {
+    this.dataService.getOfficers().subscribe((request: Member[]) => {
+      this.officers = request;
+    });
+  }
+
+  acceptRequest(student_number: string) {
+    const data = {student_number: student_number };
+    
+    this.dataService.acceptMember(data).subscribe((res: Response) => {
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
+      this.showRequest();
+      this.showMembers();
+    });
+    
+  }
+
+  declineRequest(student_number: string) {
+    const data = {student_number: student_number };
+
+    this.dataService.declineMember(data).subscribe((res: Response) => {
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      
+      this.showRequest();
+      this.showRequest();
+    });
+  }
+  
+  memberClick(student_number: string) {
+    const selectedMember = this.members
+      .find(member => member.student_number === student_number);
+    
+    this.showModalMember = true;
+    this.details.push(selectedMember);
+    this.student_num=student_number;
+  }
+
+  officerClick(student_number: string) {
+    const selectedMember = this.members
+      .find(member => member.student_number === student_number);
+
     this.showModalOfficer = true;
+    this.details.push(selectedMember);
+    this.student_num=student_number;
   }
 
   closeModal() {
     this.showModalMember = false;
     this.showModalOfficer = false;
+    this.details=[]; 
   }
 
-  addOfficer(index: number) {
-    const officer = this.members.splice(index, 1)[0];
-    this.officers.push(officer);
-    this.closeModal();
+  removeMember() {
+    const data = {student_number: this.student_num };
+
+    this.dataService.declineMember(data).subscribe((res: Response) => {
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
+      this.showModalMember = false;
+      this.showModalOfficer = false;
+
+      this.details=[]; 
+      this.student_num ='';
+      
+      this.showMembers();
+      this.showOfficers();
+    });
   }
 
-  addMember(index: number) {
-    const officerToMember = this.officers.splice(index, 1)[0];
-    this.members.push(officerToMember);
-    this.closeModal();
+  promoteToOfficer() {
+    const data = {student_number: this.student_num };
+    
+    this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
+      this.showModalMember = false;
+      this.showOfficers();
+      this.details=[]; 
+    });
   }
 
-  removeMember(index: number) {
-    this.members.splice(index, 1);
-    this.closeModal();
+  demoteToMember() {
+    const data = {student_number: this.student_num };
+    
+    this.dataService.demoteToMember(data).subscribe((res: Response) => {
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message),'',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
+        });
+      }
+
+      this.showModalOfficer = false;
+      this.showOfficers();
+      this.details=[]; 
+    });
   }
 
-  removeOfficer(index:number) {
-    this.officers.splice(index, 1);
-    this.closeModal();
+  searchMembers() {
+    this.searchMember.get('keyword')!.valueChanges.pipe(
+      switchMap((keyword)=>{
+        console.log(keyword);
+        return this.dataService.searchMember(keyword).pipe(
+          debounceTime(2000),
+          catchError((error: HttpErrorResponse)=>{
+            console.log(error);
+            return EMPTY;
+        }))
+        
+      }))
+      .subscribe((value:Member[] | Response)=>{
+        if (Array.isArray(value)){
+          this.retrievedMember=value;
+          this.response = null;
+        } else{
+          this.retrievedMember=[];
+          this.response = value;
+        }
+      });
   }
 
-  acceptRequest(index: number) {
-    const acceptedMember = this.membershipRequests.splice(index, 1)[0];
-    this.members.push(acceptedMember);
+  seeResults(){
+    this.isSearchResult=true;
   }
 
-  declineRequest(index: number) {
-    this.membershipRequests.splice(index, 1);
+  exitSearch(){
+    this.retrievedMember = [];
+    this.isSearchResult = false;
   }
- 
 }

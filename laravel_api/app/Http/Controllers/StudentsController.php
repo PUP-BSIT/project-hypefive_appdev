@@ -19,7 +19,17 @@ use App\Models\User;
 class StudentsController extends Controller {
     public function register(Request $request) {
         $student= User::where ('email', $request['email'])->first();
+
         $student_number= Students::where('student_number', $request['student_number'])->first();
+      
+        $iconId = null;
+        if ($request->gender === 'female') {
+            $iconId = rand(1, 6); // Random picker from 1 to 6 for females
+        } elseif ($request->gender === 'male') {
+            $iconId = rand(7, 10); // Random picker from 7 to 10 for males
+        } else {
+            $iconId = rand(1, 10); // Random picker from 1 to 10 for others
+        }
          
         if ($student ) {
             $response['status'] = 0;
@@ -44,6 +54,7 @@ class StudentsController extends Controller {
                 'birthday' => $request->birthday,
                 'gender' => $request->gender,
                 'user_id' => $student,
+                'icon_id' => $iconId
             ]);
             $student = User::find($student);
             $this->sendVerificationEmail($student);
@@ -104,7 +115,7 @@ class StudentsController extends Controller {
         
         Mail::to($student->email)->send(new VerificationMail($verificationCode));
     }
-
+    
     public function retrieve(Request $request, $id, $email) {
         try {
             // Verify JWT token
@@ -134,6 +145,7 @@ class StudentsController extends Controller {
                     'user_id' => $student->user_id,
                     'role_id' => $student->role_id, 
                     'account_status_id' => $student->account_status_id, 
+                    'icon_id' => $student->icon_id
                 ]);
             } else {
                 // Student or user not found
@@ -144,8 +156,32 @@ class StudentsController extends Controller {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
     }
+
+    public function updateIcon(Request $request) {
+        try {
+            // Verify JWT token
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json(['message' => 'Token expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['message' => 'Token invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['message' => 'Token absent'], 401);
+        }
+    
+   
+        $user_id = $user->id;
+    
+        $request->validate([
+            'icon_id' => 'required|integer|' 
+        ]);
+    
+        $updated = Students::where('user_id', $user_id)->update(['icon_id' => $request->icon_id]);
+    
+        if ($updated) {
+            return response()->json(['message' => 'Icon ID updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to update icon ID'], 500);
+        }
+    }
 }
-    
-    
-
-
