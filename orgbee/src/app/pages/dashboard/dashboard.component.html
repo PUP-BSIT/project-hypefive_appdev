@@ -23,7 +23,7 @@
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
         <div class="profile-details">
-          <img src="assets/default.jpg" alt="Icon" class="icon" />
+          <img [src]="userInfo?.icon_path" alt="Icon" class="icon" />
           <div class="details">
             <p class="name">
               {{ userInfo.first_name }} {{ userInfo.last_name }}
