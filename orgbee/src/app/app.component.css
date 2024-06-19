@@ -36,3 +36,21 @@ app-display {
   align-items: center;
   justify-content: center;
 }
+
+::ng-deep .custom-toast {
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 20px 15px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .custom-toast.success {
+  background-color: #31AA65;
+}
+
+::ng-deep .custom-toast.error {
+  background-color: #C0564B;
+}

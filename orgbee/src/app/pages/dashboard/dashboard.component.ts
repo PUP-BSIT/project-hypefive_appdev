@@ -5,8 +5,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { AnnouncementService, Announcement } from '../../../service/announcement.service';
+import { AnnouncementService, Announcement } 
+  from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
+
+import { Router } from '@angular/router';
 
 enum Roles {
   Student = 1,
@@ -51,7 +54,8 @@ export class DashboardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private announcementService: AnnouncementService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -203,5 +207,11 @@ export class DashboardComponent implements OnInit {
       default:
         return ''; 
     }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.loginService.setAuthStatus(false);
+    this.router.navigate(['/login']);
   }
 }
