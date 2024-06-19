@@ -198,13 +198,21 @@ height: 100%;
 .announcement-container {
   position: relative;
   background-color: #f8f8f8;
-  padding: 0 20px;
-  border-radius: 10px 10px 0px 0px ;
+  padding: 0px 20px 0px;
+  border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
   width: 310px;
-  height: 55%;
+  height: 52%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-content {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
 }
 
 .announcement-container h4 {
@@ -583,17 +591,16 @@ mat-card-title {
 
 .create {
   display: flex;
-  position: absolute;
+  position: sticky;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
   background-color: #f8f8f8;
   height: 50px;
-  width: 100%;
+  width: 100%; /* Adjust the width as needed */
   justify-content: center;
   align-items: center;
-  padding: 1px 0;
-  border-top: 1px solid #e0e0e0; 
+  padding: 10px 0 10px;
+  margin-bottom: 0;
+  border-top: 1px solid #e0e0e0;
 }
 
 .create-announcement {
