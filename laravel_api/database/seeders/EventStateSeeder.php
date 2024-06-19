@@ -18,7 +18,7 @@ class EventStateSeeder extends Seeder
             ['state_name'=>'ongoing'],
             ['state_name'=>'completed'], 
             ['state_name'=>'canceled'],
-            ['state_name'=>'recurring']
+            ['state_name'=>'recurring']//remove this
         ]);
     }
 }

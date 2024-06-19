@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->renameColumn('visibility', 'recipient');
+        Schema::create('icons', function (Blueprint $table) {
+            $table->id();
+            $table->string('icon_location', 30);
         });
     }
 
@@ -21,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->renameColumn('visibility', 'recipient');
-        });
+        Schema::dropIfExists('icons');
     }
 };

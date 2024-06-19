@@ -17,21 +17,24 @@ import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
-import { AnModalComponent } from './pages/dashboard/an-modal/an-modal.component';
-import { AnEditModalComponent } from './pages/dashboard/an-edit-modal/an-edit-modal.component';
-import { ProfileIconComponent } from './pages/dashboard/profile-icon/profile-icon.component';
+import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AnModalComponent } 
+  from './pages/dashboard/an-modal/an-modal.component';
+import { AnEditModalComponent } 
+  from './pages/dashboard/an-edit-modal/an-edit-modal.component';
+import { ProfileIconComponent } 
+  from './pages/dashboard/profile-icon/profile-icon.component';
+import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
+
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
+import { AnnouncementService } from '../service/announcement.service';
 
-import { PostDialogComponent } from './pages/freedom-wall/post-dialog/post-dialog.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { PostDialogComponent } 
+  from './pages/freedom-wall/post-dialog/post-dialog.component';
+import { provideAnimationsAsync } 
+  from '@angular/platform-browser/animations/async';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
@@ -47,6 +50,7 @@ import { DatePipe } from '@angular/common';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
+import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +67,10 @@ import { AuthGuard } from './login/auth.guard';
     AnModalComponent,
     AnEditModalComponent,
     ProfileIconComponent,
-    VerifyComponent
+    VerifyComponent,
+    HomepageEventsComponent,
+    AdminDataComponent,
+    ForgotPassComponent
   ],
   imports: [
     BrowserModule,
@@ -90,8 +97,14 @@ import { AuthGuard } from './login/auth.guard';
       }
     })
   ],
-  providers: [AuthGuard, DataService, LoginService,  provideAnimationsAsync(),  DatePipe],
-  
+  providers: [
+    AuthGuard,
+    DataService, 
+    LoginService,
+    AnnouncementService,  
+    provideAnimationsAsync(),  
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

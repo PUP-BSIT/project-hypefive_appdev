@@ -10,13 +10,13 @@ export interface Announcement {
   content: string;
   recipient: number;
   student_id: number;
-  created_at?: string;  // Optional for creation and update
-  author?: string;      // Optional for creation and update
+  updated_at?: string; 
+  created_at?: string;  
+  author?: string;   
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
+
 export class AnnouncementService {
   private apiUrl = 'http://127.0.0.1:8000/api/announcements';
 

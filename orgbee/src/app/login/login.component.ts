@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
 
+    //TO DO: TAPISPISAN: Email authentication
     // this.route.queryParams.subscribe(params => {
     //   if (params['verified'] === '1') {
     //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
