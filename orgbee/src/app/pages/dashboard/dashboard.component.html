@@ -9,76 +9,21 @@
         <img src="assets/default.jpg" alt="Icon" class="org-icon" />
       </div>
 
-      <!-- TODO(Ternal, AprilJoy): make this a  component -->
-      <app-homepage-events
-        *ngIf="userInfo.role_id !== 2 && userInfo.role_id !== 3"
-      ></app-homepage-events>
-      <div class="below-header" *ngIf="userInfo.role_id !== 1">
-        <div class="data-container">
-          <div class="data">
-            <span class="data-people-icon">
-              <mat-icon class="custom-iconn">people</mat-icon>
-            </span>
-            <div class="data-details">
-              <p class="data-number">30</p>
-              <p class="data-text">members</p>
-            </div>
-          </div>
-          <div class="data">
-            <span class="data-people-icon">
-              <mat-icon class="custom-iconn">event</mat-icon>
-            </span>
-            <div class="data-details">
-              <p class="data-number">1</p>
-              <p class="data-text">upcoming events</p>
-            </div>
-          </div>
-          <div class="data">
-            <span class="data-people-icon">
-              <mat-icon class="custom-iconn">pending_actions</mat-icon>
-            </span>
-            <div class="data-details">
-              <p class="data-number">2</p>
-              <p class="data-text">pending post approval</p>
-            </div>
-          </div>
-        </div>
-          <div class="event-container">
-            <div class="date">
-              <div class="day">{{ currentDay }}</div>
-              <div class="date-number">{{ currentDate }}</div>
-            </div>
-            <div class="events">
-              <div class="event">
-                <span class="event-name">Acoustic Night With Clover</span>
-                <span class="event-time">9:00 pm</span>
-              </div>
-              <div class="event">
-                <span class="event-name">Acoustic Night With Clover</span>
-                <span class="event-time">9:00 pm</span>
-              </div>
-              <div class="event">
-                <span class="event-name">Acoustic Night With Clover</span>
-                <span class="event-time">9:00 pm</span>
-              </div>
-              <div class="event">
-                <span class="event-name">Acoustic Night With Clover</span>
-                <span class="event-time">9:00 pm</span>
-              </div>
-              <div class="event">
-                <span class="event-name">Acoustic Night With Clover</span>
-                <span class="event-time">9:00 pm</span>
-              </div>
-            </div>
-          </div>
-      </div>
+      @if (userInfo.role_id!==2 && userInfo.role_id!==3) {
+        <app-homepage-events></app-homepage-events>
+      }
+
+      @if (userInfo.role_id !==1){
+        <app-admin-data></app-admin-data>
+      }
+
     </div>
 
     <div class="container">
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
         <div class="profile-details">
-          <img [src]="userInfo?.icon_path" alt="Icon" class="icon" />
+          <img src="assets/default.jpg" alt="Icon" class="icon" />
           <div class="details">
             <p class="name">
               {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -105,7 +50,7 @@
               <mat-icon class="profile-menu-icon">edit</mat-icon>
               <span class="profile-menu-text">Change Profile</span>
             </button>
-            
+
             <button mat-menu-item>
               <mat-icon mat-icon class="profile-menu-icon"
                 >exit_to_app</mat-icon
@@ -121,14 +66,17 @@
         (close)="handleProfileIconClose()"
         [showProfileIconEdit]="showProfileIconEdit"
       >
+      </app-profile-icon>
 
       <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
         <h4>ANNOUNCEMENTS</h4>
         <!-- Check if announcements array is empty -->
-        <ng-container *ngIf="announcements.length === 0">
-          <p class="no-announcement">No announcements yet.</p>
-        </ng-container>
+          @if(announcements.length===0){
+            <ng-container>      
+               <p class="no-announcement">No announcements yet.</p>
+              </ng-container>
+          }
         @for (announcement of announcements; track announcement){
         <div class="announcement">
           @if (userInfo.role_id !== 1 && announcement.student_id ===
@@ -137,8 +85,7 @@
             mat-icon-button
             [matMenuTriggerFor]="menu"
             aria-label="Example icon-button with a menu"
-            class="menu-button"
-          >
+            class="menu-button">
             <mat-icon>more_vert</mat-icon>
           </button>
           }
@@ -170,7 +117,6 @@
           </button>
         </div>
       </div>
-     
     </div>
   </div>
 </div>
@@ -181,8 +127,12 @@
       <span class="close" (click)="closeOneAnnouncement()">&times;</span>
       <h2>{{ modalSubject }}</h2>
       <p class="details">
-        <span *ngIf="modalUpdated">Updated at: </span>
-        <span *ngIf="!modalUpdated">Posted on: </span>
+        @if (modalUpdated){
+          <span>Updated at: </span>
+        }
+        @if (!modalUpdated){
+          <span>Posted on: </span>
+        }
         {{ modalDate }}
       </p>
       <p class="details">Published by: {{ modalAuthor }}</p>
@@ -196,14 +146,12 @@
     [selectedAnnouncement]="selectedAnnouncement"
     [showEditModal]="showEditModal"
     (closeModal)="closeModalEditAnnouncement()"
-    (announcementUpdated)="handleAnnouncementUpdated($event)"
-  >
+    (announcementUpdated)="handleAnnouncementUpdated($event)">
   </app-an-edit-modal>
 
   <!--CREATE ANNOUNCEMENT MODAL-->
   <app-an-modal
     [showModal]="showModal"
     [announcementForm]="announcementForm"
-    (announcementCreated)="handleAnnouncementCreated($event)"
-  >
+    (announcementCreated)="handleAnnouncementCreated($event)">
   </app-an-modal>

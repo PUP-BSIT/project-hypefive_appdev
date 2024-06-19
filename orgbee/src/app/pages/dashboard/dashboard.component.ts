@@ -24,8 +24,6 @@ enum Roles {
 })
 
 export class DashboardComponent implements OnInit {
-  currentDay: string;
-  currentDate: number;
   announcements: Announcement[] = [];
   selectedAnnouncement: Announcement | null = null;
   showModal = false;
@@ -70,8 +68,7 @@ export class DashboardComponent implements OnInit {
       this.userInfo = data;
     });
     this.fetchAnnouncements();const today = new Date();
-    this.currentDay = today.toLocaleString('en-US', { weekday: 'long' });
-    this.currentDate = today.getDate();
+
   }
 
   //TODO: update later according to new table in database
