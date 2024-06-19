@@ -17,6 +17,8 @@ import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
+import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
+
 import { AnModalComponent } 
   from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } 
@@ -65,6 +67,7 @@ import { AuthGuard } from './login/auth.guard';
     AnEditModalComponent,
     ProfileIconComponent,
     VerifyComponent,
+    HomepageEventsComponent,
     ForgotPassComponent
   ],
   imports: [
