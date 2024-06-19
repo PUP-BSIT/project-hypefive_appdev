@@ -23,7 +23,7 @@
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
         <div class="profile-details">
-          <img src="assets/default.jpg" alt="Icon" class="icon" />
+          <img [src]="userInfo?.icon_path" alt="Icon" class="icon" />
           <div class="details">
             <p class="name">
               {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -64,59 +64,62 @@
       <app-profile-icon
         (avatarSaved)="updateUserInfo($event)"
         (close)="handleProfileIconClose()"
-        [showProfileIconEdit]="showProfileIconEdit"
-      >
+        [showProfileIconEdit]="showProfileIconEdit">
       </app-profile-icon>
 
-      <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
-        <h4>ANNOUNCEMENTS</h4>
-        <!-- Check if announcements array is empty -->
-          @if(announcements.length===0){
+        <div class="announcement-content">
+          <h4>ANNOUNCEMENTS</h4>
+      
+          <!-- Check if announcements array is empty -->
+          @if (announcements.length === 0) {
             <ng-container>      
-               <p class="no-announcement">No announcements yet.</p>
-              </ng-container>
+              <p class="no-announcement">No announcements yet.</p>
+            </ng-container>
           }
-        @for (announcement of announcements; track announcement){
-        <div class="announcement">
-          @if (userInfo.role_id !== 1 && announcement.student_id ===
-          userInfo.user_id) {
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            aria-label="Example icon-button with a menu"
-            class="menu-button">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+      
+          <!-- Loop through announcements -->
+          @for (announcement of announcements; track announcement){
+            <div class="announcement">
+              <!-- Display menu button only for non-student users who created the announcement -->
+              @if (userInfo.role_id !== 1 && announcement.student_id === userInfo.user_id) {
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" class="menu-button">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              }
+              
+              <!-- Announcement menu: edit & delete -->
+              <mat-menu #menu="matMenu" class="an-menu">
+                <button mat-menu-item (click)="deleteAnnouncement(announcement)">
+                  <mat-icon class="menu-icon">delete</mat-icon>
+                  <span class="menu-item-text">Delete</span>
+                </button>
+                <button mat-menu-item (click)="openEditModal(announcement)">
+                  <mat-icon class="menu-icon">edit</mat-icon>
+                  <span class="menu-item-text">Edit</span>
+                </button>
+              </mat-menu>
+        
+              <!-- Announcement content -->
+              <div class="an-content" (click)="openModal(announcement)">
+                <p class="announcement-subject">{{ announcement.subject }}</p>
+                <p class="announcement-text">{{ truncateText(announcement.content, 30) }}</p>
+              </div>
+            </div>
           }
-
-          <!--ANNOUNCEMENT MENU: edit & delete-->
-          <mat-menu #menu="matMenu" class="an-menu">
-            <button mat-menu-item (click)="deleteAnnouncement(announcement)">
-              <mat-icon class="menu-icon">delete</mat-icon>
-              <span class="menu-item-text">Delete</span>
+      
+        </div> <!-- End of .announcement-content -->
+      
+        <!-- Create announcement button -->
+        @if (userInfo.role_id !== 1) {
+          <div class="create">
+            <button class="create-announcement" (click)="toggleModal()">
+              <mat-icon>campaign</mat-icon>Create Announcement
             </button>
-            <button mat-menu-item (click)="openEditModal(announcement)">
-              <mat-icon class="menu-icon">edit</mat-icon>
-              <span class="menu-item-text">Edit</span>
-            </button>
-          </mat-menu>
-
-          <!--ANNOUNCEMENTS-->
-          <div class="an-content" (click)="openModal(announcement)">
-            <p class="announcement-subject">{{ announcement.subject }}</p>
-            <p class="announcement-text">
-              {{ truncateText(announcement.content, 30) }}
-            </p>
           </div>
-        </div>
         }
-        <div class="create">
-          <button class="create-announcement" (click)="toggleModal()">
-            <mat-icon>campaign</mat-icon>Create Announcement
-          </button>
-        </div>
       </div>
+      
     </div>
   </div>
 </div>
