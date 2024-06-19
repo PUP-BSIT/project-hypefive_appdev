@@ -78,7 +78,7 @@
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
         <div class="profile-details">
-          <img [src]="userInfo?.icon_path" alt="Icon" class="icon" />
+          <img src="assets/default.jpg" alt="Icon" class="icon" />
           <div class="details">
             <p class="name">
               {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -105,7 +105,7 @@
               <mat-icon class="profile-menu-icon">edit</mat-icon>
               <span class="profile-menu-text">Change Profile</span>
             </button>
-            
+
             <button mat-menu-item>
               <mat-icon mat-icon class="profile-menu-icon"
                 >exit_to_app</mat-icon
@@ -121,6 +121,7 @@
         (close)="handleProfileIconClose()"
         [showProfileIconEdit]="showProfileIconEdit"
       >
+      </app-profile-icon>
 
       <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
