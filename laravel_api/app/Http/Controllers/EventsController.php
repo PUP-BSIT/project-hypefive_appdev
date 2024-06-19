@@ -116,7 +116,7 @@ class EventsController extends Controller
         $updateDetails = $request->only('id','event_name', 'location', 'date', 'time', 
             'all_members_required', 'has_reg_fee', 'registration_fee',
             'max_attendees', 'caption','poster_loc', 'event_status_id');
-        $updateDetails['update_at'] = now();
+        $updateDetails['updated_at'] = now();
         $updateId = $request->id;
 
         if($updateDetails) {
