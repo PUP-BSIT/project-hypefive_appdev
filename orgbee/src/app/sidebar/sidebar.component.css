@@ -6,7 +6,6 @@ body {
 
 #nav_bar {
   height: calc(100% - 2vw);
-  color: #242424;
   background: #242424;
   border-radius: 30px;
   display: flex;
@@ -17,13 +16,24 @@ body {
   user-select: none;
 }
 
+#nav_bar.nav-bar-role1 {
+  background-color: rgb(48, 33, 1);
+}
+
+#nav_bar.nav-bar-role2 {
+  background-color: rgb(25, 25, 60);
+}
+
+#nav_bar.nav-bar-role3 {
+  background-color: rgb(47, 47, 47);
+}
+
 #nav_bar hr {
   margin: 0;
   position: relative;
   left: 16px;
   width: calc(100% - 32px);
   border: none;
-  border-top: solid 1px var(--navbar-dark-secondary);
 }
 
 #nav_content {
@@ -45,6 +55,8 @@ body {
 
 #nav_content.nav-content-role2 {
   background-color: rgb(25, 25, 60);
+  color: rgb(25, 25, 60);
+  box-shadow: 0 0 0 16px rgb(25, 25, 60);
 }
 
 #nav_content.nav-content-role3 {
