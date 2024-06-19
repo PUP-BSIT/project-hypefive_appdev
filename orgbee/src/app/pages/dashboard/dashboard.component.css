@@ -583,10 +583,17 @@ mat-card-title {
 
 .create {
   display: flex;
-  position: sticky;
+  position: absolute;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #f8f8f8;
   height: 50px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1px 0;
+  border-top: 1px solid #e0e0e0; 
 }
 
 .create-announcement {
@@ -594,14 +601,11 @@ mat-card-title {
   align-items: center;
   justify-content: center;
   font-weight: 400;
-  position: sticky;
   background-color: #2d2d2d;
   color: #e6b800;
   height: 30px;
   width: 170px;
   border-radius: 20px;
-  margin-left: 25%;
-  margin-top: 10px;
   font-size: 10px;
 }
 
