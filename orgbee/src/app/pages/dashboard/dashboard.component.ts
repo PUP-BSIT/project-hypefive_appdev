@@ -202,6 +202,7 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    this.loginService.setAuthStatus(false);
     this.router.navigate(['/login']);
   }
 }
