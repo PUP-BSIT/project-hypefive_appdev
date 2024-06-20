@@ -6,13 +6,12 @@ body {
 
 h1 {
   margin-top: 2%;
-  margin-left: 10%;
   font-size: 24px;
   background-color: #242424;
   color: #ffca10;
   padding: 40px;
-  padding-right: 10%;
-  padding-left: 15%;
+  padding-right: 31%;
+  padding-left: 10%;
   display: inline-block;
   border-radius: 10px;
 }
@@ -24,15 +23,13 @@ h1 {
   color: #242424;
   border: none;
   padding: 40px;
-  padding-right: 15%;
-  padding-left: 10%;
+  padding-right: 9%;
+  padding-left: 8%;
   font-size: 24px;
   cursor: pointer;
   border-radius: 10px;
   font-weight: bold;
 }
-
-/* Modal for create event button */
 
 .modal {
   display: none;
@@ -44,7 +41,7 @@ h1 {
   height: 125%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
-  margin-top: -7%;
+  margin-top: -5%;
 }
 
 .modal.visible {
@@ -157,9 +154,34 @@ textarea {
   background-color: #ffca10;
 }
 
+.textarea-container {
+  margin-bottom: 20px;
+}
+
+.textarea-wrapper {
+  position: relative;
+}
+
+.caption-textarea {
+  width: 96%;
+  height: 100px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+.character-counter-message {
+  position: absolute;
+  right: 10px;
+  bottom: 16px;
+  font-size: 12px;
+  color: gray;
+  pointer-events: none;
+}
+
 .step-2-back-btn,
 .step-2-next-btn {
-  margin-top: 20%;
+  margin-top: 1%;
 }
 
 .step-2-back-btn {
@@ -168,6 +190,23 @@ textarea {
 
 .step-2-next-btn {
   background-color: #ffca10;
+}
+
+#poster_loc::-webkit-file-upload-button {
+  display: none;
+}
+
+#poster_loc::before {
+  content: "Upload Event Poster";
+  display: inline-block;
+  background: white;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 3%;
+  margin-right: 2%;
 }
 
 .button-container {
@@ -190,9 +229,14 @@ button:hover {
   background-color: #e0ac00;
 }
 
-.back-btn,
-.save-draft-btn {
+.back-btn {
   background-color: #888;
+  color: #fff;
+  margin-top: 70%;
+}
+
+.save-draft-btn {
+  background-color: #3b2e006a;
   color: #fff;
   margin-top: 70%;
 }
@@ -207,10 +251,10 @@ button:hover {
   justify-content: center;
   background-color: #f5f5f5;
   padding: 10px;
-  margin-left: 10%;
   margin-right: 1%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  width: 95.6%; 
 }
 
 .tab {
@@ -234,10 +278,10 @@ button:hover {
   justify-content: center;
   padding: 20px;
   background-color: #f5f5f5;
-  margin-left: 10%;
   margin-right: 1%;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  width: 93.9%;
 }
 
 .event-card {
@@ -252,36 +296,54 @@ button:hover {
   display: flex;
 }
 
+.event-img {
+  width: 100%;
+  max-width: 100%;
+}
+
 .event-img img {
   flex: 1;
-  width: 13%;
+  width: 15%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-left: 1%;
 }
 
 .event-details {
   flex: 1;
   align-items: start;
-  margin-left: -70%;
+  margin-left: -81%;
 }
 
 .event-details h3 {
-  font-size: 20px;
+  font-size: 18px;
   text-align: start;
   font-weight: bolder;
 }
 
 .event-details p {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #777;
+  margin: 8px 0;
+}
+
+#reg_fee {
+  color: #ffca10;
+  background-color: #242424;
+  padding: 0.5% 1%;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 .manage-button {
   flex: 1;
   background-color: #ffca10;
-  color: #fff;
+  color: black;
   border: none;
-  padding: 5px 10px;
+  padding: 10px 25px;
   border-radius: 10px;
-  margin-top: 80%;
+  margin-top: 100%;
   margin-left: -20%;
   cursor: pointer;
 }
@@ -297,7 +359,7 @@ button:hover {
   border: 1px solid #888;
   width: 30%;
   border-radius: 10px;
-  height: auto; 
+  height: auto;
 }
 
 .edit-btn {
@@ -391,4 +453,9 @@ button:hover {
 .title {
   font-weight: bold;
   font-size: 20px;
+}
+
+.inc {
+  font-size: 12px;
+  color: red;
 }

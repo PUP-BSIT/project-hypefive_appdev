@@ -43,9 +43,7 @@ export class ArchiveComponent implements OnInit  {
   response: Response;
   constructor(
     private dataService: DataService,
-    private fb:FormBuilder) {
-  }
-
+    private fb:FormBuilder) {}
 
   ngOnInit(): void {
     this.searchArchive = this.fb.group({keyword:[''] });
@@ -55,7 +53,8 @@ export class ArchiveComponent implements OnInit  {
   } 
 
   getCurrentMonthYear(): string {
-    return this.currentDate.toLocaleString('en-US', { month: 'long' }) + ' ' + this.currentDate.getFullYear();
+    return this.currentDate.toLocaleString('en-US', { month: 'long' }) 
+      + ' ' + this.currentDate.getFullYear();
   }
 
   getYearlyEvents() {
@@ -109,7 +108,6 @@ export class ArchiveComponent implements OnInit  {
             console.log(error);
             return EMPTY;
         }))
-        
       }))
       .subscribe((value:Event[] | Response)=>{
         if (Array.isArray(value)){

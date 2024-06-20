@@ -5,53 +5,62 @@
         <img src="../../../assets/logo.png" alt="Logo" />
         <h1>Members</h1>
       </div>
-  
+
       <div class="members">
         <div id="search_container">
           <form [formGroup]="searchMember">
-            <input type="text" class="search-input" placeholder="Search"
-              formControlName="keyword" (input)="seeResults()"
-              (blur)="exitSearch()" autocomplete="off" />
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search"
+              formControlName="keyword"
+              (input)="seeResults()"
+              (blur)="exitSearch()"
+              autocomplete="off"/>
             @if(isSearchResult) {
-              <div class="search-results">
+              <div class="search-results-container">
                 @if(response){
-                    <div id="search_results">
-                        <li> {{response.message}} </li>
-                    </div>
+                  <div id="search_results">
+                    <li>{{ response.message }}</li>
+                  </div>
                 } 
-                @for(retrievedMember of retrievedMember; track retrievedMember){
-                    <div id="search_results" (mousedown)="memberClick(retrievedMember.student_number)">
-                        <li >{{retrievedMember.first_name + ' ' +  retrievedMember.last_name}}</li> 
+                @for(retrievedMember of retrievedMember; 
+                  track retrievedMember) {
+                    <div
+                      id="search_results"
+                      (mousedown)="memberClick(retrievedMember.student_number)">
+                      <li>
+                        {{  retrievedMember.first_name + " " + 
+                          retrievedMember.last_name  }}
+                      </li>
                     </div>
-                    
                 }
-            </div>
+              </div>
             }
-            
           </form>
         </div>
-  
+
         <div class="all-members1">
           <div class="all-members">
             @for(member of members; track members) {
-              <div class="member" (click)="memberClick(member.student_number)">
-                <img src="{{ member.icon_location }}" alt="Profile Picture" />
-                <p>{{ member.first_name + " " + member.last_name }}</p>
-              </div>
+            <div class="member" (click)="memberClick(member.student_number)">
+              <img src="{{ member.icon_location }}" alt="Profile Picture" />
+              <p>{{ member.first_name + " " + member.last_name }}</p>
+            </div>
             }
           </div>
         </div>
       </div>
     </div>
-  
+
     <div class="right-column">
       <div class="membership-request">
         <h2>MEMBERSHIP REQUESTS</h2>
-        @if(membershipRequests.length === 0){
+        @if(membershipRequests.length === 0) {
           <ng-container>
             <p class="no-request">No requests yet.</p>
           </ng-container>
-        }
+        } 
         @for(request of membershipRequests; track membershipRequests) {
           <div class="request">
             <div class="profile">
@@ -59,7 +68,7 @@
               <p>{{ request.first_name + " " + request.last_name }}</p>
             </div>
             <button
-              class="accept" 
+              class="accept"
               (click)="acceptRequest(request.student_number)">
                 Accept
             </button>
@@ -71,7 +80,7 @@
           </div>
         }
       </div>
-  
+
       <div class="officers">
         <h2>OFFICERS</h2>
         @for(officer of officers; track officers) {
@@ -86,8 +95,8 @@
     </div>
   </div>
 </div>
-  
-@if(showModalMember){
+
+@if(showModalMember) {
   <div class="modal" id="member_modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
@@ -107,7 +116,7 @@
             <p class="label">Student Number</p>
             <p class="value">{{ detail.student_number }}</p>
           </div>
-  
+
           <div class="right-column-details">
             <p class="label">Last Name</p>
             <p class="value">{{ detail.last_name }}</p>
@@ -127,7 +136,7 @@
     </div>
   </div>
 } 
-@if(showModalOfficer){
+@if(showModalOfficer) {
   <div class="modal" id="officer_modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
@@ -147,7 +156,7 @@
             <p class="label">Student Number</p>
             <p class="value">{{ detail.student_number }}</p>
           </div>
-  
+
           <div class="right-column-details">
             <p class="label">Last Name</p>
             <p class="value">{{ detail.last_name }}</p>
@@ -155,7 +164,7 @@
             <p class="value">{{ detail.gender }}</p>
             <p class="label">Email</p>
             <p class="value">{{ detail.email }}</p>
-           </div>
+          </div>
         </div>
       }
       <button class="modal-button-officer" (click)="demoteToMember()">
