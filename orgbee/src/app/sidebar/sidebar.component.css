@@ -51,6 +51,8 @@ body {
 
 #nav_content.nav-content-role1 {
   background-color: rgb(48, 33, 1); 
+  color: rgb(48, 33, 1); 
+  box-shadow: 0 0 0 16px rgb(48, 33, 1); 
 }
 
 #nav_content.nav-content-role2 {
@@ -61,6 +63,8 @@ body {
 
 #nav_content.nav-content-role3 {
   background-color: rgb(47, 47, 47); 
+  color: rgb(47, 47, 47); 
+  box-shadow: 0 0 0 16px rgb(47, 47, 47); 
 }
 
 #nav_content_highlight {

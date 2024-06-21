@@ -13,11 +13,8 @@ body {
 }
 
 .header {
-  display: flex;
-  padding: 10px;
-  background-color: #242424;
   border-bottom: 1px solid #ddd;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-right: 20px;
   flex-shrink: 0;
 }

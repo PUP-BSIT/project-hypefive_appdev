@@ -13,7 +13,6 @@ import { EventsComponent } from './pages/events/events.component';
 import { FreedomWallComponent } 
   from './pages/freedom-wall/freedom-wall.component';
 import { MembersComponent } from './pages/members/members.component';
-import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
@@ -51,6 +50,7 @@ import { DatePipe } from '@angular/common';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
 import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +61,6 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     FreedomWallComponent,
     PostDialogComponent,
     MembersComponent,
-    DisplayComponent,
     SidebarComponent,
     ArchiveComponent,
     AnModalComponent,
@@ -70,7 +69,8 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     VerifyComponent,
     HomepageEventsComponent,
     AdminDataComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

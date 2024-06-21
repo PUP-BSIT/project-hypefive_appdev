@@ -4,16 +4,14 @@ body {
 
 .container {
   display: flex;
-  margin-top: 3%;
+  margin-top: 0px;
 }
 
 .left-column {
   flex: 3;
-  padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  margin-top: -40px;
 }
 
 .right-column {
@@ -23,6 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-right: 20px;
+  margin-top: 25px;
   width: 100%;
 }
 
@@ -31,8 +30,9 @@ body {
   padding: 10px;
   background-color: #242424;
   border-bottom: 1px solid #ddd;
-  border-radius: 20px;
+  border-radius: 10px;
   flex-shrink: 0;
+  margin-top: 0px;
 }
 
 .header img {

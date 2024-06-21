@@ -1,10 +1,13 @@
-<h1>Computer Society Events</h1>
+<div class="top">
+  <app-header [title]="'Events'" [showImage]="false" [height]="'shorter-height'"></app-header>
 <button 
   id="createEventBtn" 
   class="create-event" 
   (click)="openCreateModal()">
-    CREATE EVENT
+  <mat-icon>add_circle</mat-icon>
+  Create Event
 </button>
+</div>
 
 <!-- Event Form Modal -->
  <!-- TODO: Add more validators -->

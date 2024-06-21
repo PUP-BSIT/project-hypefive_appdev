@@ -1,12 +1,8 @@
 <div class="dashboard">
   <div class="content">
     <div class="main">
-      <div class="dashboard-header" [class]="getHeaderClasses()">
-        <div class="greetings">
-          <h1 class="org-name">Computer Society</h1>
-          <h1 class="user-name">Hello, {{ userInfo.first_name }}</h1>
-        </div>
-        <img src="assets/default.jpg" alt="Icon" class="org-icon" />
+      <div>
+        <app-header [title]="userInfo ? 'Hello, ' + userInfo.first_name : 'Hello'" [orgName]="'Computer Society'"></app-header>
       </div>
 
       @if (userInfo.role_id!==2 && userInfo.role_id!==3) {
