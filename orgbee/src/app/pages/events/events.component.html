@@ -113,13 +113,13 @@
             type="radio"
             id="has_reg_fee_yes"
             formControlName="has_reg_fee"
-            value=1/>
+            value="1"/>
           <label for="has_reg_fee_yes">Yes</label>
           <input
             type="radio"
             id="has_reg_fee_no"
             formControlName="has_reg_fee"
-            value=0/>
+            value="0"/>
           <label for="has_reg_fee_no">No</label>
         </div>
 
@@ -127,7 +127,7 @@
           type="number"
           id="registration_fee"
           formControlName="registration_fee"
-          placeholder="Specify the amount"/>
+          placeholder="Specify the amount" />
           @if(registration_fee.invalid && registration_fee.touched){
             <div class="inc">
              @if(registration_fee.errors?.['required']){
@@ -190,8 +190,8 @@
           </div>
         }
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc" formControlName="poster_loc" />
-        @if(poster_loc.invalid && poster_loc.touched){
+        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <!-- @if(poster_loc.invalid && poster_loc.touched){
           <div class="inc">
            @if(poster_loc.errors?.['required']){
              <div>Poster is required</div>
@@ -200,7 +200,7 @@
             <div>Invalid image</div>
           }
           </div>
-        }
+        } -->
         <div class="button-container">
           <button 
             type="button" 
@@ -300,13 +300,13 @@
             type="radio"
             id="all_members_requiredYes"
             formControlName="all_members_required"
-            value=1/>
+            [value]="1"/>
           <label for="all_members_requiredYes">Yes</label>
           <input
             type="radio"
             id="all_members_requiredNo"
             formControlName="all_members_required"
-            value=0/>
+            [value]="0"/>
           <label for="all_members_requiredNo">No</label>
         </div>
 
@@ -316,13 +316,13 @@
             type="radio"
             id="has_reg_fee_yes"
             formControlName="has_reg_fee"
-            value=1/>
+            [value]="1"/>
           <label for="has_reg_fee_yes">Yes</label>
           <input
             type="radio"
             id="has_reg_fee_no"
             formControlName="has_reg_fee"
-            value=0/>
+            [value]="0"/>
           <label for="has_reg_fee_no">No</label>
         </div>
 
@@ -358,7 +358,7 @@
           placeholder="Write a maximum of 500 characters caption">
         </textarea>
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc" formControlName="poster_loc" />
+        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
         <div class="button-container">
           <button 
             type="button" 
@@ -388,7 +388,7 @@
           <button
             type="submit"
             class="publish-btn"
-            (click)="saveEdit('')">
+            (click)="saveEdit('publish')">
               Publish
           </button>
           <button
@@ -447,7 +447,7 @@
     class="event-card"
     [class.registered]="event.registered">
     <div class="event-img">
-      <img src="../../../assets/icon.jpg" />
+      <img src="{{imgPath}}{{event.poster_loc}}" />
     </div>
     <div class="event-details">
       <h3>{{ event.event_name }}</h3>
@@ -472,7 +472,7 @@
     <div class="modal-manage-content">
       <div class="manage-content">
         <h3 class="eventtag">Event</h3>
-        <img src="../../../assets/icon.jpg" alt="Event Poster" />
+        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
         <div class="eventinfo">
           <p class="title">{{ selectedEvent?.event_name }}</p>
           <p>{{ selectedEvent?.location }}</p>
