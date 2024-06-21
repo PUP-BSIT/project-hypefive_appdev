@@ -153,7 +153,7 @@ export class LoginService {
       map((data: any) => {
         this.userInfo.icon_id = iconId;
         this.userInfo.icon_path = this.getIconPath(iconId);
-        return data; // Optionally return data if needed
+        return data; 
       }),
       catchError((error) => {
         console.error('Error updating icon:', error);

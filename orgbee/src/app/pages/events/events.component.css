@@ -4,16 +4,15 @@ body {
   padding: 0;
 }
 
-h1 {
-  font-size: 24px;
-  background-color: #242424;
-  color: #ffca10;
-  padding: 40px;
-  padding-right: 31%;
-  padding-left: 10%;
+app-header {
+  width: 100%;
+  margin-top: 0px;
+}
+
+.top {
   display: flex;
-  border-radius: 10px;
-  margin-top: 0;
+  justify-content: space-between; 
+  margin-right: 20px;
 }
 
 .create-event {

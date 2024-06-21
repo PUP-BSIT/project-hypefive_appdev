@@ -13,10 +13,7 @@ body {
 }
 
 .header {
-  padding: 40px;
-  background-color: #242424;
-  border-radius: 10px;
-  width: 100%;
+  width: 80%;
 }
 
 .header h3,
