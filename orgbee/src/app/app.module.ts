@@ -50,6 +50,7 @@ import { DatePipe } from '@angular/common';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
 import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     VerifyComponent,
     HomepageEventsComponent,
     AdminDataComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
