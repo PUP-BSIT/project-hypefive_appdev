@@ -32,7 +32,7 @@ class FreedomWallController extends Controller {
     $updatePost = now();
     if ($postId) {
       DB::table('freedomwall')->where('id', $postId)
-        ->update(['is_posted' => 0, 'updated_at '=> $updatePost]);
+        ->update(['is_posted' => 0, 'updated_at'=> $updatePost]);
       $response['message'] = 'Post successfully deleted.';
       $response['code'] = 200;
       return response()->json($response);
