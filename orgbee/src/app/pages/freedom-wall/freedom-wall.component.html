@@ -1,3 +1,4 @@
+<div class="freedomwall-page">
 <div class="top">
   <div class="header">
     <app-header [title]="'Computer Society Freedom Wall'" [orgName]="'Welcome to'" [showImage]="false" [height]="'short-height'"></app-header>
@@ -12,6 +13,7 @@
       <button class="manage-wall-btn">Manage Wall</button>
     </div>
   </div>
+</div>
 </div>
 
 @if(showModal) {
@@ -75,7 +77,7 @@
   </div>
 }
 
-<ngx-masonry>
+<ngx-masonry class="masonry-container">
   @for(post of posts; track posts) {
     <div ngxMasonryItem class="masonry-item">
       <div [ngClass]="getBackgroundColorClass(post)">
@@ -97,3 +99,4 @@
     </div>
   }
 </ngx-masonry>
+

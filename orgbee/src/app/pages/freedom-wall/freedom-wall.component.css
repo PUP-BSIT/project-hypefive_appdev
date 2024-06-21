@@ -4,6 +4,12 @@ body {
   padding: 10px;
 }
 
+.freedomwall-page {
+  height:100%;
+  overflow-y: auto;
+  padding: 15px;
+}
+
 .top {
   display: flex;
   justify-content: space-between;
@@ -115,11 +121,17 @@ body {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  margin-top: 10px;
-  margin-left: 0px;
-  margin-right: 10px;
-  width: 257px;
+  margin: 5px; 
+  width: calc((100% - 40px) / 4); 
+  min-width: 120px;
   max-height: 200px;
+}
+
+.masonry-container {
+  display: flex;
+  align-items: flex-start; 
+  margin-right: 20px;
+  justify-content: space-between; 
 }
 
 .masonry-item h4 {
