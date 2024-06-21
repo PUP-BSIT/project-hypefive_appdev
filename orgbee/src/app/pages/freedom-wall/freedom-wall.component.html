@@ -5,7 +5,7 @@
 
   <div class="button-container">
     <button class="create-post-btn" (click)="toggleModal()">
-      <img src="../../../assets/logo.png">
+      <img  [src]="userInfo?.icon_path" >
         Create an anonymous post</button>
     <div>
       <button class="delete-post-btn">Delete Post</button>

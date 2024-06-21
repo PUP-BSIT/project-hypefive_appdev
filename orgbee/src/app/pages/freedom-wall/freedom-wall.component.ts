@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { LoginService, UserInfo } from '../../../service/login.service';
 import { Response } from '../../app.component';
 
 export interface Post {
@@ -27,12 +27,14 @@ export class FreedomWallComponent implements OnInit {
   selectedPost: Post;
   freedomwallForm: FormGroup;
   response: Response;
+  userInfo: UserInfo;
 
   constructor(
     private dialog: MatDialog, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+  private loginService: LoginService) { }
     
 
   ngOnInit(): void {
@@ -44,6 +46,9 @@ export class FreedomWallComponent implements OnInit {
       newPostText: ['', {
         validators: [Validators.required]
       }]
+    });
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userInfo = data;
     });
   }
 
