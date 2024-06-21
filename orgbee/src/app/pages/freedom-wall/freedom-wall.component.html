@@ -10,7 +10,9 @@
         Create an anonymous post</button>
     <div>
       <button class="delete-post-btn">Delete Post</button>
-      <button class="manage-wall-btn">Manage Wall</button>
+      <button (click)="openManageWallModal()" class="manage-wall-btn">
+        Manage Wall
+      </button>
     </div>
   </div>
 </div>
@@ -98,3 +100,40 @@
     </div>
   }
 </ngx-masonry>
+
+<!-- Manage Wall Modal -->
+@if(showManageWallModal) {
+  <div class="manage-wall-modal">
+    <div class="manage-modal-content">
+      <span class="manage-close-btn" (click)="closeManageWallModal()">
+        &times;
+      </span>
+      <div class="modal-header">
+        <h4>pending post approval</h4>
+      </div>
+      <div class="modal-body">
+        <div class="post-cards-container">
+          @for(post of pendingPosts; track pendingPosts) {
+            <div class="post-card">
+              <h4>{{ post.subject }}</h4>
+              <p>{{ post.content }}</p>
+              <div class="button-request">
+                <button (click)="approvePost(post.id)" class="accept-btn">
+                  Accept
+                </button>
+                <button (click)="declinePost(post.id)" class="decline-btn">
+                  Decline
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="pagination-btn" (click)="prevPage()">&lt;</button>
+        <span>page {{ currentPage }}</span>
+        <button class="pagination-btn" (click)="nextPage()">&gt;</button>
+      </div>
+    </div>
+  </div>
+}

@@ -13,6 +13,7 @@ export interface Post {
   content: string;
   background_color: string;
   showOptions?: boolean;
+  id?: number; // for sample only
 }
 
 @Component({
@@ -27,6 +28,11 @@ export class FreedomWallComponent implements OnInit {
   selectedPost: Post;
   freedomwallForm: FormGroup;
   response: Response;
+  adminApproval = true; 
+  pendingPosts: Post[] = []; 
+  currentPage = 1; 
+  postsPerPage = 4; 
+  showManageWallModal = false; 
 
   constructor(
     private dialog: MatDialog, 
@@ -44,6 +50,7 @@ export class FreedomWallComponent implements OnInit {
         validators: [Validators.required]
       }]
     });
+    this.loadPendingPosts(); // for sample only
   }
 
   updateTitleCharacterCount(): void {
@@ -166,5 +173,47 @@ export class FreedomWallComponent implements OnInit {
       }
       this.showPosts();
     });
+  }
+
+  openManageWallModal() {
+    this.showManageWallModal = true;
+  }
+
+  closeManageWallModal() {
+    this.showManageWallModal = false;
+  }
+
+  loadPendingPosts() {
+    // This is only a xample content, replace it with the actual post in the freedom wall
+    // Dapat 4 lang ang max post na dapat ma get sa isang page
+    // kapag sumobra na sa 4 dapat mapupunta na sya sa next page and so on. 
+    this.pendingPosts = [
+      { id: 1, subject: "Post 1", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 2, subject: "Post 2", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 3, subject: "Post 3", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 4, subject: "Post 4", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+    ];
+  }
+
+  approvePost(postId: number) {
+    // Only for sample post, replace the logic.
+    console.log('Post approved:', postId);
+    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
+  }
+
+  declinePost(postId: number) {
+    // Only for sample post, replace the logic.
+    console.log('Post declined:', postId);
+    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage() {
+    this.currentPage++;
   }
 }
