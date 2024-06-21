@@ -33,6 +33,21 @@
 
 <!-- list of events -->
 <div class="event-list">
+  @if(activeTab === 'UPCOMING'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No upcoming events yet.</p>
+    }
+  }
+  @if(activeTab === 'OCCURING'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No occuring events yet.</p>
+    }
+  }
+  @if(activeTab === 'DRAFTS'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No drafts yet.</p>
+    }
+  }
   @for(event of filteredEvents; track filteredEvents){
     <div
     class="event-card"
@@ -55,7 +70,6 @@
     </div>
   </div>
   }
-  
 </div>
 </div>
 
