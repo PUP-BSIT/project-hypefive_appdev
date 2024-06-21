@@ -110,4 +110,12 @@ export class DataService {
     return this.http.get(this.apiUrl +
       `api/member/search_member?search_member=${data}`);
   }
+
+  registerEvent(data) {
+    return this.http.post(this.apiUrl +'api/registerEvent/', data);
+  }
+
+  checkRegistration(data){
+    return this.http.post(this.apiUrl +'api/checkRegistration/', data);
+  }
 }

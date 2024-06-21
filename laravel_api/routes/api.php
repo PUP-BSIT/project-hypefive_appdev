@@ -116,3 +116,11 @@ Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::c
 
 Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
                                 'searchMember'])->name('api.searchMember');
+
+Route::post('/registerEvent', 
+        [\App\Http\Controllers\EventRegisterController::class, 'registerEvent'])
+            ->name('api.registerEvent');
+
+Route::post('/checkRegistration', 
+        [\App\Http\Controllers\EventRegisterController::class, 'checkRegistration'])
+            ->name('api.checkRegistration');
