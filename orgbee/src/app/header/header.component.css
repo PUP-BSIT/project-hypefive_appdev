@@ -1,29 +1,5 @@
-.default-height {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid rgb(25, 25, 60);
-  border-radius: 10px;
-  padding: 20px;
-  background-color: rgb(25, 25, 60);
-  height: 110px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.short-height {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid rgb(25, 25, 60);
-  border-radius: 10px;
-  padding: 20px;
-  background-color: rgb(25, 25, 60);
-  height: 90px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
+.default-height,
+.short-height,
 .shorter-height {
   display: flex;
   justify-content: space-between;
@@ -32,9 +8,20 @@
   border-radius: 10px;
   padding: 20px;
   background-color: rgb(25, 25, 60);
-  height: 50px;
   margin-bottom: 10px;
   flex-wrap: wrap;
+}
+
+.default-height {
+  height: 110px; 
+}
+
+.short-height {
+  height: 90px; 
+}
+
+.shorter-height {
+  height: 50px;
 }
 
 .default-height.admin,
@@ -55,6 +42,10 @@
   background-color: rgb(25, 25, 60);
 }
 
+.greetings {
+  align-items: center; 
+}
+
 .org-icon {
   height: 100%;
   border-radius: 100px;
@@ -62,13 +53,14 @@
 }
 
 .org-name {
-  margin-top: 0px;
+  margin: 0;
   font-weight: 200;
   color: #ffca10;
   font-size: 22px;
 }
 
 .user-name {
+  margin: 0; /* Reset margin */
   margin-right: auto;
   color: #e9e8e8;
   font-weight: 600;
