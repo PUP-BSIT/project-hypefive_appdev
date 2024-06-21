@@ -5,15 +5,15 @@ body {
 }
 
 h1 {
-  margin-top: 2%;
   font-size: 24px;
   background-color: #242424;
   color: #ffca10;
   padding: 40px;
   padding-right: 31%;
   padding-left: 10%;
-  display: inline-block;
+  display: flex;
   border-radius: 10px;
+  margin-top: 0;
 }
 
 .create-event {

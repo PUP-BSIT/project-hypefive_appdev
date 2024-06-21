@@ -13,7 +13,6 @@ import { EventsComponent } from './pages/events/events.component';
 import { FreedomWallComponent } 
   from './pages/freedom-wall/freedom-wall.component';
 import { MembersComponent } from './pages/members/members.component';
-import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
@@ -61,7 +60,6 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     FreedomWallComponent,
     PostDialogComponent,
     MembersComponent,
-    DisplayComponent,
     SidebarComponent,
     ArchiveComponent,
     AnModalComponent,
