@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('role_id')->default(1);
             $table->unsignedBigInteger('icon_id');
+            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');

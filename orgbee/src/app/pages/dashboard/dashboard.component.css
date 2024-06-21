@@ -1,9 +1,20 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  overflow-y: auto;
   height: 100%;
-  overflow-y: hidden;
+}
+
+.main {
+  flex: 2; 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+app-homepage-events {
+width: 100%;
+height: 100%;
 }
 
 .material-symbols-outlined {
@@ -20,20 +31,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
-
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid #000;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #242424;
-  max-width: 700px;
-  height: 115px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
+  height: 100%;
 }
 
 .dashboard-header.officer {
@@ -44,8 +42,7 @@
   border-radius: 10px;
   padding: 20px;
   background-color: rgb(25, 25, 60);
-  max-width: 700px;
-  height: 115px;
+  height: 110px;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
@@ -58,8 +55,7 @@
   border-radius: 10px;
   padding: 20px;
   background-color: rgb(48, 33, 1); 
-  max-width: 700px;
-  height: 115px;
+  height: 110px;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
@@ -72,13 +68,11 @@
   border-radius: 10px;
   padding: 20px;
   background-color:  rgb(47, 47, 47); 
-  max-width: 700px;
-  height: 115px;
+  height: 110px;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
-/*hide org icon in mobile*/
 .org-icon {
   height: 100%;
   border-radius: 100px;
@@ -98,23 +92,9 @@
   font-weight: 600;
 }
 
-.section-title {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  font-weight: 400;
-  background-color: rgb(244, 244, 244);
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 15px;
-  margin-top: 50px;
-}
-
-.tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+.container {
+  height: 100%;
+  margin-right: 20px;
 }
 
 .profile-container {
@@ -198,9 +178,8 @@
 }
 
 .profile-menu mat-menu-item {
-  font-size: 8px; /* Adjust the font size as needed */
+  font-size: 8px; 
 }
-
 
 .role-button.admin {
   position: absolute;
@@ -219,12 +198,21 @@
 .announcement-container {
   position: relative;
   background-color: #f8f8f8;
-  padding: 0 20px 20px;
+  padding: 0px 20px 0px;
   border-radius: 10px;
   margin-top: 20px;
+  margin-bottom: 20px;
   width: 310px;
-  height: 300px;
+  height: 52%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-content {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
 }
 
 .announcement-container h4 {
@@ -247,6 +235,15 @@
   border-radius: 5px;
   margin-top: 10px;
   transition: background-color 0.3s ease;
+}
+
+.no-announcement {
+  display: flex;
+  margin-top: 40%;
+  font-size: 14px;
+  justify-content: center;
+  align-items: center;
+  color:#333;
 }
 
 .announcement-container::-webkit-scrollbar {
@@ -289,20 +286,6 @@
   color: #fff;
 }
 
-.example-card {
-  width: 235px;
-  height: 300px;
-  margin-bottom: 8px;
-  background-color: #eeeeed;
-  border-radius: 5px;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
 .modal {
   display: block;
   position: fixed;
@@ -312,19 +295,20 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
+  overflow-y: hidden;
   text-wrap: wrap;
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
+  margin: 13% auto;
+  padding: 30px;
   border: 1px solid #888;
   border-radius: 5px;
   width: 80%;
   max-width: 600px;
-  height: 300px;
+  height: auto; 
+  max-height: 80%;
   overflow-y: auto;
   text-wrap: wrap;  
   word-wrap: break-word;  
@@ -339,11 +323,30 @@
   margin: 0; 
 }
 
+.modal-content .content {
+  white-space: pre-wrap; 
+  overflow-wrap: break-word; 
+  word-wrap: break-word; 
+  word-break: break-word; 
+  margin-top: 20px; 
+  font-size: 15px;
+}
+
+.modal-content h2{
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.modal-content .details {
+ margin-top: 0px;
+ font-size: 10px;
+}
+
 .close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
+  float: right;
 }
 
 .close:hover,
@@ -576,11 +579,8 @@ mat-card-title {
   background-color: #e6b800; 
 }
 
-.hidden {
+.notstudent {
   visibility: hidden;
-  height: 0;
-  margin: 0;
-  padding: 0;
 }
 
 @media screen and (max-width: 525px) { 
@@ -588,3 +588,37 @@ mat-card-title {
     display: none;
   }
 }
+
+.create {
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  background-color: #f8f8f8;
+  height: 50px;
+  width: 100%; /* Adjust the width as needed */
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 10px;
+  margin-bottom: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.create-announcement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  background-color: #2d2d2d;
+  color: #e6b800;
+  height: 30px;
+  width: 170px;
+  border-radius: 20px;
+  font-size: 10px;
+}
+
+.create-announcement mat-icon {
+  margin-right: 5px; 
+  margin-top: 5px;
+  font-size: 16px; 
+}
+

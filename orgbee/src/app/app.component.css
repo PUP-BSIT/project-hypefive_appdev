@@ -7,23 +7,30 @@ html {
 
 .container {
   display: flex;
-  justify-content: center; /* Center the content horizontally */
+  justify-content: center; 
+  width: 100%;
   height: 100%;
-  overflow: hidden; /* Prevent scrolling of the entire page */
 }
+
 
 app-sidebar {
   width: 110px;
   margin-right: 10px;
-  overflow-y: auto; /* Enable scrolling for sidebar content if needed */
-  height: 100%; /* Set the height of the sidebar to 100% */
+  overflow-y: auto; 
+  height: 100%;
+}
+
+
+@media screen and (max-width: 767px) {
+  app-sidebar {
+    width: 0px;
+  }
+  
 }
 
 app-display {
-  max-width: 1200px;
+  width: 100%;
   flex-grow: 1;
-  background-color: #ffffff; /* Optional: to distinguish the display area */
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;

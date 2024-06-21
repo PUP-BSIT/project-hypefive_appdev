@@ -17,12 +17,15 @@ import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
+import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
+
 import { AnModalComponent } 
   from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } 
   from './pages/dashboard/an-edit-modal/an-edit-modal.component';
 import { ProfileIconComponent } 
   from './pages/dashboard/profile-icon/profile-icon.component';
+import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
@@ -47,6 +50,7 @@ import { DatePipe } from '@angular/common';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
+import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +67,10 @@ import { AuthGuard } from './login/auth.guard';
     AnModalComponent,
     AnEditModalComponent,
     ProfileIconComponent,
-    VerifyComponent
+    VerifyComponent,
+    HomepageEventsComponent,
+    AdminDataComponent,
+    ForgotPassComponent
   ],
   imports: [
     BrowserModule,

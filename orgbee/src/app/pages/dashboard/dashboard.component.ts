@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
   modalContent = '';
   modalDate = '';
   modalAuthor = '';
+  modalUpdated = false;
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
@@ -57,10 +58,24 @@ export class DashboardComponent implements OnInit {
     private router:Router
   ) {}
 
+  ngOnInit(): void {
+    this.announcementForm = this.formBuilder.group({
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required]],
+      recipient: ['', Validators.required],  
+    });
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userInfo = data;
+    });
+    this.fetchAnnouncements();const today = new Date();
+
+  }
+
   //TODO: update later according to new table in database
   updateUserInfo(selectedAvatarPath: string): void {
     //this.userInfo.icon = selectedAvatarPath; 
   }
+  
   toggleProfileIconEdit(): void { 
     this.showProfileIconEdit = !this.showProfileIconEdit;
   }
@@ -79,18 +94,6 @@ export class DashboardComponent implements OnInit {
 
   closeOneAnnouncement(): void {
     this.showOneAnnouncement = false;
-  }
-
-  ngOnInit(): void {
-    this.announcementForm = this.formBuilder.group({
-      subject: ['', [Validators.required]],
-      message: ['', [Validators.required]],
-      recipient: ['', Validators.required],  
-    });
-    this.loginService.onDataRetrieved((data: UserInfo) => {
-      this.userInfo = data;
-    });
-    this.fetchAnnouncements();
   }
 
   fetchAnnouncements(): void {
@@ -116,6 +119,7 @@ export class DashboardComponent implements OnInit {
     this.modalDate = announcement.created_at || '';
     this.modalAuthor = announcement.author || '';
     this.showOneAnnouncement = true;
+    this.modalUpdated = !!announcement.updated_at;
   }
 
   openEditModal(announcement: Announcement): void {
@@ -149,6 +153,7 @@ export class DashboardComponent implements OnInit {
         ...updatedAnnouncement,
         created_at: this.getCurrentDateTime(), 
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
+        updated_at: this.getCurrentDateTime(), 
       };
     }
     this.closeModalEditAnnouncement();
@@ -206,6 +211,7 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    this.loginService.setAuthStatus(false);
     this.router.navigate(['/login']);
   }
 }

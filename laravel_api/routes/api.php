@@ -16,12 +16,17 @@ Route::post('/register', [\App\Http\Controllers\StudentsController::class,
 Route::post('/login', [\App\Http\Controllers\StudentsController::class, 
                                 'login'])->name('api.login');
 
+//Announcement CRUD
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
 Route::post('/announcements', [Announce::class, 'createAnnouncement']);
 Route::put('/announcements/{announcement}', [Announce::class, 'updateAnnouncement']);
 Route::delete('/announcements/{announcement}', [Announce::class, 'deleteAnnouncement']);
-                               
+                       
+//User Data
 Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', [\App\Http\Controllers\StudentsController::class, 'retrieve']);
+
+//Update Icon
+Route::put('students/update-icon', [\App\Http\Controllers\StudentsController::class, 'updateIcon']);
 
 //Members
 Route::get('/members', [\App\Http\Controllers\MembersController::class, 
@@ -97,3 +102,17 @@ Route::post('/cancelEvent',
 Route::post('/updateEvent', 
         [\App\Http\Controllers\EventsController::class, 'updateEvent'])
             ->name('api.updateEvent');
+
+Route::get('/getYearlyEvents', 
+        [\App\Http\Controllers\ArchiveController::class, 'getYearlyEvents'])
+            ->name('api.getYearlyEvents');
+
+Route::get('/getOldEvents', 
+        [\App\Http\Controllers\ArchiveController::class, 'getOldEvents'])
+            ->name('api.getOldEvents');
+
+Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::class, 
+                                'searchArchive'])->name('api.searchArchive');
+
+Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
+                                'searchMember'])->name('api.searchMember');
