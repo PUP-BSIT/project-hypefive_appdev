@@ -14,6 +14,30 @@
     </div>
   </div>
 </div>
+
+
+<ngx-masonry class="masonry-container">
+  @for(post of posts; track posts) {
+    <div ngxMasonryItem class="masonry-item">
+      <div [ngClass]="getBackgroundColorClass(post)">
+        <div class="post-header">
+          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
+          <div class="post-options">
+            <span class="three-dots" (click)="toggleOptions(post)">
+              &#x22EE;
+            </span>
+            <div class="dropdown-menu">
+              @if(post.showOptions) {
+                <button (click)="deletePost(post.id)">Delete</button>
+              }
+            </div>
+          </div>
+        </div>
+        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
+      </div>
+    </div>
+  }
+</ngx-masonry>
 </div>
 
 @if(showModal) {
@@ -77,26 +101,4 @@
   </div>
 }
 
-<ngx-masonry class="masonry-container">
-  @for(post of posts; track posts) {
-    <div ngxMasonryItem class="masonry-item">
-      <div [ngClass]="getBackgroundColorClass(post)">
-        <div class="post-header">
-          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
-          <div class="post-options">
-            <span class="three-dots" (click)="toggleOptions(post)">
-              &#x22EE;
-            </span>
-            <div class="dropdown-menu">
-              @if(post.showOptions) {
-                <button (click)="deletePost(post.id)">Delete</button>
-              }
-            </div>
-          </div>
-        </div>
-        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
-      </div>
-    </div>
-  }
-</ngx-masonry>
 
