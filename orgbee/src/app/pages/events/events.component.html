@@ -1,3 +1,4 @@
+<div class="events-page">
 <div class="top">
   <app-header [title]="'Events'" [showImage]="false" [height]="'shorter-height'"></app-header>
 <button 
@@ -7,6 +8,55 @@
   <mat-icon>add_circle</mat-icon>
   Create Event
 </button>
+</div>
+<!-- event tabs -->
+<div class="tabs">
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'UPCOMING' }"
+    (click)="displayEvents('UPCOMING')">
+      UPCOMING
+  </button>
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'OCCURING' }"
+    (click)="displayEvents('OCCURING')">
+      OCCURING
+  </button>
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'DRAFTS' }"
+    (click)="displayEvents('DRAFTS')">
+      DRAFTS
+  </button>
+</div>
+
+<!-- list of events -->
+<div class="event-list">
+  @for(event of filteredEvents; track filteredEvents){
+    <div
+    class="event-card"
+    [class.registered]="event.registered">
+    <div class="event-img">
+      <img src="../../../assets/icon.jpg" />
+    </div>
+    <div class="event-details">
+      <h3>{{ event.event_name }}</h3>
+      <p> {{ event.location }} </p>
+      <p> {{ event.date }} </p>
+      <p id="reg_fee">Fee: {{ event.registration_fee }} php </p>
+    </div>
+    <div>
+      <button 
+        class="manage-button" 
+        (click)="openManageModal(event)">
+          Manage
+      </button>
+    </div>
+  </div>
+  }
+  
+</div>
 </div>
 
 <!-- Event Form Modal -->
@@ -403,54 +453,6 @@
   </div>
 </div>
 
-<!-- event tabs -->
-<div class="tabs">
-  <button
-    class="tab"
-    [ngClass]="{ active: activeTab === 'UPCOMING' }"
-    (click)="displayEvents('UPCOMING')">
-      UPCOMING
-  </button>
-  <button
-    class="tab"
-    [ngClass]="{ active: activeTab === 'OCCURING' }"
-    (click)="displayEvents('OCCURING')">
-      OCCURING
-  </button>
-  <button
-    class="tab"
-    [ngClass]="{ active: activeTab === 'DRAFTS' }"
-    (click)="displayEvents('DRAFTS')">
-      DRAFTS
-  </button>
-</div>
-
-<!-- list of events -->
-<div class="event-list">
-  @for(event of filteredEvents; track filteredEvents){
-    <div
-    class="event-card"
-    [class.registered]="event.registered">
-    <div class="event-img">
-      <img src="../../../assets/icon.jpg" />
-    </div>
-    <div class="event-details">
-      <h3>{{ event.event_name }}</h3>
-      <p> {{ event.location }} </p>
-      <p> {{ event.date }} </p>
-      <p id="reg_fee">Fee: {{ event.registration_fee }} php </p>
-    </div>
-    <div>
-      <button 
-        class="manage-button" 
-        (click)="openManageModal(event)">
-          Manage
-      </button>
-    </div>
-  </div>
-  }
-  
-</div>
 
 <!-- Manage Event Modal -->
 <div id="manageEventModal" class="modal" [class.visible]="isManageModalVisible">
