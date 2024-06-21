@@ -198,12 +198,12 @@ body {
     height: 70px;
     width: 100%;
     color: #ffca10;
+    border-radius: 20px 20px 0 0; 
     background-color: transparent;
     display: flex;
     justify-content: space-around;
     align-items: center;
     z-index: 1000;
-    margin-bottom: 20px;
   }
 
   #nav_content {
@@ -215,6 +215,7 @@ body {
     padding: 0;
     margin: 0;
     box-shadow: none;
+    overflow-y: hidden;
   }
 
   .logo{
