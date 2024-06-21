@@ -472,3 +472,8 @@ button:hover {
   font-size: 12px;
   color: red;
 }
+
+.no-request {
+  padding: 10%;
+  text-align: center;
+}
