@@ -325,3 +325,24 @@ body {
   font-family: "Outfit";
   margin-top: 15px;
 }
+
+.background-color-class-1 {
+  background-color: #FAA49E;
+}
+
+.background-color-class-2 {
+  background-color: #E5B769;
+}
+
+.background-color-class-3 {
+  background-color: #BBA0CA;
+}
+
+.background-color-class-4 {
+  background-color: #90E0EF;
+}
+
+.background-color-class-5 {
+  background-color: #C2FDB2;
+}
+
