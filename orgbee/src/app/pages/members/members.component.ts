@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 interface Member {
   first_name: string;
@@ -40,7 +42,8 @@ export class MembersComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private toastr: ToastrService,
-    private fb:FormBuilder) {}
+    private fb:FormBuilder,
+    public dialog: MatDialog) {}
 
   ngOnInit(): void{
     this.searchMember = this.fb.group({keyword:['']});
@@ -144,7 +147,21 @@ export class MembersComponent implements OnInit {
     this.details=[]; 
   }
 
+  confirmAction(title: string, message: string, callback: () => void) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        callback();
+      }
+    });
+  }
+
   removeMember() {
+    this.confirmAction('Confirm Removal', 'Are you sure you want to remove this member?', () => {
     const data = {student_number: this.student_num };
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
@@ -172,9 +189,11 @@ export class MembersComponent implements OnInit {
       this.showMembers();
       this.showOfficers();
     });
-  }
+  });
+}
 
   promoteToOfficer() {
+    this.confirmAction('Confirm Removal', 'Are you sure you want to promote  this member?', () => {
     const data = {student_number: this.student_num };
     
     this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
@@ -197,9 +216,11 @@ export class MembersComponent implements OnInit {
       this.showOfficers();
       this.details=[]; 
     });
-  }
+  });
+}
 
   demoteToMember() {
+    this.confirmAction('Confirm Removal', 'Are you sure you want to demote this officer?', () => {
     const data = {student_number: this.student_num };
     
     this.dataService.demoteToMember(data).subscribe((res: Response) => {
@@ -222,7 +243,8 @@ export class MembersComponent implements OnInit {
       this.showOfficers();
       this.details=[]; 
     });
-  }
+  });
+}
 
   searchMembers() {
     this.searchMember.get('keyword')!.valueChanges.pipe(

@@ -265,7 +265,7 @@ body {
 }
 
 .modal-content {
-position: relative;
+  position: relative;
   text-align: center;
   background-color: #fefefe;
   margin: 15% auto;
