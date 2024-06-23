@@ -42,10 +42,16 @@
         <div class="all-members1">
           <div class="all-members">
             @for(member of members; track members) {
-            <div class="member" (click)="memberClick(member.student_number)">
-              <img src="{{ member.icon_location }}" alt="Profile Picture" />
-              <p>{{ member.first_name + " " + member.last_name }}</p>
-            </div>
+              <div class="member" (click)="memberClick(member.student_number)">
+                <div class="member-info">
+                  <img src="{{ member.icon_location }}" alt="Profile Picture" class="member-icon" />
+                  <p class="member-name">{{ member.first_name + " " + member.last_name }}</p>
+                </div>
+                <!-- Conditionally display star badge if member is an officer -->
+                <div *ngIf="isMemberAnOfficer(member.student_number)" class="star-badge">
+                  <p>⭐</p>
+                </div>
+              </div>
             }
           </div>
         </div>
@@ -99,13 +105,15 @@
   <div class="modal" id="member_modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
-      @for(detail of details; track details) {
+      <div *ngFor="let detail of details">
         <div class="modal-profile">
-          <img
-            src="{{ detail.icon_location }}"
-            id="modal_icon"
-            alt="Profile Picture"/>
+          <img src="{{ detail.icon_location }}" id="modal_icon" alt="Profile Picture"/>
         </div>
+        <ng-container *ngIf="isMemberAnOfficer(details[0]?.student_number)">
+          <div class="role-button">
+            <p>Officer</p>
+          </div>
+        </ng-container>
         <div class="details">
           <div class="left-column-details">
             <p class="label">First Name</p>
@@ -115,7 +123,6 @@
             <p class="label">Student Number</p>
             <p class="value">{{ detail.student_number }}</p>
           </div>
-
           <div class="right-column-details">
             <p class="label">Last Name</p>
             <p class="value">{{ detail.last_name }}</p>
@@ -125,16 +132,18 @@
             <p class="value">{{ detail.email }}</p>
           </div>
         </div>
-      }
-      <button class="modal-button-officer" (click)="promoteToOfficer()">
-        Promote to Officer
-      </button>
+      </div>
+      <ng-container *ngIf="!isMemberAnOfficer(details[0]?.student_number)">
+        <button class="modal-button-officer" (click)="promoteToOfficer()">
+          Promote to Officer
+        </button>
+      </ng-container>
       <button class="modal-button-member" (click)="removeMember()">
         Remove Member
       </button>
     </div>
   </div>
-} 
+}
 @if(showModalOfficer) {
   <div class="modal" id="officer_modal">
     <div class="modal-content">
@@ -146,6 +155,11 @@
             id="modal_icon"
             alt="Profile Picture"/>
         </div>
+        <ng-container *ngIf="isMemberAnOfficer(details[0]?.student_number)">
+          <div class="role-button">
+            <p>Officer</p>
+          </div>
+        </ng-container>
         <div class="details">
           <div class="left-column-details">
             <p class="label">First Name</p>

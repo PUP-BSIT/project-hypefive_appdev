@@ -32,7 +32,7 @@ export class MembersComponent implements OnInit {
   members: Member[];
   details: Member [];
   membershipRequests: Member[];
-  officers: Member[];
+  officers: Member[] =[];
   student_num:string;
   response: Response;
 
@@ -161,36 +161,36 @@ export class MembersComponent implements OnInit {
   }
 
   removeMember() {
-    this.confirmAction('Confirm Removal', 'Are you sure you want to remove this member?', () => {
-    const data = {student_number: this.student_num };
+  this.confirmAction('Confirm Removal', 'Are you sure you want to remove this member?', () => {
+    const data = { student_number: this.student_num };
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
       if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '',{
+        this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast success'
         });
       } else {
-        this.toastr.error(JSON.stringify(this.response.message),'',{
+        this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast error'
         });
       }
 
       this.showModalMember = false;
       this.showModalOfficer = false;
+      this.details = [];
+      this.student_num = '';
 
-      this.details=[]; 
-      this.student_num ='';
-      
-      this.showMembers();
-      this.showOfficers();
+      this.showMembers(); // Refresh members list
+      this.showOfficers(); // Refresh officers list
     });
   });
 }
+
 
   promoteToOfficer() {
     this.confirmAction('Confirm Removal', 'Are you sure you want to promote  this member?', () => {
@@ -277,4 +277,9 @@ export class MembersComponent implements OnInit {
     this.retrievedMember = [];
     this.isSearchResult = false;
   }
+
+  isMemberAnOfficer(studentNumber: string): boolean {
+    return this.officers.some(officer => officer.student_number === studentNumber);
+  }
+  
 }

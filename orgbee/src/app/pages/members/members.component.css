@@ -85,7 +85,20 @@ body {
   scrollbar-width: none;
 }
 
+.member-info {
+  display: flex;
+  align-items: center;
+  margin-right: 15px; 
+}
+
+.member-name {
+  margin-left: 10px; 
+  font-size: 16px; 
+}
+
 .member {
+  display: flex;
+  align-items: center;
   margin-top: 20px;
   display: flex;
   text-align: center;
@@ -246,11 +259,6 @@ body {
   background-color: #ffca10;
 }
 
-.member {
-  display: flex;
-  align-items: center;
-}
-
 .modal {
   display: flex;
   align-items: center;
@@ -367,3 +375,18 @@ button.modal-member-button:hover {
   padding: 10%;
   text-align: center;
 }
+
+.role-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(25, 25, 60);
+  color: #ffca10;
+  border-radius: 10px;
+  width: 70px;
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+  margin: 10px auto; /* Added margin to center vertically */
+}
+

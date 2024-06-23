@@ -1,37 +1,40 @@
-  .mdc-dialog__title {
+.mdc-dialog__title {
     width: 100%;
     text-align: center;
     font-size: 20px;
-    font-family: 'Outfit';
+    font-family: "Outfit";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
   }
-
- .mdc-dialog__content {
+  
+  .mdc-dialog__content {
     width: 100%;
     text-align: left;
-    font-family: 'Outfit';
+    font-size: 15px;
+    font-family: "Outfit";
+    padding: 20px;
   }
   
-  .no-button {
-    background-color: transparent;
-    color: inherit;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
+  .no-button,
   .yes-button {
-    background-color: #ffca10;
+    background-color: transparent;
     color: black;
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
+    margin-right: 10px;
+  }
+  
+  .yes-button {
+    background-color: #ffca10;
   }
   
   .dialog-actions {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: flex-end;
     width: 100%;
     margin-top: 10px;
   }
@@ -40,4 +43,4 @@
   .yes-button:hover {
     opacity: 0.8;
   }
-  
+
