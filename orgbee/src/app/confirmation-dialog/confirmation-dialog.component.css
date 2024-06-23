@@ -1,33 +1,16 @@
-/* Style for the entire dialog container */
-mat-dialog-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-  }
-  
-  /* Centering the title */
   .mdc-dialog__title {
     width: 100%;
     text-align: center;
     font-size: 20px;
     font-family: 'Outfit';
   }
-  
-  /* Centering the content */
-  .mat-mdc-dialog-container .mdc-dialog__content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+
+ .mdc-dialog__content {
     width: 100%;
-    padding: 20px 0;
+    text-align: left;
     font-family: 'Outfit';
   }
   
-  /* Style for the 'No' button */
   .no-button {
     background-color: transparent;
     color: inherit;
@@ -37,7 +20,6 @@ mat-dialog-container {
     font-size: 14px;
   }
   
-  /* Style for the 'Yes' button */
   .yes-button {
     background-color: #ffca10;
     color: black;
@@ -47,15 +29,13 @@ mat-dialog-container {
     font-size: 14px;
   }
   
-  /* Ensure actions are aligned properly */
   .dialog-actions {
     display: flex;
-    justify-content: flex-end; /* Align buttons to the right */
+    justify-content: flex-end; 
     width: 100%;
     margin-top: 10px;
   }
   
-  /* Additional hover effect for better user experience */
   .no-button:hover,
   .yes-button:hover {
     opacity: 0.8;
