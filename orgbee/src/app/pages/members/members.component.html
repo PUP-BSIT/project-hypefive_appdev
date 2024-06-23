@@ -48,9 +48,11 @@
                   <p class="member-name">{{ member.first_name + " " + member.last_name }}</p>
                 </div>
                 <!-- Conditionally display star badge if member is an officer -->
-                <div *ngIf="isMemberAnOfficer(member.student_number)" class="star-badge">
-                  <p>⭐</p>
-                </div>
+                 @if(isMemberAnOfficer(member.student_number)){
+                  <div class="star-badge">
+                    <p>⭐</p>
+                  </div>
+                 }
               </div>
             }
           </div>
@@ -109,11 +111,13 @@
         <div class="modal-profile">
           <img src="{{ detail.icon_location }}" id="modal_icon" alt="Profile Picture"/>
         </div>
-        <ng-container *ngIf="isMemberAnOfficer(details[0]?.student_number)">
-          <div class="role-button">
-            <p>Officer</p>
-          </div>
-        </ng-container>
+        @if(isMemberAnOfficer(details[0]?.student_number)){
+          <ng-container>
+            <div class="role-button">
+              <p>Officer</p>
+            </div>
+          </ng-container>
+        }
         <div class="details">
           <div class="left-column-details">
             <p class="label">First Name</p>
@@ -133,11 +137,13 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="!isMemberAnOfficer(details[0]?.student_number)">
-        <button class="modal-button-officer" (click)="promoteToOfficer()">
-          Promote to Officer
-        </button>
-      </ng-container>
+      @if(isMemberAnOfficer(details[0]?.student_number)){
+        <ng-container>
+          <button class="modal-button-officer" (click)="promoteToOfficer()">
+            Promote to Officer
+          </button>
+        </ng-container>
+      }
       <button class="modal-button-member" (click)="removeMember()">
         Remove Member
       </button>
@@ -155,11 +161,13 @@
             id="modal_icon"
             alt="Profile Picture"/>
         </div>
-        <ng-container *ngIf="isMemberAnOfficer(details[0]?.student_number)">
-          <div class="role-button">
-            <p>Officer</p>
-          </div>
-        </ng-container>
+        @if(isMemberAnOfficer(details[0]?.student_number)){
+          <ng-container>
+            <div class="role-button">
+              <p>Officer</p>
+            </div>
+          </ng-container>
+        }
         <div class="details">
           <div class="left-column-details">
             <p class="label">First Name</p>
