@@ -8,8 +8,9 @@ import { DatePipe } from '@angular/common';
 import { AnnouncementService, Announcement } 
   from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
-
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 enum Roles {
   Student = 1,
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit {
   showEditModal = false; 
   showProfileIconEdit = false;  
   activeTab: string = 'all';
+  loggingOut: boolean = false;
   userInfo: UserInfo = {
     email: '',
     id: '',
@@ -55,6 +57,7 @@ export class DashboardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private announcementService: AnnouncementService,
+    public dialog: MatDialog,
     private datePipe: DatePipe,
     private router:Router
   ) {}
@@ -75,6 +78,19 @@ export class DashboardComponent implements OnInit {
   //TODO: update later according to new table in database
   updateUserInfo(selectedAvatarPath: string): void {
     //this.userInfo.icon = selectedAvatarPath; 
+  }
+  
+  confirmAction(title: string, message: string, callback: () => void) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        callback();
+      }
+    });
   }
   
   toggleProfileIconEdit(): void { 
@@ -260,8 +276,16 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.loginService.setAuthStatus(false);
-    this.router.navigate(['/login']);
+    console.log('Logging out...');
+    this.confirmAction('Confirm Logout', 'Are you sure you want to logout?', () => {
+      this.loggingOut = true;
+      localStorage.removeItem('token');
+      this.loginService.setAuthStatus(false);
+      setTimeout(() => {
+        this.loggingOut = false;
+        this.router.navigate(['/login']);
+      }, 2000); 
+    });
   }
+  
 }

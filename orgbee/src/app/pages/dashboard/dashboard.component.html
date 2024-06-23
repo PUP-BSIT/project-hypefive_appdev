@@ -163,3 +163,9 @@
     [announcementForm]="announcementForm"
     (announcementCreated)="handleAnnouncementCreated($event)">
   </app-an-modal>
+
+  <div *ngIf="loggingOut" class="spinner-overlay">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+    <p>Logging Out...</p>
+  </div>
+  
