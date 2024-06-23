@@ -45,3 +45,12 @@ body { margin: 0; font-family: "Outfit", "Helvetica Neue", sans-serif; }
 .mat-mdc-dialog-container {
   --mdc-dialog-container-shape: 20px;
 }
+
+:root {
+  --primary-color: #ffca10;
+}
+
+.mat-mdc-progress-spinner { --mdc-circular-progress-active-indicator-color: #ffca10; }
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #ffca10;
+}
