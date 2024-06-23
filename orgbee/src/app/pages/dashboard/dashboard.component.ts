@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
+  activeTab: string = 'all';
   userInfo: UserInfo = {
     email: '',
     id: '',
@@ -155,6 +156,7 @@ export class DashboardComponent implements OnInit {
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
         updated_at: this.getCurrentDateTime(), 
       };
+      this.filterByOfficers();
     }
     this.closeModalEditAnnouncement();
   }
@@ -184,7 +186,55 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  
+
+  filterByAll(): void {
+    this.fetchAnnouncements(); 
+  }
+
+  filterByOfficers(): void {
+    this.announcementService.getAnnouncements().subscribe(
+      (announcements) => {
+        this.announcements = announcements.filter(a => 
+          a.recipient === 1
+        );
+      },
+      (error) => {
+        console.error('Error fetching announcements:', error);
+      }
+    );
+  }
+
+  filterByMe(): void {
+    this.announcementService.getAnnouncements().subscribe(
+      (announcements) => {
+        this.announcements = announcements.filter(a => 
+          a.student_id === this.userInfo.user_id
+        );
+      },
+      (error) => {
+        console.error('Error fetching announcements:', error);
+      }
+    );
+  }
+
+   setActiveTab(tab: string) {
+    this.activeTab = tab;
+    switch (tab) {
+      case 'all':
+        this.filterByAll();
+        break;
+      case 'officers':
+        this.filterByOfficers();
+        break;
+      case 'me':
+        this.filterByMe();
+        break;
+      // Add more cases for additional tabs as needed
+      default:
+        break;
+    }
+  }
+
   truncateText(text: string, limit: number): string {
     if (text.length > limit) {
       return text.substring(0, limit) + '...';

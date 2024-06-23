@@ -65,7 +65,16 @@
 
       <div class="announcement-container">
         <div class="announcement-content">
+          <div class="tabs-and-title">
           <h4>ANNOUNCEMENTS</h4>
+          <div class="tabs">
+            <button class="tab" [ngClass]="{ 'active': activeTab === 'all' }" (click)="setActiveTab('all')">All</button>
+            <button class="tab" [ngClass]="{ 'active': activeTab === 'officers' }" (click)="setActiveTab('officers')">Officers</button>
+            <button class="tab" [ngClass]="{ 'active': activeTab === 'me' }" (click)="setActiveTab('me')">Made by Me</button>
+          </div>
+          </div>
+          
+          
       
           <!-- Check if announcements array is empty -->
           @if (announcements.length === 0) {
