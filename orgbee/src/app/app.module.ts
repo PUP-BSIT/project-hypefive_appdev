@@ -51,6 +51,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
 import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
 import { HeaderComponent } from './header/header.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { HeaderComponent } from './header/header.component';
     HomepageEventsComponent,
     AdminDataComponent,
     ForgotPassComponent,
-    HeaderComponent
+    HeaderComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
