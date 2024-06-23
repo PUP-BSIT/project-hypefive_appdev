@@ -358,6 +358,9 @@ body {
 }
 
 .manage-modal-content {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
@@ -367,11 +370,14 @@ body {
   height: 78%; 
   max-height: 90vh; 
   border-radius: 5%;
+  position: relative; 
 }
 
 .manage-close-btn {
   color: black;
-  float: right;
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
@@ -457,6 +463,8 @@ body {
   text-align: center; 
   border-radius: 10px;
   margin-top: 3%;
+  position: sticky; 
+  bottom: 0; 
 }
 
 .pagination-btn {
