@@ -100,6 +100,7 @@ export class MembersComponent implements OnInit {
   }
 
   declineRequest(student_number: string) {
+    this.confirmAction('Decline Confirmation', 'Are you sure you want to decline this membership request?', () => {
     const data = {student_number: student_number };
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
@@ -121,7 +122,8 @@ export class MembersComponent implements OnInit {
       this.showRequest();
       this.showRequest();
     });
-  }
+  });
+}
   
   memberClick(student_number: string) {
     const selectedMember = this.members
@@ -193,7 +195,7 @@ export class MembersComponent implements OnInit {
 
 
   promoteToOfficer() {
-    this.confirmAction('Confirm Removal', 'Are you sure you want to promote  this member?', () => {
+    this.confirmAction('Confirm Promotion', 'Are you sure you want to promote this member to officer?', () => {
     const data = {student_number: this.student_num };
     
     this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
@@ -220,7 +222,7 @@ export class MembersComponent implements OnInit {
 }
 
   demoteToMember() {
-    this.confirmAction('Confirm Removal', 'Are you sure you want to demote this officer?', () => {
+    this.confirmAction('Confirm Demotion', 'Are you sure you want to demote this officer?', () => {
     const data = {student_number: this.student_num };
     
     this.dataService.demoteToMember(data).subscribe((res: Response) => {
