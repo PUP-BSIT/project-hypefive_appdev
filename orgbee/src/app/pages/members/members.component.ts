@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../service/data.service';
 import { Response } from '../../app.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { LoginService, UserInfo } from '../../../service/login.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -35,7 +35,7 @@ export class MembersComponent implements OnInit {
   officers: Member[] =[];
   student_num:string;
   response: Response;
-
+  userInfo: UserInfo;
   searchMember: FormGroup;
   retrievedMember: Member[];
   isSearchResult = false;
@@ -43,7 +43,8 @@ export class MembersComponent implements OnInit {
     private dataService: DataService,
     private toastr: ToastrService,
     private fb:FormBuilder,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+   private loginService: LoginService) {}
 
   ngOnInit(): void{
     this.searchMember = this.fb.group({keyword:['']});
@@ -53,6 +54,9 @@ export class MembersComponent implements OnInit {
     this.searchMembers();
     this.details = [];
     this.membershipRequests = [];
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userInfo = data;
+    });
   }
 
   showMembers() {
@@ -241,6 +245,7 @@ export class MembersComponent implements OnInit {
         });
       }
 
+      this.showModalMember = false;
       this.showModalOfficer = false;
       this.showOfficers();
       this.details=[]; 

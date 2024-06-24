@@ -137,19 +137,18 @@
           </div>
         </div>
       </div>
-      @if(!isMemberAnOfficer(details[0]?.student_number)){
-        <ng-container>
-          <button class="modal-button-officer" (click)="promoteToOfficer()">
-            Promote to Officer
-          </button>
-        </ng-container>
-      }
-      <button class="modal-button-member" (click)="removeMember()">
-        Remove Member
-      </button>
+    @if (userInfo.role_id===3) {
+      @if (!isMemberAnOfficer(details[0]?.student_number)) {
+        <button class="modal-button-officer" (click)="promoteToOfficer()">Promote to Officer </button>
+      } @else {  
+          <button class="modal-button-officer" (click)="demoteToMember()">Demote to Member</button>
+        }
+    }
+      <button class="modal-button-member" (click)="removeMember()">Remove Member</button>
+      </div>
     </div>
-  </div>
 }
+
 @if(showModalOfficer) {
   <div class="modal" id="officer_modal">
     <div class="modal-content">
@@ -188,12 +187,14 @@
           </div>
         </div>
       }
+      @if (userInfo.role_id===3) {
       <button class="modal-button-officer" (click)="demoteToMember()">
         Demote to Member
       </button>
       <button class="modal-button-member" (click)="removeMember()">
         Remove Member
       </button>
+    }
     </div>
   </div>
 }
