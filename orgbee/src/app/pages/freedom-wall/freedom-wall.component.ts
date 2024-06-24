@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl }
-   from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
@@ -30,8 +29,10 @@ export class FreedomWallComponent implements OnInit {
   response: Response;
   adminApproval = true; 
   pendingPosts: Post[] = []; 
+  paginatedPosts: Post[] = []; 
   currentPage = 1; 
   postsPerPage = 4; 
+  totalPages = 1; 
   showManageWallModal = false; 
 
   constructor(
@@ -51,6 +52,7 @@ export class FreedomWallComponent implements OnInit {
       }]
     });
     this.loadPendingPosts(); // for sample only
+    this.updatePaginatedPosts();
   }
 
   updateTitleCharacterCount(): void {
@@ -89,16 +91,16 @@ export class FreedomWallComponent implements OnInit {
     
     this.dataService.addPosts(newPost).subscribe((res: Response) => {
       this.response = res;
-      if (this.response.code===200) {
+      if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast success'
         });
       } else {
-        this.toastr.error(JSON.stringify(this.response.message),'', {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast error'
         });
       }
@@ -111,11 +113,11 @@ export class FreedomWallComponent implements OnInit {
 
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
-      this.posts=posts;
-    })
+      this.posts = posts;
+    });
   }
 
-  closeModal(){
+  closeModal() {
     this.showModal = false;
   }
 
@@ -131,8 +133,7 @@ export class FreedomWallComponent implements OnInit {
   }
 
   getBackgroundColorClass(post: Post): string[] {
-    const colorClass = 
-      `background-color-class-${this.getColorIndex(post.background_color)}`;
+    const colorClass = `background-color-class-${this.getColorIndex(post.background_color)}`;
     return [colorClass];
   }
   
@@ -155,19 +156,19 @@ export class FreedomWallComponent implements OnInit {
   }
 
   deletePost(id: number) {
-    const post_id ={id: id};
+    const post_id = { id: id };
     this.dataService.deletePosts(post_id).subscribe((res: Response) => {
-      this.response=res;
-      if (this.response.code===200) {
+      this.response = res;
+      if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast success'
         });
       } else {
         this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast error'
         });
       }
@@ -184,36 +185,52 @@ export class FreedomWallComponent implements OnInit {
   }
 
   loadPendingPosts() {
-    // This is only a xample content, replace it with the actual post in the freedom wall
-    // Dapat 4 lang ang max post na dapat ma get sa isang page
-    // kapag sumobra na sa 4 dapat mapupunta na sya sa next page and so on. 
     this.pendingPosts = [
       { id: 1, subject: "Post 1", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
       { id: 2, subject: "Post 2", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
       { id: 3, subject: "Post 3", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
       { id: 4, subject: "Post 4", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 5, subject: "Post 5", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 6, subject: "Post 6", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 7, subject: "Post 7", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 8, subject: "Post 8", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
+      { id: 9, subject: "Post 9", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
     ];
+    this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
+    this.updatePaginatedPosts();
   }
 
-  approvePost(postId: number) {
-    // Only for sample post, replace the logic.
-    console.log('Post approved:', postId);
-    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
+  updatePaginatedPosts() {
+    const startIndex = (this.currentPage - 1) * this.postsPerPage;
+    const endIndex = startIndex + this.postsPerPage;
+    this.paginatedPosts = this.pendingPosts.slice(startIndex, endIndex);
   }
 
-  declinePost(postId: number) {
-    // Only for sample post, replace the logic.
-    console.log('Post declined:', postId);
-    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedPosts();
+    }
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.updatePaginatedPosts();
     }
   }
 
-  nextPage() {
-    this.currentPage++;
+  approvePost(postId: number) {
+    console.log('Post approved:', postId);
+    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
+    this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
+    this.updatePaginatedPosts();
+  }
+
+  declinePost(postId: number) {
+    console.log('Post declined:', postId);
+    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
+    this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
+    this.updatePaginatedPosts();
   }
 }

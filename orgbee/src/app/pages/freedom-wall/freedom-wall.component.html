@@ -113,7 +113,7 @@
       </div>
       <div class="modal-body">
         <div class="post-cards-container">
-          @for(post of pendingPosts; track pendingPosts) {
+          @for(post of paginatedPosts; track post.id) {
             <div class="post-card">
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>
@@ -130,9 +130,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="pagination-btn" (click)="prevPage()">&lt;</button>
+        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
         <span>page {{ currentPage }}</span>
-        <button class="pagination-btn" (click)="nextPage()">&gt;</button>
+        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
       </div>
     </div>
   </div>
