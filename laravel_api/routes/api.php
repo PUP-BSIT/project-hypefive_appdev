@@ -125,3 +125,12 @@ Route::post('/acceptPost', [\App\Http\Controllers\FreedomWallController::class,
 
 Route::post('/declinePost', [\App\Http\Controllers\FreedomWallController::class, 
                                 'declinePost'])->name('api.declinePost'); 
+
+Route::get('/getDeletionRequests', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getDeletionRequests'])->name('api.getDeletionRequests'); 
+
+Route::post('/deletionRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'deletionRequest'])->name('api.deletionRequest'); 
+
+Route::post('/declineDeletionRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'declineDeletionRequest'])->name('api.declineDeletionRequest'); 

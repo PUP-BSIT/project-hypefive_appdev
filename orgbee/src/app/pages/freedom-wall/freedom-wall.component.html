@@ -97,8 +97,6 @@
                 }
               </div>
             </div>
-          
-          
         </div>
         <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
       </div>
@@ -156,14 +154,15 @@
         <div class="post-cards-container">
           @for(post of requestDelete; track requestDelete) {
             <div class="post-card">
+              <h5>{{post.deletion_req_count}}</h5>
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>
               <div class="button-request">
-                <button (click)="approvePost(post.id)" class="accept-btn">
-                  Accept
+                <button (click)="deletePost(post.id)" class="accept-btn">
+                  Delete Post
                 </button>
-                <button (click)="declinePost(post.id)" class="decline-btn">
-                  Decline
+                <button (click)="declineRequestToDelete(post.id)" class="decline-btn">
+                  Decline Request
                 </button>
               </div>
             </div>

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Crypt;
 class FreedomWallController extends Controller {
 
     public function getPosts() {
-      $userId = 1;
         $posts = DB::table('freedomwall')->where('is_posted', 1)->where('post_status_id', 2)->get();  //update to status
         foreach ($posts as $post) {
           $post->student_id = Crypt::decrypt($post->student_id);
@@ -18,10 +17,8 @@ class FreedomWallController extends Controller {
     }
     
     public function createPostFW(Request $request) {
-        $post = $request->only('subject', 'content', 'background_color', 'post_status_id', 'student_id',);
+      $post = $request->only('subject', 'content', 'background_color', 'post_status_id', 'student_id',);
 
-      // $post['student_id']= bcrypt($request->student_id);
-      // $post['student_id']= $request->student_id;
       $post['student_id']= Crypt::encrypt($request->student_id);
     if ($post) {
       DB::table('freedomwall')->insert($post);
@@ -86,5 +83,47 @@ class FreedomWallController extends Controller {
       }
     }
 
+    public function getDeletionRequests(){
+      $posts = DB::table('freedomwall')
+        ->where('is_posted', 1)
+        ->where('post_status_id', 2)
+        ->where('is_deletion_requested', 1)
+        ->orderBy('deletion_req_count', 'DESC')->get(); 
+      return response()->json($posts, 200);
+    }
 
+    public function deletionRequest(Request $request) {
+      $postId =$request->only('id');
+      $updateTime = now();
+      
+      $delReqCount = DB::table('freedomwall')->where('id', $postId)->value('deletion_req_count');
+      if($postId){
+        DB::table('freedomwall')->where('id', $postId)
+          ->update(['is_deletion_requested'=> 1 ,'updated_at'=> $updateTime, 'deletion_req_count'=> $delReqCount+1 ]);
+        $response ['message'] = 'Request sent successfully.';
+        $response ['code'] = 200;
+        return response()->json($response);
+      } else{
+        $response ['message'] = 'Request failed.';
+        $response ['code'] = 200;
+        return response()->json($response);
+      }
+    }
+
+    public function declineDeletionRequest(Request $request) {
+      $postId =$request->only('id');
+      $updateTime = now();
+
+      if($postId){
+        DB::table('freedomwall')->where('id', $postId)
+        ->update(['is_deletion_requested'=> 0, 'updated_at'=> $updateTime]);
+        $response['message'] = 'Request declined successfully .';
+        $response['code'] = 200;
+      return response()->json($response);
+      } else {
+        $response['message'] = 'Failed to decline request.';
+        $response['code'] = 404;
+        return response()->json($response);
+      }
+    }
 }
