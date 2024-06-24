@@ -54,3 +54,11 @@ Route::post('/deletePost',
         [\App\Http\Controllers\FreedomWallController::class, 'deletePost'])
             ->name('api.deletePost');
 
+Route::get('/getPostRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getPostRequest'])->name('api.getPostRequest'); 
+
+Route::post('/acceptPost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'acceptPost'])->name('api.acceptPost'); 
+
+Route::post('/declinePost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'declinePost'])->name('api.declinePost'); 

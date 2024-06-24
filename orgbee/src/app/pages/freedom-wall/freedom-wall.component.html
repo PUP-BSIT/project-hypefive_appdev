@@ -113,7 +113,7 @@
       </div>
       <div class="modal-body">
         <div class="post-cards-container">
-          @for(post of paginatedPosts; track post.id) {
+          @for(post of paginatedPosts; track paginatedPosts) {
             <div class="post-card">
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>

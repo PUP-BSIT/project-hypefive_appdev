@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class FreedomWallController extends Controller {
     public function getPosts() {
-        $posts = DB::table('freedomwall')->where('is_posted', 1)->get(); 
+        $posts = DB::table('freedomwall')->where('is_posted', 1)->where('accessibility', 1)->get();  //update to status
         return response()->json($posts, 200);
     }
     
     public function createPostFW(Request $request) {
-        $post = $request->only('subject', 'content', 'background_color');
+        $post = $request->only('subject', 'content', 'background_color', 'accessibility');
 
         if ($post) {
             DB::table('freedomwall')->insert($post);
@@ -40,5 +40,41 @@ class FreedomWallController extends Controller {
             return response()->json($response);
         } 
     }
+
+    public function getPostRequest(){
+      $posts = DB::table('freedomwall')->where('is_posted', 1)->where('accessibility', 0)->get();  //update to status
+      return response()->json($posts, 200);
+    }
+
+    public function acceptPost(Request $request) {
+      $postId = $request->only('id');
+      $updateTime = now();
+      if ($postId) {
+        DB::table('freedomwall')->where('id', $postId)->update(['accessibility'=> 1 ,'updated_at'=>$updateTime ]);
+        $response ['message'] = 'Post accepted successfully.';
+        $response ['code'] = 200;
+        return response()->json($response);
+      } else {
+        $response ['message'] = 'Failed to accept post.';
+        $response ['code'] = 404;
+        return response()->json($response);
+      }
+    }
+
+    public function declinePost(Request $request) {
+      $postId = $request->only('id');
+      $updateTime = now();
+      if ($postId) {
+        DB::table('freedomwall')->where('id', $postId)->update(['accessibility'=> 3 ,'updated_at'=> $updateTime ]);
+        $response ['message'] = 'Post declined successfully.';
+        $response ['code'] = 200;
+        return response()->json($response);
+      } else {
+        $response ['message'] = 'Failed to decline post.';
+        $response ['code'] = 404;
+        return response()->json($response);
+      }
+    }
+
 
 }

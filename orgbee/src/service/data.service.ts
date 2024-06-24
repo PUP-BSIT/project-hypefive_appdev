@@ -55,4 +55,16 @@ export class DataService {
   deletePosts(data) {
     return this.http.post(this.apiUrl +'api/deletePost/', data);
   }
+
+  getPostRequest(){
+    return this.http.get(this.apiUrl +'api/getPostRequest/');
+  }
+
+  acceptPost(data){
+    return this.http.post(this.apiUrl +'api/acceptPost/', data);
+  }
+
+  declinePost(data) {
+    return this.http.post(this.apiUrl +'api/declinePost/', data);
+  }
 }

@@ -13,6 +13,7 @@ export interface Post {
   background_color: string;
   showOptions?: boolean;
   id?: number; // for sample only
+  accessibility:number; //Update to status
 }
 
 @Component({
@@ -30,7 +31,7 @@ export class FreedomWallComponent implements OnInit {
   adminApproval = true; 
   pendingPosts: Post[] = []; 
   paginatedPosts: Post[] = []; 
-  currentPage = 1; 
+  currentPage = 0; 
   postsPerPage = 4; 
   totalPages = 1; 
   showManageWallModal = false; 
@@ -51,7 +52,7 @@ export class FreedomWallComponent implements OnInit {
         validators: [Validators.required]
       }]
     });
-    this.loadPendingPosts(); // for sample only
+    this.loadPendingPosts();
     this.updatePaginatedPosts();
   }
 
@@ -87,6 +88,7 @@ export class FreedomWallComponent implements OnInit {
       subject: this.freedomwallForm.value.newPostTitle,
       content: this.freedomwallForm.value.newPostText,
       background_color: this.getRandomColor(),
+      accessibility: 0, //Update to status
     };
     
     this.dataService.addPosts(newPost).subscribe((res: Response) => {
@@ -105,6 +107,7 @@ export class FreedomWallComponent implements OnInit {
         });
       }
       this.showPosts();
+      this.loadPendingPosts();
     })
 
     this.freedomwallForm.reset();
@@ -119,6 +122,7 @@ export class FreedomWallComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.freedomwallForm.reset();
   }
 
   openPost(post: Post) {
@@ -185,19 +189,12 @@ export class FreedomWallComponent implements OnInit {
   }
 
   loadPendingPosts() {
-    this.pendingPosts = [
-      { id: 1, subject: "Post 1", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 2, subject: "Post 2", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 3, subject: "Post 3", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 4, subject: "Post 4", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 5, subject: "Post 5", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 6, subject: "Post 6", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 7, subject: "Post 7", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 8, subject: "Post 8", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-      { id: 9, subject: "Post 9", content: "pls sana maapprove ni admin hahahahahaha pls sana maapprove ni admin hahahahahaha", background_color: '' },
-    ];
-    this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
-    this.updatePaginatedPosts();
+    this.dataService.getPostRequest().subscribe((posts: Post[]) => {
+      this.pendingPosts = posts;
+      this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
+      this.currentPage = 1;
+      this.updatePaginatedPosts();
+    });
   }
 
   updatePaginatedPosts() {
@@ -221,16 +218,49 @@ export class FreedomWallComponent implements OnInit {
   }
 
   approvePost(postId: number) {
-    console.log('Post approved:', postId);
-    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
-    this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
-    this.updatePaginatedPosts();
+    const post_id = { id: postId };
+    this.dataService.acceptPost(post_id).subscribe((res: Response)=>{
+      this.response =res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      console.log(this.response);
+      this.closeManageWallModal();
+      this.showPosts();
+      this.loadPendingPosts();
+    });
   }
 
   declinePost(postId: number) {
-    console.log('Post declined:', postId);
-    this.pendingPosts = this.pendingPosts.filter(post => post.id !== postId);
-    this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
-    this.updatePaginatedPosts();
+    const post_id = { id: postId };
+    this.dataService.declinePost(post_id).subscribe((res: Response)=>{
+      this.response =res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.closeManageWallModal();
+      this.showPosts();
+      this.loadPendingPosts();
+    });
   }
 }
