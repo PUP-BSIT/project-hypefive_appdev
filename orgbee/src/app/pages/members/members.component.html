@@ -137,7 +137,7 @@
           </div>
         </div>
       </div>
-      @if(isMemberAnOfficer(details[0]?.student_number)){
+      @if(!isMemberAnOfficer(details[0]?.student_number)){
         <ng-container>
           <button class="modal-button-officer" (click)="promoteToOfficer()">
             Promote to Officer
