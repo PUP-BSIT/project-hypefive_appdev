@@ -6,6 +6,7 @@ import { DataService } from '../../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
 
 import { Response } from '../../app.component';
+import { LoginService, UserInfo } from '../../../service/login.service';
 
 export interface Post {
   subject: string;
@@ -36,11 +37,13 @@ export class FreedomWallComponent implements OnInit {
   totalPages = 1; 
   showManageWallModal = false; 
 
+  userInfo: UserInfo;
+
   constructor(
     private dialog: MatDialog, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder, private loginService: LoginService) { }
     
   ngOnInit(): void {
     this.showPosts();
@@ -51,6 +54,9 @@ export class FreedomWallComponent implements OnInit {
       newPostText: ['', {
         validators: [Validators.required]
       }]
+    });
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userInfo = data;
     });
     this.loadPendingPosts();
     this.updatePaginatedPosts();
