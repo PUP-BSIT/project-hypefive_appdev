@@ -1,1 +1,106 @@
-<p>archive works!</p>
+<div class="archive-page">
+  <div class="container">
+    <div class="header">
+      <app-header [title]="'Archive'" [showImage]="false" [height]="'shorter-height'"></app-header>
+    </div>
+
+    <div class="row">
+      <div class="left-column">
+        <p>Events that have already ended will be viewed here</p>
+        <div class="month-year">
+          <p>{{ getCurrentMonthYear() }}</p>
+        </div>
+
+        <div class="page">
+          @for(event of events.slice(currentSlide, currentSlide + 3); track
+            events) {
+              <div class="archive-event" (click)="eventClick(event)">
+                <!-- Temporary -->
+                <img src="../../../assets/logo.png" />
+                <p>{{ event.event_name }}</p>
+              </div>
+          }
+        </div>
+
+        <div class="carousel-buttons">
+          <button class="carousel-button" (click)="moveLeft()">&#60;</button>
+          <span class="page-number">Page {{ currentSlide / 3 + 1 }}</span>
+          <button class="carousel-button" (click)="moveRight()">&#62;</button>
+        </div>
+      </div>
+
+      <div class="right-column">
+        <h2>Previous Events</h2>
+        <div id="search_container">
+          <form [formGroup]="searchArchive">
+            <input
+              type="text"
+              id="search_input"
+              placeholder="Search event title"
+              autocomplete="off"
+              formControlName="keyword"
+              (input)="seeResults()"
+              (blur)="exitSearch()"/>
+            @if(isSearchResult) {
+              <div class="search-results">
+                @if(response) {
+                  <div id="search_results">
+                    <li>{{ response.message }}</li>
+                  </div>
+                } @for(retrievedEvent of retrievedEvent; track retrievedEvent) {
+                  <div
+                    id="search_results"
+                    (mousedown)="searchClick(retrievedEvent)">
+                      <li>{{ retrievedEvent.event_name }}</li>
+                  </div>
+                }
+              </div>
+            }
+          </form>
+        </div>
+        <table class="event-list-title">
+          <tr>
+            <td>Event Title</td>
+            <td>Event Date</td>
+          </tr>
+        </table>
+        <div class="previous-events">
+          <table class="event-list">
+            @for(event of oldEvents; track oldEvents) {
+              <div class="event-list-table">
+                <div (click)="eventClick(event)">
+                  <td>{{ event.event_name }}</td>
+                  <td>{{ event.date }}</td>
+                </div>
+              </div>
+            }
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if(showEventModal) {
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      @for(detail of selectedEvent; track selectedEvent){
+        <div class="modal-event">
+          <!-- Temporary -->
+          <img src="../../../assets/logo.png" />
+        </div>
+        <div class="modal-details">
+          <h3>{{ detail.event_name }}</h3>
+          <p class="label">
+            Date: <span class="value">{{ detail.date }}</span>
+          </p>
+          <p class="label">
+            Location: <span class="value">{{ detail.location }}</span>
+          </p>
+          <p>{{ detail.caption }}</p>
+        </div>
+      }
+    </div>
+  </div>
+}

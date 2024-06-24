@@ -4,44 +4,33 @@ body {
   padding: 10px;
 }
 
+.freedomwall-page {
+  height:100%;
+  overflow-y: auto;
+  padding: 15px;
+}
+
 .top {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
 }
 
 .header {
-  padding: 40px;
-  margin: 10px;
-  background-color: #242424;
-  border-radius: 20px;
-  width: 100%;
-}
-
-.header h3,
-.header h1 {
-  margin: 0;
-}
-
-.header h1 {
-  font-size: 2em;
-  color: #eeeeed;
-}
-
-.header h3 {
-  color: #eeeeed;
+  width: 140%;
 }
 
 .button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .button-container img {
-  width: 10%;
-  height: 10%;
+  width: 15%;
+  height: 15%;
   border-radius: 50%;
   padding: 10px;
 }
@@ -49,13 +38,13 @@ body {
 .create-post-btn {
   display: flex;
   margin-bottom: 10px;
-  padding: 10px 20px;
   background-color: #ffca10;
   color: #242424;
   border: none;
   cursor: pointer;
   border-radius: 20px;
   align-items: center;
+  margin-top: 0;
 }
 
 .create-post-btn:hover {
@@ -131,9 +120,17 @@ body {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  margin: 7px;
-  width: 257px;
+  margin: 5px; 
+  width: calc((100% - 40px) / 4); 
+  min-width: 120px;
   max-height: 200px;
+}
+
+.masonry-container {
+  display: flex;
+  align-items: flex-start; 
+  margin-right: 20px;
+  justify-content: space-between; 
 }
 
 .masonry-item h4 {

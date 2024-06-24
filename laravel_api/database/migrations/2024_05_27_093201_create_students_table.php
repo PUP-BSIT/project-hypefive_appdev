@@ -13,12 +13,13 @@ return new class extends Migration {
             $table->id();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
-            $table->string('student_number', 15);
+            $table->string('student_number', 15)->unique();
             $table->date('birthday');
             $table->string('gender', 10);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('role_id')->default(1);
             $table->unsignedBigInteger('icon_id');
+            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');

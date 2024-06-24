@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
-  ValidatorFn, AbstractControl, 
+  ValidatorFn, AbstractControl, FormControl,
   ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { MustMatch } from './confirmed.validator';
+import { LoadingService } from '../../service/loading.service';
 
 interface ResponseData {
   status: number;
@@ -28,12 +29,17 @@ export class LoginComponent implements OnInit {
   data: ResponseData;
   token: string;
   showSignup = false;
+  isLoading = false;
+  loadingProgress = 0;
+
 
   constructor(
     private formBuilder: FormBuilder, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private router: Router) {}
+    private router: Router,
+    private route: ActivatedRoute,
+    private loadingService: LoadingService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -47,10 +53,10 @@ export class LoginComponent implements OnInit {
 
     this.signupForm = this.formBuilder.group({
       first_name: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, this.noNumbersValidator]
       }],
       last_name: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, this.noNumbersValidator]
       }],
       student_number: ['', {
         validators: [
@@ -78,6 +84,32 @@ export class LoginComponent implements OnInit {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
+
+    //TO DO: TAPISPISAN: Email authentication
+    // this.route.queryParams.subscribe(params => {
+    //   if (params['verified'] === '1') {
+    //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
+    //   } else if (params['verified'] === '0') {
+    //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
+    //   }
+    // });
+    this.loadingService.loading$.subscribe(isLoading => {
+      this.isLoading = isLoading;
+
+      // Optionally, simulate progress increment for demonstration
+      if (isLoading) {
+        this.loadingProgress = 0;
+        this.incrementProgress();
+      }
+    });
+  }
+  incrementProgress() {
+    const interval = setInterval(() => {
+      this.loadingProgress += 20;
+      if (this.loadingProgress >= 100) {
+        clearInterval(interval);
+      }
+    }, 200);
   }
 
   get emailControl() {
@@ -120,6 +152,11 @@ export class LoginComponent implements OnInit {
     return this.signupForm.get('confirmPassword');
   }
 
+  noNumbersValidator(control: FormControl) {
+    const containsNumbers = /[0-9]/.test(control.value);
+    return containsNumbers ? { containsNumbers: true } : null;
+  }
+
   maxAgeValidator(maxAge: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (control.value) {
@@ -152,20 +189,26 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (!this.loginForm.valid) return;
+    this.loadingService.show();
 
+    // Simulate async operation (replace with actual HTTP call)
+    setTimeout(() => {
+      // Hide loading indicator
+      this.loadingService.hide();
+    }, 2000); // Replace with actual HTTP call
     this.dataService.login(this.loginForm.value)
         .subscribe((res: ResponseData)=>{
       this.data = res;
-      
+      this.loadingService.hide();
       if (this.data.status === 1) {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-
         this.toastr.success(JSON.stringify(this.data.message), 
           JSON.stringify(this.data.code),{
             timeOut: 2000,
             progressBar:true
+
         });
       } else if (this.data.status === 0) {
         this.toastr.error(JSON.stringify(this.data.message), 
@@ -198,6 +241,7 @@ export class LoginComponent implements OnInit {
               timeOut: 2000,
               progressBar: true
           });
+          this.router.navigate(['./verify']);
         } else {
           this.toastr.error(JSON.stringify(this.data.message), 
             JSON.stringify(this.data.code),{
