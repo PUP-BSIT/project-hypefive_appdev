@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
             
             $table->foreign('account_status_id')->references('id')
-                ->on('account_status')->onDelete('CASCADE')
+                ->on('status')->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
 
         });
