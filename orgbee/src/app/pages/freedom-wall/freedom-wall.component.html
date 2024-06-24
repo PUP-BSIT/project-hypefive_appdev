@@ -9,8 +9,8 @@
         <img  [src]="userInfo?.icon_path" >
           Create an anonymous post</button>
       <div>
-        <button class="delete-post-btn">Delete Post</button>
-        <button class="manage-wall-btn">Manage Wall</button>
+        <button (click)="openRequestToDeleteModal()" class="delete-post-btn">Delete Post</button>
+        <button (click)="openManageWallModal()" class="manage-wall-btn">Manage Wall</button>
       </div>
     </div>
   </div>
@@ -82,16 +82,23 @@
       <div [ngClass]="getBackgroundColorClass(post)">
         <div class="post-header">
           <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
-          <div class="post-options">
-            <span class="three-dots" (click)="toggleOptions(post)">
-              &#x22EE;
-            </span>
-            <div class="dropdown-menu">
-              @if(post.showOptions) {
-                <button (click)="deletePost(post.id)">Delete</button>
-              }
+          
+            <div class="post-options">
+              <span class="three-dots" (click)="toggleOptions(post)">
+                &#x22EE;
+              </span>
+              <div class="dropdown-menu">
+                @if(post.showOptions) {
+                  @if(post.student_id ===userInfo.id){
+                    <button (click)="deletePost(post.id)">Delete</button>
+                  } @else {
+                    <button (click)="requestPostToDelete(post)">Request to delete</button>
+                  }
+                }
+              </div>
             </div>
-          </div>
+          
+          
         </div>
         <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
       </div>
@@ -112,6 +119,42 @@
       <div class="modal-body">
         <div class="post-cards-container">
           @for(post of paginatedPosts; track paginatedPosts) {
+            <div class="post-card">
+              <h4>{{ post.subject }}</h4>
+              <p>{{ post.content }}</p>
+              <div class="button-request">
+                <button (click)="approvePost(post.id)" class="accept-btn">
+                  Accept
+                </button>
+                <button (click)="declinePost(post.id)" class="decline-btn">
+                  Decline
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
+        <span>page {{ currentPage }}</span>
+        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if(showRequestToDeleteModal) {
+  <div class="manage-wall-modal">
+    <div class="manage-modal-content">
+      <span class="manage-close-btn" (click)="closeModal()">
+        &times;
+      </span>
+      <div class="modal-header">
+        <h4>Request to delete posts</h4>
+      </div>
+      <div class="modal-body">
+        <div class="post-cards-container">
+          @for(post of requestDelete; track requestDelete) {
             <div class="post-card">
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>

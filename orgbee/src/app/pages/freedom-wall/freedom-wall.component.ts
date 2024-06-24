@@ -14,7 +14,8 @@ export interface Post {
   background_color: string;
   showOptions?: boolean;
   id?: number; // for sample only
-  accessibility:number; //Update to status
+  post_status_id:number; //Update to status
+  student_id:number;
 }
 
 @Component({
@@ -94,7 +95,8 @@ export class FreedomWallComponent implements OnInit {
       subject: this.freedomwallForm.value.newPostTitle,
       content: this.freedomwallForm.value.newPostText,
       background_color: this.getRandomColor(),
-      accessibility: 0, //Update to status
+      post_status_id: 1, //Update to status
+      student_id:  Number(this.userInfo.id),
     };
     
     this.dataService.addPosts(newPost).subscribe((res: Response) => {
@@ -123,12 +125,14 @@ export class FreedomWallComponent implements OnInit {
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
+      console.log(this.posts);
     });
   }
 
   closeModal() {
     this.showModal = false;
     this.freedomwallForm.reset();
+    this.showRequestToDeleteModal = false;
   }
 
   openPost(post: Post) {
@@ -268,5 +272,14 @@ export class FreedomWallComponent implements OnInit {
       this.showPosts();
       this.loadPendingPosts();
     });
+  }
+
+  showRequestToDeleteModal=false;
+  openRequestToDeleteModal(){
+    this.showRequestToDeleteModal=true;
+  }
+requestDelete:Post[]=[];
+  requestPostToDelete(post:Post){
+    this.requestDelete.push(post);
   }
 }

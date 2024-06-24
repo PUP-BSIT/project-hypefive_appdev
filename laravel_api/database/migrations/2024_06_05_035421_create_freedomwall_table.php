@@ -19,11 +19,15 @@ return new class extends Migration
             $table->boolean('is_posted')->default(true);
             $table->unsignedBigInteger('post_status_id')->default(1);
             $table->string('background_color', 8);
+            $table->string('student_id'); //255
             $table->timestamps();
 
             $table->foreign('post_status_id')->references('id')
                 ->on('status')->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
+            // $table->foreign('student_id')->references('id')
+            //     ->on('students')->onDelete('CASCADE')
+            //     ->onUpdate('CASCADE');
         });
     }
 
