@@ -21,8 +21,6 @@ export class ForgotPassComponent {
   loading: boolean = false;
   errorMessage: string = '';
 
-  private authUrl = 'api/auth';
-
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -55,7 +53,7 @@ export class ForgotPassComponent {
   sendVerificationCode() {
     if (this.emailForm.valid) {
       this.loading = true;
-      const url = `${this.authUrl}/send-code`;
+      const url = `http://localhost:8000/api/auth/send-reset-link`;
       this.http
         .post<ApiResponse>(url, { email: this.emailForm.value.email })
         .subscribe({
@@ -79,9 +77,12 @@ export class ForgotPassComponent {
   verifyCode() {
     if (this.codeForm.valid) {
       this.loading = true;
-      const url = `${this.authUrl}/verify-code`;
+      const url = `http://localhost:8000/api/auth/verify-code`;
       this.http
-        .post<ApiResponse>(url, { code: this.codeForm.value.code })
+        .post<ApiResponse>(url, {
+          email: this.emailForm.value.email,
+          token: this.codeForm.value.code
+        })
         .subscribe({
           next: (response) => {
             if (response.success) {
@@ -103,10 +104,12 @@ export class ForgotPassComponent {
   updatePassword() {
     if (this.passwordForm.valid && !this.passwordForm.hasError('mismatch')) {
       this.loading = true;
-      const url = `${this.authUrl}/update-password`;
+      const url = `http://localhost:8000/api/auth/reset-password`;
       this.http
         .post<ApiResponse>(url, {
-          newPassword: this.passwordForm.value.newPassword,
+          email: this.emailForm.value.email,
+          password: this.passwordForm.value.newPassword,
+          password_confirmation: this.passwordForm.value.confirmPassword
         })
         .subscribe({
           next: (response) => {
@@ -125,6 +128,7 @@ export class ForgotPassComponent {
         });
     }
   }
+  
 
   redirectToLogin() {
     this.router.navigate(['/login']);
