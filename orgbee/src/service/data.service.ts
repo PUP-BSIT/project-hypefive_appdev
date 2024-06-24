@@ -100,4 +100,26 @@ export class DataService {
   getOldEvents() {
     return this.http.get(this.apiUrl +'api/getOldEvents/');
   }
+
+  searchArchive(data) {
+    return this.http.get(this.apiUrl +
+        `api/archive/search_archive?search_archive=${data}`);
+  }
+
+  searchMember(data) {
+    return this.http.get(this.apiUrl +
+      `api/member/search_member?search_member=${data}`);
+  }
+  
+  getPostRequest(){
+    return this.http.get(this.apiUrl +'api/getPostRequest/');
+  }
+
+  acceptPost(data){
+    return this.http.post(this.apiUrl +'api/acceptPost/', data);
+  }
+
+  declinePost(data) {
+    return this.http.post(this.apiUrl +'api/declinePost/', data);
+  }
 }

@@ -17,12 +17,17 @@ Route::post('/register', [\App\Http\Controllers\StudentsController::class,
 Route::post('/login', [\App\Http\Controllers\StudentsController::class, 
                                 'login'])->name('api.login');
 
+//Announcement CRUD
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
 Route::post('/announcements', [Announce::class, 'createAnnouncement']);
 Route::put('/announcements/{announcement}', [Announce::class, 'updateAnnouncement']);
 Route::delete('/announcements/{announcement}', [Announce::class, 'deleteAnnouncement']);
-                               
+                       
+//User Data
 Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', [\App\Http\Controllers\StudentsController::class, 'retrieve']);
+
+//Update Icon
+Route::put('students/update-icon', [\App\Http\Controllers\StudentsController::class, 'updateIcon']);
 
 //Members
 Route::get('/members', [\App\Http\Controllers\MembersController::class, 
@@ -107,6 +112,23 @@ Route::get('/getOldEvents',
         [\App\Http\Controllers\ArchiveController::class, 'getOldEvents'])
             ->name('api.getOldEvents');
 
+
 Route::post('auth/send-reset-link', [PasswordResetController::class, 'sendResetLinkEmail']);
 Route::post('auth/verify-code', [PasswordResetController::class, 'verifyToken']);
 Route::post('auth/reset-password', [PasswordResetController::class, 'reset']);
+
+Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::class, 
+                                'searchArchive'])->name('api.searchArchive');
+
+Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
+                                'searchMember'])->name('api.searchMember');
+
+Route::get('/getPostRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getPostRequest'])->name('api.getPostRequest'); 
+
+Route::post('/acceptPost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'acceptPost'])->name('api.acceptPost'); 
+
+Route::post('/declinePost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'declinePost'])->name('api.declinePost'); 
+
