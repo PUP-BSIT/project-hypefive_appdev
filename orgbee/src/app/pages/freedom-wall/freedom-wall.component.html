@@ -1,21 +1,19 @@
-<div class="top">
-  <div class="header">
-    <h3>Welcome to</h3>
-    <h1>Computer Society 2024 Freedom Wall</h1>
-  </div>
-
-  <div class="button-container">
-    <button class="create-post-btn" (click)="toggleModal()">
-      <img src="../../../assets/logo.png">
-        Create an anonymous post</button>
-    <div>
-      <button class="delete-post-btn">Delete Post</button>
-      <button (click)="openManageWallModal()" class="manage-wall-btn">
-        Manage Wall
-      </button>
+<div class="freedomwall-page">
+  <div class="top">
+    <div class="header">
+      <app-header [title]="'Computer Society Freedom Wall'" [orgName]="'Welcome to'" [showImage]="false" [height]="'short-height'"></app-header>
+    </div>
+  
+    <div class="button-container">
+      <button class="create-post-btn" (click)="toggleModal()">
+        <img  [src]="userInfo?.icon_path" >
+          Create an anonymous post</button>
+      <div>
+        <button class="delete-post-btn">Delete Post</button>
+        <button class="manage-wall-btn">Manage Wall</button>
+      </div>
     </div>
   </div>
-</div>
 
 @if(showModal) {
   <div class="modal">
