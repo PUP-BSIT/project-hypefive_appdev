@@ -340,3 +340,135 @@ body {
   background-color: #C2FDB2;
 }
 
+.manage-wall-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.manage-modal-content {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 800px; 
+  height: 78%; 
+  max-height: 90vh; 
+  border-radius: 5%;
+  position: relative; 
+}
+
+.manage-close-btn {
+  color: black;
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 2%;
+}
+
+.modal-body {
+  display: flex;
+  gap: 10px;
+}
+
+.post-cards-container {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  overflow-x: hidden; 
+  margin-left: 2%;
+}
+
+.post-card {
+  flex: 0 0 calc(50% - 20px); 
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px #eeeeed;
+  box-sizing: border-box; 
+  min-width: 300px; 
+  max-width: calc(50% - 20px); 
+}
+
+.button-request {
+  display: flex;
+  position: relative; 
+}
+
+.button-request::before {
+  content: '';
+  position: absolute;
+  top: 20;
+  left: 0;
+  width: 100%;
+  height: 1px; 
+  background-color: #ccc; 
+}
+
+.accept-btn {
+  flex: 1 0 25%; 
+  background-color: #ffca10;
+  color: black;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-right: 5%;
+  margin-top: 3%;
+  position: relative; 
+}
+
+.decline-btn {
+  flex: 2 0 5%; 
+  background-color: #242424;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-top: 3%;
+  position: relative; 
+}
+
+.modal-footer {
+  background-color: #eeeeed;
+  width: 22%;
+  display: block; 
+  margin: 0 auto; 
+  text-align: center; 
+  border-radius: 10px;
+  margin-top: 3%;
+  position: sticky; 
+  bottom: 0; 
+}
+
+.pagination-btn {
+  margin-left: 7%;
+  margin-right: 7%;
+  padding: 10px;
+  background-color: #eeeeed;
+  border-color: transparent;
+  cursor: pointer;
+}

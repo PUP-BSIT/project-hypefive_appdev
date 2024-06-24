@@ -116,3 +116,12 @@ Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::c
 
 Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
                                 'searchMember'])->name('api.searchMember');
+
+Route::get('/getPostRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getPostRequest'])->name('api.getPostRequest'); 
+
+Route::post('/acceptPost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'acceptPost'])->name('api.acceptPost'); 
+
+Route::post('/declinePost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'declinePost'])->name('api.declinePost'); 

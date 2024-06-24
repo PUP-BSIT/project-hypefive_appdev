@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl }
-   from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
-import { LoginService, UserInfo } from '../../../service/login.service';
+
 import { Response } from '../../app.component';
 
 export interface Post {
@@ -13,6 +12,8 @@ export interface Post {
   content: string;
   background_color: string;
   showOptions?: boolean;
+  id?: number; // for sample only
+  accessibility:number; //Update to status
 }
 
 @Component({
@@ -27,14 +28,19 @@ export class FreedomWallComponent implements OnInit {
   selectedPost: Post;
   freedomwallForm: FormGroup;
   response: Response;
-  userInfo: UserInfo;
+  adminApproval = true; 
+  pendingPosts: Post[] = []; 
+  paginatedPosts: Post[] = []; 
+  currentPage = 0; 
+  postsPerPage = 4; 
+  totalPages = 1; 
+  showManageWallModal = false; 
 
   constructor(
     private dialog: MatDialog, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private fb: FormBuilder,
-  private loginService: LoginService) { }
+    private fb: FormBuilder) { }
     
   ngOnInit(): void {
     this.showPosts();
@@ -46,9 +52,8 @@ export class FreedomWallComponent implements OnInit {
         validators: [Validators.required]
       }]
     });
-    this.loginService.onDataRetrieved((data: UserInfo) => {
-      this.userInfo = data;
-    });
+    this.loadPendingPosts();
+    this.updatePaginatedPosts();
   }
 
   updateTitleCharacterCount(): void {
@@ -83,24 +88,26 @@ export class FreedomWallComponent implements OnInit {
       subject: this.freedomwallForm.value.newPostTitle,
       content: this.freedomwallForm.value.newPostText,
       background_color: this.getRandomColor(),
+      accessibility: 0, //Update to status
     };
     
     this.dataService.addPosts(newPost).subscribe((res: Response) => {
       this.response = res;
-      if (this.response.code===200) {
+      if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast success'
         });
       } else {
-        this.toastr.error(JSON.stringify(this.response.message),'', {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast error'
         });
       }
       this.showPosts();
+      this.loadPendingPosts();
     })
 
     this.freedomwallForm.reset();
@@ -109,12 +116,13 @@ export class FreedomWallComponent implements OnInit {
 
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
-      this.posts=posts;
-    })
+      this.posts = posts;
+    });
   }
 
-  closeModal(){
+  closeModal() {
     this.showModal = false;
+    this.freedomwallForm.reset();
   }
 
   openPost(post: Post) {
@@ -129,8 +137,7 @@ export class FreedomWallComponent implements OnInit {
   }
 
   getBackgroundColorClass(post: Post): string[] {
-    const colorClass = 
-      `background-color-class-${this.getColorIndex(post.background_color)}`;
+    const colorClass = `background-color-class-${this.getColorIndex(post.background_color)}`;
     return [colorClass];
   }
   
@@ -153,23 +160,107 @@ export class FreedomWallComponent implements OnInit {
   }
 
   deletePost(id: number) {
-    const post_id ={id: id};
+    const post_id = { id: id };
     this.dataService.deletePosts(post_id).subscribe((res: Response) => {
-      this.response=res;
-      if (this.response.code===200) {
+      this.response = res;
+      if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast success'
         });
       } else {
         this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast error'
         });
       }
       this.showPosts();
+    });
+  }
+
+  openManageWallModal() {
+    this.showManageWallModal = true;
+  }
+
+  closeManageWallModal() {
+    this.showManageWallModal = false;
+  }
+
+  loadPendingPosts() {
+    this.dataService.getPostRequest().subscribe((posts: Post[]) => {
+      this.pendingPosts = posts;
+      this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
+      this.currentPage = 1;
+      this.updatePaginatedPosts();
+    });
+  }
+
+  updatePaginatedPosts() {
+    const startIndex = (this.currentPage - 1) * this.postsPerPage;
+    const endIndex = startIndex + this.postsPerPage;
+    this.paginatedPosts = this.pendingPosts.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedPosts();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedPosts();
+    }
+  }
+
+  approvePost(postId: number) {
+    const post_id = { id: postId };
+    this.dataService.acceptPost(post_id).subscribe((res: Response)=>{
+      this.response =res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      console.log(this.response);
+      this.closeManageWallModal();
+      this.showPosts();
+      this.loadPendingPosts();
+    });
+  }
+
+  declinePost(postId: number) {
+    const post_id = { id: postId };
+    this.dataService.declinePost(post_id).subscribe((res: Response)=>{
+      this.response =res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.closeManageWallModal();
+      this.showPosts();
+      this.loadPendingPosts();
     });
   }
 }

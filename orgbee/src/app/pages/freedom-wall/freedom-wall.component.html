@@ -1,43 +1,20 @@
-<div class="freedomwall-page">
 <div class="top">
   <div class="header">
-    <app-header [title]="'Computer Society Freedom Wall'" [orgName]="'Welcome to'" [showImage]="false" [height]="'short-height'"></app-header>
+    <h3>Welcome to</h3>
+    <h1>Computer Society 2024 Freedom Wall</h1>
   </div>
 
   <div class="button-container">
     <button class="create-post-btn" (click)="toggleModal()">
-      <img  [src]="userInfo?.icon_path" >
+      <img src="../../../assets/logo.png">
         Create an anonymous post</button>
     <div>
       <button class="delete-post-btn">Delete Post</button>
-      <button class="manage-wall-btn">Manage Wall</button>
+      <button (click)="openManageWallModal()" class="manage-wall-btn">
+        Manage Wall
+      </button>
     </div>
   </div>
-</div>
-
-
-<ngx-masonry class="masonry-container">
-  @for(post of posts; track posts) {
-    <div ngxMasonryItem class="masonry-item">
-      <div [ngClass]="getBackgroundColorClass(post)">
-        <div class="post-header">
-          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
-          <div class="post-options">
-            <span class="three-dots" (click)="toggleOptions(post)">
-              &#x22EE;
-            </span>
-            <div class="dropdown-menu">
-              @if(post.showOptions) {
-                <button (click)="deletePost(post.id)">Delete</button>
-              }
-            </div>
-          </div>
-        </div>
-        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
-      </div>
-    </div>
-  }
-</ngx-masonry>
 </div>
 
 @if(showModal) {
@@ -101,4 +78,62 @@
   </div>
 }
 
+<ngx-masonry>
+  @for(post of posts; track posts) {
+    <div ngxMasonryItem class="masonry-item">
+      <div [ngClass]="getBackgroundColorClass(post)">
+        <div class="post-header">
+          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
+          <div class="post-options">
+            <span class="three-dots" (click)="toggleOptions(post)">
+              &#x22EE;
+            </span>
+            <div class="dropdown-menu">
+              @if(post.showOptions) {
+                <button (click)="deletePost(post.id)">Delete</button>
+              }
+            </div>
+          </div>
+        </div>
+        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
+      </div>
+    </div>
+  }
+</ngx-masonry>
 
+<!-- Manage Wall Modal -->
+@if(showManageWallModal) {
+  <div class="manage-wall-modal">
+    <div class="manage-modal-content">
+      <span class="manage-close-btn" (click)="closeManageWallModal()">
+        &times;
+      </span>
+      <div class="modal-header">
+        <h4>pending post approval</h4>
+      </div>
+      <div class="modal-body">
+        <div class="post-cards-container">
+          @for(post of paginatedPosts; track paginatedPosts) {
+            <div class="post-card">
+              <h4>{{ post.subject }}</h4>
+              <p>{{ post.content }}</p>
+              <div class="button-request">
+                <button (click)="approvePost(post.id)" class="accept-btn">
+                  Accept
+                </button>
+                <button (click)="declinePost(post.id)" class="decline-btn">
+                  Decline
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
+        <span>page {{ currentPage }}</span>
+        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
+      </div>
+    </div>
+  </div>
+}
