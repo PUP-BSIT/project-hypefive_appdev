@@ -252,15 +252,30 @@ button:hover {
   max-width: 30%; 
   height: auto; 
   border-radius: 10px; 
-  margin-bottom: 15px; 
+  margin: 0%;
+}
+
+.event-preview h3 {
+  font-size: 14px; 
+  margin: 1px 0; 
+  color: #333; 
 }
 
 .event-preview p {
-  font-size: 16px; 
+  font-size: 12px; 
   margin: 5px 0; 
   color: #666; 
   word-wrap: break-word; 
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word;
+}
+
+#preview_caption {
+  font-size: 12px; 
+  margin: 5px 0; 
+  color: #666; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  text-align: left;
 }
 
 .back-btn {

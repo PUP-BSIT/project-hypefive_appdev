@@ -222,7 +222,10 @@
       @if(currentStep === 3){
         <div class="event-preview">
           <img src="../../../assets/icon.jpg" alt="Event Poster"/>
-          <p>{{ eventForm.get('caption').value }}</p>
+          <h3>{{ eventForm.get('event_name').value }}</h3>
+          <p>{{ eventForm.get('location').value }}</p>
+          <p>{{ eventForm.get('date').value | date }}</p>
+          <p id="preview_caption">{{ eventForm.get('caption').value }}</p>
         </div>
         <div class="button-container">
           <button 
@@ -384,6 +387,9 @@
       @if(currentStep === 3){
         <div class="event-preview">
           <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <h3>{{ eventForm.get('event_name').value }}</h3>
+          <p>{{ eventForm.get('location').value }}</p>
+          <p>{{ eventForm.get('date').value | date }}</p>
           <p>{{ eventForm.get('caption').value }}</p>
         </div>
         <div class="button-container">
