@@ -162,3 +162,23 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.unregister-btn {
+  background-color: #b4b4b4;
+  color: #262626;
+  border: none;
+  margin-top: 5%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.unregister-btn:hover {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.full-reg {
+  color: red;
+  margin-top: 10px;
+}

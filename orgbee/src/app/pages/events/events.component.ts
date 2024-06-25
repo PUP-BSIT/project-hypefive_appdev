@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DataService } from '../../../service/data.service';
 
-interface Event {
+import { Member } from '../members/members.component';
+
+export interface Event {
   id: number;
   event_name: string; 
   location: string; 
@@ -17,6 +19,7 @@ interface Event {
   poster_loc: any; 
   event_status_id: number;
   event_state_id: number;
+  reg_count:number;
 }
 
 // interface Member {
@@ -52,6 +55,8 @@ export class EventsComponent implements OnInit {
   imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   file: any;
   editModalTab:string;
+
+  members: Member[] = [];
   constructor(private formBuilder: FormBuilder,
     private dataService: DataService) {}
 
@@ -68,7 +73,7 @@ export class EventsComponent implements OnInit {
       registration_fee: [{ value: '0', disabled: true }, 
         {validators: [Validators.required],}],
       max_attendees: ['', 
-        {validators: [Validators.required, Validators.min(10)],}], 
+        {validators: [Validators.required, Validators.min(1)],}], 
       caption: ['',
         {validators: [Validators.required,  Validators.maxLength(300)],}], 
       
@@ -100,12 +105,12 @@ export class EventsComponent implements OnInit {
   }
 
   //for sample of registered members only
-  members = [
-    { name: 'John Doe', photo: '../../../assets/icon.jpg' },
-    { name: 'Jane Doe', photo: '../../../assets/icon.jpg' },
-    { name: 'Jane Dee', photo: '../../../assets/icon.jpg' },
-    // Add more members as needed
-  ];
+  // members = [
+  //   { name: 'John Doe', photo: '../../../assets/icon.jpg' },
+  //   { name: 'Jane Doe', photo: '../../../assets/icon.jpg' },
+  //   { name: 'Jane Dee', photo: '../../../assets/icon.jpg' },
+  //   // Add more members as needed
+  // ];
 
   get event_name() {
     return this.eventForm.get('event_name');
@@ -150,6 +155,7 @@ export class EventsComponent implements OnInit {
 
   openManageModal(event: Event): void {
     this.selectedEvent = event;
+    this.getRegisteredMembers();
     this.isManageModalVisible = true;
     if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1 ) {
       this.showModalUpcoming = true;
@@ -174,6 +180,7 @@ export class EventsComponent implements OnInit {
 
   closeManageModal(): void {
     this.isManageModalVisible = false;
+    this.members = [];
   }
 
   publishDraft(event:Event) {
@@ -364,5 +371,12 @@ export class EventsComponent implements OnInit {
       this.currentStep = 0;
       this.eventForm.reset();
     }
+  }
+
+  getRegisteredMembers (){
+    this.dataService.getRegisteredMembers(this.selectedEvent.id).subscribe((res: Member[])=>{
+      this.members = res;
+      console.log(this.members);
+    })
   }
 }
