@@ -468,7 +468,10 @@
       <h3>{{ event.event_name }}</h3>
       <p> {{ event.location }} </p>
       <p> {{ event.date }} </p>
-      <p id="reg_fee">PHP {{ event.registration_fee }} .00</p>
+      <p id="reg_fee">
+        {{ event.registration_fee === 0 ? 
+           'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
+      </p>
     </div>
     <div class="manage-container">
       <div class="manage-info">
