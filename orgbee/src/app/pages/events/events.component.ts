@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DataService } from '../../../service/data.service';
 
-interface Event {
+export interface Event {
   id: number;
   event_name: string; 
   location: string; 
@@ -17,6 +17,7 @@ interface Event {
   poster_loc: any; 
   event_status_id: number;
   event_state_id: number;
+  reg_count:number;
 }
 
 // interface Member {
@@ -68,7 +69,7 @@ export class EventsComponent implements OnInit {
       registration_fee: [{ value: '0', disabled: true }, 
         {validators: [Validators.required],}],
       max_attendees: ['', 
-        {validators: [Validators.required, Validators.min(10)],}], 
+        {validators: [Validators.required, Validators.min(1)],}], 
       caption: ['',
         {validators: [Validators.required,  Validators.maxLength(300)],}], 
       
