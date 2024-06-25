@@ -168,6 +168,13 @@ button:hover {
   color: red;
 }
 
+.forgot-pass {
+  color: inherit; /* or color: black; to remove any inherited color */
+  text-decoration: none; /* to remove underline if any */
+  margin-bottom: 35px;
+  font-size: 12px;
+}
+
 @media (max-width: 480px) {
   .container {
     justify-content: center;

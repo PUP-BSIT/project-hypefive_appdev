@@ -1,127 +1,65 @@
-.below-header {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .data-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 8px;
-    width: 25%;
-    margin: 0px;
-  }
+.data-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  margin-top: 15px;
+  align-items: stretch; /* Ensure all .data items have the same height */
+}
 
-  
 .data {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fcfcfc;
-    border: 1px solid rgb(210, 210, 210);
-    width: calc(100% - 10px); 
-    padding: 10px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    text-align: center;
-    height: 25%;
-  }
-  
-  .data-people-icon mat-icon {
-    font-size: 20px;
-    color: #ffca10;
-    }
-  
-  .data-people-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35px;
-    height: 35px;
-    background-color: #fffbd8;
-    border-radius: 50%;
-  }
-  
-  .data-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-left: 20px;
-  }
-  
-  .data-number {
-    color: #ffca10;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .data-text {
-    font-size: 10px;
-    color: #666;
-    margin: 0;
-  }
-  
-  .event-container {
-    display: flex;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 20px;
-    width: 70%;
-    height: 50%;
-    margin: 0px;
-  }
-  
-  .date {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30%;
-    border-right: 1px solid #e0e0e0;
-    padding-right: 20px;
-  }
-  
-  .day {
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 20px;
-    letter-spacing: 1px;
-    color:#3f3f3f;
-    text-transform: lowercase;
-  }
-  
-  .date-number {
-    font-size: 75px;
-    font-weight: 500;
-    color:#3f3f3f;
-    margin: 0px;
-  }
-  
-  .events {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 70%; 
-    padding-left: 20px;
-    flex-shrink: 1; 
-    overflow: hidden;
-  }
-  
-  .event {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-  }
-  
-  .event-name,
-  .event-time {
-    font-size: 10px;
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    color:#333;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fcfcfc;
+  border: 1px solid #ebebeb;
+  flex: 1; /* Ensure equal width for all .data containers */
+  padding: 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.data-people-icon mat-icon {
+  font-size: 20px;
+  color: #ffca10;
+}
+
+.data-people-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  background-color: #fffbd8;
+  border-radius: 50%;
+  margin-bottom: 8px; /* Add some spacing below the icon */
+}
+
+.data-details {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 0; /* Remove margin-left to center align content */
+}
+
+.data-number {
+  color: #ffca10;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.data-text {
+  font-size: 10px;
+  color: #666;
+  margin: 0;
+}
+
+.data-text {
+  font-size: 10px;
+  color: #666;
+  margin: 0;
+}
+
