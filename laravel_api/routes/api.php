@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Announce;
+use App\Http\Controllers\PasswordResetController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -110,6 +111,11 @@ Route::get('/getYearlyEvents',
 Route::get('/getOldEvents', 
         [\App\Http\Controllers\ArchiveController::class, 'getOldEvents'])
             ->name('api.getOldEvents');
+
+
+Route::post('auth/send-reset-link', [PasswordResetController::class, 'sendResetLinkEmail']);
+Route::post('auth/verify-code', [PasswordResetController::class, 'verifyToken']);
+Route::post('auth/reset-password', [PasswordResetController::class, 'reset']);
 
 Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::class, 
                                 'searchArchive'])->name('api.searchArchive');
