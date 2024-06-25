@@ -27,7 +27,7 @@ app-header {
   background-color: #f4f4f4;
   color: #242424;
   border: none;
-  padding: 0 8%; /* Adjust padding as per your design */
+  padding: 0 8%; 
   font-size: 15px;
   cursor: pointer;
   border-radius: 10px;
@@ -38,7 +38,7 @@ app-header {
 }
 
 .create-event mat-icon {
-  color: #ffca10; /* Yellow color for icon */
+  color: #ffca10; 
   margin-right: 10px;
   font-size: 24px;
 }
@@ -241,20 +241,59 @@ button:hover {
   background-color: #e0ac00;
 }
 
+.event-preview {
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
+  padding: 20px; 
+  margin: 30px 0; 
+  background-color: #f9f9f9; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  text-align: center; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}
+
+.event-preview img {
+  max-width: 30%; 
+  height: auto; 
+  border-radius: 10px; 
+  margin: 0%;
+}
+
+.event-preview h3 {
+  font-size: 14px; 
+  margin: 1px 0; 
+  color: #333; 
+}
+
+.event-preview p {
+  font-size: 12px; 
+  margin: 5px 0; 
+  color: #666; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+}
+
+#preview_caption {
+  font-size: 12px; 
+  margin: 5px 0; 
+  color: #666; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
 .back-btn {
   background-color: #888;
   color: #fff;
-  margin-top: 70%;
 }
 
 .save-draft-btn {
   background-color: #3b2e006a;
   color: #fff;
-  margin-top: 70%;
 }
 
 .publish-btn {
-  margin-top: 70%;
   background-color: #ffca10;
 }
 
@@ -351,6 +390,31 @@ button:hover {
   display: inline-block;
 }
 
+.manage-container {
+  text-align: center;
+  margin-top: 8%;
+}
+
+.manage-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-right: 20%;
+  margin-left: -10%;
+}
+
+.registered-icon {
+  width: 20px; 
+  height: auto;
+  margin-right: 5%;
+}
+
+.registered-text {
+  font-size: 14px; 
+  color: #333;
+}
+
 .manage-button {
   flex: 1;
   background-color: #ffca10;
@@ -358,7 +422,6 @@ button:hover {
   border: none;
   padding: 10px 25px;
   border-radius: 10px;
-  margin-top: 100%;
   margin-left: -20%;
   cursor: pointer;
 }
@@ -449,6 +512,31 @@ button:hover {
   padding: 2%;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+.members-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  width: 48%;
+  margin-bottom: 10px;
+}
+
+.member-photo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.member-name {
+  font-size: 16px;
+  color: #333;
 }
 
 .manage-modal.visible {

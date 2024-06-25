@@ -17,10 +17,16 @@ return new class extends Migration
             $table->string('content', 500);
             //By default, the post is POSTED
             $table->boolean('is_posted')->default(true);
-            //By default, the freedomwall is ACCESSIBLE
-            $table->boolean('accessibility')->default(true);
+            $table->unsignedBigInteger('post_status_id')->default(1);
             $table->string('background_color', 8);
+            $table->string('student_id', 255);
+            $table->boolean('is_deletion_requested')->default(false);
+            $table->integer('deletion_req_count')->default(0);
             $table->timestamps();
+
+            $table->foreign('post_status_id')->references('id')
+                ->on('status')->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
         });
     }
 
