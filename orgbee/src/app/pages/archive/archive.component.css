@@ -263,3 +263,36 @@ body {
     object-fit:cover;
     aspect-ratio: 3 / 4; 
 }
+
+@media (max-width: 766px) {
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-column {
+    order: 1;
+  }
+
+  .right-column {
+    order: 2;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-event {
+    order: 1;
+    text-align: center;
+  }
+
+  .modal-event img {
+    width: 40%;
+  }
+
+  .modal-details {
+    order: 2;
+  }
+}
