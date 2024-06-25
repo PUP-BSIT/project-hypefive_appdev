@@ -220,6 +220,10 @@
 
       <!-- Final Buttons -->
       @if(currentStep === 3){
+        <div class="event-preview">
+          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <p>{{ eventForm.get('caption').value }}</p>
+        </div>
         <div class="button-container">
           <button 
             type="button" 
@@ -378,6 +382,10 @@
 
       <!-- Final Buttons -->
       @if(currentStep === 3){
+        <div class="event-preview">
+          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <p>{{ eventForm.get('caption').value }}</p>
+        </div>
         <div class="button-container">
           <button 
             type="button" 
@@ -453,9 +461,14 @@
       <h3>{{ event.event_name }}</h3>
       <p> {{ event.location }} </p>
       <p> {{ event.date }} </p>
-      <p id="reg_fee">Fee: {{ event.registration_fee }} php </p>
+      <p id="reg_fee">PHP {{ event.registration_fee }} .00</p>
     </div>
-    <div>
+    <div class="manage-container">
+      <div class="manage-info">
+        <img src="../../../assets/person.png"  
+          alt="registered icon" class="registered-icon">
+        <span class="registered-text">11 registered</span>
+      </div>
       <button 
         class="manage-button" 
         (click)="openManageModal(event)">
@@ -513,13 +526,24 @@
       <div class="manage-members">
         <span class="close" (click)="closeManageModal()">&times;</span>
         <h3>Registered Members</h3>
-        <ul>
-          <!-- TODO: VILLA-VILLA: Get the registered members per event -->
+        <div class="members-list">
+          @for(member of members; track members){
+            <div class="member">
+              <img [src]="member.photo" 
+                alt="{{member.name}}" 
+                class="member-photo">
+              <span class="member-name">{{member.name}}</span>
+            </div>
+          }
+          
+        </div>
+        <!-- <ul>
+          TODO: VILLA-VILLA: Get the registered members per event -->
           <!-- @for(member of selectedEvent?.registeredMembers; track selectedEvent)
           {
             <li> {{ member.name }} </li>
-          } -->
-        </ul>
+          }
+        </ul> -->
       </div>
     </div>
   </div>

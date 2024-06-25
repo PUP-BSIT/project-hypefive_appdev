@@ -99,6 +99,14 @@ export class EventsComponent implements OnInit {
     return null;
   }
 
+  //for sample of registered members only
+  members = [
+    { name: 'John Doe', photo: '../../../assets/icon.jpg' },
+    { name: 'Jane Doe', photo: '../../../assets/icon.jpg' },
+    { name: 'Jane Dee', photo: '../../../assets/icon.jpg' },
+    // Add more members as needed
+  ];
+
   get event_name() {
     return this.eventForm.get('event_name');
   }
