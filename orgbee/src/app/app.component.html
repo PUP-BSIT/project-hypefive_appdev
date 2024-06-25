@@ -2,5 +2,7 @@
   @if(isLoggedIn()){
     <app-sidebar></app-sidebar>
   }
-  <app-display></app-display>
+  <div class="content-display">
+    <router-outlet></router-outlet>
+  </div>
 </div>

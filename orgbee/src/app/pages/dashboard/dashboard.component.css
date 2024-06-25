@@ -3,6 +3,7 @@
   flex-direction: column;
   overflow-y: auto;
   height: 100%;
+  padding: 15px;
 }
 
 .main {
@@ -10,6 +11,11 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+
+.container {
+  flex:1;
+  height: 100%;
 }
 
 app-homepage-events {
@@ -34,76 +40,13 @@ height: 100%;
   height: 100%;
 }
 
-.dashboard-header.officer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid rgb(25, 25, 60);
-  border-radius: 10px;
-  padding: 20px;
-  background-color: rgb(25, 25, 60);
-  height: 110px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.dashboard-header.student {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid rgb(48, 33, 1); 
-  border-radius: 10px;
-  padding: 20px;
-  background-color: rgb(48, 33, 1); 
-  height: 110px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.dashboard-header.admin {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid  rgb(47, 47, 47); 
-  border-radius: 10px;
-  padding: 20px;
-  background-color:  rgb(47, 47, 47); 
-  height: 110px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.org-icon {
-  height: 100%;
-  border-radius: 100px;
-  margin-left: 0px;
-}
-
-.org-name {
-  margin-top: 0px;
-  font-weight: 200;
-  color: #ffca10;
-  font-size: 22px;
-}
-
-.user-name {
-  margin-right: auto;
-  color: #e9e8e8;
-  font-weight: 600;
-}
-
-.container {
-  height: 100%;
-  margin-right: 20px;
-}
-
 .profile-container {
+  flex: 1;
   position: relative;
   background-color: #3b2e006a;
   padding: 20px;
   border-radius: 10px;
-  width: 310px;
-  height: 190px;
+  height: 180px;
 }
 
 .profile-container .my-profile {
@@ -196,17 +139,17 @@ height: 100%;
 }
 
 .announcement-container {
+  flex: 1;
   position: relative;
   background-color: #f8f8f8;
   padding: 0px 20px 0px;
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 310px;
-  height: 52%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  height: 360px;
 }
 
 .announcement-content {
@@ -222,11 +165,8 @@ height: 100%;
   font-size: 12px;
   display: flex;
   justify-content: center;
-  position: sticky;
-  top: 0;
   background-color: #f8f8f8;
   padding: 10px 0;
-  z-index: 1;
 }
 
 .announcement {
@@ -336,6 +276,7 @@ height: 100%;
   margin-bottom: 10px;
   font-weight: 500;
 }
+
 .modal-content .details {
  margin-top: 0px;
  font-size: 10px;
@@ -620,5 +561,76 @@ mat-card-title {
   margin-right: 5px; 
   margin-top: 5px;
   font-size: 16px; 
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.tabs-and-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  background-color: #f8f8f8;
+  z-index: 1;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border-bottom: solid transparent; 
+  border-radius: 5px 5px 0 0;
+  border: none; 
+  font-family: 'Outfit';
+  font-size: 12px;
+  margin-top: 0;
+}
+
+.tab.active {
+  border-bottom: solid #ffca10;
+}
+
+.tab:hover {
+  background-color: #e0e0e0; 
+}
+
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-family: 'Outfit';
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.for-calendar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+app-calendar {
+  flex: 1;
+}
+
+app-admin-today {
+  flex:1;
+  width: 100%;
 }
 

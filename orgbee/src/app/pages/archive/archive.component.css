@@ -3,8 +3,9 @@ body {
 }
 
 .archive-page {
-  margin-top: 0px;
-  padding-top: 0%;
+  padding: 15px;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .container {
@@ -13,12 +14,8 @@ body {
 }
 
 .header {
-  display: flex;
-  padding: 10px;
-  background-color: #242424;
   border-bottom: 1px solid #ddd;
-  border-radius: 20px;
-  margin-right: 20px;
+  border-radius: 10px;
   flex-shrink: 0;
 }
 
@@ -48,7 +45,6 @@ body {
   box-sizing: border-box;
   background-color: #eeeeed;
   margin-top: 2%;
-  margin-right: 20px;
   border-radius: 20px;
   height: 80vh;
   text-align: center;
@@ -266,4 +262,37 @@ body {
     height: auto;
     object-fit:cover;
     aspect-ratio: 3 / 4; 
+}
+
+@media (max-width: 766px) {
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-column {
+    order: 1;
+  }
+
+  .right-column {
+    order: 2;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-event {
+    order: 1;
+    text-align: center;
+  }
+
+  .modal-event img {
+    width: 40%;
+  }
+
+  .modal-details {
+    order: 2;
+  }
 }

@@ -13,7 +13,6 @@ import { EventsComponent } from './pages/events/events.component';
 import { FreedomWallComponent } 
   from './pages/freedom-wall/freedom-wall.component';
 import { MembersComponent } from './pages/members/members.component';
-import { DisplayComponent } from './display/display.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
@@ -51,6 +50,16 @@ import { DatePipe } from '@angular/common';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
 import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
+import { HeaderComponent } from './header/header.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { CalendarComponent } from './pages/dashboard/calendar/calendar.component'; 
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarDateFormatter } from 'angular-calendar';
+import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
+import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +70,6 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     FreedomWallComponent,
     PostDialogComponent,
     MembersComponent,
-    DisplayComponent,
     SidebarComponent,
     ArchiveComponent,
     AnModalComponent,
@@ -70,7 +78,12 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     VerifyComponent,
     HomepageEventsComponent,
     AdminDataComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    HeaderComponent,
+    ConfirmationDialogComponent,
+    CalendarComponent,
+    AdminTodayComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -89,13 +102,19 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     NgxMasonryModule,
     MatDialogModule,
     FormsModule,
+    MatProgressBarModule,
+   MatProgressSpinnerModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
           return localStorage.getItem('token');
         }
       }
-    })
+    }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     AuthGuard,
@@ -103,7 +122,8 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
     LoginService,
     AnnouncementService,  
     provideAnimationsAsync(),  
-    DatePipe
+    DatePipe,
+    {provide: CalendarDateFormatter, useClass: CustomDateFormatter}
   ],
   bootstrap: [AppComponent]
 })

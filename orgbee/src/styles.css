@@ -1,5 +1,4 @@
-/* src/styles.css */
-
+@import "calendar.css";
 @font-face {
   font-family: "Outfit";
   src: url("/assets/fonts/Outfit-Regular.ttf") format("truetype");
@@ -41,3 +40,16 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: "Outfit", "Helvetica Neue", sans-serif; }
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 20px;
+}
+
+:root {
+  --primary-color: #ffca10;
+}
+
+.mat-mdc-progress-spinner { --mdc-circular-progress-active-indicator-color: #ffca10; }
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #ffca10;
+}

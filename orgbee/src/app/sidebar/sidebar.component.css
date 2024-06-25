@@ -28,14 +28,6 @@ body {
   background-color: rgb(47, 47, 47);
 }
 
-#nav_bar hr {
-  margin: 0;
-  position: relative;
-  left: 16px;
-  width: calc(100% - 32px);
-  border: none;
-}
-
 #nav_content {
   margin-top: 20px;
   padding: 16px 0;
@@ -206,12 +198,12 @@ body {
     height: 70px;
     width: 100%;
     color: #ffca10;
+    border-radius: 20px 20px 0 0; 
     background-color: transparent;
     display: flex;
     justify-content: space-around;
     align-items: center;
     z-index: 1000;
-    margin-bottom: 20px;
   }
 
   #nav_content {
@@ -223,6 +215,7 @@ body {
     padding: 0;
     margin: 0;
     box-shadow: none;
+    overflow-y: hidden;
   }
 
   .logo{

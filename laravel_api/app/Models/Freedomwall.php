@@ -11,4 +11,8 @@ class Freedomwall extends Model
         'subject', 
         'content'
     ];
+
+    public function post_status() {
+      return $this->hasOne(Status::class, 'post_status_id', 'id');
+  }
 }

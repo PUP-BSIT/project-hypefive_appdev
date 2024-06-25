@@ -110,4 +110,36 @@ export class DataService {
     return this.http.get(this.apiUrl +
       `api/member/search_member?search_member=${data}`);
   }
+
+  registerEvent(data) {
+    return this.http.post(this.apiUrl +'api/registerEvent/', data);
+  }
+
+  checkRegistration(data){
+    return this.http.post(this.apiUrl +'api/checkRegistration/', data);
+  }
+    
+  getPostRequest(){
+    return this.http.get(this.apiUrl +'api/getPostRequest/');
+  }
+
+  acceptPost(data){
+    return this.http.post(this.apiUrl +'api/acceptPost/', data);
+  }
+
+  declinePost(data) {
+    return this.http.post(this.apiUrl +'api/declinePost/', data);
+  }
+
+  getDeletionRequests(){
+    return this.http.get(this.apiUrl +'api/getDeletionRequests/');
+  }
+
+  deletionRequest(data){
+    return this.http.post(this.apiUrl +'api/deletionRequest/', data);
+  }
+
+  declineDeletionRequest(data){
+    return this.http.post(this.apiUrl +'api/declineDeletionRequest/', data);
+  }
 }

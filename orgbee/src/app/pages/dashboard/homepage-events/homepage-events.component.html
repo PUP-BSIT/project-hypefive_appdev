@@ -7,22 +7,26 @@
   <!-- list of events -->
   <div class="event-list">
     <div class="event-card">
-      <div class="event-img">
-        <img src="../../../assets/icon.jpg" alt="Event Poster" />
-      </div>
-      <div class="event-details">
-        <h3>Music Festival</h3>
-        <p>PUP Gymnasium</p>
-        <p>August 1, 2024</p>
-        <p id="reg_fee">Free Registration</p>
-      </div>
-      <div>
-        <button class="view-more-button" (click)="openEventModal()">
-          View More
-        </button>
-      </div>
+      @for(events of filteredEvents; track filteredEvents){
+        <div class="event-img">
+          <img src="{{imgPath}}{{events.poster_loc}}" alt="Event Poster" />
+        </div>
+        <div class="event-details">
+          <h3>{{events.event_name}}</h3>
+          <p>{{events.location}}</p>
+          <p>{{events.date}}</p>
+          <p id="reg_fee">Free Registration</p>
+        </div>
+        <div>
+          <button class="view-more-button" (click)="openEventModal(events)">
+            View More
+          </button>
+        </div>
+      }
+      
     </div>
-    <div class="event-card">
+    <!-- TO DO: Pull changes from homepage -->
+    <!-- <div class="event-card">
       <div class="event-img">
         <img src="../../../assets/icon.jpg" alt="Event Poster" />
       </div>
@@ -70,22 +74,19 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <!-- Event Modal -->
 <div id="eventModal" class="modal" [class.visible]="isEventModalVisible" >
   <div class="modal-content" [@modalAnimation]="isEventModalVisible ? 'open' : 'closed'">
     <span class="close" (click)="closeEventModal()">&times;</span>
-    <img src="../../../assets/icon.jpg" alt="Event Poster" />
-    <h3>Event Title</h3>
-    <p>Event Location</p>
-    <p>Event Date</p>
+    <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
+    <h3>{{ selectedEvent?.event_name }}</h3>
+    <p>{{ selectedEvent?.location }}</p>
+    <p>{{ selectedEvent?.date }}</p>
     <p id="modal_reg_fee">Registration Fee</p>
-    <p class="caption">
-      Event caption goes here. This is a sample text to show the event details
-      in justified alignment.
-    </p>
-    <button class="register-btn">Register</button>
+    <p class="caption">{{ selectedEvent?.caption }}</p>
+    <button class="register-btn" (click)="registerEvent()"  [disabled]="isRegistered">Register</button>
   </div>
 </div>
