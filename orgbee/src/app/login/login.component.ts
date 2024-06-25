@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { MustMatch } from './confirmed.validator';
-import { LoginService } from '../../service/login.service'; 
+import { LoadingService } from '../../service/loading.service';
 
 interface ResponseData {
   status: number;
@@ -29,13 +29,17 @@ export class LoginComponent implements OnInit {
   data: ResponseData;
   token: string;
   showSignup = false;
+  isLoading = false;
+  loadingProgress = 0;
+
 
   constructor(
     private formBuilder: FormBuilder, 
     private dataService: DataService, 
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private loadingService: LoadingService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -81,6 +85,7 @@ export class LoginComponent implements OnInit {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
 
+    //TO DO: TAPISPISAN: Email authentication
     // this.route.queryParams.subscribe(params => {
     //   if (params['verified'] === '1') {
     //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
@@ -88,6 +93,23 @@ export class LoginComponent implements OnInit {
     //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
     //   }
     // });
+    this.loadingService.loading$.subscribe(isLoading => {
+      this.isLoading = isLoading;
+
+      // Optionally, simulate progress increment for demonstration
+      if (isLoading) {
+        this.loadingProgress = 0;
+        this.incrementProgress();
+      }
+    });
+  }
+  incrementProgress() {
+    const interval = setInterval(() => {
+      this.loadingProgress += 20;
+      if (this.loadingProgress >= 100) {
+        clearInterval(interval);
+      }
+    }, 200);
   }
 
   get emailControl() {
@@ -167,11 +189,17 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (!this.loginForm.valid) return;
+    this.loadingService.show();
 
+    // Simulate async operation (replace with actual HTTP call)
+    setTimeout(() => {
+      // Hide loading indicator
+      this.loadingService.hide();
+    }, 2000); // Replace with actual HTTP call
     this.dataService.login(this.loginForm.value)
         .subscribe((res: ResponseData)=>{
       this.data = res;
-      
+      this.loadingService.hide();
       if (this.data.status === 1) {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);

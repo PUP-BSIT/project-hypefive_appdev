@@ -1,4 +1,8 @@
-<div id="nav_bar">
+<div  id="nav_bar" [ngClass]="{
+  'nav-bar-role1': userInfo.role_id === 1,
+  'nav-bar-role2': userInfo.role_id === 2,
+  'nav-bar-role3': userInfo.role_id === 3
+  }">
   <div id="nav_content" [ngClass]="{
     'nav-content-role1': userInfo.role_id === 1,
     'nav-content-role2': userInfo.role_id === 2,

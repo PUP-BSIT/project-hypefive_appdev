@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DashboardComponent } from './dashboard.component';
+import { HomepageEventsComponent } from './homepage-events.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('HomepageEventsComponent', () => {
+  let component: HomepageEventsComponent;
+  let fixture: ComponentFixture<HomepageEventsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DashboardComponent]
+      declarations: [HomepageEventsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(HomepageEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

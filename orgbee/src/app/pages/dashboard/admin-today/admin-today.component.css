@@ -1,0 +1,60 @@
+.event-container {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    margin: 0px;
+    width: 100%;
+  }
+  
+  .date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px;
+  }
+  
+  .day {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    color:#3f3f3f;
+    text-transform: lowercase;
+  }
+  
+  .date-number {
+    font-size: 75px;
+    font-weight: 500;
+    color:#3f3f3f;
+    margin: 0px;
+  }
+  
+  .events {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%; 
+    padding: 20px;
+    flex-shrink: 1; 
+    overflow: hidden;
+  }
+  
+  .event {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+  }
+  
+  .event-name,
+  .event-time {
+    font-size: 10px;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    color:#333;
+  }

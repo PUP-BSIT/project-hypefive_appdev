@@ -8,8 +8,9 @@ import { DatePipe } from '@angular/common';
 import { AnnouncementService, Announcement } 
   from '../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
-
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 enum Roles {
   Student = 1,
@@ -32,9 +33,12 @@ export class DashboardComponent implements OnInit {
   modalContent = '';
   modalDate = '';
   modalAuthor = '';
+  modalUpdated = false;
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
+  activeTab: string = 'all';
+  loggingOut: boolean = false;
   userInfo: UserInfo = {
     email: '',
     id: '',
@@ -53,14 +57,42 @@ export class DashboardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private announcementService: AnnouncementService,
+    public dialog: MatDialog,
     private datePipe: DatePipe,
     private router:Router
   ) {}
+
+  ngOnInit(): void {
+    this.announcementForm = this.formBuilder.group({
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required]],
+      recipient: ['', Validators.required],  
+    });
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userInfo = data;
+    });
+    this.fetchAnnouncements();const today = new Date();
+
+  }
 
   //TODO: update later according to new table in database
   updateUserInfo(selectedAvatarPath: string): void {
     //this.userInfo.icon = selectedAvatarPath; 
   }
+  
+  confirmAction(title: string, message: string, callback: () => void) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        callback();
+      }
+    });
+  }
+  
   toggleProfileIconEdit(): void { 
     this.showProfileIconEdit = !this.showProfileIconEdit;
   }
@@ -79,18 +111,6 @@ export class DashboardComponent implements OnInit {
 
   closeOneAnnouncement(): void {
     this.showOneAnnouncement = false;
-  }
-
-  ngOnInit(): void {
-    this.announcementForm = this.formBuilder.group({
-      subject: ['', [Validators.required]],
-      message: ['', [Validators.required]],
-      recipient: ['', Validators.required],  
-    });
-    this.loginService.onDataRetrieved((data: UserInfo) => {
-      this.userInfo = data;
-    });
-    this.fetchAnnouncements();
   }
 
   fetchAnnouncements(): void {
@@ -116,6 +136,7 @@ export class DashboardComponent implements OnInit {
     this.modalDate = announcement.created_at || '';
     this.modalAuthor = announcement.author || '';
     this.showOneAnnouncement = true;
+    this.modalUpdated = !!announcement.updated_at;
   }
 
   openEditModal(announcement: Announcement): void {
@@ -149,7 +170,9 @@ export class DashboardComponent implements OnInit {
         ...updatedAnnouncement,
         created_at: this.getCurrentDateTime(), 
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
+        updated_at: this.getCurrentDateTime(), 
       };
+      this.filterByOfficers();
     }
     this.closeModalEditAnnouncement();
   }
@@ -179,7 +202,55 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  
+
+  filterByAll(): void {
+    this.fetchAnnouncements(); 
+  }
+
+  filterByOfficers(): void {
+    this.announcementService.getAnnouncements().subscribe(
+      (announcements) => {
+        this.announcements = announcements.filter(a => 
+          a.recipient === 1
+        );
+      },
+      (error) => {
+        console.error('Error fetching announcements:', error);
+      }
+    );
+  }
+
+  filterByMe(): void {
+    this.announcementService.getAnnouncements().subscribe(
+      (announcements) => {
+        this.announcements = announcements.filter(a => 
+          a.student_id === this.userInfo.user_id
+        );
+      },
+      (error) => {
+        console.error('Error fetching announcements:', error);
+      }
+    );
+  }
+
+   setActiveTab(tab: string) {
+    this.activeTab = tab;
+    switch (tab) {
+      case 'all':
+        this.filterByAll();
+        break;
+      case 'officers':
+        this.filterByOfficers();
+        break;
+      case 'me':
+        this.filterByMe();
+        break;
+      // Add more cases for additional tabs as needed
+      default:
+        break;
+    }
+  }
+
   truncateText(text: string, limit: number): string {
     if (text.length > limit) {
       return text.substring(0, limit) + '...';
@@ -205,8 +276,16 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.loginService.setAuthStatus(false);
-    this.router.navigate(['/login']);
+    console.log('Logging out...');
+    this.confirmAction('Confirm Logout', 'Are you sure you want to logout?', () => {
+      this.loggingOut = true;
+      localStorage.removeItem('token');
+      this.loginService.setAuthStatus(false);
+      setTimeout(() => {
+        this.loggingOut = false;
+        this.router.navigate(['/login']);
+      }, 2000); 
+    });
   }
+  
 }

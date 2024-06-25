@@ -30,7 +30,7 @@ class User extends Authenticatable implements JWTSubject {
     }
 
     public function account_status() {
-        return $this->hasOne(Account_Status::class, 'account_status_id', 'id');
+        return $this->hasOne(Status::class, 'account_status_id', 'id');
     }
 
     /**
