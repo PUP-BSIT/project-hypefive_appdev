@@ -343,6 +343,20 @@ button.modal-member-button:hover {
   text-align: center;
 }
 
+.role-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(25, 25, 60);
+  color: #ffca10;
+  border-radius: 10px;
+  width: 70px;
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+  margin: 10px auto; 
+}
+
 @media (max-width: 766px) {
   .container {
     display: flex;
