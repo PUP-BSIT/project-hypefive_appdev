@@ -126,6 +126,10 @@ export class DataService {
   reRegisterEvent(data){
     return this.http.post(this.apiUrl +'api/reRegisterEvent/', data);
   }
+
+  getRegisteredMembers(event_id: number){
+    return this.http.get(this.apiUrl + `api/getRegisteredMembers/${event_id}`);
+  }
     
   getPostRequest(){
     return this.http.get(this.apiUrl +'api/getPostRequest/');

@@ -139,6 +139,10 @@ Route::post('/reRegisterEvent',
         [\App\Http\Controllers\EventRegisterController::class, 'reRegisterEvent'])
             ->name('api.reRegisterEvent');
 
+Route::get('/getRegisteredMembers/{event_id}', 
+        [\App\Http\Controllers\EventRegisterController::class, 'getRegisteredMembers'])
+            ->name('api.getRegisteredMembers');
+
 Route::get('/getPostRequest', [\App\Http\Controllers\FreedomWallController::class, 
                                 'getPostRequest'])->name('api.getPostRequest'); 
 
