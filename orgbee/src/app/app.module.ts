@@ -53,7 +53,13 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
 import { HeaderComponent } from './header/header.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { CalendarComponent } from './pages/dashboard/calendar/calendar.component'; 
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarDateFormatter } from 'angular-calendar';
+import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
+import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +81,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ForgotPassComponent,
     HeaderComponent,
     ConfirmationDialogComponent,
+    CalendarComponent,
+    AdminTodayComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -101,7 +110,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
           return localStorage.getItem('token');
         }
       }
-    })
+    }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     AuthGuard,
@@ -109,7 +122,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     LoginService,
     AnnouncementService,  
     provideAnimationsAsync(),  
-    DatePipe
+    DatePipe,
+    {provide: CalendarDateFormatter, useClass: CustomDateFormatter}
   ],
   bootstrap: [AppComponent]
 })
