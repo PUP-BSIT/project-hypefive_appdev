@@ -1,50 +1,59 @@
 <div class="dashboard">
   <div class="content">
+
+    <!--MAIN CONTENT-->
     <div class="main">
-      <div class="dashboard-header" [class]="getHeaderClasses()">
-        <div class="greetings">
-          <h1 class="org-name">Computer Society</h1>
-          <h1 class="user-name">Hello, {{ userInfo.first_name }}</h1>
-        </div>
-        <img src="assets/default.jpg" alt="Icon" class="org-icon" />
+      <div>
+        <app-header [title]="userInfo ? 'Hello, ' + userInfo.first_name : 'Hello'" [orgName]="'Computer Society'"></app-header>
       </div>
-
-      <!-- TODO(Ternal, AprilJoy): make this tools a  component -->
-      <!----- TOOLS: CREATE EVENT ---->
-      <div [ngClass]="{ hidden: userInfo.role_id === 1 }">
-        <h2 class="section-title">Tools</h2>
-        <div class="tools">
-          <mat-card class="example-card">
-            <mat-card-header> </mat-card-header>
-            <span class="material-symbols-outlined custom-icon">
-              edit_square
-            </span>
-            <mat-card-title>Create Event</mat-card-title>
-          </mat-card>
-
-          <mat-card class="example-card" (click)="toggleModal()">
-            <mat-card-header>
-              <span class="material-symbols-outlined custom-icon">
-                campaign
-              </span>
-            </mat-card-header>
-            <mat-card-title>Make Announcement</mat-card-title>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <mat-card-header> </mat-card-header>
-            <span class="material-symbols-outlined custom-icon"> groups </span>
-            <mat-card-title>View Membership Requests</mat-card-title>
-          </mat-card>
+      @if (userInfo.role_id!==2 && userInfo.role_id!==3) {
+        <app-homepage-events></app-homepage-events>
+      }
+      @if (userInfo.role_id !==1){
+        <div class="admin-view">
+          <div class="for-calendar">
+            <app-admin-today></app-admin-today>
+            <app-calendar></app-calendar>
         </div>
       </div>
+      }
     </div>
 
+    <!--MAIN CONTENT ENDS HERE-->
+
+     <!--RIGHT CONTENT-->
     <div class="container">
       <div class="profile-container">
         <p class="my-profile">MY PROFILE</p>
         <div class="profile-details">
+          <div class="icon-drop">
           <img [src]="userInfo?.icon_path" alt="Icon" class="icon" />
+          <div class="dropdown-menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+              <mat-icon>expand_circle_down</mat-icon>
+            </button>
+            <mat-menu
+              #menu="matMenu"
+              class="profile-menu"
+              xPosition="before"
+              yPosition="below">
+              <button
+                mat-menu-item
+                class="profile-menu-item"
+                (click)="toggleProfileIconEdit()">
+                <mat-icon class="profile-menu-icon">edit</mat-icon>
+                <span class="profile-menu-text">Change Profile</span>
+              </button>
+  
+              <button mat-menu-item (click)="logout()">
+                <mat-icon mat-icon class="profile-menu-icon"
+                  >exit_to_app</mat-icon
+                >
+                <span class="profile-menu-text">Logout</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
           <div class="details">
             <p class="name">
               {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -55,101 +64,123 @@
             </div>
           </div>
         </div>
-        <div class="dropdown-menu">
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
-            <mat-icon>expand_circle_down</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu"
-                  class="profile-menu"
-               xPosition="before"
-              yPosition="below">
-            <button mat-menu-item
-                      class="profile-menu-item"
-                    (click)="toggleProfileIconEdit()">
-                  <mat-icon class="profile-menu-icon">edit</mat-icon>
-                <span class="profile-menu-text">Change Profile</span>
-            </button>
-
-            <button mat-menu-item (click)="logout()">
-                  <mat-icon mat-icon class="profile-menu-icon">
-                    exit_to_app
-                  </mat-icon>
-                <span class="profile-menu-text">Logout</span>
-            </button>
-          </mat-menu>
-        </div>
+     
       </div>
 
       <app-profile-icon
-            (close)="handleProfileIconClose()"
-            [showProfileIconEdit]="showProfileIconEdit">
+        (avatarSaved)="updateUserInfo($event)"
+        (close)="handleProfileIconClose()"
+        [showProfileIconEdit]="showProfileIconEdit">
       </app-profile-icon>
 
-      <!-- VIEW ANNOUNCEMENTS -->
       <div class="announcement-container">
-        <h4>ANNOUNCEMENTS</h4>
-        @for (announcement of announcements; track announcement){
-        <div class="announcement">
-          @if (userInfo.role_id !== 1 && announcement.student_id ===
-          userInfo.user_id)
-          {
-          <button mat-icon-button
-                  [matMenuTriggerFor]="menu"
-                aria-label="Example icon-button with a menu"
-              class="menu-button">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          }
-
-          <!--ANNOUNCEMENT MENU: edit & delete-->
-          <mat-menu #menu="matMenu" class="an-menu">
-              <button mat-menu-item (click)="deleteAnnouncement(announcement)">
-                  <mat-icon class="menu-icon">delete</mat-icon>
-                <span class="menu-item-text">Delete</span>
-              </button>
-            <button mat-menu-item (click)="openEditModal(announcement)">
-                  <mat-icon class="menu-icon">edit</mat-icon>
-                <span class="menu-item-text">Edit</span>
-            </button>
-          </mat-menu>
-
-          <!--ANNOUNCEMENTS-->
-          <div class="an-content" (click)="openModal(announcement)">
-            <p class="announcement-subject">{{ announcement.subject }}</p>
-            <p class="announcement-text">
-              {{ truncateText(announcement.content, 30) }}
-            </p>
+        <div class="announcement-content">
+          <div class="tabs-and-title">
+          <h4>ANNOUNCEMENTS</h4>
+          @if (userInfo.role_id !== 1) {
+          <div class="tabs">
+            <button class="tab" [ngClass]="{ 'active': activeTab === 'all' }" (click)="setActiveTab('all')">All</button>
+            <button class="tab" [ngClass]="{ 'active': activeTab === 'officers' }" (click)="setActiveTab('officers')">Officers</button>
+            <button class="tab" [ngClass]="{ 'active': activeTab === 'me' }" (click)="setActiveTab('me')">Made by Me</button>
           </div>
-        </div>
+        }
+          </div>
+          
+          
+      
+          <!-- Check if announcements array is empty -->
+          @if (announcements.length === 0) {
+            <ng-container>      
+              <p class="no-announcement">No announcements yet.</p>
+            </ng-container>
+          }
+      
+          <!-- Loop through announcements -->
+          @for (announcement of announcements; track announcement){
+            <div class="announcement">
+              <!-- Display menu button only for non-student users who created the announcement -->
+              @if (userInfo.role_id !== 1 && announcement.student_id === userInfo.user_id) {
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" class="menu-button">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              }
+              
+              <!-- Announcement menu: edit & delete -->
+              <mat-menu #menu="matMenu" class="an-menu">
+                <button mat-menu-item (click)="deleteAnnouncement(announcement)">
+                  <mat-icon class="menu-icon">delete</mat-icon>
+                  <span class="menu-item-text">Delete</span>
+                </button>
+                <button mat-menu-item (click)="openEditModal(announcement)">
+                  <mat-icon class="menu-icon">edit</mat-icon>
+                  <span class="menu-item-text">Edit</span>
+                </button>
+              </mat-menu>
+        
+              <!-- Announcement content -->
+              <div class="an-content" (click)="openModal(announcement)">
+                <p class="announcement-subject">{{ announcement.subject }}</p>
+                <p class="announcement-text">{{ truncateText(announcement.content, 30) }}</p>
+              </div>
+            </div>
+          }
+      
+        </div> <!-- End of .announcement-content -->
+      
+        <!-- Create announcement button -->
+        @if (userInfo.role_id !== 1) {
+          <div class="create">
+            <button class="create-announcement" (click)="toggleModal()">
+              <mat-icon>campaign</mat-icon>Create Announcement
+            </button>
+          </div>
         }
       </div>
-
-      <!--VIEW ANNOUNCEMENT MODAL-->
-      @if(showOneAnnouncement){
-      <div class="modal">
-        <div class="modal-content">
-          <span class="close" (click)="closeOneAnnouncement()">&times;</span>
-          <h2>{{ modalSubject }}</h2>
-          <p>{{ modalContent }}</p>
-          <p>Posted on {{ modalDate }} by {{ modalAuthor }}</p>
-        </div>
-      </div>
-      }
-
-      <!--EDIT ANNOUNCEMENT MODAL-->
-      <app-an-edit-modal
-                [selectedAnnouncement]="selectedAnnouncement"
-              [showEditModal]="showEditModal"
-            (closeModal)="closeModalEditAnnouncement()"
-          (announcementUpdated)="handleAnnouncementUpdated($event)">
-      </app-an-edit-modal>
-
-      <!--CREATE ANNOUNCEMENT MODAL-->
-      <app-an-modal
-              [showModal]="showModal"
-            [announcementForm]="announcementForm"
-          (announcementCreated)="handleAnnouncementCreated($event)">
-      </app-an-modal>
+      
     </div>
+     <!--END OF RIGHT CONTENT-->
+
+  
   </div>
 </div>
+
+@if(showOneAnnouncement){
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeOneAnnouncement()">&times;</span>
+      <h2>{{ modalSubject }}</h2>
+      <p class="details">
+        @if (modalUpdated){
+          <span>Updated at: </span>
+        }
+        @if (!modalUpdated){
+          <span>Posted on: </span>
+        }
+        {{ modalDate }}
+      </p>
+      <p class="details">Published by: {{ modalAuthor }}</p>
+      <p class="content">{{ modalContent }}</p>
+    </div>
+  </div>
+  }
+
+  <!--EDIT ANNOUNCEMENT MODAL-->
+  <app-an-edit-modal
+    [selectedAnnouncement]="selectedAnnouncement"
+    [showEditModal]="showEditModal"
+    (closeModal)="closeModalEditAnnouncement()"
+    (announcementUpdated)="handleAnnouncementUpdated($event)">
+  </app-an-edit-modal>
+
+  <!--CREATE ANNOUNCEMENT MODAL-->
+  <app-an-modal
+    [showModal]="showModal"
+    [announcementForm]="announcementForm"
+    (announcementCreated)="handleAnnouncementCreated($event)">
+  </app-an-modal>
+
+  <div *ngIf="loggingOut" class="spinner-overlay">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+    <p>Logging Out...</p>
+  </div>
+  

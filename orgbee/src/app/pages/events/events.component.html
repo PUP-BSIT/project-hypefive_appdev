@@ -1,10 +1,14 @@
-<h1>Computer Society Events</h1>
+<div class="events-page">
+<div class="top">
+  <app-header [title]="'Events'" [showImage]="false" [height]="'shorter-height'"></app-header>
 <button 
   id="createEventBtn" 
   class="create-event" 
   (click)="openCreateModal()">
-    CREATE EVENT
+  <mat-icon>add_circle</mat-icon>
+  Create Event
 </button>
+</div>
 
 <!-- Event Form Modal -->
  <!-- TODO: Add more validators -->
@@ -21,24 +25,56 @@
         <input
           type="text"
           id="event_name"
-          formControlName="event_name"
-          placeholder="Event Name"/>
+          placeholder="Event Name"
+          formControlName="event_name"/>
+          @if(event_name.invalid && event_name.touched){
+           <div class="inc">
+            @if(event_name.errors?.['required']){
+              <div>Event name is required.</div>
+            }
+            @if(event_name.errors?.['maxlength']){
+              <div>Event name should not contain more than 100 charcaters.</div>
+            }
+           </div>
+          }
+         
         <label for="location">Location:</label>
         <input
           type="text"
           id="location"
           formControlName="location"
           placeholder="Location"/>
+          @if(location.invalid && location.touched){
+            <div class="inc">
+             @if(location.errors?.['required']){
+               <div>Location is required.</div>
+             }
+            </div>
+           }
 
         <!-- Inline container for date and time inputs -->
         <div class="inline-container">
           <div>
             <label for="date">Date:</label>
             <input type="date" id="date" formControlName="date" />
+            @if(date.invalid && date.touched){
+              <div class="inc">
+               @if(date.errors?.['required']){
+                 <div>Date is required.</div>
+               }
+              </div>
+             }
           </div>
           <div>
             <label for="time">Time:</label>
             <input type="time" id="time" formControlName="time" />
+            @if(time.invalid && time.touched){
+              <div class="inc">
+               @if(time.errors?.['required']){
+                 <div>Time is required.</div>
+               }
+              </div>
+             }
           </div>
         </div>
 
@@ -78,13 +114,13 @@
             type="radio"
             id="has_reg_fee_yes"
             formControlName="has_reg_fee"
-            value=1/>
+            value="1"/>
           <label for="has_reg_fee_yes">Yes</label>
           <input
             type="radio"
             id="has_reg_fee_no"
             formControlName="has_reg_fee"
-            value=0/>
+            value="0"/>
           <label for="has_reg_fee_no">No</label>
         </div>
 
@@ -92,12 +128,30 @@
           type="number"
           id="registration_fee"
           formControlName="registration_fee"
-          placeholder="Specify the amount"/>
+          placeholder="Specify the amount" />
+          @if(registration_fee.invalid && registration_fee.touched){
+            <div class="inc">
+             @if(registration_fee.errors?.['required']){
+               <div>Registration fee is required.</div>
+             }
+            </div>
+          }
+
         <input
           type="number"
           id="max_attendees"
           formControlName="max_attendees"
           placeholder="Max no. of attendees"/>
+          @if(max_attendees.invalid && max_attendees.touched){
+            <div class="inc">
+             @if(max_attendees.errors?.['required']){
+               <div>Please enter the max attendees</div>
+             }
+             @if(max_attendees.errors?.['min']){
+              <div>Max attendess can't be lower by 10</div>
+            }
+            </div>
+          }
 
         <div class="button-container">
           <button type="button" class="step-1-back-btn" (click)="prevStep()">
@@ -114,13 +168,40 @@
         <h2>EVENT FORM</h2>
         <h4>Publication Material</h4>
         <label for="caption">Write a caption:</label>
-        <textarea
-          id="caption"
-          formControlName="caption"
-          placeholder="Write a maximum of 500 characters caption">
-        </textarea>
+        <div class="textarea-wrapper">
+          <textarea
+            id="caption"
+            formControlName="caption"
+            placeholder="Write a maximum of 300 characters caption"
+            (input)="updateTextCharacterCount()"
+            class="caption-textarea">
+          </textarea>
+          <span class="character-counter-message">
+            {{ eventForm.get('caption').value ? eventForm.get('caption').value.length : 0 }}/300
+          </span>
+        </div>
+        @if(caption.invalid && caption.touched){
+          <div class="inc">
+           @if(caption.errors?.['required']){
+             <div>Caption is required</div>
+           }
+           @if(caption.errors?.['maxlength']){
+            <div>Caption should contain 300 characters only</div>
+          }
+          </div>
+        }
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc" formControlName="poster_loc" />
+        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <!-- @if(poster_loc.invalid && poster_loc.touched){
+          <div class="inc">
+           @if(poster_loc.errors?.['required']){
+             <div>Poster is required</div>
+           }
+           @if(poster_loc.errors?.['imageValidator']){
+            <div>Invalid image</div>
+          }
+          </div>
+        } -->
         <div class="button-container">
           <button 
             type="button" 
@@ -140,6 +221,13 @@
 
       <!-- Final Buttons -->
       @if(currentStep === 3){
+        <div class="event-preview">
+          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <h3>{{ eventForm.get('event_name').value }}</h3>
+          <p>{{ eventForm.get('location').value }}</p>
+          <p>{{ eventForm.get('date').value | date }}</p>
+          <p id="preview_caption">{{ eventForm.get('caption').value }}</p>
+        </div>
         <div class="button-container">
           <button 
             type="button" 
@@ -220,13 +308,13 @@
             type="radio"
             id="all_members_requiredYes"
             formControlName="all_members_required"
-            value=1/>
+            [value]="1"/>
           <label for="all_members_requiredYes">Yes</label>
           <input
             type="radio"
             id="all_members_requiredNo"
             formControlName="all_members_required"
-            value=0/>
+            [value]="0"/>
           <label for="all_members_requiredNo">No</label>
         </div>
 
@@ -236,13 +324,13 @@
             type="radio"
             id="has_reg_fee_yes"
             formControlName="has_reg_fee"
-            value=1/>
+            [value]="1"/>
           <label for="has_reg_fee_yes">Yes</label>
           <input
             type="radio"
             id="has_reg_fee_no"
             formControlName="has_reg_fee"
-            value=0/>
+            [value]="0"/>
           <label for="has_reg_fee_no">No</label>
         </div>
 
@@ -278,7 +366,7 @@
           placeholder="Write a maximum of 500 characters caption">
         </textarea>
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc" formControlName="poster_loc" />
+        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
         <div class="button-container">
           <button 
             type="button" 
@@ -298,6 +386,13 @@
 
       <!-- Final Buttons -->
       @if(currentStep === 3){
+        <div class="event-preview">
+          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <h3>{{ eventForm.get('event_name').value }}</h3>
+          <p>{{ eventForm.get('location').value }}</p>
+          <p>{{ eventForm.get('date').value | date }}</p>
+          <p>{{ eventForm.get('caption').value }}</p>
+        </div>
         <div class="button-container">
           <button 
             type="button" 
@@ -309,7 +404,7 @@
             type="submit"
             class="publish-btn"
             (click)="saveEdit('publish')">
-              Save
+              Publish
           </button>
           <button
             type="button"
@@ -347,18 +442,43 @@
 
 <!-- list of events -->
 <div class="event-list">
+  @if(activeTab === 'UPCOMING'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No upcoming events yet.</p>
+    }
+  }
+  @if(activeTab === 'OCCURING'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No occuring events yet.</p>
+    }
+  }
+  @if(activeTab === 'DRAFTS'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No drafts yet.</p>
+    }
+  }
   @for(event of filteredEvents; track filteredEvents){
     <div
     class="event-card"
     [class.registered]="event.registered">
     <div class="event-img">
-      <img src="../../../assets/icon.jpg" />
+      <img src="{{imgPath}}{{event.poster_loc}}" />
     </div>
     <div class="event-details">
       <h3>{{ event.event_name }}</h3>
-      <p>{{ event.date }} | {{ event.location }}</p>
+      <p> {{ event.location }} </p>
+      <p> {{ event.date }} </p>
+      <p id="reg_fee">
+        {{ event.registration_fee === 0 ? 
+           'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
+      </p>
     </div>
-    <div>
+    <div class="manage-container">
+      <div class="manage-info">
+        <img src="../../../assets/person.png"  
+          alt="registered icon" class="registered-icon">
+        <span class="registered-text">11 registered</span>
+      </div>
       <button 
         class="manage-button" 
         (click)="openManageModal(event)">
@@ -367,7 +487,7 @@
     </div>
   </div>
   }
-  
+</div>
 </div>
 
 <!-- Manage Event Modal -->
@@ -376,7 +496,7 @@
     <div class="modal-manage-content">
       <div class="manage-content">
         <h3 class="eventtag">Event</h3>
-        <img src="../../../assets/icon.jpg" alt="Event Poster" />
+        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
         <div class="eventinfo">
           <p class="title">{{ selectedEvent?.event_name }}</p>
           <p>{{ selectedEvent?.location }}</p>
@@ -417,13 +537,24 @@
       <div class="manage-members">
         <span class="close" (click)="closeManageModal()">&times;</span>
         <h3>Registered Members</h3>
-        <ul>
-          <!-- TODO: VILLA-VILLA: Get the registered members per event -->
+        <div class="members-list">
+          @for(member of members; track members){
+            <div class="member">
+              <img [src]="member.photo" 
+                alt="{{member.name}}" 
+                class="member-photo">
+              <span class="member-name">{{member.name}}</span>
+            </div>
+          }
+          
+        </div>
+        <!-- <ul>
+          TODO: VILLA-VILLA: Get the registered members per event -->
           <!-- @for(member of selectedEvent?.registeredMembers; track selectedEvent)
           {
             <li> {{ member.name }} </li>
-          } -->
-        </ul>
+          }
+        </ul> -->
       </div>
     </div>
   </div>

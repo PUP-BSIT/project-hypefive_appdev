@@ -4,44 +4,33 @@ body {
   padding: 10px;
 }
 
+.freedomwall-page {
+  height:100%;
+  overflow-y: auto;
+  padding: 15px;
+}
+
 .top {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
 }
 
 .header {
-  padding: 40px;
-  margin: 10px;
-  background-color: #242424;
-  border-radius: 20px;
-  width: 100%;
-}
-
-.header h3,
-.header h1 {
-  margin: 0;
-}
-
-.header h1 {
-  font-size: 2em;
-  color: #eeeeed;
-}
-
-.header h3 {
-  color: #eeeeed;
+  width: 140%;
 }
 
 .button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .button-container img {
-  width: 10%;
-  height: 10%;
+  width: 15%;
+  height: 15%;
   border-radius: 50%;
   padding: 10px;
 }
@@ -49,13 +38,13 @@ body {
 .create-post-btn {
   display: flex;
   margin-bottom: 10px;
-  padding: 10px 20px;
   background-color: #ffca10;
   color: #242424;
   border: none;
   cursor: pointer;
   border-radius: 20px;
   align-items: center;
+  margin-top: 0;
 }
 
 .create-post-btn:hover {
@@ -131,9 +120,17 @@ body {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  margin: 7px;
-  width: 257px;
+  margin: 5px; 
+  width: calc((100% - 40px) / 4); 
+  min-width: 120px;
   max-height: 200px;
+}
+
+.masonry-container {
+  display: flex;
+  align-items: flex-start; 
+  margin-right: 20px;
+  justify-content: space-between; 
 }
 
 .masonry-item h4 {
@@ -321,4 +318,157 @@ body {
   margin: 0 auto;
   font-family: "Outfit";
   margin-top: 15px;
+}
+
+.background-color-class-1 {
+  background-color: #FAA49E;
+}
+
+.background-color-class-2 {
+  background-color: #E5B769;
+}
+
+.background-color-class-3 {
+  background-color: #BBA0CA;
+}
+
+.background-color-class-4 {
+  background-color: #90E0EF;
+}
+
+.background-color-class-5 {
+  background-color: #C2FDB2;
+}
+
+.manage-wall-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.manage-modal-content {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 800px; 
+  height: 78%; 
+  max-height: 90vh; 
+  border-radius: 5%;
+  position: relative; 
+}
+
+.manage-close-btn {
+  color: black;
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 2%;
+}
+
+.modal-body {
+  display: flex;
+  gap: 10px;
+}
+
+.post-cards-container {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  overflow-x: hidden; 
+  margin-left: 2%;
+}
+
+.post-card {
+  flex: 0 0 calc(50% - 20px); 
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px #eeeeed;
+  box-sizing: border-box; 
+  min-width: 300px; 
+  max-width: calc(50% - 20px); 
+}
+
+.button-request {
+  display: flex;
+  position: relative; 
+}
+
+.button-request::before {
+  content: '';
+  position: absolute;
+  top: 20;
+  left: 0;
+  width: 100%;
+  height: 1px; 
+  background-color: #ccc; 
+}
+
+.accept-btn {
+  flex: 1 0 25%; 
+  background-color: #ffca10;
+  color: black;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-right: 5%;
+  margin-top: 3%;
+  position: relative; 
+}
+
+.decline-btn {
+  flex: 2 0 5%; 
+  background-color: #242424;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-top: 3%;
+  position: relative; 
+}
+
+.modal-footer {
+  background-color: #eeeeed;
+  width: 22%;
+  display: block; 
+  margin: 0 auto; 
+  text-align: center; 
+  border-radius: 10px;
+  margin-top: 3%;
+  position: sticky; 
+  bottom: 0; 
+}
+
+.pagination-btn {
+  margin-left: 7%;
+  margin-right: 7%;
+  padding: 10px;
+  background-color: #eeeeed;
+  border-color: transparent;
+  cursor: pointer;
 }

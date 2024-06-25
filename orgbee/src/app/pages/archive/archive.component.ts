@@ -41,11 +41,11 @@ export class ArchiveComponent implements OnInit  {
   isSearchResult=false;
   retrievedEvent: Event[];
   response: Response;
+
+  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   constructor(
     private dataService: DataService,
-    private fb:FormBuilder) {
-  }
-
+    private fb:FormBuilder) {}
 
   ngOnInit(): void {
     this.searchArchive = this.fb.group({keyword:[''] });
@@ -55,7 +55,8 @@ export class ArchiveComponent implements OnInit  {
   } 
 
   getCurrentMonthYear(): string {
-    return this.currentDate.toLocaleString('en-US', { month: 'long' }) + ' ' + this.currentDate.getFullYear();
+    return this.currentDate.toLocaleString('en-US', { month: 'long' }) 
+      + ' ' + this.currentDate.getFullYear();
   }
 
   getYearlyEvents() {
@@ -109,7 +110,6 @@ export class ArchiveComponent implements OnInit  {
             console.log(error);
             return EMPTY;
         }))
-        
       }))
       .subscribe((value:Event[] | Response)=>{
         if (Array.isArray(value)){

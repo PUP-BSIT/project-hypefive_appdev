@@ -1,74 +1,103 @@
 <div class="members-page">
   <div class="container">
-    <div class="left-column">
-      <div class="header">
-        <img src="../../../assets/logo.png" alt="Logo" />
-        <h1>Members</h1>
-      </div>
-  
-      <div class="members">
-        <div id="search_container">
-          <input type="text" class="search-input" placeholder="Search" />
-          <ul class="search-results"></ul>
+    <div>
+      <app-header
+        [title]="'Members'"
+        [showImage]="false"
+        [height]="'shorter-height'"
+      ></app-header>
+    </div>
+
+    <div class="membership-request">
+      <h2>MEMBERSHIP REQUESTS</h2>
+      @if(membershipRequests.length === 0) {
+      <ng-container>
+        <p class="no-request">No requests yet.</p>
+      </ng-container>
+      } 
+      @for(request of membershipRequests; track membershipRequests) {
+      <div class="request">
+        <div class="profile">
+          <img src="{{ request.icon_location }}" alt="Profile Picture" />
+          <p>{{ request.first_name + " " + request.last_name }}</p>
         </div>
-  
+        <button class="accept" (click)="acceptRequest(request.student_number)">
+          Accept
+        </button>
+        <button
+          class="decline"
+          (click)="declineRequest(request.student_number)"
+        >
+          Decline
+        </button>
+      </div>
+      }
+    </div>
+
+    <div class="members">
+      <div id="search_container">
+        <form [formGroup]="searchMember">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search"
+            formControlName="keyword"
+            (input)="seeResults()"
+            (blur)="exitSearch()"
+            autocomplete="off"
+          />
+          @if(isSearchResult) {
+          <div class="search-results-container">
+            @if(response){
+            <div id="search_results">
+              <li>{{ response.message }}</li>
+            </div>
+            } @for(retrievedMember of retrievedMember; track retrievedMember) {
+            <div
+              id="search_results"
+              (mousedown)="memberClick(retrievedMember.student_number)"
+            >
+              <li>
+                {{
+                  retrievedMember.first_name + " " + retrievedMember.last_name
+                }}
+              </li>
+            </div>
+            }
+          </div>
+          }
+        </form>
+
         <div class="all-members1">
           <div class="all-members">
             @for(member of members; track members) {
-              <div class="member" (click)="memberClick(member.student_number)">
-                <img src="{{ member.icon_location }}" alt="Profile Picture" />
-                <p>{{ member.first_name + " " + member.last_name }}</p>
-              </div>
+            <div class="member" (click)="memberClick(member.student_number)">
+              <img src="{{ member.icon_location }}" alt="Profile Picture" />
+              <p>{{ member.first_name + " " + member.last_name }}</p>
+            </div>
             }
           </div>
         </div>
       </div>
     </div>
-  
-    <div class="right-column">
-      <div class="membership-request">
-        <h2>MEMBERSHIP REQUESTS</h2>
-        @if(membershipRequests.length === 0){
-          <ng-container>
-            <p class="no-request">No requests yet.</p>
-          </ng-container>
-        }
-        @for(request of membershipRequests; track membershipRequests) {
-          <div class="request">
-            <div class="profile">
-              <img src="{{ request.icon_location }}" alt="Profile Picture" />
-              <p>{{ request.first_name + " " + request.last_name }}</p>
-            </div>
-            <button
-              class="accept" 
-              (click)="acceptRequest(request.student_number)">
-                Accept
-            </button>
-            <button
-              class="decline"
-              (click)="declineRequest(request.student_number)">
-                Decline
-            </button>
-          </div>
-        }
-      </div>
-  
-      <div class="officers">
-        <h2>OFFICERS</h2>
+
+    <div class="officers">
+      <h2>OFFICERS</h2>
+      <div class="officer1">
         @for(officer of officers; track officers) {
-          <div class="officer" (click)="officerClick(officer.student_number)">
-            <div class="profile">
-              <img src="{{ officer.icon_location }}" alt="Profile Picture" />
-              <p>{{ officer.first_name + " " + officer.last_name }}</p>
-            </div>
+        <div class="officer" (click)="officerClick(officer.student_number)">
+          <div class="profile">
+            <img src="{{ officer.icon_location }}" alt="Profile Picture" />
+            <p>{{ officer.first_name + " " + officer.last_name }}</p>
           </div>
+        </div>
         }
       </div>
     </div>
   </div>
 </div>
-  
-@if(showModalMember){
+
+@if(showModalMember) {
   <div class="modal" id="member_modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
@@ -79,36 +108,40 @@
             id="modal_icon"
             alt="Profile Picture"/>
         </div>
+        @if(isMemberAnOfficer(details[0]?.student_number)){
+          <ng-container>
+            <div class="role-button">
+              <p>Officer</p>
+            </div>
+          </ng-container>
+        }
         <div class="details">
-          <div class="left-column-details">
-            <p class="label">First Name</p>
-            <p class="value">{{ detail.first_name }}</p>
-            <p class="label">Birthday</p>
-            <p class="value">{{ detail.birthday }}</p>
-            <p class="label">Student Number</p>
-            <p class="value">{{ detail.student_number }}</p>
-          </div>
-  
-          <div class="right-column-details">
-            <p class="label">Last Name</p>
-            <p class="value">{{ detail.last_name }}</p>
-            <p class="label">Gender</p>
-            <p class="value">{{ detail.gender }}</p>
-            <p class="label">Email</p>
-            <p class="value">{{ detail.email }}</p>
-          </div>
+          <p class="label">First Name</p>
+          <p class="value">{{ detail.first_name }}</p>
+          <p class="label">Last Name</p>
+          <p class="value">{{ detail.last_name }}</p>
+          <p class="label">Birthday</p>
+          <p class="value">{{ detail.birthday }}</p>
+          <p class="label">Gender</p>
+          <p class="value">{{ detail.gender }}</p>
+          <p class="label">Student Number</p>
+          <p class="value">{{ detail.student_number }}</p>  
+          <p class="label">Email</p>
+          <p class="value">{{ detail.email }}</p>
         </div>
       }
-      <button class="modal-button-officer" (click)="promoteToOfficer()">
-        Promote to Officer
-      </button>
-      <button class="modal-button-member" (click)="removeMember()">
-        Remove Member
-      </button>
+      @if (userInfo.role_id===3) {
+        @if (!isMemberAnOfficer(details[0]?.student_number)) {
+          <button class="modal-button-officer" (click)="promoteToOfficer()">Promote to Officer </button>
+        } @else {  
+            <button class="modal-button-officer" (click)="demoteToMember()">Demote to Member</button>
+          }
+      }
+        <button class="modal-button-member" (click)="removeMember()">Remove Member</button>
     </div>
   </div>
 } 
-@if(showModalOfficer){
+@if(showModalOfficer) {
   <div class="modal" id="officer_modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
@@ -119,32 +152,36 @@
             id="modal_icon"
             alt="Profile Picture"/>
         </div>
+        @if(isMemberAnOfficer(details[0]?.student_number)){
+          <ng-container>
+            <div class="role-button">
+              <p>Officer</p>
+            </div>
+          </ng-container>
+        }
         <div class="details">
-          <div class="left-column-details">
-            <p class="label">First Name</p>
-            <p class="value">{{ detail.first_name }}</p>
-            <p class="label">Birthday</p>
-            <p class="value">{{ detail.birthday }}</p>
-            <p class="label">Student Number</p>
-            <p class="value">{{ detail.student_number }}</p>
-          </div>
-  
-          <div class="right-column-details">
-            <p class="label">Last Name</p>
-            <p class="value">{{ detail.last_name }}</p>
-            <p class="label">Gender</p>
-            <p class="value">{{ detail.gender }}</p>
-            <p class="label">Email</p>
-            <p class="value">{{ detail.email }}</p>
-           </div>
+          <p class="label">First Name</p>
+          <p class="value">{{ detail.first_name }}</p>
+          <p class="label">Last Name</p>
+          <p class="value">{{ detail.last_name }}</p>
+          <p class="label">Birthday</p>
+          <p class="value">{{ detail.birthday }}</p>
+          <p class="label">Gender</p>
+          <p class="value">{{ detail.gender }}</p>
+          <p class="label">Student Number</p>
+          <p class="value">{{ detail.student_number }}</p>
+          <p class="label">Email</p>
+          <p class="value">{{ detail.email }}</p>
         </div>
       }
-      <button class="modal-button-officer" (click)="demoteToMember()">
-        Demote to Member
-      </button>
-      <button class="modal-button-member" (click)="removeMember()">
-        Remove Member
-      </button>
+      @if (userInfo.role_id===3) {
+        <button class="modal-button-officer" (click)="demoteToMember()">
+          Demote to Member
+        </button>
+        <button class="modal-button-member" (click)="removeMember()">
+          Remove Member
+        </button>
+      }
     </div>
   </div>
 }
