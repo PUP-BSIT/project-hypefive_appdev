@@ -3,8 +3,9 @@ body {
 }
 
 .archive-page {
-  margin-top: 0px;
-  padding-top: 0%;
+  padding: 15px;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .container {
@@ -15,7 +16,6 @@ body {
 .header {
   border-bottom: 1px solid #ddd;
   border-radius: 10px;
-  margin-right: 20px;
   flex-shrink: 0;
 }
 
@@ -45,7 +45,6 @@ body {
   box-sizing: border-box;
   background-color: #eeeeed;
   margin-top: 2%;
-  margin-right: 20px;
   border-radius: 20px;
   height: 80vh;
   text-align: center;

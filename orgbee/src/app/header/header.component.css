@@ -56,12 +56,13 @@
   margin: 0;
   font-weight: 200;
   color: #ffca10;
-  font-size: 22px;
+  font-size: min(1.5vw, 20px); 
 }
 
 .user-name {
   margin: 0; /* Reset margin */
   margin-right: auto;
   color: #e9e8e8;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: min(5vw, 35px); 
 }

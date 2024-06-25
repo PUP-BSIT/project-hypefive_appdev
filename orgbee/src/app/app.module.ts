@@ -51,6 +51,9 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './login/auth.guard';
 import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.component';
 import { HeaderComponent } from './header/header.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 
 @NgModule({
   declarations: [
@@ -70,7 +73,8 @@ import { HeaderComponent } from './header/header.component';
     HomepageEventsComponent,
     AdminDataComponent,
     ForgotPassComponent,
-    HeaderComponent
+    HeaderComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +93,8 @@ import { HeaderComponent } from './header/header.component';
     NgxMasonryModule,
     MatDialogModule,
     FormsModule,
+    MatProgressBarModule,
+   MatProgressSpinnerModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

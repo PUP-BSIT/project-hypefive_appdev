@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 interface Member {
   first_name: string;
@@ -30,7 +32,7 @@ export class MembersComponent implements OnInit {
   members: Member[];
   details: Member [];
   membershipRequests: Member[];
-  officers: Member[];
+  officers: Member[] =[];
   student_num:string;
   response: Response;
 
@@ -40,7 +42,8 @@ export class MembersComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private toastr: ToastrService,
-    private fb:FormBuilder) {}
+    private fb:FormBuilder,
+    public dialog: MatDialog) {}
 
   ngOnInit(): void{
     this.searchMember = this.fb.group({keyword:['']});
@@ -97,6 +100,7 @@ export class MembersComponent implements OnInit {
   }
 
   declineRequest(student_number: string) {
+    this.confirmAction('Decline Confirmation', 'Are you sure you want to decline this membership request?', () => {
     const data = {student_number: student_number };
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
@@ -118,7 +122,8 @@ export class MembersComponent implements OnInit {
       this.showRequest();
       this.showRequest();
     });
-  }
+  });
+}
   
   memberClick(student_number: string) {
     const selectedMember = this.members
@@ -144,37 +149,53 @@ export class MembersComponent implements OnInit {
     this.details=[]; 
   }
 
+  confirmAction(title: string, message: string, callback: () => void) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: { title: title, message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        callback();
+      }
+    });
+  }
+
   removeMember() {
-    const data = {student_number: this.student_num };
+  this.confirmAction('Confirm Removal', 'Are you sure you want to remove this member?', () => {
+    const data = { student_number: this.student_num };
 
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
       if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '',{
+        this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast success'
         });
       } else {
-        this.toastr.error(JSON.stringify(this.response.message),'',{
+        this.toastr.error(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
-          progressBar:true,
+          progressBar: true,
           toastClass: 'custom-toast error'
         });
       }
 
       this.showModalMember = false;
       this.showModalOfficer = false;
+      this.details = [];
+      this.student_num = '';
 
-      this.details=[]; 
-      this.student_num ='';
-      
-      this.showMembers();
-      this.showOfficers();
+      this.showMembers(); // Refresh members list
+      this.showOfficers(); // Refresh officers list
     });
-  }
+  });
+}
+
 
   promoteToOfficer() {
+    this.confirmAction('Confirm Promotion', 'Are you sure you want to promote this member to officer?', () => {
     const data = {student_number: this.student_num };
     
     this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
@@ -197,9 +218,11 @@ export class MembersComponent implements OnInit {
       this.showOfficers();
       this.details=[]; 
     });
-  }
+  });
+}
 
   demoteToMember() {
+    this.confirmAction('Confirm Demotion', 'Are you sure you want to demote this officer?', () => {
     const data = {student_number: this.student_num };
     
     this.dataService.demoteToMember(data).subscribe((res: Response) => {
@@ -222,7 +245,8 @@ export class MembersComponent implements OnInit {
       this.showOfficers();
       this.details=[]; 
     });
-  }
+  });
+}
 
   searchMembers() {
     this.searchMember.get('keyword')!.valueChanges.pipe(
@@ -255,4 +279,9 @@ export class MembersComponent implements OnInit {
     this.retrievedMember = [];
     this.isSearchResult = false;
   }
+
+  isMemberAnOfficer(studentNumber: string): boolean {
+    return this.officers.some(officer => officer.student_number === studentNumber);
+  }
+  
 }

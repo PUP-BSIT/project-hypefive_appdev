@@ -124,3 +124,22 @@ Route::post('/registerEvent',
 Route::post('/checkRegistration', 
         [\App\Http\Controllers\EventRegisterController::class, 'checkRegistration'])
             ->name('api.checkRegistration');
+
+Route::get('/getPostRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getPostRequest'])->name('api.getPostRequest'); 
+
+Route::post('/acceptPost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'acceptPost'])->name('api.acceptPost'); 
+
+Route::post('/declinePost', [\App\Http\Controllers\FreedomWallController::class, 
+                                'declinePost'])->name('api.declinePost'); 
+
+Route::get('/getDeletionRequests', [\App\Http\Controllers\FreedomWallController::class, 
+                                'getDeletionRequests'])->name('api.getDeletionRequests'); 
+
+Route::post('/deletionRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'deletionRequest'])->name('api.deletionRequest'); 
+
+Route::post('/declineDeletionRequest', [\App\Http\Controllers\FreedomWallController::class, 
+                                'declineDeletionRequest'])->name('api.declineDeletionRequest'); 
+
