@@ -53,3 +53,20 @@ li {
     color: #515151;
     text-align: left;
 }
+
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px; 
+    margin-right: 20px; 
+  }
+  
+  .event-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 200;
+  }
+  
