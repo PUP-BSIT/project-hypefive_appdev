@@ -118,6 +118,14 @@ export class DataService {
   checkRegistration(data){
     return this.http.post(this.apiUrl +'api/checkRegistration/', data);
   }
+
+  unregisterEvent(data){
+    return this.http.post(this.apiUrl +'api/unregisterEvent/', data);
+  }
+
+  reRegisterEvent(data){
+    return this.http.post(this.apiUrl +'api/reRegisterEvent/', data);
+  }
     
   getPostRequest(){
     return this.http.get(this.apiUrl +'api/getPostRequest/');
