@@ -22,6 +22,8 @@
     "@angular/router": "^17.3.0",
     "@auth0/angular-jwt": "^5.2.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
+    "angular-calendar": "^0.31.1",
+    "date-fns": "^3.6.0",
     "jwt-decode": "^4.0.0",
     "masonry-layout": "^4.2.2",
     "ngx-masonry": "^14.0.1",

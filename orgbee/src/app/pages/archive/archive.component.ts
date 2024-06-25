@@ -41,6 +41,8 @@ export class ArchiveComponent implements OnInit  {
   isSearchResult=false;
   retrievedEvent: Event[];
   response: Response;
+
+  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   constructor(
     private dataService: DataService,
     private fb:FormBuilder) {}

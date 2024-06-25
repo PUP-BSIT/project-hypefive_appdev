@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Events;
 
 class EventsController extends Controller {
 
@@ -12,8 +13,21 @@ class EventsController extends Controller {
       'event_name', 'location', 'date', 'time', 'all_members_required',
       'has_reg_fee', 'registration_fee', 'max_attendees', 'caption',
       'poster_loc', 'event_status_id');
-    $event['created_at'] = now();
 
+      if ($request->hasFile('poster_loc')) {
+        // $events = new Events;
+        $completeFileName = $request->file('poster_loc')->getClientOriginalName(); //Get the full file name
+        $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME); //only the name of the file with no file extension
+        $fileExtension = $request->file('poster_loc')->getClientOriginalExtension(); // get the file extension
+        $newFileName = str_replace(' ', '_', $fileNameOnly).'-'.rand().'_'.time().'.'.$fileExtension;//replace the spaces on the filename with _
+        
+        $path = $request->file('poster_loc')->storeAs('public/images/event_poster', $newFileName); //php artisan storage:link
+
+        $event['poster_loc'] = $newFileName;
+      }
+
+    $event['created_at'] = now();
+    
     if ($event) {
       DB::table('events')->insert($event);
       $response['message'] = 'Event submitted successfully';
@@ -119,9 +133,23 @@ class EventsController extends Controller {
       'event_name', 'location', 'date', 'time', 'all_members_required',
       'has_reg_fee', 'registration_fee', 'max_attendees', 'caption',
       'poster_loc', 'event_status_id');
-      
+    if ($request->hasFile('poster_loc')) {
+        $completeFileName = $request->file('poster_loc')->getClientOriginalName(); //Get the full file name
+        $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME); //only the name of the file with no file extension
+        $fileExtension = $request->file('poster_loc')->getClientOriginalExtension(); // get the file extension
+        $newFileName = str_replace(' ', '_', $fileNameOnly).'-'.rand().'_'.time().'.'.$fileExtension;//replace the spaces on the filename with _
+        
+        $path = $request->file('poster_loc')->storeAs('public/images/event_poster', $newFileName); //php artisan storage:link
+
+        $updateDetails['poster_loc'] = $newFileName;
+    }
+    
     $updateDetails['updated_at'] = now();
     $updateId = $request->id;
+
+    if($updateDetails['has_reg_fee'] === 0){
+      $updateDetails['registration_fee'] = 0;
+    }
 
     if ($updateDetails) {
       DB::table('events')->where('id', $updateId)->update($updateDetails);

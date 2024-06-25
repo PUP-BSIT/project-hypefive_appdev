@@ -16,8 +16,7 @@
         id ="email_input"
         type="email"
         formControlName="email"
-        placeholder="Enter Email Address"
-      />
+        placeholder="Enter Email Address"/>
       @if(emailForm.controls.email.invalid && emailForm.controls.email.touched)
          { Please enter a valid email. }
     </div>
@@ -37,8 +36,7 @@
         id="code_input"
         type="text"
         formControlName="code"
-        placeholder="Enter the code sent to your email"
-      />
+        placeholder="Enter the code sent to your email"/>
       @if(codeForm.controls.code.invalid && codeForm.controls.code.touched)
          { Please enter the 6-digit code. }
     </div>
@@ -58,8 +56,7 @@
         class="new-pass-input"
         type="password"
         formControlName="newPassword"
-        placeholder="Enter new password"
-      />
+        placeholder="Enter new password"/>
       @if(passwordForm.controls.newPassword.invalid &&
           passwordForm.controls.newPassword.touched) 
           { Password must be at least 8 characters. }
@@ -72,8 +69,7 @@
         class="confirm-input"
         type="password"
         formControlName="confirmPassword"
-        placeholder="Confirm new password"
-      />
+        placeholder="Confirm new password"/>
       @if(passwordForm.hasError('mismatch') &&
          passwordForm.controls.confirmPassword.touched)
         { Passwords do not match. }

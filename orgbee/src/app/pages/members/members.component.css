@@ -6,6 +6,7 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin-top: 0px;
+  padding: 15px;
 }
 
 .all-members {
@@ -110,8 +111,9 @@ body {
 }
 
 .request button.decline {
-  background-color: #242424;
-  color: #ffffff;
+  background-color: #b4b4b4;
+
+  color: #262626;
 }
 
 .request button.decline:hover {
@@ -221,19 +223,20 @@ body {
 }
 
 .modal {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
+  position: relative;
   text-align: center;
   background-color: #fefefe;
   margin: 15% auto;
@@ -340,6 +343,20 @@ button.modal-member-button:hover {
 .no-request {
   padding: 10%;
   text-align: center;
+}
+
+.role-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(25, 25, 60);
+  color: #ffca10;
+  border-radius: 10px;
+  width: 70px;
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+  margin: 10px auto; 
 }
 
 @media (max-width: 766px) {

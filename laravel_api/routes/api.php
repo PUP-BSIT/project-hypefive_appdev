@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Announce;
+use App\Http\Controllers\PasswordResetController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -111,11 +112,24 @@ Route::get('/getOldEvents',
         [\App\Http\Controllers\ArchiveController::class, 'getOldEvents'])
             ->name('api.getOldEvents');
 
+
+Route::post('auth/send-reset-link', [PasswordResetController::class, 'sendResetLinkEmail']);
+Route::post('auth/verify-code', [PasswordResetController::class, 'verifyToken']);
+Route::post('auth/reset-password', [PasswordResetController::class, 'reset']);
+
 Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::class, 
                                 'searchArchive'])->name('api.searchArchive');
 
 Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
                                 'searchMember'])->name('api.searchMember');
+
+Route::post('/registerEvent', 
+        [\App\Http\Controllers\EventRegisterController::class, 'registerEvent'])
+            ->name('api.registerEvent');
+
+Route::post('/checkRegistration', 
+        [\App\Http\Controllers\EventRegisterController::class, 'checkRegistration'])
+            ->name('api.checkRegistration');
 
 Route::get('/getPostRequest', [\App\Http\Controllers\FreedomWallController::class, 
                                 'getPostRequest'])->name('api.getPostRequest'); 
@@ -134,3 +148,4 @@ Route::post('/deletionRequest', [\App\Http\Controllers\FreedomWallController::cl
 
 Route::post('/declineDeletionRequest', [\App\Http\Controllers\FreedomWallController::class, 
                                 'declineDeletionRequest'])->name('api.declineDeletionRequest'); 
+
