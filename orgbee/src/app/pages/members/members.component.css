@@ -6,6 +6,7 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin-top: 0px;
+  padding: 15px;
 }
 
 .all-members {
@@ -355,7 +356,7 @@ button.modal-member-button:hover {
   height: 20px;
   text-align: center;
   font-size: 12px;
-  margin: 10px auto; /* Added margin to center vertically */
+  margin: 10px auto; 
 }
 
 @media (max-width: 766px) {
