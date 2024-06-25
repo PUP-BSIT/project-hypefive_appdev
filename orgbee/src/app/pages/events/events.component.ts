@@ -14,7 +14,7 @@ interface Event {
   registration_fee?: number; 
   max_attendees: number; 
   caption?: string;
-  poster_loc?: string; 
+  poster_loc: any; 
   event_status_id: number;
   event_state_id: number;
 }
@@ -36,7 +36,7 @@ export class EventsComponent implements OnInit {
   eventForm: FormGroup;
   currentStep = 0;
   activeTab = 'UPCOMING';
-  filteredEvents: Event[];
+  filteredEvents: Event[] = [];
   createEventModal = false;
   editEventModal = false;
   isManageModalVisible = false;
@@ -49,7 +49,9 @@ export class EventsComponent implements OnInit {
   response: any; //temporary
   updateEventId: number;
 
-  
+  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  file: any;
+  editModalTab:string;
   constructor(private formBuilder: FormBuilder,
     private dataService: DataService) {}
 
@@ -63,14 +65,13 @@ export class EventsComponent implements OnInit {
       time: ['', {validators: [Validators.required],}],
       all_members_required: ['', {validators: [Validators.required],}],
       has_reg_fee: ['', {validators: [Validators.required],}],
-      registration_fee: [{ value: '', disabled: true }, 
+      registration_fee: [{ value: '0', disabled: true }, 
         {validators: [Validators.required],}],
       max_attendees: ['', 
         {validators: [Validators.required, Validators.min(10)],}], 
       caption: ['',
         {validators: [Validators.required,  Validators.maxLength(300)],}], 
-        poster_loc: 
-          ['', { validators: [Validators.required, this.imageValidator] }],
+      
     });
 
     this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {
@@ -78,6 +79,9 @@ export class EventsComponent implements OnInit {
       if (parseInt(value) === 1) {
         registration_feeControl?.enable();
       } else {
+        //If registration fee is not required, 
+        //set the value of registration fee to 0
+        this.eventForm.get('registration_fee').setValue('0'); 
         registration_feeControl?.disable();
       }
     });
@@ -94,6 +98,14 @@ export class EventsComponent implements OnInit {
     }
     return null;
   }
+
+  //for sample of registered members only
+  members = [
+    { name: 'John Doe', photo: '../../../assets/icon.jpg' },
+    { name: 'Jane Doe', photo: '../../../assets/icon.jpg' },
+    { name: 'Jane Dee', photo: '../../../assets/icon.jpg' },
+    // Add more members as needed
+  ];
 
   get event_name() {
     return this.eventForm.get('event_name');
@@ -123,9 +135,7 @@ export class EventsComponent implements OnInit {
     return this.eventForm.get('caption')
   }
 
-  get poster_loc() {
-    return this.eventForm.get('poster_loc')
-  }
+  
 
   openCreateModal(): void {
     this.createEventModal = true;
@@ -134,8 +144,10 @@ export class EventsComponent implements OnInit {
   closeCreateEditModal(): void {
     this.createEventModal = false;
     this.editEventModal = false;
+    this.eventForm.reset();
   }
-editModalTab:string;
+
+
   openManageModal(event: Event): void {
     this.selectedEvent = event;
     this.isManageModalVisible = true;
@@ -263,23 +275,39 @@ editModalTab:string;
     }
   }
 
+  uploadImage(event) {
+    console.log(event);
+    this.file = event.target.files[0];
+    console.log(this.file);
+    this.eventForm.get('poster_loc')?.setValue(this.file);
+  }
 
   submitForm(type: string): void {
+    console.log(this.eventForm);
     if (this.eventForm.valid) {
-      const newEvent = this.eventForm.value as Event;
+      // const newEvent = this.eventForm.value as Event;
+      const formData = new FormData();
+      const formControls = this.eventForm.controls;
+
+      for (const key in formControls) {
+        const value = formControls[key].value;
+        formData.append(key, value !== null ? value.toString() : '');
+      }
+      
+      formData.append('poster_loc', this.file, this.file.name);
 
       if (type === 'publish') {
-        newEvent.event_status_id = 2; //set the status to publish
-        console.log(newEvent); //review the details
-        this.dataService.createEvent(newEvent).subscribe(res=>{
+        formData.append('event_status_id', '2'); //set the status to publish
+        console.log(formData); //review the details
+        this.dataService.createEvent(formData).subscribe(res=>{
           this.response=res;
           console.log(this.response);
           this.showUpcomingEvents();
         });
       } else {
-        newEvent.event_status_id = 1; //set the status to draft
-        console.log(newEvent); //review the details
-        this.dataService.createEvent(newEvent).subscribe(res=>{
+        formData.append('event_status_id', '1'); //set the status to draft
+        console.log(formData); //review the details
+        this.dataService.createEvent(formData).subscribe(res=>{
           this.response=res;
           console.log(this.response); 
           this.showDraftEvents();
@@ -295,29 +323,38 @@ editModalTab:string;
     }
   }
 
-
+  currentPoster:string;
   editEvent(event: Event): void {
     this.editEventModal = true;
     this.closeManageModal();
     this.eventForm.patchValue(event); //pass the value of the selected event
+    console.log(event);
     this.updateEventId = event.id;
+    this.currentPoster = event.poster_loc;
   }
-
+//TODO: VILLA-VILLA: Allow users to edit posts even without uploading a new poster.
   saveEdit(type:string){
-    const updateEvent = this.eventForm.value as Event;
-    updateEvent.id = this.updateEventId;
+    const formData = new FormData();
+    const formControls = this.eventForm.controls;
 
-    if(updateEvent){
+    for (const key in formControls) {
+      const value = formControls[key].value;
+        formData.append(key, value !== null ? value.toString() : '');
+    }
+    formData.append('poster_loc', this.file, this.file.name);
+    formData.append('id', this.updateEventId.toString()); 
+
+    if(formData){
       if(type ==='publish'){
-        updateEvent.event_status_id = 2; //set the status to publish
-        this.dataService.updateEvent(updateEvent).subscribe(res=>{
+        formData.append('event_status_id', '2');
+        this.dataService.updateEvent(formData).subscribe(res=>{
           this.response=res;
           console.log(this.response);
           this.showUpcomingEvents();
         });
       } else {
-        updateEvent.event_status_id = 1; //set the status to draft
-        this.dataService.updateEvent(updateEvent).subscribe(res=>{
+        formData.append('event_status_id', '1');
+        this.dataService.updateEvent(formData).subscribe(res=>{
           this.response=res;
           console.log(this.response);
           this.showDraftEvents();
