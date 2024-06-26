@@ -13,6 +13,7 @@ interface Register {
   event_id: any;
   student_id: number;
 }
+
 @Component({
   selector: 'app-homepage-events',
   templateUrl: './homepage-events.component.html',

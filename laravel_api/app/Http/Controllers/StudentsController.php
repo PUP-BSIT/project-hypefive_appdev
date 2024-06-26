@@ -173,7 +173,6 @@ class StudentsController extends Controller {
       return response()->json(['message' => 'Token absent'], 401);
     }
 
-
     $user_id = $user->id;
 
     $request->validate([
@@ -187,5 +186,11 @@ class StudentsController extends Controller {
     } else {
       return response()->json(['message' => 'Failed to update icon ID'], 500);
     }
+  }
+
+  public function getTotalMembers() {
+    $members = DB::table('students')->whereNotIn('id', [1])->count();
+    
+    return response()->json($members);
   }
 }
