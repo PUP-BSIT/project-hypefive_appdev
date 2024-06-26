@@ -11,7 +11,7 @@
       class="custom-calendar"
       (dayClicked)="handleDayClick($event)"
     ></mwl-calendar-month-view>
-    @if (isEventDetailsVisible){
+    @if (isEventDetailsVisible) {
       <div class="event-details">
         <h3>Events on {{ selectedEvents[0]?.start | date:'mediumDate' }}</h3>
         <div class="event-list">
