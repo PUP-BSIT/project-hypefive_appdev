@@ -1,0 +1,16 @@
+<div class="event-container">
+    <div class="date">
+      <div class="day">{{ currentDay }}</div>
+      <div class="date-number">{{ currentDate }}</div>
+    </div>
+    <div class="events">
+      @for(event of upcomingEvents; track upcomingEvents){
+        <div class="event">
+          <span class="event-name">{{ event.event_name }}</span>
+          <span class="event-time">{{ event.formattedTime }}</span>
+        </div>
+      }
+    </div>
+  </div>
+  <app-admin-data></app-admin-data>
+  

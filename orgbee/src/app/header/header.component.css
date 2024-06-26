@@ -1,0 +1,68 @@
+.default-height,
+.short-height,
+.shorter-height {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid rgb(25, 25, 60);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: rgb(25, 25, 60);
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.default-height {
+  height: 110px; 
+}
+
+.short-height {
+  height: 90px; 
+}
+
+.shorter-height {
+  height: 50px;
+}
+
+.default-height.admin,
+.short-height.admin,
+.shorter-height.admin {
+  background-color: rgb(47, 47, 47);
+}
+
+.default-height.student,
+.short-height.student,
+.shorter-height.student {
+  background-color: rgb(48, 33, 1);
+}
+
+.default-height.officer,
+.short-height.officer,
+.shorter-height.officer {
+  background-color: rgb(25, 25, 60);
+}
+
+.greetings {
+  align-items: center; 
+}
+
+.org-icon {
+  height: 100%;
+  border-radius: 100px;
+  margin-left: 0px;
+}
+
+.org-name {
+  margin: 0;
+  font-weight: 200;
+  color: #ffca10;
+  font-size: min(1.5vw, 20px); 
+}
+
+.user-name {
+  margin: 0; /* Reset margin */
+  margin-right: auto;
+  color: #e9e8e8;
+  font-weight: 500;
+  font-size: min(5vw, 35px); 
+}

@@ -1,0 +1,32 @@
+.dialog-content {
+  max-height: calc(100vh - 200px);
+  width: 550px;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: justify;
+}
+
+.dialog-content::-webkit-scrollbar {
+  display: none;
+}
+
+.dialog-content h4 {
+  margin: 0;
+  font-size: 1.2em;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
+}
+
+.dialog-content p {
+  margin: 0;
+  width: 100%;
+  white-space: normal;
+  text-align: justify;
+  padding-top: 10px;
+  overflow-wrap: break-word;
+}
+
+
