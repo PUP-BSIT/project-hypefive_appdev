@@ -5,21 +5,15 @@ import { DataService } from '../../../../service/data.service';
 import { Time } from '@angular/common';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 
-interface Event {
-  id: number;
-  event_name: string; 
-  location: string; 
-  date: Date; 
-  time: Time; 
-  all_members_required: number; 
-  has_reg_fee: number;  
-  registration_fee?: number; 
-  max_attendees: number; 
-  caption?: string;
-  poster_loc: any; 
-  event_status_id: number;
-  event_state_id: number;
+import { Event } from '../../events/events.component';
+import { ToastrService } from 'ngx-toastr';
+import { Response } from '../../../app.component';
+
+interface Register {
+  event_id: any;
+  student_id: number;
 }
+
 @Component({
   selector: 'app-homepage-events',
   templateUrl: './homepage-events.component.html',
@@ -45,8 +39,17 @@ export class HomepageEventsComponent implements OnInit {
   selectedEvent: Event  | null = null;
   imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   userInfo: UserInfo;
-  isRegistered = false;
-  constructor(private dataService: DataService, private loginService: LoginService) {}
+  isRegistered = 0;
+
+  register: Register;
+  checkResponse: number;
+  response:Response;
+  regButton = false;
+  message: string;
+  constructor(
+    private dataService: DataService, 
+    private loginService: LoginService,  
+    private toastr: ToastrService,) {}
 
   ngOnInit():void{
     this.showUpcomingEvents();
@@ -60,11 +63,12 @@ export class HomepageEventsComponent implements OnInit {
   openEventModal(events: Event) {
     this.selectedEvent = events;
     this.isEventModalVisible = true;
-    console.log(events);
+    this.checkRegistration();
   }
 
   closeEventModal() {
     this.isEventModalVisible = false;
+    this.message= '';
   }
 
   showUpcomingEvents() {
@@ -73,31 +77,104 @@ export class HomepageEventsComponent implements OnInit {
       this.filteredEvents = upcoming;
     })
   }
-register:any;
-response:any;
+
   registerEvent(){
     this.register = {
-      'event_id': this.selectedEvent.id,
-      'student_id': this.userInfo.id
+      'event_id': Number(this.selectedEvent.id),
+      'student_id': Number(this.userInfo.id)
     };
+    if(this.selectedEvent.max_attendees === this.selectedEvent.reg_count){
+      this.message = "Maximum attendees reached";
+    } else {
+      this.dataService.registerEvent(this.register).subscribe((res: Response)=>{
+        this.response = res;
+        if (this.response.code === 200) {
+          this.toastr.success(JSON.stringify(this.response.message), '', {
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast success'
+          });
+        } else {
+          this.toastr.error(JSON.stringify(this.response.message), '', {
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast error'
+          });
+        }
+      });
+      this.message = '';
+    }
     this.checkRegistration();
-    this.dataService.registerEvent(this.register).subscribe((res)=>{
-      this.response = res;
-      console.log(this.response);
-    });
   }
 
   checkRegistration(){
     this.register = {
-      'event_id': this.selectedEvent.id,
-      'student_id': this.userInfo.id
+      'event_id':  Number(this.selectedEvent.id),
+      'student_id': Number(this.userInfo.id)
     };
     this.dataService.checkRegistration(this.register).subscribe((res)=>{
-      this.response = res;
-      if(this.response === 0){
-        this.isRegistered = true;
+      this.checkResponse = Number(JSON.stringify(res));
+      if(this.checkResponse === 0){
+        this.isRegistered = 0;
+      } else if (this.checkResponse === 1) {
+        this.isRegistered = 1;
+      } else if (this.checkResponse === 2) {
+        this.isRegistered = 2;
       }
-      
     });
+  }
+
+  unregisterEvent(){
+    this.register = {
+      'event_id': Number(this.selectedEvent.id),
+      'student_id': Number(this.userInfo.id)
+    };
+    this.dataService.unregisterEvent(this.register).subscribe((res: Response)=>{
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.checkRegistration();
+      this.message = '';
+    });
+  }
+
+  reRegisterEvent(){
+    this.register = {
+      'event_id': Number(this.selectedEvent.id),
+      'student_id': Number(this.userInfo.id)
+    };
+    if(this.selectedEvent.max_attendees === this.selectedEvent.reg_count){
+      this.message = "Maximum attendees reached";
+    } else {
+      this.dataService.reRegisterEvent(this.register).subscribe((res: Response)=>{
+        this.response = res;
+        if (this.response.code === 200) {
+          this.toastr.success(JSON.stringify(this.response.message), '', {
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast success'
+          });
+        } else {
+          this.toastr.error(JSON.stringify(this.response.message), '', {
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast error'
+          });
+        }
+        this.checkRegistration();
+        this.message = '';
+      });
+    }
   }
 }
