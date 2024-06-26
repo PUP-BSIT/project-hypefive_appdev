@@ -1,5 +1,4 @@
-/* src/styles.css */
-
+@import "calendar.css";
 @font-face {
   font-family: "Outfit";
   src: url("/assets/fonts/Outfit-Regular.ttf") format("truetype");

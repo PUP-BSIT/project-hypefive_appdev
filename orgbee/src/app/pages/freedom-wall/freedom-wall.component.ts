@@ -14,7 +14,9 @@ export interface Post {
   background_color: string;
   showOptions?: boolean;
   id?: number; // for sample only
-  accessibility:number; //Update to status
+  post_status_id:number; //Update to status
+  student_id:number;
+  deletion_req_count?:number;
 }
 
 @Component({
@@ -38,7 +40,7 @@ export class FreedomWallComponent implements OnInit {
   showManageWallModal = false; 
 
   userInfo: UserInfo;
-
+  requestDelete:Post[];
   constructor(
     private dialog: MatDialog, 
     private dataService: DataService, 
@@ -60,6 +62,7 @@ export class FreedomWallComponent implements OnInit {
     });
     this.loadPendingPosts();
     this.updatePaginatedPosts();
+    this.getDeletionRequests();
   }
 
   updateTitleCharacterCount(): void {
@@ -94,7 +97,8 @@ export class FreedomWallComponent implements OnInit {
       subject: this.freedomwallForm.value.newPostTitle,
       content: this.freedomwallForm.value.newPostText,
       background_color: this.getRandomColor(),
-      accessibility: 0, //Update to status
+      post_status_id: 1, //Update to status
+      student_id:  Number(this.userInfo.id),
     };
     
     this.dataService.addPosts(newPost).subscribe((res: Response) => {
@@ -123,12 +127,14 @@ export class FreedomWallComponent implements OnInit {
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
+      console.log(this.posts);
     });
   }
 
   closeModal() {
     this.showModal = false;
     this.freedomwallForm.reset();
+    this.showRequestToDeleteModal = false;
   }
 
   openPost(post: Post) {
@@ -183,6 +189,7 @@ export class FreedomWallComponent implements OnInit {
         });
       }
       this.showPosts();
+      this.getDeletionRequests();
     });
   }
 
@@ -241,7 +248,6 @@ export class FreedomWallComponent implements OnInit {
         });
       }
       console.log(this.response);
-      this.closeManageWallModal();
       this.showPosts();
       this.loadPendingPosts();
     });
@@ -264,9 +270,63 @@ export class FreedomWallComponent implements OnInit {
           toastClass: 'custom-toast error'
         });
       }
-      this.closeManageWallModal();
       this.showPosts();
       this.loadPendingPosts();
     });
+  }
+
+  showRequestToDeleteModal=false;
+  openRequestToDeleteModal(){
+    this.showRequestToDeleteModal=true;
+  }
+
+  getDeletionRequests(){
+    this.dataService.getDeletionRequests().subscribe((posts:Post[])=>{
+      this.requestDelete =posts;
+    });
+  }
+
+  requestPostToDelete(post: Post){
+    const post_id = { id: post.id };
+    this.dataService.deletionRequest(post_id).subscribe((res: Response)=>{
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.toggleOptions(post);
+      this.getDeletionRequests();
+    });
+  }
+
+  declineRequestToDelete(id: number){
+    const post_id = { id: id };
+    this.dataService.declineDeletionRequest(post_id).subscribe((res:Response)=>{
+      this.response = res;
+      if (this.response.code === 200) {
+        this.toastr.success(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast success'
+        });
+      } else {
+        this.toastr.error(JSON.stringify(this.response.message), '', {
+          timeOut: 2000,
+          progressBar: true,
+          toastClass: 'custom-toast error'
+        });
+      }
+      this.getDeletionRequests();
+    })
+
   }
 }

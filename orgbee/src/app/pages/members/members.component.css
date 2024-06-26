@@ -2,52 +2,11 @@ body {
   font-family: "Outfit", sans-serif;
 }
 
-.members-page {
-  overflow-y: auto;
-  height: 100%;
-  padding: 15px;
-}
-
 .container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   margin-top: 0px;
-}
-
-.left-column {
-  flex: 3;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-}
-
-.right-column {
-  flex: 1.5;
-  padding: 10px 0px 10px 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
-  width: 100%;
-}
-
-.header {
-  display: flex;
-  padding: 10px;
-  background-color: #242424;
-  border-bottom: 1px solid #ddd;
-  border-radius: 10px;
-  flex-shrink: 0;
-  margin-top: 0px;
-}
-
-.header img {
-  height: 20px;
-  margin: 10px;
-}
-
-.header h1 {
-  margin: 0;
-  color: #ffca10;
+  padding: 15px;
 }
 
 .all-members {
@@ -60,45 +19,27 @@ body {
   gap: 20px;
   background-color: #eeeeed;
   height: fit-content;
+  border-radius: 20px;
 }
 
 .all-members1 {
   overflow-y: scroll;
   background-color: #eeeeed;
   height: 400px;
-}
-
-.members {
-  margin: 20px;
-  border-radius: 20px;
-  padding: 10px;
-  background-color: #eeeeed;
-  height: 500px;
-}
-
-.all-members {
-  border-radius: 20px;
-}
-
-.all-members1 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.member-info {
-  display: flex;
-  align-items: center;
-  margin-right: 15px; 
-}
-
-.member-name {
-  margin-left: 10px; 
-  font-size: 16px; 
+.members {
+  margin: 15px;
+  border-radius: 20px;
+  padding: 10px;
+  background-color: #eeeeed;
+  height: 500px;
+  margin-top: -23%;
 }
 
 .member {
-  display: flex;
-  align-items: center;
   margin-top: 20px;
   display: flex;
   text-align: center;
@@ -113,8 +54,8 @@ body {
 .profile img {
   width: 40px;
   height: 40px;
+  margin-right: 10px;
   border-radius: 50%;
-  margin-left: 5px;
 }
 
 .membership-request {
@@ -122,39 +63,42 @@ body {
   background-color: #eeeeed;
   flex: 1;
   overflow-y: scroll;
-  padding: 0px 10px;
+  padding: 0;
   margin-top: -35px;
   padding-bottom: 20px;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 300px;
 }
 
 .membership-request h2 {
   margin: 20px;
   font-size: 20px;
-  font-weight: 500;
 }
 
 .request {
   padding: 2px 8px;
   margin-bottom: 2px;
-  display: flex; /* Added */
-  align-items: center; /* Added */
+  display: flex;
+  align-items: center;
   border-radius: 20px;
 }
 
-
-
 .request p {
-  margin-left: 5px;
+  margin: 0;
+  border-radius: 20px;
+  padding: 0;
+  width: 200%;
 }
 
 .request button {
   margin-left: 5px;
-  padding: 5px 20px;
+  padding: 10px 20px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s;
-  font-size: 12px;
 }
 
 .request button.accept {
@@ -168,12 +112,12 @@ body {
 
 .request button.decline {
   background-color: #b4b4b4;
+
   color: #262626;
 }
 
 .request button.decline:hover {
-  background-color: #232323;
-  color: #fefefe;
+  background-color: #1e1e1e;
 }
 
 .officers {
@@ -182,37 +126,47 @@ body {
   border-radius: 20px;
   background-color: #eeeeed;
   flex: 1;
-  overflow-y: scroll;
   padding: 10px;
   align-items: center;
+  margin-right: 2%;
+  margin-left: 2%;
+  height: 300px;
+}
+
+.officer1 {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   padding-right: 13%;
+  height: 200px;
 }
 
 .officers h2 {
   font-size: 20px;
   margin: 20px;
-  font-weight: 500;
 }
 
 .profile {
   display: flex;
+  padding: 10px;
+  margin: 10px;
+  margin-bottom: 0px;
   background-color: #ffffff;
-  border-radius: 25px;
+  border-radius: 20px;
   align-items: center;
-  margin-right: 10px;
   width: 100%;
 }
 
 .all-members,
 .membership-request,
-.officers {
+.officer1 {
   overflow-y: auto;
   scrollbar-width: none;
 }
 
 .all-members1::-webkit-scrollbar,
 .membership-request::-webkit-scrollbar,
-.officers::-webkit-scrollbar {
+.officer1::-webkit-scrollbar {
   display: none;
 }
 
@@ -222,6 +176,8 @@ body {
   margin-bottom: 0px 20px;
   display: flex;
   justify-content: center;
+  text-align: center;
+  display: inline-block;
 }
 
 .search-input {
@@ -240,7 +196,7 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   border: 1px solid #ccc;
-  overflow-y: auto; 
+  overflow-y: auto;
   width: 15%;
   margin-top: 3px;
 }
@@ -248,7 +204,7 @@ body {
 #search_results {
   list-style-type: none;
   width: 100%;
-  padding:0;
+  padding: 0;
   margin: 0;
 }
 
@@ -259,6 +215,11 @@ body {
 
 #search_results:hover {
   background-color: #ffca10;
+}
+
+.member {
+  display: flex;
+  align-items: center;
 }
 
 .modal {
@@ -333,33 +294,40 @@ button.modal-member-button:hover {
   background-color: #eeeeed;
 }
 
-.modal-content {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 .details {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 5px;
-  max-width: 100%;
-  margin: 0 auto;
-  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  margin-top: 10%;
+  text-align: left;
   justify-content: center;
-  text-align: center;
-  margin-left: 15%;
+
 }
 
-.details .label {
-  text-align: start;
+.label {
   font-weight: bold;
+  padding: 0;
 }
 
-.details .value {
-  text-align: start;
-  margin-top: -5%;
+.value {
+  padding: 0;
+}
+
+.details > .label:nth-child(4n-3),
+.details > .value:nth-child(4n-2) {
+  grid-column: 1;
+  margin-top: -15px;
+  padding: 0px;
+}
+
+.details > .label:nth-child(4n-1),
+.details > .value:nth-child(4n) {
+  grid-column: 2;
+  margin-top: -50px;
+  padding: 0;
+  margin-left: 10px;
 }
 
 .modal-profile {
@@ -389,6 +357,110 @@ button.modal-member-button:hover {
   height: 20px;
   text-align: center;
   font-size: 12px;
-  margin: 10px auto; /* Added margin to center vertically */
+  margin: 10px auto; 
 }
 
+@media (max-width: 766px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+  }
+
+  .membership-request {
+    margin-top: 2%;
+    margin-bottom: 20%;
+  }
+
+  .members {
+    margin-top: 3%;
+  }
+
+  .details {
+    grid-template-columns: 1fr; 
+    padding: 10%;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .value {
+    margin-top: -100%;
+  }
+
+  .label {
+    margin: -2%;
+  }
+
+  .details > .label:nth-child(4n-3),
+  .details > .value:nth-child(4n-2),
+  .details > .label:nth-child(4n-1),
+  .details > .value:nth-child(4n) {
+    grid-column: 1; 
+    margin-top: 0; 
+    margin-left: 0; 
+  }
+
+  .officers {
+    padding-right: 5%;
+  }
+}
+
+@media (max-width: 969px) {
+  .officer1 {
+    padding-right: 20%;
+  }
+
+  .membership-request {
+    height: 400px;
+  }
+
+  .members {
+    margin-top: -30%;
+  }
+}
+
+@media (max-width: 895px) {
+  .officer1 {
+    padding-right: 20%;
+  }
+
+  .membership-request,
+  .officers {
+    height: 300px;
+  }
+
+  .members {
+    height: 450px;
+    margin-top: -100%;
+  }
+}
+
+@media (max-width: 1150px) {
+  .membership-request {
+    height: 200px;
+  }
+
+  .members {
+    margin-top: -18%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .membership-request {
+    height: 200px;
+  }
+
+  .members {
+    margin-top: -18%;
+  }
+}
+
+@media (max-width: 1350px) {
+  .membership-request {
+    height: 200px;
+  }
+
+  .members {
+    margin-top: -15%;
+  }
+}
