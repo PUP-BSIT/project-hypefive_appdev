@@ -10,7 +10,7 @@ export interface Event {
   event_name: string; 
   location: string; 
   date: Date; 
-  time: Time; 
+  time: string; 
   all_members_required: number; 
   has_reg_fee: number;  
   registration_fee?: number; 
