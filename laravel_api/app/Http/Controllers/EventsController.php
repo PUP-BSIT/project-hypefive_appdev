@@ -162,4 +162,21 @@ class EventsController extends Controller {
       return response()->json($response);
     }
   }
+
+  public function getTotalUpcomingEvents(){
+    $eventCount = DB::table('events')->where('event_status_id', '=', 2)
+      ->where('event_state_id', '=', 1)
+      ->whereNotIn('event_state_id', [4])->count();
+    
+    return response()->json($eventCount);
+  }
+
+  public function getFiveEvents() {
+    $events = DB::table('events')
+      ->where('event_status_id', '=', 2)
+      ->where('event_state_id', '=', 1)
+      ->whereNotIn('event_state_id', [4])
+      ->limit(5)->get(); 
+    return response()->json($events);
+  }
 }
