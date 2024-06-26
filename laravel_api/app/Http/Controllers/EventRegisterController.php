@@ -91,4 +91,19 @@ class EventRegisterController extends Controller {
       return response()->json($response);
     }
   }
+
+  public function getRegisteredMembers($event_id) {
+    if ($event_id){
+      $registeredMembers = 
+        DB::table('registrations')
+        ->where('event_id', $event_id)
+        ->where('is_registered', 1)
+        ->join('students', 'registrations.student_id', '=', 'students.id')
+        ->join('icons', 'students.icon_id', '=', 'icons.id')
+        ->get(['students.*', 'icons.icon_location']);
+      return response()->json($registeredMembers);
+    } else {
+      return response()->json(":(" );
+    }
+  }
 }

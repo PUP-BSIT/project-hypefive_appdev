@@ -477,7 +477,7 @@
       <div class="manage-info">
         <img src="../../../assets/person.png"  
           alt="registered icon" class="registered-icon">
-        <span class="registered-text">11 registered</span>
+        <span class="registered-text">{{event.reg_count}} registered</span>
       </div>
       <button 
         class="manage-button" 
@@ -540,21 +540,13 @@
         <div class="members-list">
           @for(member of members; track members){
             <div class="member">
-              <img [src]="member.photo" 
-                alt="{{member.name}}" 
+              <img src="{{ member.icon_location }}" 
+                alt="{{member.first_name}}" 
                 class="member-photo">
-              <span class="member-name">{{member.name}}</span>
+              <span class="member-name">{{member.first_name}} {{member.last_name}}</span>
             </div>
           }
-          
         </div>
-        <!-- <ul>
-          TODO: VILLA-VILLA: Get the registered members per event -->
-          <!-- @for(member of selectedEvent?.registeredMembers; track selectedEvent)
-          {
-            <li> {{ member.name }} </li>
-          }
-        </ul> -->
       </div>
     </div>
   </div>
