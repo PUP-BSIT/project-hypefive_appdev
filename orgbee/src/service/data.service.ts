@@ -118,6 +118,18 @@ export class DataService {
   checkRegistration(data){
     return this.http.post(this.apiUrl +'api/checkRegistration/', data);
   }
+
+  unregisterEvent(data){
+    return this.http.post(this.apiUrl +'api/unregisterEvent/', data);
+  }
+
+  reRegisterEvent(data){
+    return this.http.post(this.apiUrl +'api/reRegisterEvent/', data);
+  }
+
+  getRegisteredMembers(event_id: number){
+    return this.http.get(this.apiUrl + `api/getRegisteredMembers/${event_id}`);
+  }
     
   getPostRequest(){
     return this.http.get(this.apiUrl +'api/getPostRequest/');
@@ -141,5 +153,21 @@ export class DataService {
 
   declineDeletionRequest(data){
     return this.http.post(this.apiUrl +'api/declineDeletionRequest/', data);
+  }
+
+  getTotalMembers(){
+    return this.http.get(this.apiUrl +'api/getTotalMembers/');
+  }
+
+  getTotalUpcomingEvents(){
+    return this.http.get(this.apiUrl +'api/getTotalUpcomingEvents/');
+  }
+
+  getTotalPendingPosts(){
+    return this.http.get(this.apiUrl +'api/getTotalPendingPosts/');
+  }
+
+  getFiveEvents() {
+    return this.http.get(this.apiUrl +'api/getFiveEvents/');
   }
 }
