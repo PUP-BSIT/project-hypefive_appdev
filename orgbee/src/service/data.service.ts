@@ -154,4 +154,20 @@ export class DataService {
   declineDeletionRequest(data){
     return this.http.post(this.apiUrl +'api/declineDeletionRequest/', data);
   }
+
+  getTotalMembers(){
+    return this.http.get(this.apiUrl +'api/getTotalMembers/');
+  }
+
+  getTotalUpcomingEvents(){
+    return this.http.get(this.apiUrl +'api/getTotalUpcomingEvents/');
+  }
+
+  getTotalPendingPosts(){
+    return this.http.get(this.apiUrl +'api/getTotalPendingPosts/');
+  }
+
+  getFiveEvents() {
+    return this.http.get(this.apiUrl +'api/getFiveEvents/');
+  }
 }

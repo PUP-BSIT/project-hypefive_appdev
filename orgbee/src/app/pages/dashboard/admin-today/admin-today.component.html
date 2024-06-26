@@ -4,26 +4,12 @@
       <div class="date-number">{{ currentDate }}</div>
     </div>
     <div class="events">
-      <div class="event">
-        <span class="event-name">Acoustic Night With Clover</span>
-        <span class="event-time">9:00 pm</span>
-      </div>
-      <div class="event">
-        <span class="event-name">Acoustic Night With Clover</span>
-        <span class="event-time">9:00 pm</span>
-      </div>
-      <div class="event">
-        <span class="event-name">Acoustic Night With Clover</span>
-        <span class="event-time">9:00 pm</span>
-      </div>
-      <div class="event">
-        <span class="event-name">Acoustic Night With Clover</span>
-        <span class="event-time">9:00 pm</span>
-      </div>
-      <div class="event">
-        <span class="event-name">Acoustic Night With Clover</span>
-        <span class="event-time">9:00 pm</span>
-      </div>
+      @for(event of upcomingEvents; track upcomingEvents){
+        <div class="event">
+          <span class="event-name">{{ event.event_name }}</span>
+          <span class="event-time">{{ event.formattedTime }}</span>
+        </div>
+      }
     </div>
   </div>
   <app-admin-data></app-admin-data>
