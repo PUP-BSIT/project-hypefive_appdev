@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { formatDate } from '@angular/common';
 import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
-import { DataService } from '../../../../service/data.service'; // Adjust the path as necessary
+import { DataService } from '../../../../service/data.service'; 
 
 @Component({
   selector: 'app-calendar',
@@ -47,14 +47,23 @@ export class CalendarComponent implements OnInit {
   handleDayClick(event: any): void {
     const clickedDay = event.day;
     const clickedDate: Date = new Date(clickedDay.date);
+    const today: Date = new Date();
+
+    today.setHours(0, 0, 0, 0);
+    clickedDate.setHours(0, 0, 0, 0);
+
     const clickedEvents = this.events.filter(event =>
       event.start.getFullYear() === clickedDate.getFullYear() &&
       event.start.getMonth() === clickedDate.getMonth() &&
       event.start.getDate() === clickedDate.getDate()
     );
 
-    this.selectedEvents = clickedEvents;
-    this.isEventDetailsVisible = true;
+    if (clickedEvents.length === 0 || clickedDate.getTime() === today.getTime()) {
+      this.isEventDetailsVisible = false;
+    } else {
+      this.selectedEvents = clickedEvents;
+      this.isEventDetailsVisible = true;
+    }
   }
 }
 

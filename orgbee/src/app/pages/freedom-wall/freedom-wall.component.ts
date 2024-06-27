@@ -38,6 +38,8 @@ export class FreedomWallComponent implements OnInit {
   postsPerPage = 4; 
   totalPages = 1; 
   showManageWallModal = false; 
+  deletePostCount = 0;
+  manageWallCount = 0;
 
   userInfo: UserInfo;
   requestDelete:Post[];
@@ -45,7 +47,8 @@ export class FreedomWallComponent implements OnInit {
     private dialog: MatDialog, 
     private dataService: DataService, 
     private toastr: ToastrService,
-    private fb: FormBuilder, private loginService: LoginService) { }
+    private fb: FormBuilder, 
+    private loginService: LoginService) { }
     
   ngOnInit(): void {
     this.showPosts();
@@ -63,6 +66,7 @@ export class FreedomWallComponent implements OnInit {
     this.loadPendingPosts();
     this.updatePaginatedPosts();
     this.getDeletionRequests();
+    
   }
 
   updateTitleCharacterCount(): void {
@@ -207,6 +211,7 @@ export class FreedomWallComponent implements OnInit {
       this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
       this.currentPage = 1;
       this.updatePaginatedPosts();
+      this.updateButtonCounts();
     });
   }
 
@@ -283,6 +288,7 @@ export class FreedomWallComponent implements OnInit {
   getDeletionRequests(){
     this.dataService.getDeletionRequests().subscribe((posts:Post[])=>{
       this.requestDelete =posts;
+      this.updateButtonCounts();
     });
   }
 
@@ -327,6 +333,10 @@ export class FreedomWallComponent implements OnInit {
       }
       this.getDeletionRequests();
     })
+  }
 
+  updateButtonCounts(): void {
+    this.deletePostCount = this.requestDelete ? this.requestDelete.length : 0;
+    this.manageWallCount = this.pendingPosts ? this.pendingPosts.length : 0;
   }
 }
