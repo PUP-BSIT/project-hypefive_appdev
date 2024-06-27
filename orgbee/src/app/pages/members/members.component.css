@@ -371,6 +371,11 @@ button.modal-member-button:hover {
   .membership-request {
     margin-top: 2%;
     margin-bottom: 20%;
+    margin-left: 2%;
+  }
+
+  .officers {
+    margin-left: 2%;
   }
 
   .members {
