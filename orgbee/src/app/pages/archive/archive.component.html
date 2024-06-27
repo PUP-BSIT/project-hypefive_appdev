@@ -12,6 +12,11 @@
         </div>
 
         <div class="page">
+          @if(events.length === 0) {
+            <ng-container>
+              <p class="no-request">Events that have already ended</p>
+            </ng-container>
+          } 
           @for(event of events.slice(currentSlide, currentSlide + 3); track
             events) {
               <div class="archive-event" (click)="eventClick(event)">
@@ -66,6 +71,11 @@
         </table>
         <div class="previous-events">
           <table class="event-list">
+            @if(oldEvents.length === 0) {
+              <ng-container>
+                <p class="no-request">No archives yet.</p>
+              </ng-container>
+            } 
             @for(event of oldEvents; track oldEvents) {
               <div class="event-list-table">
                 <div (click)="eventClick(event)">
