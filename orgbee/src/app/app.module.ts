@@ -17,6 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 import { AnModalComponent } 
   from './pages/dashboard/an-modal/an-modal.component';
@@ -83,7 +84,7 @@ import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.c
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
-    
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

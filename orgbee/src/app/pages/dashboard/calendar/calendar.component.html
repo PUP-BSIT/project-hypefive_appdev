@@ -11,14 +11,15 @@
       class="custom-calendar"
       (dayClicked)="handleDayClick($event)"
     ></mwl-calendar-month-view>
-    <div *ngIf="isEventDetailsVisible">
-        <!-- Render the selected events here -->
+    @if (isEventDetailsVisible) {
+      <div class="event-details">
         <h3>Events on {{ selectedEvents[0]?.start | date:'mediumDate' }}</h3>
-        <ul>
-          <li *ngFor="let event of selectedEvents">
-            {{ event.title }}
-          </li>
-        </ul>
-      </div>
-        
+        <div class="event-list">
+          <div *ngFor="let event of selectedEvents" class="event-item">
+            <div>{{ event.title }}</div>
+            <div>{{ event.start | date:'h:mm a'}}</div>
+          </div>
+        </div>
+      </div>     
+    }
 </div>

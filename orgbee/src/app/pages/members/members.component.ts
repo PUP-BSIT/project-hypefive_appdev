@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
-interface Member {
+export interface Member {
   first_name: string;
   last_name: string;
   birthday: Date;
