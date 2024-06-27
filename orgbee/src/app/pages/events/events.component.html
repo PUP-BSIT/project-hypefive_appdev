@@ -80,8 +80,8 @@
         <div class="button-container">
           <button 
             type="button" 
-            class="step-0-next-btn" 
-            (click)="nextStep()">
+            class="step-next-btn" 
+            (click)="nextStep()" [disabled]="!isStepValid(0)">
              NEXT
           </button>
         </div>
@@ -151,10 +151,13 @@
           }
 
         <div class="button-container">
-          <button type="button" class="step-1-back-btn" (click)="prevStep()">
+          <button type="button" class="step-back-btn" (click)="prevStep()">
             BACK
           </button>
-          <button type="button" class="step-1-next-btn" (click)="nextStep()">
+          <button type="button" 
+            class="step-next-btn" 
+            (click)="nextStep()" 
+            [disabled]="!isStepValid(1)">
             NEXT
           </button>
         </div>
@@ -186,7 +189,7 @@
           </div>
         }
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
         <!-- @if(poster_loc.invalid && poster_loc.touched){
           <div class="inc">
            @if(poster_loc.errors?.['required']){
@@ -207,7 +210,8 @@
           <button 
             type="button" 
             class="step-2-next-btn" 
-            (click)="nextStep()">
+            (click)="nextStep()"
+            [disabled]="!isStepValid(2)">
               NEXT
           </button>
         </div>
@@ -217,7 +221,7 @@
       <!-- Final Buttons -->
       @if(currentStep === 3){
         <div class="event-preview">
-          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <img [src]="preview" alt="Event Poster"/>
           <h3>{{ eventForm.get('event_name').value }}</h3>
           <p>{{ eventForm.get('location').value }}</p>
           <p>{{ eventForm.get('date').value | date }}</p>
@@ -233,7 +237,8 @@
           <button
             type="submit"
             class="publish-btn"
-            (click)="submitForm('publish')">
+            (click)="submitForm('publish')"
+            [disabled]="eventForm.invalid">
               PUBLISH
           </button>
           <button
@@ -284,7 +289,7 @@
         <div class="button-container">
           <button 
             type="button" 
-            class="step-0-next-btn" 
+            class="step-next-btn" 
             (click)="nextStep()">
              NEXT
           </button>
@@ -337,10 +342,10 @@
           placeholder="Max no. of attendees"/>
 
         <div class="button-container">
-          <button type="button" class="step-1-back-btn" (click)="prevStep()">
+          <button type="button" class="step-back-btn" (click)="prevStep()">
             BACK
           </button>
-          <button type="button" class="step-1-next-btn" (click)="nextStep()">
+          <button type="button" class="step-next-btn" (click)="nextStep()">
             NEXT
           </button>
         </div>
@@ -355,7 +360,7 @@
           placeholder="Write a maximum of 500 characters caption">
         </textarea>
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
         <div class="button-container">
           <button 
             type="button" 
@@ -376,7 +381,7 @@
       <!-- Final Buttons -->
       @if(currentStep === 3){
         <div class="event-preview">
-          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <img [src]="preview" alt="Event Poster"/>
           <h3>{{ eventForm.get('event_name').value }}</h3>
           <p>{{ eventForm.get('location').value }}</p>
           <p>{{ eventForm.get('date').value | date }}</p>
