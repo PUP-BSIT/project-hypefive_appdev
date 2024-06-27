@@ -39,6 +39,12 @@ Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}',
 
 //Update Icon
 Route::put('students/update-icon', [StudentsController::class, 'updateIcon']);
+
+//Update User Info
+Route::put('/update-student-info/{id}', [StudentsController::class, 'updateUserInfo'])
+    ->middleware('jwt.auth')
+    ->name('api.updateUserInfo');
+
 Route::post('/registerEvent', [EventRegisterController::class, 'registerEvent'])
   ->name('api.registerEvent');
 
