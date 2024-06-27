@@ -35,7 +35,7 @@ body {
   border-radius: 20px;
   padding: 10px;
   background-color: #eeeeed;
-  height: 500px;
+  height: 140%;
   margin-top: -23%;
 }
 
@@ -171,8 +171,9 @@ body {
 }
 
 #search_container {
-  width: 100%;
+  width: 80%;
   margin-top: 20px;
+  margin-left: 10%;
   margin-bottom: 0px 20px;
   display: flex;
   justify-content: center;
@@ -197,7 +198,7 @@ body {
   border-radius: 10px;
   border: 1px solid #ccc;
   overflow-y: auto;
-  width: 15%;
+  width: 40%;
   margin-top: 3px;
 }
 
@@ -431,7 +432,7 @@ button.modal-member-button:hover {
 
   .members {
     height: 450px;
-    margin-top: -20%;
+    margin-top: -200%;
   }
 }
 
@@ -441,7 +442,7 @@ button.modal-member-button:hover {
   }
 
   .members {
-    margin-top: -25%;
+    margin-top: -15%;
   }
 }
 
@@ -451,7 +452,7 @@ button.modal-member-button:hover {
   }
 
   .members {
-    margin-top: -18%;
+    margin-top: -17%;
   }
 }
 
