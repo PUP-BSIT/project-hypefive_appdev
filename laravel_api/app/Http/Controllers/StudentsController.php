@@ -189,7 +189,7 @@ class StudentsController extends Controller {
   }
 
   public function updateUserInfo(Request $request)
-    {
+  {
         try {
             // Verify JWT token
             $user = JWTAuth::parseToken()->authenticate();
@@ -245,8 +245,41 @@ class StudentsController extends Controller {
         } catch (\Exception $e) {
             return response()->json(['message' => 'Internal server error: ' . $e->getMessage()], 500);
         }
-    
-}
+  }
+  public function changePassword(Request $request)
+  {
+      try {
+          $token = JWTAuth::parseToken()->authenticate();
+      } catch (TokenExpiredException $e) {
+          return response()->json(['message' => 'Token expired'], 401);
+      } catch (TokenInvalidException $e) {
+          return response()->json(['message' => 'Token invalid'], 401);
+      } catch (JWTException $e) {
+          return response()->json(['message' => 'Token absent'], 401);
+      }
+  
+      $request->validate([
+          'current_password' => 'required',
+          'new_password' => 'required|min:8',
+          'confirm_password' => 'required|same:new_password',
+      ]);
+  
+      // Check if the current password same with user's password
+      if (!Hash::check($request->current_password, $token->password)) {
+          return response()->json(['message' => 'Current password is incorrect.'], 401);
+      }
+  
+      // Update the user's password
+      $user = User::find($token->id);
+      $user->password = Hash::make($request->new_password);
+      $user->save();
+  
+      return response()->json(['message' => 'Password updated successfully.']);
+  }
+
+
+
+
   public function getTotalMembers() {
     $members = DB::table('students')->whereNotIn('id', [1])->count();
     
