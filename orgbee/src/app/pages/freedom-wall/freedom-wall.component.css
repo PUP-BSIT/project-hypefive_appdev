@@ -141,7 +141,6 @@ body {
   margin: 5px; 
   width: calc((100% - 40px) / 4); 
   min-width: 120px;
-  max-height: 200px;
 }
 
 .masonry-container {
@@ -175,6 +174,7 @@ body {
   word-wrap: break-word;
   text-align: justify;
   padding: 10px;
+  padding-bottom: 15px;
 }
 
 .three-dots {
@@ -514,6 +514,16 @@ body {
     margin-left: 0px;
     margin-right: 100%;
     width: 100px;
+  }
+
+  .textarea-wrapper {
+    display: flex;
+    width: 100%;
+  }
+
+  .input-wrapper {
+    display: flex;
+    width: 320%;
   }
 
   .modal-footer {
