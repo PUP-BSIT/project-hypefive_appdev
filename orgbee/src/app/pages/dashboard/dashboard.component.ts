@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
   openModalAnnouncement = false;
   showEditModal = false; 
   showProfileIconEdit = false;  
+  showSettings = false;
   activeTab: string = 'all';
   loggingOut: boolean = false;
   userInfo: UserInfo = {
@@ -97,8 +98,16 @@ export class DashboardComponent implements OnInit {
     this.showProfileIconEdit = !this.showProfileIconEdit;
   }
 
+  toggleSettings(): void { 
+    this.showSettings = !this.showSettings;
+  }
+
   handleProfileIconClose(): void {
     this.showProfileIconEdit = false;
+  }
+
+  handleSettingsClose(): void {
+    this.showSettings = false;
   }
 
   toggleModal(): void {

@@ -60,6 +60,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarDateFormatter } from 'angular-calendar';
 import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
+import { StepperComponent } from './pages/events/stepper/stepper.component';
+import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,8 @@ import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.c
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
-    
+    StepperComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
