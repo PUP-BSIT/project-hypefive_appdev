@@ -154,16 +154,20 @@ textarea {
   text-align: start;
 }
 
-.step-0-next-btn {
+.step-next-btn {
   background-color: #ffca10;
 }
 
-.step-1-back-btn {
+.step-next-btn[disabled] {
+  color: #b49314; 
+}
+
+.step-next-btn[disabled]:hover {
+  background-color: #ffca10;
+}
+
+.step-back-btn {
   background-color: #888;
-}
-
-.step-1-next-btn {
-  background-color: #ffca10;
 }
 
 .textarea-container {
@@ -204,6 +208,13 @@ textarea {
   background-color: #ffca10;
 }
 
+.step-2-next-btn[disabled] {
+  color: #b49314; 
+}
+
+.step-2-next-btn[disabled]:hover {
+  background-color: #ffca10;
+}
 #poster_loc::-webkit-file-upload-button {
   display: none;
 }

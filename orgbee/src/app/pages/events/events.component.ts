@@ -73,7 +73,7 @@ export class EventsComponent implements OnInit {
       registration_fee: [{ value: '0', disabled: true }, 
         {validators: [Validators.required],}],
       max_attendees: ['', 
-        {validators: [Validators.required, Validators.min(1)],}], 
+        {validators: [Validators.required, Validators.min(10)],}], 
       caption: ['',
         {validators: [Validators.required,  Validators.maxLength(300)],}], 
     });
@@ -91,6 +91,25 @@ export class EventsComponent implements OnInit {
     });
 
 
+  }
+
+  isStepValid(stepIndex: number): boolean {
+    switch (stepIndex) {
+      case 0:
+        return this.eventForm.get('event_name').valid
+              && this.eventForm.get('location').valid
+              && this.eventForm.get('date').valid
+              && this.eventForm.get('time').valid;
+      case 1:
+        return this.eventForm.get('all_members_required').valid
+              && this.eventForm.get('has_reg_fee').valid
+              && this.eventForm.get('max_attendees').valid;
+      case 2:
+        return this.eventForm.get('caption').valid;
+              //  && this.eventForm.get('poster_loc').valid;
+      default:
+        return false;
+    }
   }
 
   imageValidator(control: FormControl) {
