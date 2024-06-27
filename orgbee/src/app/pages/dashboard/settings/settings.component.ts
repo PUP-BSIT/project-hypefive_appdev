@@ -196,4 +196,24 @@ export class SettingsComponent implements OnInit {
     this.showSettings = false;
     this.close.emit(); 
   }
+
+  changePass() {
+    if (this.passwordForm.invalid) {
+      return;
+    }
+  
+    const currentPassword = this.passwordForm.value.current_password;
+    const newPassword = this.passwordForm.value.new_password;
+    const confirm_password = this.passwordForm.value.confirm_password; 
+  
+    this.userService.changePassword(currentPassword, newPassword, confirm_password).subscribe(
+      response => {
+        console.log('Password updated successfully:', response);
+      },
+      error => {
+        console.error('Error updating password:', error);
+      }
+    );
+  }
+  
 }

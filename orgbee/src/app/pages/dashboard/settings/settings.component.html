@@ -148,7 +148,7 @@
                             current password
                         </p>
                         <div class="update-form">
-                            <form [formGroup]="passwordForm" (ngSubmit)="onUpdateSubmit()">
+                            <form [formGroup]="passwordForm">
                                 <div>
                                     <label for="current_password">Current Password</label>
                                     <input 
@@ -200,6 +200,7 @@
                                         </div>
                                     }
                                 </div>
+                                <button (click)="changePass()">change pass</button>
                             </form>
                         </div>
 
