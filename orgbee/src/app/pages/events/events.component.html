@@ -15,12 +15,11 @@
 <div id="eventFormModal" class="modal" [class.visible]="createEventModal">
   <div class="modal-content">
     <span class="close" (click)="closeCreateEditModal()">&times;</span>
-
     <form [formGroup]="eventForm" (ngSubmit)="submitForm('publish')">
+      <h2>EVENT FORM</h2>
+      <app-stepper [currentStep]="currentStep"></app-stepper>
       <!-- Event Information Form -->
       @if(currentStep === 0){
-        <h2>EVENT FORM</h2>
-        <h4>Event Information</h4>
         <label for="event_name">Name:</label>
         <input
           type="text"
@@ -90,8 +89,6 @@
 
       <!-- Registration & Admission Form -->
       @if(currentStep === 1){
-        <h2>EVENT FORM</h2>
-        <h4>Registration & Admission</h4>
         <div class="inline-radio">
           <label>Are all members required to attend?</label>
           <input
@@ -165,8 +162,6 @@
 
       <!-- Caption & Poster Form -->
       @if(currentStep === 2){
-        <h2>EVENT FORM</h2>
-        <h4>Publication Material</h4>
         <label for="caption">Write a caption:</label>
         <div class="textarea-wrapper">
           <textarea
@@ -261,8 +256,6 @@
     <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
       <!-- Event Information Form -->
       @if(currentStep === 0){
-        <h2>EVENT FORM</h2>
-        <h4>Event Information</h4>
         <label for="event_name">Name:</label>
         <input
           type="text"
@@ -300,8 +293,6 @@
 
       <!-- Registration & Admission Form -->
       @if(currentStep === 1){
-        <h2>EVENT FORM</h2>
-        <h4>Registration & Admission</h4>
         <div class="inline-radio">
           <label>Are all members required to attend?</label>
           <input
@@ -357,8 +348,6 @@
 
       <!-- Caption & Poster Form -->
       @if(currentStep === 2){
-        <h2>EVENT FORM</h2>
-        <h4>Publication Material</h4>
         <label for="caption">Write a caption:</label>
         <textarea
           id="caption"

@@ -61,6 +61,7 @@ import { CalendarDateFormatter } from 'angular-calendar';
 import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 import { SettingsComponent } from './pages/dashboard/settings/settings.component';
+import { StepperComponent } from './pages/events/stepper/stepper.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { SettingsComponent } from './pages/dashboard/settings/settings.component
     CalendarComponent,
     AdminTodayComponent,
     SettingsComponent,
+    StepperComponent
   ],
   imports: [
     BrowserModule,

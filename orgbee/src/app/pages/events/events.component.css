@@ -62,12 +62,15 @@ app-header {
 
 .modal-content {
   background-color: #eeeeed;
-  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 30%;
   border-radius: 10px;
   height: 450px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
 }
 
 .close {
@@ -86,6 +89,7 @@ app-header {
 
 h2 {
   text-align: center;
+  font-weight: 600;
 }
 
 .section-title {
@@ -428,16 +432,6 @@ button:hover {
 
 .modal.visible {
   display: block;
-}
-
-.modal-content {
-  background-color: #eeeeed;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
-  border-radius: 10px;
-  height: auto;
 }
 
 .edit-btn {
