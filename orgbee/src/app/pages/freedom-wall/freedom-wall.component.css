@@ -490,3 +490,47 @@ body {
   border-color: transparent;
   cursor: pointer;
 }
+
+@media (max-width: 766px) { 
+  .top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  .modal-content {
+    display: absolute;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .new-post-title, .new-post-title {
+    margin-top: 25px;
+    margin-left: 0px;
+    margin-right: 100%;
+    width: 100px;
+  }
+
+  .modal-footer {
+    width: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .post-cards-container {
+    gap: 10px; 
+    margin-left: 0%;
+  }
+  
+  .post-card {
+    padding: 10px;
+    min-width:40%; 
+    max-width: 70%; 
+  }
+  
+}
