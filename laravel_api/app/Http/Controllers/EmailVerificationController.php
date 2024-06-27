@@ -15,7 +15,7 @@ class EmailVerificationController extends Controller {
 
           if ($user) {
               $user->is_verified = 1;
-              $user->email_auth_token = null; // Assuming this is the correct column name
+              $user->email_auth_token = null;
               $user->save();
               return response()->json(['message' => 'Email verified successfully'], 200);
           } else {

@@ -25,7 +25,7 @@ export class VerifyComponent {
     if (this.verifyForm.valid) {
       this.http.post('http://localhost:8000/api/verify', { token: this.verifyForm.value.token })
         .subscribe(
-          () => this.router.navigate(['/login'], { queryParams: { verified: 1 } }),
+          () => this.router.navigate(['/landing-page'], { queryParams: { verified: 1 } }),
           () => this.router.navigate(['/login'], { queryParams: { verified: 0 } })
         );
     }
