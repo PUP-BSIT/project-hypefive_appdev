@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors } from '@angular/forms';
 import { MustMatch } from './confirmed.validator';
+import { LoginService, UserInfo } from '../../../../service/login.service';
+import { UserService } from '../../../../service/user.service';
+
 
 @Component({
   selector: 'app-settings',
@@ -14,8 +17,11 @@ export class SettingsComponent implements OnInit {
   passwordForm: FormGroup;
   showInformation = false;
   showAccountManagement = false;
-
-  constructor(private formBuilder: FormBuilder) {}
+  userInfo: UserInfo;
+  constructor(
+    private formBuilder: FormBuilder, 
+    private loginService: LoginService,
+  private userService: UserService) {}
 
   @Input() showSettings: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
@@ -62,6 +68,22 @@ export class SettingsComponent implements OnInit {
      }, {
       validator: MustMatch('new_password', 'confirm_password')
     } as AbstractControlOptions);
+
+    this.loginService.onDataRetrieved((userInfo: UserInfo) => {
+      this.userInfo = userInfo;
+      this.populateForm(userInfo);
+    });
+  }
+
+  private populateForm(userInfo: UserInfo): void {
+    this.updateForm.patchValue({
+      first_name: userInfo.first_name,
+      last_name: userInfo.last_name,
+      student_number: userInfo.student_number,
+      email: userInfo.email,
+      birthday: userInfo.birthday,
+      gender: userInfo.gender.toLowerCase()
+    });
   }
 
   get emailControl() {
@@ -147,14 +169,28 @@ export class SettingsComponent implements OnInit {
 
   onUpdateSubmit() {
     if (this.updateForm.valid) {
-      console.log('Form submitted:', this.updateForm.value);
+      const id = this.userInfo.user_id; 
+      this.userService.updateUserInfo(id, this.updateForm.value)
+        .subscribe(
+          response => {
+            console.log('User info updated successfully:', response);
+            // Update userInfo with the response from the server
+            this.userInfo = response.updated_student; 
+          },
+          error => {
+            console.error('Failed to update user info:', error);
+          }
+        );
     } else {
       console.log('Form is invalid');
     }
   }
 
+
   cancel() {
-    this.updateForm.reset();
+    if (this.userInfo) {
+      this.populateForm(this.userInfo);
+    }
   }
 
   closeModal() {

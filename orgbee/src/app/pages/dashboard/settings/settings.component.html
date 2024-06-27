@@ -88,23 +88,7 @@
                                   }
                                 </div>
                       
-                                <div>
-                                  <label for="update_email">Email</label>
-                                  <input 
-                                    type="email" 
-                                    id="update_email" 
-                                    formControlName="email" />
-                                  @if(emailControl.invalid && emailControl.touched) {
-                                    <div class="inc">
-                                      @if(emailControl.errors?.['required']) {
-                                        <div>Email is Required.</div>
-                                      }
-                                      @if(emailControl.errors?.['email']) {
-                                        <div>Invalid Email format.</div>
-                                      }
-                                    </div>
-                                  }
-                                </div>
+                              
                               </div>
                       
                               <div class="form-row">
