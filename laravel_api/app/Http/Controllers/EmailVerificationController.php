@@ -9,15 +9,21 @@ use Illuminate\Support\Facades\Redirect;
 
 class EmailVerificationController extends Controller {
   public function verify(Request $request) {
-    $token = $request->query('token');
+      try {
+          $token = $request->input('token');
+          $user = User::where('email_auth_token', $token)->first();
 
-    try {
-      $user = JWTAuth::parseToken()->authenticate();
-      $user->email_verified_at = now();
-      $user->save();
-      return Redirect::to('/login?verified=1'); // Redirect to Angular login page
-    } catch (\Exception $e) {
-      return Redirect::to('/login?verified=0'); // Redirect with error
-    }
+          if ($user) {
+              $user->is_verified = 1;
+              $user->email_auth_token = null; // Assuming this is the correct column name
+              $user->save();
+              return response()->json(['message' => 'Email verified successfully'], 200);
+          } else {
+              return response()->json(['message' => 'Invalid verification token'], 400);
+          }
+      } catch (\Exception $e) {
+          \Log::error('Verification Error: ' . $e->getMessage());
+          return response()->json(['message' => 'Internal Server Error'], 500);
+      }
   }
 }

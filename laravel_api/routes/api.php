@@ -11,6 +11,7 @@ use App\Http\Controllers\FreedomWallController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\EmailVerificationController;
 
 use App\Http\Controllers\PasswordResetController;
 
@@ -23,6 +24,8 @@ Route::post('/register', [StudentsController::class, 'register'])
   ->name('api.register');
 
 Route::post('/login', [StudentsController::class, 'login'])->name('api.login');
+
+Route::post('/verify', [EmailVerificationController::class, 'verify']);
 
 //Announcement Page Controllers
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
