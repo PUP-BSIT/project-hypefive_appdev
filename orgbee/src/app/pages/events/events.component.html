@@ -260,6 +260,8 @@
 
     <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
       <!-- Event Information Form -->
+      <h2>EVENT FORM</h2>
+      <app-stepper [currentStep]="currentStep"></app-stepper>
       @if(currentStep === 0){
         <label for="event_name">Name:</label>
         <input
