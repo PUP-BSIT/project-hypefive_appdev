@@ -67,7 +67,7 @@ body {
   margin-top: -35px;
   padding-bottom: 20px;
   margin-top: 2%;
-  margin-left: 2%;
+  margin-left: 5%;
   margin-right: 2%;
   height: 300px;
 }
@@ -129,7 +129,7 @@ body {
   padding: 10px;
   align-items: center;
   margin-right: 2%;
-  margin-left: 2%;
+  margin-left: 5%;
   height: 300px;
 }
 
@@ -431,7 +431,7 @@ button.modal-member-button:hover {
 
   .members {
     height: 450px;
-    margin-top: -100%;
+    margin-top: -20%;
   }
 }
 
@@ -441,7 +441,7 @@ button.modal-member-button:hover {
   }
 
   .members {
-    margin-top: -18%;
+    margin-top: -25%;
   }
 }
 
@@ -461,6 +461,7 @@ button.modal-member-button:hover {
   }
 
   .members {
+    position: static;
     margin-top: -15%;
   }
 }
