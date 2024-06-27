@@ -76,7 +76,6 @@ export class EventsComponent implements OnInit {
         {validators: [Validators.required, Validators.min(1)],}], 
       caption: ['',
         {validators: [Validators.required,  Validators.maxLength(300)],}], 
-      
     });
 
     this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {
@@ -90,6 +89,8 @@ export class EventsComponent implements OnInit {
         registration_feeControl?.disable();
       }
     });
+
+
   }
 
   imageValidator(control: FormControl) {
@@ -103,14 +104,6 @@ export class EventsComponent implements OnInit {
     }
     return null;
   }
-
-  //for sample of registered members only
-  // members = [
-  //   { name: 'John Doe', photo: '../../../assets/icon.jpg' },
-  //   { name: 'Jane Doe', photo: '../../../assets/icon.jpg' },
-  //   { name: 'Jane Dee', photo: '../../../assets/icon.jpg' },
-  //   // Add more members as needed
-  // ];
 
   get event_name() {
     return this.eventForm.get('event_name');
@@ -140,8 +133,6 @@ export class EventsComponent implements OnInit {
     return this.eventForm.get('caption')
   }
 
-  
-
   openCreateModal(): void {
     this.createEventModal = true;
   }
@@ -150,6 +141,7 @@ export class EventsComponent implements OnInit {
     this.createEventModal = false;
     this.editEventModal = false;
     this.eventForm.reset();
+    this.currentStep = 0;
   }
 
 
@@ -281,16 +273,20 @@ export class EventsComponent implements OnInit {
       this.currentStep--;
     }
   }
-
+preview: string;
   uploadImage(event) {
-    console.log(event);
     this.file = event.target.files[0];
-    console.log(this.file);
-    this.eventForm.get('poster_loc')?.setValue(this.file);
+    if(event.target.files){
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload=(event:any)=>{
+        this.preview=event.target.result;
+      }
+    }
   }
 
   submitForm(type: string): void {
-    console.log(this.eventForm);
+    console.log(this.eventForm.value);
     if (this.eventForm.valid) {
       // const newEvent = this.eventForm.value as Event;
       const formData = new FormData();
@@ -301,7 +297,7 @@ export class EventsComponent implements OnInit {
         formData.append(key, value !== null ? value.toString() : '');
       }
       
-      formData.append('poster_loc', this.file, this.file.name);
+      formData.append('poster_loc', this.file);
 
       if (type === 'publish') {
         formData.append('event_status_id', '2'); //set the status to publish
@@ -337,9 +333,10 @@ export class EventsComponent implements OnInit {
     this.eventForm.patchValue(event); //pass the value of the selected event
     console.log(event);
     this.updateEventId = event.id;
-    this.currentPoster = event.poster_loc;
+    //store the initial value of the poster_loc
+    this.currentPoster = event.poster_loc;  
   }
-//TODO: VILLA-VILLA: Allow users to edit posts even without uploading a new poster.
+
   saveEdit(type:string){
     const formData = new FormData();
     const formControls = this.eventForm.controls;
@@ -348,7 +345,12 @@ export class EventsComponent implements OnInit {
       const value = formControls[key].value;
         formData.append(key, value !== null ? value.toString() : '');
     }
-    formData.append('poster_loc', this.file, this.file.name);
+    if (this.file){
+      formData.append('poster_loc', this.file);
+    } else {
+      formData.append('poster_loc', this.currentPoster);
+    }
+   
     formData.append('id', this.updateEventId.toString()); 
 
     if(formData){

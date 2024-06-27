@@ -191,7 +191,7 @@
           </div>
         }
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
         <!-- @if(poster_loc.invalid && poster_loc.touched){
           <div class="inc">
            @if(poster_loc.errors?.['required']){
@@ -222,7 +222,7 @@
       <!-- Final Buttons -->
       @if(currentStep === 3){
         <div class="event-preview">
-          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <img [src]="preview" alt="Event Poster"/>
           <h3>{{ eventForm.get('event_name').value }}</h3>
           <p>{{ eventForm.get('location').value }}</p>
           <p>{{ eventForm.get('date').value | date }}</p>
@@ -387,7 +387,7 @@
       <!-- Final Buttons -->
       @if(currentStep === 3){
         <div class="event-preview">
-          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <img [src]="preview" alt="Event Poster"/>
           <h3>{{ eventForm.get('event_name').value }}</h3>
           <p>{{ eventForm.get('location').value }}</p>
           <p>{{ eventForm.get('date').value | date }}</p>
