@@ -40,9 +40,6 @@ export class SettingsComponent implements OnInit {
           Validators.pattern(/^\d{4}-\d{5}-TG-0$/)
         ]
       }],
-      email: ['', {
-        validators: [Validators.required, Validators.email]
-      }],
       birthday: ['', {
         validators: [
           Validators.required, 
@@ -80,7 +77,6 @@ export class SettingsComponent implements OnInit {
       first_name: userInfo.first_name,
       last_name: userInfo.last_name,
       student_number: userInfo.student_number,
-      email: userInfo.email,
       birthday: userInfo.birthday,
       gender: userInfo.gender.toLowerCase()
     });
@@ -173,7 +169,7 @@ export class SettingsComponent implements OnInit {
       this.userService.updateUserInfo(id, this.updateForm.value)
         .subscribe(
           response => {
-            console.log('User info updated successfully:', response);
+            console.log('This is on submit User info updated successfully:', response);
             // Update userInfo with the response from the server
             this.userInfo = response.updated_student; 
           },
@@ -186,10 +182,13 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-
   cancel() {
+    console.log('Cancel button clicked');
     if (this.userInfo) {
       this.populateForm(this.userInfo);
+      this.updateForm.markAsPristine(); // Mark form as pristine
+      this.updateForm.markAsUntouched(); // Mark form controls as untouched
+      this.updateForm.updateValueAndValidity(); // Update form validation state
     }
   }
 

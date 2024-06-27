@@ -29,7 +29,7 @@
                             your information is accurate and up to date
                         </p>
                         <div class="update-form">
-                            <form [formGroup]="updateForm" (ngSubmit)="onUpdateSubmit()">
+                            <form [formGroup]="updateForm">
                               <div class="form-row">
                                 <div> 
                                   <label for="update_first_name">First Name</label>
@@ -131,8 +131,9 @@
                                 </div>
                               </div>
                               <button (click)="onUpdateSubmit()">Save</button>
-                              <button (click)="cancel()">Cancel</button>
+                            
                             </form>
+                            <button (click)="cancel()">Cancel</button>
                         </div>
                     </div>
                 </ng-container>
