@@ -165,20 +165,23 @@ export class SettingsComponent implements OnInit {
 
   onUpdateSubmit() {
     if (this.updateForm.valid) {
-      const id = this.userInfo.user_id; 
-      this.userService.updateUserInfo(id, this.updateForm.value)
+      const updatedUserInfo = {
+        ...this.updateForm.value,
+        id: this.userInfo.user_id
+      };
+
+      this.userService.updateUserInfo(updatedUserInfo)
         .subscribe(
           response => {
-            console.log('This is on submit User info updated successfully:', response);
-            // Update userInfo with the response from the server
-            this.userInfo = response.updated_student; 
+            console.log('User info updated successfully:', response);
+              // Update userInfo with the response from the server
+              this.userInfo = response.updated_student;
           },
-          error => {
-            console.error('Failed to update user info:', error);
-          }
-        );
+            error => {
+              console.error('Failed to update user info:', error);
+            });
     } else {
-      console.log('Form is invalid');
+        console.log('Form is invalid');
     }
   }
 
@@ -186,9 +189,9 @@ export class SettingsComponent implements OnInit {
     console.log('Cancel button clicked');
     if (this.userInfo) {
       this.populateForm(this.userInfo);
-      this.updateForm.markAsPristine(); // Mark form as pristine
-      this.updateForm.markAsUntouched(); // Mark form controls as untouched
-      this.updateForm.updateValueAndValidity(); // Update form validation state
+      this.updateForm.markAsPristine(); 
+      this.updateForm.markAsUntouched(); 
+      this.updateForm.updateValueAndValidity(); 
     }
   }
 

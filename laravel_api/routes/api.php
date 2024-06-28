@@ -40,9 +40,9 @@ Route::get('/retrieve/{id}&{email}',
 //Update Icon
 Route::put('students/update-icon', [StudentsController::class, 'updateIcon']);
 
-//Update User Info
-Route::put('/update-student-info/{id}', [StudentsController::class, 'updateUserInfo'])
-  ->name('api.updateUserInfo');
+//Update Info
+Route::put('/update-student-info', [StudentsController::class, 'updateUserInfo'])
+   ->name('api.updateUserInfo');
 
   //Update password
 Route::put('/change-password', [StudentsController::class, 'changePassword'])

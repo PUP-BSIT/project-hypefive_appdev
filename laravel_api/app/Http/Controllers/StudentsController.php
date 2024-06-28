@@ -190,62 +190,46 @@ class StudentsController extends Controller {
 
   public function updateUserInfo(Request $request)
   {
-        try {
-            // Verify JWT token
-            $user = JWTAuth::parseToken()->authenticate();
-        } catch (TokenExpiredException $e) {
-            return response()->json(['message' => 'Token expired'], 401);
-        } catch (TokenInvalidException $e) {
-            return response()->json(['message' => 'Token invalid'], 401);
-        } catch (JWTException $e) {
-            return response()->json(['message' => 'Token absent'], 401);
-        }
-
-        $user_id = $user->id;
-        try {
-            $validatedData = $request->validate([
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'birthday' => 'required|date',
-                'gender' => 'required|in:male,female,other',
-                'student_number' => [
-                    'required',
-                    'regex:/^\d{4}-\d{5}-TG-0$/'
-                ],
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Validation failed: ' . $e->getMessage()], 422);
-        }
-
-        try {
-            $student = Students::where('user_id', $user_id)->first();
-
-            if (!$student) {
-                return response()->json(['message' => 'No student record found for user_id: ' . $user_id], 404);
-            }
-
-            $updated = Students::where('user_id', $user_id)
-                ->update([
-                    'first_name' => $validatedData['first_name'],
-                    'last_name' => $validatedData['last_name'],
-                    'birthday' => $validatedData['birthday'],
-                    'gender' => $validatedData['gender'],
-                    'student_number' => $validatedData['student_number'],
-                ]);
-
-            if ($updated) {
-                $updatedStudent = Students::where('user_id', $user_id)->first();
-                return response()->json([
-                    'message' => 'Student information updated successfully',
-                    'updated_student' => $updatedStudent
-                ], 200);
-            } else {
-                return response()->json(['message' => 'Failed to update student information. No records were updated.'], 500);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Internal server error: ' . $e->getMessage()], 500);
-        }
+  try {
+    $user = JWTAuth::parseToken()->authenticate();
+    } catch (TokenExpiredException $e) {
+      return response()->json(['message' => 'Token expired'], 401);
+    } catch (TokenInvalidException $e) {
+       return response()->json(['message' => 'Token invalid'], 401);
+   } catch (JWTException $e) {
+       return response()->json(['message' => 'Token absent'], 401);
+    }
+  
+      $user_id = $user->id;
+      $validatedData = $request->validate([
+          'first_name' => 'required|string|max:255',
+          'last_name' => 'required|string|max:255',
+          'birthday' => 'required|date',
+          'gender' => 'required|in:male,female,other',
+          'student_number' => [
+              'required',
+              'regex:/^\d{4}-\d{5}-TG-0$/'
+          ],
+      ]);
+  
+      try {
+          $student = Students::where('user_id', $user_id)->first();
+  
+          if (!$student) {
+              return response()->json(['message' => 'No student record found for user_id: ' . $user_id], 404);
+          }
+  
+          $student->update($validatedData);
+  
+          return response()->json([
+              'message' => 'Student information updated successfully',
+              'updated_student' => $student
+          ], 200);
+      } catch (\Exception $e) {
+          return response()->json(['message' => 'Internal server error: ' . $e->getMessage()], 500);
+      }
   }
+  
   public function changePassword(Request $request)
   {
       try {
@@ -276,9 +260,6 @@ class StudentsController extends Controller {
   
       return response()->json(['message' => 'Password updated successfully.']);
   }
-
-
-
 
   public function getTotalMembers() {
     $members = DB::table('students')->whereNotIn('id', [1])->count();
