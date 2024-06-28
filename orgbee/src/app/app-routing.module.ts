@@ -9,6 +9,7 @@ import { MembersComponent } from './pages/members/members.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 import { AuthGuard } from './login/auth.guard';
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'verify', component: VerifyComponent },
+  { path: 'landing-page', component: LandingPageComponent},
   { path: 'forgot-pass', component: ForgotPassComponent },
   { path: 'freedom-wall', component: FreedomWallComponent, 
       canActivate:[AuthGuard]},

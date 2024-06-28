@@ -17,6 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 import { AnModalComponent } 
   from './pages/dashboard/an-modal/an-modal.component';
@@ -85,6 +86,7 @@ import { StepperComponent } from './pages/events/stepper/stepper.component';
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
+    LandingPageComponent
     SettingsComponent,
     StepperComponent
   ],
