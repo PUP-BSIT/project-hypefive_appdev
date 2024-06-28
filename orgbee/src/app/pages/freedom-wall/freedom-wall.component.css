@@ -183,6 +183,16 @@ body {
   padding: 10px;
 }
 
+::ng-deep .menu-item-text {
+  font-size: 12px;
+  color: #242424;
+}
+
+::ng-deep .menu-icon {
+  font-size: 24px;
+  color: #242424;
+}
+
 .dropdown-menu {
   position: absolute;
   right: 20px;
