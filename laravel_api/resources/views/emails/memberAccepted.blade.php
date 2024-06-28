@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Membership Accepted</title>
+    <title>Membership Status Update</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,7 +65,7 @@
         </div>
         <div class="content">
             <h1>Hello, {{ $students->first_name }}!</h1>
-            <p>Congratulations! Your membership request has been accepted.</p>
+            <p>{{ $statusMessage }}</p>
             <div class="footer">
                 <p>Best Regards,<br>The Team</p>
             </div>
