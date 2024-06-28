@@ -86,7 +86,7 @@ import { StepperComponent } from './pages/events/stepper/stepper.component';
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
-    LandingPageComponent
+    LandingPageComponent,
     SettingsComponent,
     StepperComponent
   ],
