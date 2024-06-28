@@ -1,29 +1,37 @@
-<div id="nav-bar">
-  <div id="nav-content">
+<div id="nav_bar" [ngClass]="{
+  'nav-bar-role1': userInfo.role_id === 1,
+  'nav-bar-role2': userInfo.role_id === 2,
+  'nav-bar-role3': userInfo.role_id === 3
+  }">
+  <div id="nav_content" [ngClass]="{
+    'nav-content-role1': userInfo.role_id === 1,
+    'nav-content-role2': userInfo.role_id === 2,
+    'nav-content-role3': userInfo.role_id === 3
+  }">
     <div class="logo">
       <img src="assets/logo.png" />
     </div>
-    
-    <div class="nav-button" routerLink="/dashboard">
+
+    <div class="nav-button" routerLink="/dashboard" tabindex="0">
       <i class="fas fa-home"></i>
     </div>
-    
-    <div class="nav-button" routerLink="/freedom-wall">
+
+    <div class="nav-button" routerLink="/freedom-wall" tabindex="0">
       <i class="fas fa-thumbtack"></i>
     </div>
-    
-    <div class="nav-button" routerLink="/events">
+
+    <div class="nav-button" *ngIf="userInfo.role_id !== 1" routerLink="/events" tabindex="0">
       <i class="fas fa-calendar"></i>
     </div>
-    
-    <div class="nav-button" routerLink="/members">
+
+    <div class="nav-button" *ngIf="userInfo.role_id !== 1" routerLink="/members" tabindex="0">
       <i class="fas fa-users"></i>
     </div>
-    
-    <div class="nav-button" routerLink="/archive">
+
+    <div class="nav-button" routerLink="/archive" tabindex="0">
       <i class="fas fa-archive"></i>
     </div>
     
-    <div id="nav-content-highlight"></div>
+    <div id="nav_content_highlight"></div>
   </div>
 </div>

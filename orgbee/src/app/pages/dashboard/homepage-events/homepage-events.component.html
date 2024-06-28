@@ -1,0 +1,51 @@
+<div class="container">
+  <!-- Title -->
+  <div class="header-container">
+    <h1>Upcoming Events</h1>
+  </div>
+
+  <!-- list of events -->
+  <div class="event-list">
+    @for(events of filteredEvents; track filteredEvents){
+      <div class="event-card">
+        <div class="event-img">
+          <img src="{{imgPath}}{{events.poster_loc}}" alt="Event Poster" />
+        </div>
+        <div class="event-details">
+          <h3>{{events.event_name}}</h3>
+          <p>{{events.location}}</p>
+          <p>{{events.date}}</p>
+          <p id="reg_fee">Php {{ events.registration_fee }}</p>
+        </div>
+        <div>
+          <button class="view-more-button" (click)="openEventModal(events)">
+            View More
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Event Modal -->
+<div id="eventModal" class="modal" [class.visible]="isEventModalVisible" >
+  <div class="modal-content" [@modalAnimation]="isEventModalVisible ? 'open' : 'closed'">
+    <span class="close" (click)="closeEventModal()">&times;</span>
+    <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
+    <h3>{{ selectedEvent?.event_name }}</h3>
+    <p>{{ selectedEvent?.location }}</p>
+    <p>{{ selectedEvent?.date }}</p>
+    <p id="modal_reg_fee">Registration Fee: Php {{ selectedEvent?.registration_fee }}</p>
+    <p class="caption">{{ selectedEvent?.caption }}</p>
+    <div class="full-reg">
+      <p>{{ message }}</p>
+    </div>
+    @if(isRegistered === 0) {
+      <button class="register-btn" (click)="registerEvent()">Register</button>
+    } @if(isRegistered === 1){
+      <button class="unregister-btn" (click)="unregisterEvent()">Unregister</button>
+    } @if(isRegistered === 2){
+      <button class="register-btn" (click)="reRegisterEvent()">Re-Register</button>
+    }
+  </div>
+</div>

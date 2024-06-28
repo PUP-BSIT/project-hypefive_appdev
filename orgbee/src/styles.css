@@ -1,4 +1,4 @@
-/* src/styles.css */
+@import "calendar.css";
 @font-face {
   font-family: "Outfit";
   src: url("/assets/fonts/Outfit-Regular.ttf") format("truetype");
@@ -10,6 +10,13 @@
   font-family: "Outfit";
   src: url("/assets/fonts/Outfit-Medium.ttf") format("truetype");
   font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit-SemiBold.ttf") format("truetype");
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -29,4 +36,20 @@
 
 body {
   font-family: "Outfit", sans-serif;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "Outfit", "Helvetica Neue", sans-serif; }
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 20px;
+}
+
+:root {
+  --primary-color: #ffca10;
+}
+
+.mat-mdc-progress-spinner { --mdc-circular-progress-active-indicator-color: #ffca10; }
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #ffca10;
 }

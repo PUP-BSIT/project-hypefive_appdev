@@ -1,9 +1,9 @@
+<app-progress-bar></app-progress-bar>
 <div class="container">
-  <app-sidebar></app-sidebar>
-  <app-display></app-display>
+  @if(isLoggedIn()){
+    <app-sidebar></app-sidebar>
+  }
+  <div class="content-display">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-<div class="login">
-  <app-login></app-login>
-</div>
-

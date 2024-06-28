@@ -13,10 +13,10 @@ body {
 }
 
 .app-logo img {
-    padding-top: 5%;
-    margin-bottom: 5px;
-    width: 10%; 
-    height: 10%; 
+  padding-top: 5%;
+  margin-bottom: 5px;
+  width: 10%; 
+  height: 10%; 
 }
 
 .form {
@@ -166,4 +166,73 @@ button:hover {
   padding: 0;
   margin-top: -8px;
   color: red;
+}
+
+.forgot-pass {
+  color: inherit; /* or color: black; to remove any inherited color */
+  text-decoration: none; /* to remove underline if any */
+  margin-bottom: 35px;
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .container {
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    font-family: "Outfit", sans-serif;
+    padding: 10%;
+  }
+
+  .app-logo img {
+    width: 50%;
+    height: 50%;
+  }
+  
+  .form {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .form-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .popup-content {
+    width: 70%;
+    padding: 10px;
+    padding-left: 6%;
+  }
+  
+  .form button, .popup-content button {
+    width: 80%;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    font-family: "Outfit", sans-serif;
+    padding: 10%;
+  }
+
+  .app-logo img {
+    width: 30%;
+    height: 30%;
+  }
+
+  .popup-content {
+    width: 70%;
+    padding: 10px;
+    padding-left: 6%;
+  }
+  
+  .form button, .popup-content button {
+    width: 80%;
+    font-size: 12px;
+  }
 }

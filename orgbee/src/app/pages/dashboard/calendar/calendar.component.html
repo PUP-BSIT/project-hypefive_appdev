@@ -1,0 +1,25 @@
+<div class="calendar-container">
+    <div class="calendar-navigation">
+     <mat-icon (click)="setViewDate(-1)">chevron_left</mat-icon>
+      <span class="month-name">{{ monthName }} {{ viewDate.getFullYear() }}</span>
+      <mat-icon (click)="setViewDate(1)"><mat-icon>chevron_right</mat-icon></mat-icon> 
+    </div>
+  
+    <mwl-calendar-month-view
+      [viewDate]="viewDate"
+      [events]="events"
+      class="custom-calendar"
+      (dayClicked)="handleDayClick($event)"
+    ></mwl-calendar-month-view>
+    @if (isEventDetailsVisible) {
+      <div class="event-details">
+        <h3>Events on {{ selectedEvents[0]?.start | date:'mediumDate' }}</h3>
+        <div class="event-list">
+          <div *ngFor="let event of selectedEvents" class="event-item">
+            <div>{{ event.title }}</div>
+            <div>{{ event.start | date:'h:mm a'}}</div>
+          </div>
+        </div>
+      </div>     
+    }
+</div>

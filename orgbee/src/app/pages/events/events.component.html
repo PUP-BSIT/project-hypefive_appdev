@@ -1,1 +1,549 @@
-<p>events works!</p>
+<div class="events-page">
+<div class="top">
+  <app-header [title]="'Events'" [showImage]="false" [height]="'shorter-height'"></app-header>
+<button 
+  id="createEventBtn" 
+  class="create-event" 
+  (click)="openCreateModal()">
+  <mat-icon>add_circle</mat-icon>
+  Create Event
+</button>
+</div>
+
+<!-- Event Form Modal -->
+ <!-- TODO: Add more validators -->
+<div id="eventFormModal" class="modal" [class.visible]="createEventModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeCreateEditModal()">&times;</span>
+    <form [formGroup]="eventForm" (ngSubmit)="submitForm('publish')">
+      <h2>EVENT FORM</h2>
+      <app-stepper [currentStep]="currentStep"></app-stepper>
+      <!-- Event Information Form -->
+      @if(currentStep === 0){
+        <label for="event_name">Name:</label>
+        <input
+          type="text"
+          id="event_name"
+          placeholder="Event Name"
+          formControlName="event_name"/>
+          @if(event_name.invalid && event_name.touched){
+           <div class="inc">
+            @if(event_name.errors?.['required']){
+              <div>Event name is required.</div>
+            }
+            @if(event_name.errors?.['maxlength']){
+              <div>Event name should not contain more than 100 charcaters.</div>
+            }
+           </div>
+          }
+         
+        <label for="location">Location:</label>
+        <input
+          type="text"
+          id="location"
+          formControlName="location"
+          placeholder="Location"/>
+          @if(location.invalid && location.touched){
+            <div class="inc">
+             @if(location.errors?.['required']){
+               <div>Location is required.</div>
+             }
+            </div>
+           }
+
+        <!-- Inline container for date and time inputs -->
+        <div class="inline-container">
+          <div>
+            <label for="date">Date:</label>
+            <input type="date" id="date" formControlName="date" />
+            @if(date.invalid && date.touched){
+              <div class="inc">
+               @if(date.errors?.['required']){
+                 <div>Date is required.</div>
+               }
+              </div>
+             }
+          </div>
+          <div>
+            <label for="time">Time:</label>
+            <input type="time" id="time" formControlName="time" />
+            @if(time.invalid && time.touched){
+              <div class="inc">
+               @if(time.errors?.['required']){
+                 <div>Time is required.</div>
+               }
+              </div>
+             }
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-next-btn" 
+            (click)="nextStep()" [disabled]="!isStepValid(0)">
+             NEXT
+          </button>
+        </div>
+      }
+
+      <!-- Registration & Admission Form -->
+      @if(currentStep === 1){
+        <div class="inline-radio">
+          <label>Are all members required to attend?</label>
+          <input
+            type="radio"
+            id="all_members_requiredYes"
+            formControlName="all_members_required"
+            value=1/>
+          <label for="all_members_requiredYes">Yes</label>
+          <input
+            type="radio"
+            id="all_members_requiredNo"
+            formControlName="all_members_required"
+            value=0/>
+          <label for="all_members_requiredNo">No</label>
+        </div>
+
+        <div class="inline-radio">
+          <label>Will there be a registration fee?</label>
+          <input
+            type="radio"
+            id="has_reg_fee_yes"
+            formControlName="has_reg_fee"
+            value="1"/>
+          <label for="has_reg_fee_yes">Yes</label>
+          <input
+            type="radio"
+            id="has_reg_fee_no"
+            formControlName="has_reg_fee"
+            value="0"/>
+          <label for="has_reg_fee_no">No</label>
+        </div>
+
+        <input
+          type="number"
+          id="registration_fee"
+          formControlName="registration_fee"
+          placeholder="Specify the amount" />
+          @if(registration_fee.invalid && registration_fee.touched){
+            <div class="inc">
+             @if(registration_fee.errors?.['required']){
+               <div>Registration fee is required.</div>
+             }
+            </div>
+          }
+
+        <input
+          type="number"
+          id="max_attendees"
+          formControlName="max_attendees"
+          placeholder="Max no. of attendees"/>
+          @if(max_attendees.invalid && max_attendees.touched){
+            <div class="inc">
+             @if(max_attendees.errors?.['required']){
+               <div>Please enter the max attendees</div>
+             }
+             @if(max_attendees.errors?.['min']){
+              <div>Max attendess can't be lower by 10</div>
+            }
+            </div>
+          }
+
+        <div class="button-container">
+          <button type="button" class="step-back-btn" (click)="prevStep()">
+            BACK
+          </button>
+          <button type="button" 
+            class="step-next-btn" 
+            (click)="nextStep()" 
+            [disabled]="!isStepValid(1)">
+            NEXT
+          </button>
+        </div>
+      }
+
+      <!-- Caption & Poster Form -->
+      @if(currentStep === 2){
+        <label for="caption">Write a caption:</label>
+        <div class="textarea-wrapper">
+          <textarea
+            id="caption"
+            formControlName="caption"
+            placeholder="Write a maximum of 300 characters caption"
+            (input)="updateTextCharacterCount()"
+            class="caption-textarea">
+          </textarea>
+          <span class="character-counter-message">
+            {{ eventForm.get('caption').value ? eventForm.get('caption').value.length : 0 }}/300
+          </span>
+        </div>
+        @if(caption.invalid && caption.touched){
+          <div class="inc">
+           @if(caption.errors?.['required']){
+             <div>Caption is required</div>
+           }
+           @if(caption.errors?.['maxlength']){
+            <div>Caption should contain 300 characters only</div>
+          }
+          </div>
+        }
+        <label for="poster_loc">Upload a poster:</label>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
+        <!-- @if(poster_loc.invalid && poster_loc.touched){
+          <div class="inc">
+           @if(poster_loc.errors?.['required']){
+             <div>Poster is required</div>
+           }
+           @if(poster_loc.errors?.['imageValidator']){
+            <div>Invalid image</div>
+          }
+          </div>
+        } -->
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-2-back-btn" 
+            (click)="prevStep()">
+              BACK
+          </button>
+          <button 
+            type="button" 
+            class="step-2-next-btn" 
+            (click)="nextStep()"
+            [disabled]="!isStepValid(2)">
+              NEXT
+          </button>
+        </div>
+      }
+      
+
+      <!-- Final Buttons -->
+      @if(currentStep === 3){
+        <div class="event-preview">
+          <img [src]="preview" alt="Event Poster"/>
+          <h3>{{ eventForm.get('event_name').value }}</h3>
+          <p>{{ eventForm.get('location').value }}</p>
+          <p>{{ eventForm.get('date').value | date }}</p>
+          <p id="preview_caption">{{ eventForm.get('caption').value }}</p>
+        </div>
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="back-btn" 
+            (click)="prevStep()">
+              BACK
+          </button>
+          <button
+            type="submit"
+            class="publish-btn"
+            (click)="submitForm('publish')"
+            [disabled]="eventForm.invalid">
+              PUBLISH
+          </button>
+          <button
+            type="button"
+            class="save-draft-btn"
+            (click)="submitForm('draft')">
+              SAVE TO DRAFT
+          </button>
+        </div> 
+      }
+    </form>
+  </div>
+</div>
+
+<!-- EDIT Event Form Modal -->
+<div id="eventFormModal" class="modal" [class.visible]="editEventModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeCreateEditModal()">&times;</span>
+
+    <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
+      <!-- Event Information Form -->
+      <h2>EVENT FORM</h2>
+      <app-stepper [currentStep]="currentStep"></app-stepper>
+      @if(currentStep === 0){
+        <label for="event_name">Name:</label>
+        <input
+          type="text"
+          id="event_name"
+          formControlName="event_name"
+          placeholder="Event Name"/>
+        <label for="location">Location:</label>
+        <input
+          type="text"
+          id="location"
+          formControlName="location"
+          placeholder="Location"/>
+
+        <!-- Inline container for date and time inputs -->
+        <div class="inline-container">
+          <div>
+            <label for="date">Date:</label>
+            <input type="date" id="date" formControlName="date" />
+          </div>
+          <div>
+            <label for="time">Time:</label>
+            <input type="time" id="time" formControlName="time" />
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-next-btn" 
+            (click)="nextStep()">
+             NEXT
+          </button>
+        </div>
+      }
+
+      <!-- Registration & Admission Form -->
+      @if(currentStep === 1){
+        <div class="inline-radio">
+          <label>Are all members required to attend?</label>
+          <input
+            type="radio"
+            id="all_members_requiredYes"
+            formControlName="all_members_required"
+            [value]="1"/>
+          <label for="all_members_requiredYes">Yes</label>
+          <input
+            type="radio"
+            id="all_members_requiredNo"
+            formControlName="all_members_required"
+            [value]="0"/>
+          <label for="all_members_requiredNo">No</label>
+        </div>
+
+        <div class="inline-radio">
+          <label>Will there be a registration fee?</label>
+          <input
+            type="radio"
+            id="has_reg_fee_yes"
+            formControlName="has_reg_fee"
+            [value]="1"/>
+          <label for="has_reg_fee_yes">Yes</label>
+          <input
+            type="radio"
+            id="has_reg_fee_no"
+            formControlName="has_reg_fee"
+            [value]="0"/>
+          <label for="has_reg_fee_no">No</label>
+        </div>
+
+        <input
+          type="number"
+          id="registration_fee"
+          formControlName="registration_fee"
+          placeholder="Specify the amount"/>
+        <input
+          type="number"
+          id="max_attendees"
+          formControlName="max_attendees"
+          placeholder="Max no. of attendees"/>
+
+        <div class="button-container">
+          <button type="button" class="step-back-btn" (click)="prevStep()">
+            BACK
+          </button>
+          <button type="button" class="step-next-btn" (click)="nextStep()">
+            NEXT
+          </button>
+        </div>
+      }
+
+      <!-- Caption & Poster Form -->
+      @if(currentStep === 2){
+        <label for="caption">Write a caption:</label>
+        <textarea
+          id="caption"
+          formControlName="caption"
+          placeholder="Write a maximum of 500 characters caption">
+        </textarea>
+        <label for="poster_loc">Upload a poster:</label>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="step-2-back-btn" 
+            (click)="prevStep()">
+              BACK
+          </button>
+          <button 
+            type="button" 
+            class="step-2-next-btn" 
+            (click)="nextStep()">
+              NEXT
+          </button>
+        </div>
+      }
+      
+
+      <!-- Final Buttons -->
+      @if(currentStep === 3){
+        <div class="event-preview">
+          <img [src]="preview" alt="Event Poster"/>
+          <h3>{{ eventForm.get('event_name').value }}</h3>
+          <p>{{ eventForm.get('location').value }}</p>
+          <p>{{ eventForm.get('date').value | date }}</p>
+          <p>{{ eventForm.get('caption').value }}</p>
+        </div>
+        <div class="button-container">
+          <button 
+            type="button" 
+            class="back-btn" 
+            (click)="prevStep()">
+              BACK
+          </button>
+          <button
+            type="submit"
+            class="publish-btn"
+            (click)="saveEdit('publish')">
+              Publish
+          </button>
+          <button
+            type="button"
+            class="save-draft-btn"
+            (click)="saveEdit('draft')">
+              SAVE TO DRAFT
+          </button>
+        </div> 
+      }
+    </form>
+  </div>
+</div>
+
+<!-- event tabs -->
+<div class="tabs">
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'UPCOMING' }"
+    (click)="displayEvents('UPCOMING')">
+      UPCOMING
+  </button>
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'OCCURING' }"
+    (click)="displayEvents('OCCURING')">
+      OCCURING
+  </button>
+  <button
+    class="tab"
+    [ngClass]="{ active: activeTab === 'DRAFTS' }"
+    (click)="displayEvents('DRAFTS')">
+      DRAFTS
+  </button>
+</div>
+
+<!-- list of events -->
+<div class="event-list">
+  @if(activeTab === 'UPCOMING'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No upcoming events yet.</p>
+    }
+  }
+  @if(activeTab === 'OCCURING'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No occuring events yet.</p>
+    }
+  }
+  @if(activeTab === 'DRAFTS'){
+    @if(!filteredEvents.length) {
+      <p class="no-request">No drafts yet.</p>
+    }
+  }
+  @for(event of filteredEvents; track filteredEvents){
+    <div
+    class="event-card"
+    [class.registered]="event.registered">
+    <div class="event-img">
+      <img src="{{imgPath}}{{event.poster_loc}}" />
+    </div>
+    <div class="event-details">
+      <h3>{{ event.event_name }}</h3>
+      <p> {{ event.location }} </p>
+      <p> {{ event.date }} </p>
+      <p id="reg_fee">
+        {{ event.registration_fee === 0 ? 
+           'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
+      </p>
+    </div>
+    <div class="manage-container">
+      <div class="manage-info">
+        <img src="../../../assets/person.png"  
+          alt="registered icon" class="registered-icon">
+        <span class="registered-text">{{event.reg_count}} registered</span>
+      </div>
+      <button 
+        class="manage-button" 
+        (click)="openManageModal(event)">
+          Manage
+      </button>
+    </div>
+  </div>
+  }
+</div>
+</div>
+
+<!-- Manage Event Modal -->
+<div id="manageEventModal" class="modal" [class.visible]="isManageModalVisible">
+  <div class="modal-content-manage">
+    <div class="modal-manage-content">
+      <div class="manage-content">
+        <h3 class="eventtag">Event</h3>
+        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
+        <div class="eventinfo">
+          <p class="title">{{ selectedEvent?.event_name }}</p>
+          <p>{{ selectedEvent?.location }}</p>
+          <p>{{ selectedEvent?.date }}</p>
+        </div>
+        @if(showModalUpcoming){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
+            Mark as Occurring
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        @if(showModalOccuring){
+          <button class="occurring-btn" (click)="markAsComplete(selectedEvent)">
+            Mark as Complete
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        @if(showModalDraft){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="publishDraft(selectedEvent)">
+            Publish
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        
+      </div>
+      <div class="manage-members">
+        <span class="close" (click)="closeManageModal()">&times;</span>
+        <h3>Registered Members</h3>
+        <div class="members-list">
+          @for(member of members; track members){
+            <div class="member">
+              <img src="{{ member.icon_location }}" 
+                alt="{{member.first_name}}" 
+                class="member-photo">
+              <span class="member-name">{{member.first_name}} {{member.last_name}}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,197 @@
-<p>freedom-wall works!</p>
+<div class="freedomwall-page">
+  <div class="top">
+    <div class="header">
+      <app-header [title]="'Computer Society Freedom Wall'" [orgName]="'Welcome to'" [showImage]="false" [height]="'short-height'"></app-header>
+    </div>
+  
+    <div class="button-container">
+      <button class="create-post-btn" (click)="toggleModal()">
+        <img [src]="userInfo?.icon_path">
+        Create an anonymous post
+      </button>
+      
+      @if (userInfo.role_id !== 1) {
+        <div>
+          <div class="button-wrapper">
+            <button (click)="openRequestToDeleteModal()" class="delete-post-btn">
+              Delete Requests 
+              @if (deletePostCount > 0) {
+              <span class="badge badge-danger">{{ deletePostCount }}</span>
+              }
+            </button>
+          </div>
+          <div class="button-wrapper">
+            <button (click)="openManageWallModal()" class="manage-wall-btn">
+              Pending Posts 
+              @if (manageWallCount > 0) {
+                <span class="badge badge-danger">{{ manageWallCount }}</span>
+              }
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+@if(showModal) {
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+      <form [formGroup]="freedomwallForm" (ngSubmit)="addPost()">
+        <div class="form-group new-post-title">
+          <label for="new_post_title">Subject:</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="new_post_title"
+              formControlName="newPostTitle"
+              required
+              (input)="updateTitleCharacterCount()" />
+            <span class="character-counter-subject">
+              {{ freedomwallForm.get('newPostTitle').value ? 
+                freedomwallForm.get('newPostTitle').value.length : 0 }}/30
+            </span>
+          </div>
+          @if(newPostTitleControl.invalid && newPostTitleControl.touched) {
+            @if(newPostTitleControl.errors?.['required']) {
+              <div class="error-required-subject">
+                Subject is required.
+              </div>
+            }
+          }
+        </div>
+      
+        <div class="form-group new-post-text">
+          <label for="new_post_text">Message:</label>
+          <div class="textarea-wrapper">
+            <textarea
+              id="new_post_text"
+              formControlName="newPostText"
+              required
+              (input)="updateTextCharacterCount()">
+            </textarea>
+            <span class="character-counter-message">
+              {{ freedomwallForm.get('newPostText').value ? 
+                freedomwallForm.get('newPostText').value.length : 0 }}/500
+            </span>
+          </div>
+          @if(newPostTextControl.invalid && newPostTextControl.touched) {
+            @if(newPostTextControl.errors?.['required']) {
+              <div class="error-required-message">
+                Message is required.
+              </div>
+            }
+          }
+        </div>
+        <button 
+          type="submit" 
+          class="submit-button" 
+          [disabled]="freedomwallForm.invalid">
+            POST ANONYMOUSLY
+        </button>
+      </form>      
+    </div>
+  </div>
+}
+
+<ngx-masonry>
+  @for(post of posts; track posts) {
+    <div ngxMasonryItem class="masonry-item">
+      <div [ngClass]="getBackgroundColorClass(post)">
+        <div class="post-header">
+          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
+          
+            <div class="post-options">
+              <span class="three-dots" (click)="toggleOptions(post)">
+                &#x22EE;
+              </span>
+              <div class="dropdown-menu">
+                @if(post.showOptions) {
+                  @if(post.student_id ===userInfo.id){
+                    <button (click)="deletePost(post.id)">Delete</button>
+                  } @else {
+                    <button (click)="requestPostToDelete(post)">Request to delete</button>
+                  }
+                }
+              </div>
+            </div>
+        </div>
+        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
+      </div>
+    </div>
+  }
+</ngx-masonry>
+
+<!-- Manage Wall Modal -->
+@if(showManageWallModal) {
+  <div class="manage-wall-modal">
+    <div class="manage-modal-content">
+      <span class="manage-close-btn" (click)="closeManageWallModal()">
+        &times;
+      </span>
+      <div class="modal-header">
+        <h4>pending post approval</h4>
+      </div>
+      <div class="modal-body">
+        <div class="post-cards-container">
+          @for(post of paginatedPosts; track paginatedPosts) {
+            <div class="post-card">
+              <h4>{{ post.subject }}</h4>
+              <p>{{ post.content }}</p>
+              <div class="button-request">
+                <button (click)="approvePost(post.id)" class="accept-btn">
+                  Accept
+                </button>
+                <button (click)="declinePost(post.id)" class="decline-btn">
+                  Decline
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
+        <span>page {{ currentPage }}</span>
+        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if(showRequestToDeleteModal) {
+  <div class="manage-wall-modal">
+    <div class="manage-modal-content">
+      <span class="manage-close-btn" (click)="closeModal()">
+        &times;
+      </span>
+      <div class="modal-header">
+        <h4>Request to delete posts</h4>
+      </div>
+      <div class="modal-body">
+        <div class="post-cards-container">
+          @for(post of requestDelete; track requestDelete) {
+            <div class="post-card">
+              <h5>{{post.deletion_req_count}}</h5>
+              <h4>{{ post.subject }}</h4>
+              <p>{{ post.content }}</p>
+              <div class="button-request">
+                <button (click)="deletePost(post.id)" class="accept-btn">
+                  Delete Post
+                </button>
+                <button (click)="declineRequestToDelete(post.id)" class="decline-btn">
+                  Decline Request
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
+        <span>page {{ currentPage }}</span>
+        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
+      </div>
+    </div>
+  </div>
+}
