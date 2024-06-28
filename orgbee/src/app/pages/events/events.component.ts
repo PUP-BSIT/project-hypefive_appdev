@@ -35,137 +35,37 @@ export interface ModalButton {
 })
 export class EventsComponent implements OnInit {
   eventForm: FormGroup;
-  currentStep = 0;
-  activeTab = 'UPCOMING';
-  filteredEvents: Event[] = [];
+  members: Member[] = [];
   createEventModal = false;
-  editEventModal = false;
   isManageModalVisible = false;
-  selectedEvent: Event | null = null;
+  editEventModal = false;
 
+  selectedEvent: Event;
   modalButton: ModalButton = {
     showModalUpcoming: false,
     showModalDraft: false,
     showModalOccuring: false
   };
 
-  response: any; //temporary
-  updateEventId: number;
-
+  activeTab = 'UPCOMING';
+  filteredEvents: Event[] = [];
   imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
-  file: any;
+
   cancelEventTab:string;
 
-  members: Member[] = [];
-  constructor(private formBuilder: FormBuilder,
-    private dataService: DataService) {}
+  updateEventId: number;
+
+  constructor(private dataService:DataService){}
 
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
-    this.eventForm = this.formBuilder.group({
-      event_name: 
-        ['', {validators: [Validators.required, Validators.maxLength(100)],}],
-      location: ['', {validators: [Validators.required],}],
-      date: ['', {validators: [Validators.required],}],
-      time: ['', {validators: [Validators.required],}],
-      all_members_required: ['', {validators: [Validators.required],}],
-      has_reg_fee: ['', {validators: [Validators.required],}],
-      registration_fee: [{ value: '0', disabled: true }, 
-        {validators: [Validators.required],}],
-      max_attendees: ['', 
-        {validators: [Validators.required, Validators.min(10)],}], 
-      caption: ['',
-        {validators: [Validators.required,  Validators.maxLength(300)],}], 
-    });
-
-    this.eventForm.get('has_reg_fee')?.valueChanges.subscribe((value) => {
-      const registration_feeControl = this.eventForm.get('registration_fee');
-      if (parseInt(value) === 1) {
-        registration_feeControl?.enable();
-      } else {
-        //If registration fee is not required, 
-        //set the value of registration fee to 0
-        this.eventForm.get('registration_fee').setValue('0'); 
-        registration_feeControl?.disable();
-      }
-    });
   }
 
-  isStepValid(stepIndex: number): boolean {
-    switch (stepIndex) {
-      case 0:
-        return this.eventForm.get('event_name').valid
-              && this.eventForm.get('location').valid
-              && this.eventForm.get('date').valid
-              && this.eventForm.get('time').valid;
-      case 1:
-        return this.eventForm.get('all_members_required').valid
-              && this.eventForm.get('has_reg_fee').valid
-              && this.eventForm.get('max_attendees').valid;
-      case 2:
-        return this.eventForm.get('caption').valid;
-              //  && this.eventForm.get('poster_loc').valid;
-      default:
-        return false;
-    }
-  }
-
-  imageValidator(control: FormControl) {
-    const imgValue = control.value;
-    if (imgValue && imgValue.length > 0) {
-      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; 
-      const extension = imgValue.split('.').pop().toLowerCase();
-      if (allowedExtensions.indexOf(extension) === -1) {
-        return { invalidImage: true }; 
-      }
-    }
-    return null;
-  }
-
-  get event_name() {
-    return this.eventForm.get('event_name');
-  }
-
-  get location() {
-    return this.eventForm.get('location');
-  }
-
-  get date() {
-    return this.eventForm.get('date');
-  }
-
-  get time() {
-    return this.eventForm.get('time');
-  }
-
-  get registration_fee() {
-    return this.eventForm.get('registration_fee');
-  }
-
-  get max_attendees() {
-    return this.eventForm.get('max_attendees');
-  }
-
-  get caption() {
-    return this.eventForm.get('caption')
-  }
-
-  openCreateModal(): void {
+  openCreateModal(){
     this.createEventModal = true;
   }
 
-  closeCreateModal() {
-    this.createEventModal = false;
-  }
-
-  closeCreateEditModal(): void {
-    this.createEventModal = false;
-    this.editEventModal = false;
-    this.eventForm.reset();
-    this.currentStep = 0;
-  }
-
-  openManageModal(event: Event): void {
+  openManageModal(event:Event){
     this.selectedEvent = event;
     this.getRegisteredMembers();
     this.isManageModalVisible = true;
@@ -187,19 +87,35 @@ export class EventsComponent implements OnInit {
       this.modalButton.showModalUpcoming = false;
 
       this.cancelEventTab = 'DRAFT';
-    } 
+    }
   }
 
-  closeManageModal(): void {
+  closeCreateModal() {
+    this.createEventModal = false;
+    this.editEventModal = false;
+  }
+
+  closeManageModal() {
     this.isManageModalVisible = false;
-    this.members = [];
+  }
+
+  displayEvents(tab: string) {
+    this.activeTab = tab;
+    if (tab === 'UPCOMING') {
+      this.showUpcomingEvents();
+    } else if (tab === 'DRAFTS') {
+      this.showDraftEvents();
+    } else if (tab === 'OCCURING') {
+      this.showOccuringEvents();
+    }
   }
 
   showUpcomingEvents() {
     //Get events with event_state = 1 with status of 2
     this.dataService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
       this.filteredEvents = upcoming;
-    })
+    });
+    console.log("upcoming");
   }
 
   showDraftEvents() {
@@ -216,111 +132,26 @@ export class EventsComponent implements OnInit {
     })
   }
 
-  updateTextCharacterCount(): void {
-    const messageControl = this.eventForm.get('caption');
-    if (messageControl && messageControl.value.length > 300) {
-      messageControl.setValue(messageControl.value.substring(0, 300));
-    }
-  }
-
-  displayEvents(tab: string) {
-    this.activeTab = tab;
-    if (tab === 'UPCOMING') {
-      this.showUpcomingEvents();
-    } else if (tab === 'DRAFTS') {
-      this.showDraftEvents();
-    } else if (tab === 'OCCURING') {
-      this.showOccuringEvents();
-    }
-  }
-
-  nextStep(): void {
-    if (this.currentStep < 3) {
-      this.currentStep++;
-    }
-  }
-
-  prevStep(): void {
-    if (this.currentStep > 0) {
-      this.currentStep--;
-    }
-  }
-preview: string;
-  uploadImage(event) {
-    this.file = event.target.files[0];
-    if(event.target.files){
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload=(event:any)=>{
-        this.preview=event.target.result;
-      }
-    }
-  }
-
-  currentPoster:string;
-  editEvent(event: Event): void {
-    this.editEventModal = true;
-    this.closeManageModal();
-    this.eventForm.patchValue(event); //pass the value of the selected event
-    console.log(event);
-    this.updateEventId = event.id;
-    //store the initial value of the poster_loc
-    this.currentPoster = event.poster_loc;  
-  }
-
-  saveEdit(type:string){
-    const formData = new FormData();
-    const formControls = this.eventForm.controls;
-
-    for (const key in formControls) {
-      const value = formControls[key].value;
-        formData.append(key, value !== null ? value.toString() : '');
-    }
-    if (this.file){
-      formData.append('poster_loc', this.file);
-    } else {
-      formData.append('poster_loc', this.currentPoster);
-    }
-   
-    formData.append('id', this.updateEventId.toString()); 
-
-    if(formData){
-      if(type ==='publish'){
-        formData.append('event_status_id', '2');
-        this.dataService.updateEvent(formData).subscribe(res=>{
-          this.response=res;
-          console.log(this.response);
-          this.showUpcomingEvents();
-        });
-      } else {
-        formData.append('event_status_id', '1');
-        this.dataService.updateEvent(formData).subscribe(res=>{
-          this.response=res;
-          console.log(this.response);
-          this.showDraftEvents();
-        });
-      }
-      this.closeCreateEditModal();
-      this.currentStep = 0;
-      this.eventForm.reset();
-    }
-  }
-
   getRegisteredMembers (){
     this.dataService.getRegisteredMembers(this.selectedEvent.id).subscribe((res: Member[])=>{
       this.members = res;
       console.log(this.members);
     })
   }
-
   showUpdate(tab:string){
     if(tab === 'upcoming'){
       this.showUpcomingEvents();
-      console.log("here");
     } else if (tab === 'occuring'){
       this.showOccuringEvents();
     } else if (tab === 'draft'){
       this.showDraftEvents();
     }
   }
+
+  handleEditEvent(){
+    this.editEventModal =true;
+    console.log(this.selectedEvent);
+    this.closeManageModal();
+  }
+
 }

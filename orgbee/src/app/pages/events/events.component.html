@@ -17,172 +17,6 @@
     (draftSaved)=" showDraftEvents()"
     (closeModal)="closeCreateModal()"></app-create-event>
     
-
-<!-- EDIT Event Form Modal -->
-  <div id="eventFormModal" class="modal" [class.visible]="editEventModal">
-    <div class="modal-content">
-      <span class="close" (click)="closeCreateEditModal()">&times;</span>
-
-      <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
-        <!-- Event Information Form -->
-        @if(currentStep === 0){
-          <h2>EVENT FORM</h2>
-          <h4>Event Information</h4>
-          <label for="event_name">Name:</label>
-          <input
-            type="text"
-            id="event_name"
-            formControlName="event_name"
-            placeholder="Event Name"/>
-          <label for="location">Location:</label>
-          <input
-            type="text"
-            id="location"
-            formControlName="location"
-            placeholder="Location"/>
-
-          <!-- Inline container for date and time inputs -->
-          <div class="inline-container">
-            <div>
-              <label for="date">Date:</label>
-              <input type="date" id="date" formControlName="date" />
-            </div>
-            <div>
-              <label for="time">Time:</label>
-              <input type="time" id="time" formControlName="time" />
-            </div>
-          </div>
-
-          <div class="button-container">
-            <button 
-              type="button" 
-              class="step-next-btn" 
-              (click)="nextStep()">
-              NEXT
-            </button>
-          </div>
-        }
-
-        <!-- Registration & Admission Form -->
-        @if(currentStep === 1){
-          <h2>EVENT FORM</h2>
-          <h4>Registration & Admission</h4>
-          <div class="inline-radio">
-            <label>Are all members required to attend?</label>
-            <input
-              type="radio"
-              id="all_members_requiredYes"
-              formControlName="all_members_required"
-              [value]="1"/>
-            <label for="all_members_requiredYes">Yes</label>
-            <input
-              type="radio"
-              id="all_members_requiredNo"
-              formControlName="all_members_required"
-              [value]="0"/>
-            <label for="all_members_requiredNo">No</label>
-          </div>
-
-          <div class="inline-radio">
-            <label>Will there be a registration fee?</label>
-            <input
-              type="radio"
-              id="has_reg_fee_yes"
-              formControlName="has_reg_fee"
-              [value]="1"/>
-            <label for="has_reg_fee_yes">Yes</label>
-            <input
-              type="radio"
-              id="has_reg_fee_no"
-              formControlName="has_reg_fee"
-              [value]="0"/>
-            <label for="has_reg_fee_no">No</label>
-          </div>
-
-          <input
-            type="number"
-            id="registration_fee"
-            formControlName="registration_fee"
-            placeholder="Specify the amount"/>
-          <input
-            type="number"
-            id="max_attendees"
-            formControlName="max_attendees"
-            placeholder="Max no. of attendees"/>
-
-          <div class="button-container">
-            <button type="button" class="step-back-btn" (click)="prevStep()">
-              BACK
-            </button>
-            <button type="button" class="step-next-btn" (click)="nextStep()">
-              NEXT
-            </button>
-          </div>
-        }
-
-        <!-- Caption & Poster Form -->
-        @if(currentStep === 2){
-          <h2>EVENT FORM</h2>
-          <h4>Publication Material</h4>
-          <label for="caption">Write a caption:</label>
-          <textarea
-            id="caption"
-            formControlName="caption"
-            placeholder="Write a maximum of 500 characters caption">
-          </textarea>
-          <label for="poster_loc">Upload a poster:</label>
-          <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
-          <div class="button-container">
-            <button 
-              type="button" 
-              class="step-2-back-btn" 
-              (click)="prevStep()">
-                BACK
-            </button>
-            <button 
-              type="button" 
-              class="step-2-next-btn" 
-              (click)="nextStep()">
-                NEXT
-            </button>
-          </div>
-        }
-        
-
-        <!-- Final Buttons -->
-        @if(currentStep === 3){
-          <div class="event-preview">
-            <img [src]="preview" alt="Event Poster"/>
-            <h3>{{ eventForm.get('event_name').value }}</h3>
-            <p>{{ eventForm.get('location').value }}</p>
-            <p>{{ eventForm.get('date').value | date }}</p>
-            <p>{{ eventForm.get('caption').value }}</p>
-          </div>
-          <div class="button-container">
-            <button 
-              type="button" 
-              class="back-btn" 
-              (click)="prevStep()">
-                BACK
-            </button>
-            <button
-              type="submit"
-              class="publish-btn"
-              (click)="saveEdit('publish')">
-                Publish
-            </button>
-            <button
-              type="button"
-              class="save-draft-btn"
-              (click)="saveEdit('draft')">
-                SAVE TO DRAFT
-            </button>
-          </div> 
-        }
-      </form>
-    </div>
-  </div>
-
 <!-- event tabs -->
   <div class="tabs">
     <button
@@ -255,13 +89,21 @@
   </div>
 
   <!-- Manage Event Modal -->
-  <app-manage-event
+   <app-manage-event 
     [selectedEvent]="selectedEvent"
     [members]="members"
     [cancelEventTab]="cancelEventTab"
     [modalButton]="modalButton"
     [isManageModalVisible]="isManageModalVisible"
     (updateState)="showUpdate($event)"
+    (editEventModal)="handleEditEvent()" 
     (closeModal)="closeManageModal()"></app-manage-event>
+
+  <!-- Edit Event Modal -->
+  <app-edit-event
+    [selectedEvent]="selectedEvent"
+    [editEventModal]="editEventModal"
+    (eventUpdate)="showUpdate($event)"
+    (closeModal)="closeCreateModal()"></app-edit-event>
 
 </div>
