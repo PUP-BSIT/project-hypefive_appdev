@@ -43,6 +43,8 @@ body {
 
 #nav_content.nav-content-role1 {
   background-color: rgb(48, 33, 1); 
+  color: rgb(48, 33, 1); 
+  box-shadow: 0 0 0 16px rgb(48, 33, 1); 
 }
 
 #nav_content.nav-content-role2 {
@@ -53,6 +55,8 @@ body {
 
 #nav_content.nav-content-role3 {
   background-color: rgb(47, 47, 47); 
+  color: rgb(47, 47, 47); 
+  box-shadow: 0 0 0 16px rgb(47, 47, 47); 
 }
 
 #nav_content_highlight {
@@ -116,6 +120,35 @@ body {
 .nav-button .bi {
   font-size: 25px;
   transition: 25px 0.2s;
+}
+
+.nav-button:focus {
+  outline: none;
+  color: #ffca10;
+}
+
+.nav-button:focus ~ #nav_content_highlight {
+  top: 0px; /* Default position for the first button */
+}
+
+.nav-button:nth-of-type(2):focus ~ #nav_content_highlight {
+  top: 105px;
+}
+
+.nav-button:nth-of-type(3):focus ~ #nav_content_highlight {
+  top: 190px;
+}
+
+.nav-button:nth-of-type(4):focus ~ #nav_content_highlight {
+  top: 280px;
+}
+
+.nav-button:nth-of-type(5):focus ~ #nav_content_highlight {
+  top: 370px;
+}
+
+.nav-button:nth-of-type(6):focus ~ #nav_content_highlight {
+  top: 460px;
 }
 
 .nav-button:nth-of-type(1):hover {
