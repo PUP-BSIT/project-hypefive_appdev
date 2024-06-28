@@ -58,17 +58,21 @@ export class ForgotPassComponent {
         .post<ApiResponse>(url, { email: this.emailForm.value.email })
         .subscribe({
           next: (response) => {
+            this.loading = false;
             if (response.success) {
-              this.loading = false;
               this.step = 2;
+              this.errorMessage = '';
             } else {
-              this.loading = false;
               this.errorMessage = response.message;
             }
           },
           error: (error) => {
             this.loading = false;
-            this.errorMessage = error.message;
+            if (error.status === 404 && error.error.message === 'Email not found') {
+              this.errorMessage = 'Email not found';
+            } else {
+              this.errorMessage = 'An error occurred. Please try again.';
+            }
           },
         });
     }
@@ -88,6 +92,7 @@ export class ForgotPassComponent {
             if (response.success) {
               this.loading = false;
               this.step = 3; 
+              this.errorMessage = '';
             } else {
               this.loading = false;
               this.errorMessage = response.message;
@@ -95,7 +100,11 @@ export class ForgotPassComponent {
           },
           error: (error) => {
             this.loading = false;
-            this.errorMessage = error.message;
+            if (error.status === 401 && error.error.message === 'Incorrect token') {
+              this.errorMessage = 'Incorrect token';
+            } else {
+              this.errorMessage = 'An error occurred. Please try again.';
+            }
           },
         });
     }

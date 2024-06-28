@@ -115,7 +115,7 @@ p {
 
 .error-message {
   color: #ff3860;
-  margin-top: 20px;
+  margin-top: auto;
 }
 
 #new_pass {
