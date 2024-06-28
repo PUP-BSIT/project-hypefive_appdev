@@ -15,12 +15,11 @@
 <div id="eventFormModal" class="modal" [class.visible]="createEventModal">
   <div class="modal-content">
     <span class="close" (click)="closeCreateEditModal()">&times;</span>
-
     <form [formGroup]="eventForm" (ngSubmit)="submitForm('publish')">
+      <h2>EVENT FORM</h2>
+      <app-stepper [currentStep]="currentStep"></app-stepper>
       <!-- Event Information Form -->
       @if(currentStep === 0){
-        <h2>EVENT FORM</h2>
-        <h4>Event Information</h4>
         <label for="event_name">Name:</label>
         <input
           type="text"
@@ -81,8 +80,8 @@
         <div class="button-container">
           <button 
             type="button" 
-            class="step-0-next-btn" 
-            (click)="nextStep()">
+            class="step-next-btn" 
+            (click)="nextStep()" [disabled]="!isStepValid(0)">
              NEXT
           </button>
         </div>
@@ -90,8 +89,6 @@
 
       <!-- Registration & Admission Form -->
       @if(currentStep === 1){
-        <h2>EVENT FORM</h2>
-        <h4>Registration & Admission</h4>
         <div class="inline-radio">
           <label>Are all members required to attend?</label>
           <input
@@ -154,10 +151,13 @@
           }
 
         <div class="button-container">
-          <button type="button" class="step-1-back-btn" (click)="prevStep()">
+          <button type="button" class="step-back-btn" (click)="prevStep()">
             BACK
           </button>
-          <button type="button" class="step-1-next-btn" (click)="nextStep()">
+          <button type="button" 
+            class="step-next-btn" 
+            (click)="nextStep()" 
+            [disabled]="!isStepValid(1)">
             NEXT
           </button>
         </div>
@@ -165,8 +165,6 @@
 
       <!-- Caption & Poster Form -->
       @if(currentStep === 2){
-        <h2>EVENT FORM</h2>
-        <h4>Publication Material</h4>
         <label for="caption">Write a caption:</label>
         <div class="textarea-wrapper">
           <textarea
@@ -191,7 +189,7 @@
           </div>
         }
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
         <!-- @if(poster_loc.invalid && poster_loc.touched){
           <div class="inc">
            @if(poster_loc.errors?.['required']){
@@ -212,7 +210,8 @@
           <button 
             type="button" 
             class="step-2-next-btn" 
-            (click)="nextStep()">
+            (click)="nextStep()"
+            [disabled]="!isStepValid(2)">
               NEXT
           </button>
         </div>
@@ -222,7 +221,7 @@
       <!-- Final Buttons -->
       @if(currentStep === 3){
         <div class="event-preview">
-          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <img [src]="preview" alt="Event Poster"/>
           <h3>{{ eventForm.get('event_name').value }}</h3>
           <p>{{ eventForm.get('location').value }}</p>
           <p>{{ eventForm.get('date').value | date }}</p>
@@ -238,7 +237,8 @@
           <button
             type="submit"
             class="publish-btn"
-            (click)="submitForm('publish')">
+            (click)="submitForm('publish')"
+            [disabled]="eventForm.invalid">
               PUBLISH
           </button>
           <button
@@ -260,9 +260,9 @@
 
     <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
       <!-- Event Information Form -->
+      <h2>EVENT FORM</h2>
+      <app-stepper [currentStep]="currentStep"></app-stepper>
       @if(currentStep === 0){
-        <h2>EVENT FORM</h2>
-        <h4>Event Information</h4>
         <label for="event_name">Name:</label>
         <input
           type="text"
@@ -291,7 +291,7 @@
         <div class="button-container">
           <button 
             type="button" 
-            class="step-0-next-btn" 
+            class="step-next-btn" 
             (click)="nextStep()">
              NEXT
           </button>
@@ -300,8 +300,6 @@
 
       <!-- Registration & Admission Form -->
       @if(currentStep === 1){
-        <h2>EVENT FORM</h2>
-        <h4>Registration & Admission</h4>
         <div class="inline-radio">
           <label>Are all members required to attend?</label>
           <input
@@ -346,10 +344,10 @@
           placeholder="Max no. of attendees"/>
 
         <div class="button-container">
-          <button type="button" class="step-1-back-btn" (click)="prevStep()">
+          <button type="button" class="step-back-btn" (click)="prevStep()">
             BACK
           </button>
-          <button type="button" class="step-1-next-btn" (click)="nextStep()">
+          <button type="button" class="step-next-btn" (click)="nextStep()">
             NEXT
           </button>
         </div>
@@ -357,8 +355,6 @@
 
       <!-- Caption & Poster Form -->
       @if(currentStep === 2){
-        <h2>EVENT FORM</h2>
-        <h4>Publication Material</h4>
         <label for="caption">Write a caption:</label>
         <textarea
           id="caption"
@@ -366,7 +362,7 @@
           placeholder="Write a maximum of 500 characters caption">
         </textarea>
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc"  (change)="uploadImage($event)"/>
+        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
         <div class="button-container">
           <button 
             type="button" 
@@ -387,7 +383,7 @@
       <!-- Final Buttons -->
       @if(currentStep === 3){
         <div class="event-preview">
-          <img src="../../../assets/icon.jpg" alt="Event Poster"/>
+          <img [src]="preview" alt="Event Poster"/>
           <h3>{{ eventForm.get('event_name').value }}</h3>
           <p>{{ eventForm.get('location').value }}</p>
           <p>{{ eventForm.get('date').value | date }}</p>

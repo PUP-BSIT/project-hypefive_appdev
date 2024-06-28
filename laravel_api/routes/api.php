@@ -37,11 +37,20 @@ Route::delete('/announcements/{announcement}', [Announce::class,
                        
 //Homepage Controllers
 //User Data
-Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', 
+Route::get('/retrieve/{id}&{email}', 
   [StudentsController::class, 'retrieve']);
 
 //Update Icon
 Route::put('students/update-icon', [StudentsController::class, 'updateIcon']);
+
+//Update Info
+Route::put('/update-student-info', [StudentsController::class, 'updateUserInfo'])
+   ->name('api.updateUserInfo');
+
+  //Update password
+Route::put('/change-password', [StudentsController::class, 'changePassword'])
+  ->name('api.changePassword');    
+
 Route::post('/registerEvent', [EventRegisterController::class, 'registerEvent'])
   ->name('api.registerEvent');
 
