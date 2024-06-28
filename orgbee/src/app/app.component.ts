@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService, UserInfo } from '../service/login.service';
 import { LoadingService } from '../service/loading.service';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+
 export interface Response {
   message: string;
   code: number;

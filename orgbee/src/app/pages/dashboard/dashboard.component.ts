@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { LoadingService } from '../../../service/loading.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 enum Roles {
   Student = 1,
   Officer = 2,
@@ -62,7 +64,8 @@ export class DashboardComponent implements OnInit {
     public dialog: MatDialog,
     private datePipe: DatePipe,
     private router:Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -202,16 +205,19 @@ export class DashboardComponent implements OnInit {
   }
   
   deleteAnnouncement(announcement: Announcement): void {
+    this.confirmAction('Confirm Delete', 'Are you sure you want to delete this announcement?', () => {
     this.announcementService.deleteAnnouncement(announcement.id).subscribe(
       () => {
         this.announcements = 
           this.announcements.filter(a => a.id !== announcement.id);
-      },
-      (error) => {
-        console.error('Error deleting announcement:', error);
-      }
+          this.showSnackBar('Announcement deleted successfully.', 'success');
+        },
+        (error) => {
+          this.showSnackBar('Error deleting announcement. Please try again later.', 'error');
+        }
     );
-  }
+  });
+}
 
   filterByAll(): void {
     this.fetchAnnouncements(); 
@@ -286,7 +292,6 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    console.log('Logging out...');
     this.confirmAction('Confirm Logout', 'Are you sure you want to logout?', () => {
       this.loggingOut = true;
       localStorage.removeItem('token');
@@ -298,4 +303,10 @@ export class DashboardComponent implements OnInit {
     });
   }
   
+  private showSnackBar(message: string, panelClass: string) {
+    this.snackBar.open(message, '', {
+      duration: 2000,
+      panelClass: ['custom-snackbar', panelClass]
+    });
+  }
 }
