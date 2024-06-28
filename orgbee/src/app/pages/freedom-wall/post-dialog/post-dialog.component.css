@@ -1,15 +1,10 @@
 .dialog-content {
   max-height: calc(100vh - 200px);
   width: 550px;
-  overflow-y: auto;
   padding: 20px;
   box-sizing: border-box;
   white-space: normal;
   text-align: justify;
-}
-
-.dialog-content::-webkit-scrollbar {
-  display: none;
 }
 
 .dialog-content h4 {
@@ -29,4 +24,8 @@
   overflow-wrap: break-word;
 }
 
-
+@media (max-width: 766px) { 
+  .dialog-content {
+    width: 400px;
+  }
+}

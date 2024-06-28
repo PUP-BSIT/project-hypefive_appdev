@@ -296,3 +296,8 @@ body {
     order: 2;
   }
 }
+
+.no-request {
+  text-align: center;
+  padding: 10%;
+}
