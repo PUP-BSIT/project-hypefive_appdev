@@ -11,7 +11,7 @@
           <p>{{ selectedEvent?.date }}</p>
         </div>
         @if(modalButton.showModalUpcoming){
-          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+          <button class="edit-btn" (click)="editEvent()">
             Edit Details
           </button>
           <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">

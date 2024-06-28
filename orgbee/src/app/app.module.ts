@@ -66,6 +66,7 @@ import { StepperComponent } from './pages/events/stepper/stepper.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CreateEventComponent } from './pages/events/create-event/create-event.component';
 import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
+import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { ManageEventComponent } from './pages/events/manage-event/manage-event.c
     AdminTodayComponent,
     CreateEventComponent,
     ManageEventComponent,
+    EditEventComponent,
     LandingPageComponent,
     SettingsComponent,
     StepperComponent,
