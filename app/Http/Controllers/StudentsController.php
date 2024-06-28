@@ -173,7 +173,6 @@ class StudentsController extends Controller {
       return response()->json(['message' => 'Token absent'], 401);
     }
 
-
     $user_id = $user->id;
 
     $request->validate([
@@ -187,5 +186,84 @@ class StudentsController extends Controller {
     } else {
       return response()->json(['message' => 'Failed to update icon ID'], 500);
     }
+  }
+
+  public function updateUserInfo(Request $request)
+  {
+  try {
+    $user = JWTAuth::parseToken()->authenticate();
+    } catch (TokenExpiredException $e) {
+      return response()->json(['message' => 'Token expired'], 401);
+    } catch (TokenInvalidException $e) {
+       return response()->json(['message' => 'Token invalid'], 401);
+   } catch (JWTException $e) {
+       return response()->json(['message' => 'Token absent'], 401);
+    }
+  
+      $user_id = $user->id;
+      $validatedData = $request->validate([
+          'first_name' => 'required|string|max:255',
+          'last_name' => 'required|string|max:255',
+          'birthday' => 'required|date',
+          'gender' => 'required|in:male,female,other',
+          'student_number' => [
+              'required',
+              'regex:/^\d{4}-\d{5}-TG-0$/'
+          ],
+      ]);
+  
+      try {
+          $student = Students::where('user_id', $user_id)->first();
+  
+          if (!$student) {
+              return response()->json(['message' => 'No student record found for user_id: ' . $user_id], 404);
+          }
+  
+          $student->update($validatedData);
+  
+          return response()->json([
+              'message' => 'Student information updated successfully',
+              'updated_student' => $student
+          ], 200);
+      } catch (\Exception $e) {
+          return response()->json(['message' => 'Internal server error: ' . $e->getMessage()], 500);
+      }
+  }
+  
+  public function changePassword(Request $request)
+  {
+      try {
+          $token = JWTAuth::parseToken()->authenticate();
+      } catch (TokenExpiredException $e) {
+          return response()->json(['message' => 'Token expired'], 401);
+      } catch (TokenInvalidException $e) {
+          return response()->json(['message' => 'Token invalid'], 401);
+      } catch (JWTException $e) {
+          return response()->json(['message' => 'Token absent'], 401);
+      }
+  
+      $request->validate([
+          'current_password' => 'required',
+          'new_password' => 'required|min:8',
+          'confirm_password' => 'required|same:new_password',
+      ]);
+  
+      // Check if the current password same with user's password
+      if (!Hash::check($request->current_password, $token->password)) {
+          return response()->json(['message' => 'Current password is incorrect.'], 401);
+      }
+  
+      // Update the user's password
+      $user = User::find($token->id);
+      $user->password = Hash::make($request->new_password);
+      $user->save();
+  
+      return response()->json(['message' => 'Password updated successfully.']);
+  }
+
+  public function getTotalMembers() {
+    $members = DB::table('students')->whereNotIn('id', [1])->count();
+    
+    return response()->json($members);
   }
 }

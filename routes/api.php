@@ -2,117 +2,177 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Announce;
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\EventRegisterController;
+use App\Http\Controllers\EventsController;
+use App\Http\Controllers\FreedomWallController;
+use App\Http\Controllers\MembersController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\EmailVerificationController;
+
+use App\Http\Controllers\PasswordResetController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-//Register
-Route::post('/register', [\App\Http\Controllers\StudentsController::class, 
-                                'register'])->name('api.register');
+//Login Signup Page Controllers
+Route::post('/register', [StudentsController::class, 'register'])
+  ->name('api.register');
 
-//Login
-Route::post('/login', [\App\Http\Controllers\StudentsController::class, 
-                                'login'])->name('api.login');
+Route::post('/login', [StudentsController::class, 'login'])->name('api.login');
 
-//Announcement CRUD
+Route::post('/verify', [EmailVerificationController::class, 'verify']);
+
+//Announcement Page Controllers
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
 Route::post('/announcements', [Announce::class, 'createAnnouncement']);
-Route::put('/announcements/{announcement}', [Announce::class, 'updateAnnouncement']);
-Route::delete('/announcements/{announcement}', [Announce::class, 'deleteAnnouncement']);
+Route::put('/announcements/{announcement}', [Announce::class, 
+  'updateAnnouncement']);
+Route::delete('/announcements/{announcement}', [Announce::class, 
+  'deleteAnnouncement']);
                        
+//Homepage Controllers
 //User Data
-Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', [\App\Http\Controllers\StudentsController::class, 'retrieve']);
+Route::get('/retrieve/{id}&{email}', 
+  [StudentsController::class, 'retrieve']);
 
 //Update Icon
-Route::put('students/update-icon', [\App\Http\Controllers\StudentsController::class, 'updateIcon']);
+Route::put('students/update-icon', [StudentsController::class, 'updateIcon']);
 
-//Members
-Route::get('/members', [\App\Http\Controllers\MembersController::class, 
-                                'getMembers'])->name('api.getMembers');
+//Update Info
+Route::put('/update-student-info', [StudentsController::class, 'updateUserInfo'])
+   ->name('api.updateUserInfo');
 
-//Member Requests
-Route::get('/request', [\App\Http\Controllers\MembersController::class, 
-                        'membershipRequest'])->name('api.membershipRequest');
+  //Update password
+Route::put('/change-password', [StudentsController::class, 'changePassword'])
+  ->name('api.changePassword');    
 
-//Accept Member Request                        
-Route::post('/acceptMember', [\App\Http\Controllers\MembersController::class, 
-                                'acceptMember'])->name('api.acceptMember');
+Route::post('/registerEvent', [EventRegisterController::class, 'registerEvent'])
+  ->name('api.registerEvent');
 
-//Decline Member Request                        
-Route::post('/declineMember', [\App\Http\Controllers\MembersController::class, 
-                                'declineMember'])->name('api.declineMember');
+Route::get('/getTotalMembers', [StudentsController::class, 'getTotalMembers'])
+  ->name('api.getTotalMembers'); 
 
-//Get officers
-Route::get('/getOfficers', [\App\Http\Controllers\MembersController::class, 
-                        'getOfficers'])->name('api.getOfficers');
+Route::get('/getTotalUpcomingEvents', [EventsController::class, 
+  'getTotalUpcomingEvents'])->name('api.getTotalUpcomingEvents');
 
-//Add to officer
-Route::post('/promoteToOfficer', [\App\Http\Controllers\MembersController::class, 
-                            'promoteToOfficer'])->name('api.promoteToOfficer');
+Route::get('/getTotalPendingPosts', [FreedomWallController::class, 
+  'getTotalPendingPosts'])->name('api.getTotalUpcomingEvents');
 
-//Add to officer
-Route::post('/demoteToMember', [\App\Http\Controllers\MembersController::class, 
-                            'demoteToMember'])->name('api.demoteToMember');
+Route::get('/getFiveEvents', [EventsController::class, 'getFiveEvents'])
+  ->name('api.getFiveEvents');
 
-Route::get('/getPosts', [\App\Http\Controllers\FreedomWallController::class, 
-                                'getPosts'])->name('api.getPosts');     
+//Homepage Event Registration Controllers
+Route::post('/checkRegistration', [EventRegisterController::class, 
+  'checkRegistration'])->name('api.checkRegistration');
 
-Route::post('/createPostFW', 
-        [\App\Http\Controllers\FreedomWallController::class, 'createPostFW'])
-            ->name('api.createPostFW');
+Route::post('/unregisterEvent', [EventRegisterController::class, 
+  'unregisterEvent'])->name('api.unregisterEvent');
 
-Route::post('/deletePost', 
-        [\App\Http\Controllers\FreedomWallController::class, 'deletePost'])
-            ->name('api.deletePost');
+Route::post('/reRegisterEvent', [EventRegisterController::class, 
+  'reRegisterEvent'])->name('api.reRegisterEvent');
 
-Route::post('/createEvent', 
-        [\App\Http\Controllers\EventsController::class, 'createEvent'])
-            ->name('api.createEvent');
+Route::get('/getRegisteredMembers/{event_id}', [EventRegisterController::class, 
+  'getRegisteredMembers'])->name('api.getRegisteredMembers');
 
-Route::get('/getUpcomingEvents', 
-        [\App\Http\Controllers\EventsController::class, 'getUpcomingEvents'])
-            ->name('api.getUpcomingEvents');
+//Members Page Controllers
+Route::get('/members', [MembersController::class, 'getMembers'])
+  ->name('api.getMembers');
 
-Route::get('/getDraftEvents', 
-        [\App\Http\Controllers\EventsController::class, 'getDraftEvents'])
-            ->name('api.getDraftEvents');
+Route::get('/request', [MembersController::class, 'membershipRequest'])
+  ->name('api.membershipRequest');
+                    
+Route::post('/acceptMember', [MembersController::class, 'acceptMember'])
+  ->name('api.acceptMember');
+                
+Route::post('/declineMember', [MembersController::class, 'declineMember'])
+  ->name('api.declineMember');
 
-Route::get('/getOccuringEvents', 
-        [\App\Http\Controllers\EventsController::class, 'getOccuringEvents'])
-            ->name('api.getOccuringEvents');
+Route::get('/getOfficers', [MembersController::class, 'getOfficers'])
+  ->name('api.getOfficers');
 
-Route::post('/markAsOccuring', 
-        [\App\Http\Controllers\EventsController::class, 'markAsOccuring'])
-            ->name('api.markAsOccuring');
+Route::post('/promoteToOfficer', [MembersController::class, 'promoteToOfficer'])
+  ->name('api.promoteToOfficer');
 
-Route::post('/publishDraft', 
-        [\App\Http\Controllers\EventsController::class, 'publishDraft'])
-            ->name('api.publishDraft');
+Route::post('/demoteToMember', [MembersController::class, 'demoteToMember'])
+  ->name('api.demoteToMember');
 
-Route::post('/markAsComplete', 
-        [\App\Http\Controllers\EventsController::class, 'markAsComplete'])
-            ->name('api.markAsComplete');
+Route::get('/member/search_member', [SearchController::class, 'searchMember'])
+  ->name('api.searchMember');
 
-Route::post('/cancelEvent', 
-        [\App\Http\Controllers\EventsController::class, 'cancelEvent'])
-            ->name('api.cancelEvent');
+//Freedom Wall Page Controllers
+Route::get('/getPosts', [FreedomWallController::class, 'getPosts'])
+  ->name('api.getPosts');     
 
-Route::post('/updateEvent', 
-        [\App\Http\Controllers\EventsController::class, 'updateEvent'])
-            ->name('api.updateEvent');
+Route::post('/createPostFW', [FreedomWallController::class, 'createPostFW'])
+  ->name('api.createPostFW');
 
-Route::get('/getYearlyEvents', 
-        [\App\Http\Controllers\ArchiveController::class, 'getYearlyEvents'])
-            ->name('api.getYearlyEvents');
+Route::post('/deletePost', [FreedomWallController::class, 'deletePost'])
+  ->name('api.deletePost');
 
-Route::get('/getOldEvents', 
-        [\App\Http\Controllers\ArchiveController::class, 'getOldEvents'])
-            ->name('api.getOldEvents');
+Route::get('/getPostRequest', [FreedomWallController::class, 'getPostRequest'])
+  ->name('api.getPostRequest'); 
 
-Route::get('/archive/search_archive', [\App\Http\Controllers\SearchController::class, 
-                                'searchArchive'])->name('api.searchArchive');
+Route::post('/acceptPost', [FreedomWallController::class, 'acceptPost'])
+  ->name('api.acceptPost'); 
 
-Route::get('/member/search_member', [\App\Http\Controllers\SearchController::class, 
-                                'searchMember'])->name('api.searchMember');
+Route::post('/declinePost', [FreedomWallController::class, 'declinePost'])
+  ->name('api.declinePost'); 
+
+Route::get('/getDeletionRequests', [FreedomWallController::class, 
+  'getDeletionRequests'])->name('api.getDeletionRequests'); 
+
+Route::post('/deletionRequest', [FreedomWallController::class, 'deletionRequest'])
+  ->name('api.deletionRequest'); 
+
+Route::post('/declineDeletionRequest', [FreedomWallController::class, 
+  'declineDeletionRequest'])->name('api.declineDeletionRequest'); 
+Route::post('/createEvent', [EventsController::class, 'createEvent'])
+  ->name('api.createEvent');
+
+//Events Page Controllers
+Route::get('/getUpcomingEvents', [EventsController::class, 'getUpcomingEvents'])
+  ->name('api.getUpcomingEvents');
+
+Route::get('/getDraftEvents', [EventsController::class, 'getDraftEvents'])
+  ->name('api.getDraftEvents');
+
+Route::get('/getOccuringEvents', [EventsController::class, 'getOccuringEvents'])
+   ->name('api.getOccuringEvents');
+
+Route::post('/markAsOccuring', [EventsController::class, 'markAsOccuring'])
+  ->name('api.markAsOccuring');
+
+Route::post('/publishDraft', [EventsController::class, 'publishDraft'])
+  ->name('api.publishDraft');
+
+Route::post('/markAsComplete', [EventsController::class, 'markAsComplete'])
+  ->name('api.markAsComplete');
+
+Route::post('/cancelEvent', [EventsController::class, 'cancelEvent'])
+  ->name('api.cancelEvent');
+
+Route::post('/updateEvent', [EventsController::class, 'updateEvent'])
+  ->name('api.updateEvent');
+
+//Archive Page Controller
+Route::get('/getYearlyEvents', [ArchiveController::class, 'getYearlyEvents'])
+  ->name('api.getYearlyEvents');
+
+Route::get('/getOldEvents', [ArchiveController::class, 'getOldEvents'])
+  ->name('api.getOldEvents');
+
+Route::get('/archive/search_archive', [SearchController::class, 'searchArchive'])
+  ->name('api.searchArchive');
+
+//Forgot password Controllers
+Route::post('auth/send-reset-link', [PasswordResetController::class, 
+  'sendResetLinkEmail']);
+Route::post('auth/verify-code', [PasswordResetController::class, 
+  'verifyToken']);
+Route::post('auth/reset-password', [PasswordResetController::class, 
+  'reset']);

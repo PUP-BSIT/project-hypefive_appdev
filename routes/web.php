@@ -15,7 +15,7 @@ Route::middleware([CheckToken::class])->group(function () {
     });
 
     Route::get('/dashboard', function () {
-        return view('welcome');
+      return view('welcome');
     });
 
     Route::get('/freedom-wall', function () {
