@@ -78,7 +78,7 @@
   max-width: 200px;
   padding: 0px;
   border-right: 1px solid black;
-  height: 440px;
+  height: 436px;
   align-items: self-start;
   text-align: start;
   padding-top: 10%;
@@ -144,11 +144,11 @@ input, select {
 
 .save {
   border-radius: 10px;
-  padding: 10px;
+  padding: 2%;
   background-color: #ffca10;
   width: 30%;
   justify-content: right;
-  margin-left: 5px;
+  margin-left: 3%;
 }
 
 .delete {
@@ -162,7 +162,7 @@ input, select {
 
 .cancel {
   border-radius: 10px;
-  padding: 10px;
+  padding: 2%;
   background-color: #b4b4b4;
   width: 30%;
 }
@@ -183,7 +183,7 @@ input, select {
 .management, .deletion {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 5%;
 }
 
 .management p {
@@ -196,13 +196,33 @@ input, select {
 }
 
 input[type="password"], select {
-  padding: 10px;
+  padding: 3%;
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: 200px;
+  width: 60%;
 }
 
 .deleteButton {
   align-items: center;  
   text-align: center;
+}
+
+@media (max-width: 766px) { 
+
+  .tabs {
+    width: 25%;
+  }
+
+  .tab {
+    width: 100%;
+  }
+
+  .tab:hover {
+    width: 100%;
+  }
+
+  .information {
+    margin-right: 2%;
+  }
+  
 }
