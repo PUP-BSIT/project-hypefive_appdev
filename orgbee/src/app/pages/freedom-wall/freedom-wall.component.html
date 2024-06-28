@@ -136,7 +136,7 @@
       </span>
       <div class="modal-header">
         <h4>Pending Post Approval</h4>
-        <span class="pending-count">{{ pendingPostsCount }}</span>
+        <span class="pending-count">{{ manageWallCount }}</span>
       </div>      
       <div class="modal-body">
         <div class="post-cards-container">
@@ -168,13 +168,13 @@
       </span>
       <div class="modal-header">
         <h4>Request to Delete Posts</h4>
-        <span class="request-delete-count">{{ requestDeleteCount }}</span>
+        <span class="request-delete-count">{{ deletePostCount }}</span>
       </div>
       <div class="modal-body">
         <div class="post-cards-container">
           @for(post of requestDelete; track post) {
             <div class="post-card">
-              <h5>{{ post.deletion_req_count }}</h5>
+              <h5>Total deletion request: {{ post.deletion_req_count }}</h5>
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>
               <div class="button-request">

@@ -175,6 +175,7 @@ body {
   text-align: justify;
   padding: 10px;
   padding-bottom: 15px;
+  color: rgb(71, 71, 71);
 }
 
 .three-dots {
@@ -501,6 +502,14 @@ body {
   border-radius: 15px;
   margin-top: 3%;
   position: relative; 
+}
+
+h5 {
+  font-weight: 300;
+}
+
+h4 {
+  font-weight: 500;
 }
 
 @media (max-width: 766px) { 
