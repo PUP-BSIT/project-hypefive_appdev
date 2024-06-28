@@ -17,6 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 import { HomepageEventsComponent } from './pages/dashboard/homepage-events/homepage-events.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 import { AnModalComponent } 
   from './pages/dashboard/an-modal/an-modal.component';
@@ -60,6 +61,9 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarDateFormatter } from 'angular-calendar';
 import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
+import { SettingsComponent } from './pages/dashboard/settings/settings.component';
+import { StepperComponent } from './pages/events/stepper/stepper.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CreateEventComponent } from './pages/events/create-event/create-event.component';
 import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
@@ -89,7 +93,10 @@ import { EditEventComponent } from './pages/events/edit-event/edit-event.compone
     CreateEventComponent,
     ManageEventComponent,
     EditEventComponent,
-    
+    LandingPageComponent,
+    SettingsComponent,
+    StepperComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,

@@ -5,9 +5,16 @@ html {
   height: 100%;
 }
 
+app-progress-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 20px;
+  z-index: 1000;
+}
+
 .container {
   display: flex;
-  justify-content: center; 
   width: 100%;
   height: 100%;
 }
@@ -29,9 +36,7 @@ app-sidebar {
   app-sidebar {
     width: 0px;
   }
-  
 }
-
 
 ::ng-deep .custom-toast {
   color: #ffffff;
@@ -44,9 +49,9 @@ app-sidebar {
 }
 
 ::ng-deep .custom-toast.success {
-  background-color: #31AA65;
+  background-color: #31aa65;
 }
 
 ::ng-deep .custom-toast.error {
-  background-color: #C0564B;
+  background-color: #c0564b;
 }

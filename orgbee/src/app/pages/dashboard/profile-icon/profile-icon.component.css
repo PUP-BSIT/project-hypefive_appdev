@@ -39,7 +39,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
-  width: 500px;
+  width: 100%;
   font-weight: 600;
   font-size: 15px;
 }
@@ -103,4 +103,22 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+@media screen and (max-width: 650px) {
+  .choose-avatar img.avatar {
+    width: 40px;
+    height: 40px;
+    margin-inline: 10px;
+    margin-block: 5px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .choose-avatar img.avatar {
+    width: 35px;
+    height: 35px;
+    margin-inline: 2px;
+    margin-block: 2px;
+  }
 }
