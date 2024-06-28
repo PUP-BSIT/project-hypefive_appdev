@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Mail\MemberAccepted;
+use Illuminate\Support\Facades\Mail;
 
 class MembersController extends Controller {
   public function getMembers() {
@@ -33,28 +35,40 @@ class MembersController extends Controller {
   }
 
   public function acceptMember(Request $request) {
-    $student_number = $request->only('student_number');
-    $user_id = DB::table('students')
+    $student_number = $request->input('student_number');
+    $student = DB::table('students')
       ->where('student_number', $student_number)
-      ->value('user_id');
+      ->first();
+
+    if (!$student) {
+      return response()->json(['message' => 'Student not found', 'code' => 404]);
+    }
+
+    $user = DB::table('users')->where('id', $student->user_id)->first();
+
+    if (!$user) {
+      return response()->json(['message' => 'User not found', 'code' => 404]);
+    }
 
     $updateTime = now();
-    if ($user_id) {
-      DB::table('users')->where('id', $user_id)
-        ->update(['account_status_id' => 2, 'updated_at' => $updateTime]);
-        
-      DB::table('students')->where('id', $user_id)
+    DB::table('users')->where('id', $student->user_id)
+      ->update(['account_status_id' => 2, 'updated_at' => $updateTime]);
+
+    DB::table('students')->where('student_number', $student_number)
       ->update(['updated_at' => $updateTime]);
 
-      $response['message'] = 'Student accepted successfully';
-      $response['code'] = 200;
-      return response()->json($response);
-    } else {
-      $response['message'] = 'User not found';
-      $response['code'] = 404;
-      return response()->json($response);
-    }
-  }
+    // Combine student and user data
+    $student->email = $user->email;
+
+    Mail::to($user->email)->send(new MemberAccepted($student));
+
+    $response = [
+      'message' => 'Student accepted successfully',
+      'code' => 200
+    ];
+
+    return response()->json($response);
+}
 
   public function declineMember(Request $request) {
     $student_number = $request->only('student_number');

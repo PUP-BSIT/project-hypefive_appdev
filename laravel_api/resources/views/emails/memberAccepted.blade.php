@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Password Reset</title>
+    <title>Membership Accepted</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,7 +26,7 @@
         }
         .logo img {
             width: 100px;
-            margin-bottom: 20px;
+            margin-bottom: 20px; 
         }
         .content h1 {
             color: #333;
@@ -64,10 +64,8 @@
             <img src="cid:logo.png" alt="Logo">
         </div>
         <div class="content">
-            <h1>Password Reset Request</h1>
-            <p>You have requested a password reset. Here is your verification code:</p>
-            <div class="code">{{ $token }}</div>
-            <p>If you did not request this, please ignore this email.</p>
+            <h1>Hello, {{ $students->first_name }}!</h1>
+            <p>Congratulations! Your membership request has been accepted.</p>
             <div class="footer">
                 <p>Best Regards,<br>The Team</p>
             </div>
