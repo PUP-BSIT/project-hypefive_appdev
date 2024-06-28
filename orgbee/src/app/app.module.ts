@@ -64,6 +64,8 @@ import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.c
 import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { StepperComponent } from './pages/events/stepper/stepper.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { CreateEventComponent } from './pages/events/create-event/create-event.component';
+import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,8 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
+    CreateEventComponent,
+    ManageEventComponent,
     LandingPageComponent,
     SettingsComponent,
     StepperComponent,

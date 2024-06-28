@@ -1,0 +1,61 @@
+<!-- Manage Event Modal -->
+<div id="manage_event_modal" class="modal" [class.visible]="isManageModalVisible">
+  <div class="modal-content-manage">
+    <div class="modal-manage-content">
+      <div class="manage-content">
+        <h3 class="event-tag">Event</h3>
+        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
+        <div class="event-info">
+          <p class="title">{{ selectedEvent?.event_name }}</p>
+          <p>{{ selectedEvent?.location }}</p>
+          <p>{{ selectedEvent?.date }}</p>
+        </div>
+        @if(modalButton.showModalUpcoming){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
+            Mark as Occurring
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        } 
+        @if(modalButton.showModalOccuring){
+          <button class="occurring-btn" (click)="markAsComplete(selectedEvent)">
+            Mark as Complete
+          </button>
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+        @if(modalButton.showModalDraft){
+          <button class="edit-btn" (click)="editEvent(selectedEvent)">
+            Edit Details
+          </button>
+          <button class="occurring-btn" (click)="publishDraft(selectedEvent)">
+            Publish
+          </button> 
+          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
+            Cancel Event
+          </button>
+        }
+         
+      </div>
+      <div class="manage-members">
+        <span class="close" (click)="closeManageModal()">&times;</span>
+        <h3>Registered Members</h3>
+        <div class="members-list">
+          @for(member of members; track members){
+            <div class="member">
+              <img src="{{ member.icon_location }}" 
+                alt="{{member.first_name}}" 
+                class="member-photo">
+              <span class="member-name">{{member.first_name}} {{member.last_name}}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

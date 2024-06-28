@@ -22,13 +22,11 @@ export interface Event {
   reg_count:number;
 }
 
-// interface Member {
-//   name: string;
-// }
-
-// interface SelectedEvent extends Event {
-//   registeredMembers?: Member[];
-// }
+export interface ModalButton {
+  showModalUpcoming: boolean;
+  showModalDraft: boolean;
+  showModalOccuring: boolean;
+}
 
 @Component({
   selector: 'app-events',
@@ -45,16 +43,18 @@ export class EventsComponent implements OnInit {
   isManageModalVisible = false;
   selectedEvent: Event | null = null;
 
-  showModalUpcoming = false;
-  showModalOccuring = false;
-  showModalDraft = false;
+  modalButton: ModalButton = {
+    showModalUpcoming: false,
+    showModalDraft: false,
+    showModalOccuring: false
+  };
 
   response: any; //temporary
   updateEventId: number;
 
   imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   file: any;
-  editModalTab:string;
+  cancelEventTab:string;
 
   members: Member[] = [];
   constructor(private formBuilder: FormBuilder,
@@ -89,8 +89,6 @@ export class EventsComponent implements OnInit {
         registration_feeControl?.disable();
       }
     });
-
-
   }
 
   isStepValid(stepIndex: number): boolean {
@@ -156,6 +154,10 @@ export class EventsComponent implements OnInit {
     this.createEventModal = true;
   }
 
+  closeCreateModal() {
+    this.createEventModal = false;
+  }
+
   closeCreateEditModal(): void {
     this.createEventModal = false;
     this.editEventModal = false;
@@ -163,83 +165,34 @@ export class EventsComponent implements OnInit {
     this.currentStep = 0;
   }
 
-
   openManageModal(event: Event): void {
     this.selectedEvent = event;
     this.getRegisteredMembers();
     this.isManageModalVisible = true;
     if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1 ) {
-      this.showModalUpcoming = true;
-      this.showModalDraft = false;
-      this.showModalOccuring = false;
+      this.modalButton.showModalUpcoming = true;
+      this.modalButton.showModalDraft = false;
+      this.modalButton.showModalOccuring = false;
 
-      this.editModalTab = 'UPCOMING';
+      this.cancelEventTab = 'UPCOMING';
     } else if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id ===2  ) {
-      this.showModalOccuring = true;
-      this.showModalUpcoming = false;
-      this.showModalDraft = false;
+      this.modalButton.showModalOccuring = true;
+      this.modalButton.showModalUpcoming = false;
+      this.modalButton.showModalDraft = false;
 
-      this.editModalTab = 'OCCURING';
+      this.cancelEventTab = 'OCCURING';
     } else if(this.selectedEvent.event_status_id === 1){
-      this.showModalDraft=true;
-      this.showModalOccuring = false;
-      this.showModalUpcoming = false;
+      this.modalButton.showModalDraft=true;
+      this.modalButton.showModalOccuring = false;
+      this.modalButton.showModalUpcoming = false;
 
-      this.editModalTab = 'DRAFT';
+      this.cancelEventTab = 'DRAFT';
     } 
   }
 
   closeManageModal(): void {
     this.isManageModalVisible = false;
     this.members = [];
-  }
-
-  publishDraft(event:Event) {
-    const id = {id : event.id};
-    this.dataService.publishDraft(id).subscribe(res =>{
-      this.response=res;
-      console.log(this.response);
-      this.showDraftEvents();
-      this.closeManageModal();
-    });
-  }
-
-  markAsOccurring(event: Event): void {
-    const id = {id : event.id};
-    this.dataService.markAsOccuring(id).subscribe(res =>{
-      this.response=res;
-
-      this.showUpcomingEvents();
-      this.closeManageModal();
-    });
-  }
-
-  markAsComplete(event: Event) {
-    const id = {id : event.id};
-    this.dataService.markAsComplete(id).subscribe(res =>{
-      this.response=res;
-
-      this.showOccuringEvents();
-      this.closeManageModal();
-    });
-  }
-
-  cancelEvent(event: Event): void {
-    const id = {id : event.id};
-    this.dataService.cancelEvent(id).subscribe(res =>{
-      this.response=res;
-      if (this.editModalTab === 'UPCOMING') {
-        this.showUpcomingEvents();
-        this.editModalTab = "";
-      } else if (this.editModalTab === 'OCCURING') {
-        this.showOccuringEvents();
-        this.editModalTab = "";
-      } else if (this.editModalTab === 'DRAFT') {
-        this.showDraftEvents();
-        this.editModalTab = "";
-      }
-      this.closeManageModal();
-    });
   }
 
   showUpcomingEvents() {
@@ -304,47 +257,6 @@ preview: string;
     }
   }
 
-  submitForm(type: string): void {
-    console.log(this.eventForm.value);
-    if (this.eventForm.valid) {
-      // const newEvent = this.eventForm.value as Event;
-      const formData = new FormData();
-      const formControls = this.eventForm.controls;
-
-      for (const key in formControls) {
-        const value = formControls[key].value;
-        formData.append(key, value !== null ? value.toString() : '');
-      }
-      
-      formData.append('poster_loc', this.file);
-
-      if (type === 'publish') {
-        formData.append('event_status_id', '2'); //set the status to publish
-        console.log(formData); //review the details
-        this.dataService.createEvent(formData).subscribe(res=>{
-          this.response=res;
-          console.log(this.response);
-          this.showUpcomingEvents();
-        });
-      } else {
-        formData.append('event_status_id', '1'); //set the status to draft
-        console.log(formData); //review the details
-        this.dataService.createEvent(formData).subscribe(res=>{
-          this.response=res;
-          console.log(this.response); 
-          this.showDraftEvents();
-        });
-      }
-
-      this.closeCreateEditModal();
-      this.currentStep = 0;
-      this.eventForm.reset();
-      this.displayEvents(this.activeTab);
-    } else { 
-      alert('Please fill in all required fields.');
-    }
-  }
-
   currentPoster:string;
   editEvent(event: Event): void {
     this.editEventModal = true;
@@ -399,5 +311,16 @@ preview: string;
       this.members = res;
       console.log(this.members);
     })
+  }
+
+  showUpdate(tab:string){
+    if(tab === 'upcoming'){
+      this.showUpcomingEvents();
+      console.log("here");
+    } else if (tab === 'occuring'){
+      this.showOccuringEvents();
+    } else if (tab === 'draft'){
+      this.showDraftEvents();
+    }
   }
 }
