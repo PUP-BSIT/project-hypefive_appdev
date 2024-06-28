@@ -211,30 +211,8 @@ export class FreedomWallComponent implements OnInit {
   loadPendingPosts() {
     this.dataService.getPostRequest().subscribe((posts: Post[]) => {
       this.pendingPosts = posts;
-      this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
-      this.currentPage = 1;
-      this.updatePaginatedPosts();
+      this.updatePendingPostsCount(); 
     });
-  }
-
-  updatePaginatedPosts() {
-    const startIndex = (this.currentPage - 1) * this.postsPerPage;
-    const endIndex = startIndex + this.postsPerPage;
-    this.paginatedPosts = this.pendingPosts.slice(startIndex, endIndex);
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePaginatedPosts();
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePaginatedPosts();
-    }
   }
 
   approvePost(postId: number) {
@@ -290,6 +268,7 @@ export class FreedomWallComponent implements OnInit {
   getDeletionRequests(){
     this.dataService.getDeletionRequests().subscribe((posts:Post[])=>{
       this.requestDelete =posts;
+      this.updateRequestDeleteCount();
     });
   }
 
@@ -336,8 +315,4 @@ export class FreedomWallComponent implements OnInit {
     })
   }
 
-  updateButtonCounts(): void {
-    this.deletePostCount = this.requestDelete ? this.requestDelete.length : 0;
-    this.manageWallCount = this.pendingPosts ? this.pendingPosts.length : 0;
-  }
 }
