@@ -160,3 +160,17 @@ p {
 .updated {
   margin-top: 18%;
 }
+
+@media (max-width: 766px) { 
+  
+  .logo {
+    margin-top: 15%;
+    margin-left: 38%;
+    width: 40%;
+    height: 20%;
+  }
+
+  .auth-container {
+    margin: 5%;
+  }
+}
