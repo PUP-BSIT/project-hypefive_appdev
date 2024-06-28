@@ -8,6 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/storage-link', function () {
+  $targetFolder = storage_path('app/public');
+  $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage1';
+  symlink($targetFolder, $linkFolder);
+});
+
 //Check token
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/login', function () {
