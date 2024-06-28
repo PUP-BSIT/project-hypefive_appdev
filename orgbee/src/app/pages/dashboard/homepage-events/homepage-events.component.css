@@ -131,7 +131,8 @@
 }
 
 .modal-content img {
-  width: 50%;
+  width: 250px;
+  height: 250px;
   margin-bottom: 3%;
   border-radius: 10px;
 }
