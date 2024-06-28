@@ -137,7 +137,7 @@
                               </div>
                               <div class="buttons">
                                 <button (click)="cancel()" class="cancel">Cancel</button>
-                                <button (click)="onUpdateSubmit()" class="save">Save</button>
+                                <button (click)="onUpdateSubmit()" class="save" [disabled]="!changesMade">Save</button>
                               </div>
                             
                             </form>

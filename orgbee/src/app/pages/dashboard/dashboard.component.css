@@ -517,6 +517,7 @@ height: 100%;
   margin: 0 auto; 
   font-family: "Outfit";
   margin-top: 15px;
+  
 }
 
 .submit-button:hover {
@@ -554,6 +555,7 @@ height: 100%;
   width: 170px;
   border-radius: 20px;
   font-size: 10px;
+  border: none;
 }
 
 .create-announcement mat-icon {

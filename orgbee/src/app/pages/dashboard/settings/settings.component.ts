@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   showAccountManagement = false;
   showAccountDeletion = false;
   showDeleteModal = false;
+  changesMade: boolean = false;
   userInfo: UserInfo;
   constructor(
     private formBuilder: FormBuilder, 
@@ -79,6 +80,10 @@ export class SettingsComponent implements OnInit {
         validators: [Validators.required]
       }],
     })
+
+    this.updateForm.valueChanges.subscribe(() => {
+      this.changesMade = true;
+  });
   }
 
   private populateForm(userInfo: UserInfo): void {
@@ -207,6 +212,7 @@ export class SettingsComponent implements OnInit {
     } else {
         console.log('Form is invalid');
     }
+    this.changesMade = false;
   }
 
   cancel() {
@@ -217,6 +223,7 @@ export class SettingsComponent implements OnInit {
       this.updateForm.markAsUntouched(); 
       this.updateForm.updateValueAndValidity(); 
     }
+    this.changesMade = false;
   }
 
   closeModal() {
@@ -246,5 +253,4 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  
 }

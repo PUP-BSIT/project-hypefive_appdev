@@ -150,6 +150,13 @@ select {
   width: 30%;
   justify-content: right;
   margin-left: 3%;
+  border: none;
+  cursor: pointer;
+}
+
+.save:disabled {
+  background-color: #cccccc; 
+  cursor: not-allowed;       
 }
 
 .delete {
@@ -159,6 +166,7 @@ select {
   width: 50%;
   justify-content: center;
   text-align: center;
+  border: none;
 }
 
 .cancel {
@@ -166,6 +174,7 @@ select {
   padding: 2%;
   background-color: #b4b4b4;
   width: 30%;
+  border: none;
 }
 
 .inc {
@@ -209,6 +218,14 @@ select {
 .deleteButton {
   align-items: center;
   text-align: center;
+}
+
+p {
+  font-size: 12px;
+}
+
+h2 {
+  font-weight: 600;
 }
 
 @media (max-width: 766px) {
