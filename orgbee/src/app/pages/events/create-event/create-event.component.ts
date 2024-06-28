@@ -1,20 +1,20 @@
 import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 import { DataService } from '../../../../service/data.service';
+import { Response } from '../../../app.component';
 
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.css'
 })
-export class CreateEventComponent {
+export class CreateEventComponent implements OnInit {
   eventForm: FormGroup;
   currentStep:number = 0;
   preview: string;
-
-  response: any;
+  response: Response;
   file: any;
 
   @Input() createEventModal:boolean;
@@ -22,8 +22,10 @@ export class CreateEventComponent {
   @Output() eventCreated = new EventEmitter<void>();
   @Output() draftSaved = new EventEmitter<void>();
 
-  constructor (private formBuilder: FormBuilder, 
-    private dataService: DataService
+  constructor (
+    private formBuilder: FormBuilder, 
+    private dataService: DataService, 
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -152,15 +154,43 @@ export class CreateEventComponent {
       if (type === 'publish') {
         formData.append('event_status_id', '2'); //set the status to publish
         console.log(formData); //review the details
-        this.dataService.createEvent(formData).subscribe(res=>{
+        this.dataService.createEvent(formData).subscribe((res:Response)=>{
           this.response=res;
+          if (this.response.code === 200) {
+            this.toastr.success(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast success'
+            });
+          } else {
+            this.toastr.error(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast error'
+            });
+          }
+          
           this.eventCreated.emit();
         });
       } else {
         formData.append('event_status_id', '1'); //set the status to draft
         console.log(formData); //review the details
-        this.dataService.createEvent(formData).subscribe(res=>{
+        this.dataService.createEvent(formData).subscribe((res:Response)=>{
           this.response=res;
+          if (this.response.code === 200) {
+            this.toastr.success(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast success'
+            });
+          } else {
+            this.toastr.error(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast error'
+            });
+          }
+          
           this.draftSaved.emit();
         });
       }
@@ -168,8 +198,6 @@ export class CreateEventComponent {
       this.closeCreateEditModal();
       this.currentStep = 0;
       this.eventForm.reset();
-    } else { 
-      alert('Please fill in all required fields.');
     }
   }
 }

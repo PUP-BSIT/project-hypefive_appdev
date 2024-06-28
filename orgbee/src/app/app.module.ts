@@ -61,6 +61,7 @@ import { CalendarDateFormatter } from 'angular-calendar';
 import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 import { CreateEventComponent } from './pages/events/create-event/create-event.component';
+import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { CreateEventComponent } from './pages/events/create-event/create-event.c
     CalendarComponent,
     AdminTodayComponent,
     CreateEventComponent,
+    ManageEventComponent,
     
   ],
   imports: [

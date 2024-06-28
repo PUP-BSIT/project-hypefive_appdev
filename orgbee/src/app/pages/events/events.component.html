@@ -1,317 +1,267 @@
 <div class="events-page">
   <div class="top">
     <app-header [title]="'Events'" [showImage]="false" [height]="'shorter-height'"></app-header>
-  <button 
-    id="createEventBtn" 
-    class="create-event" 
-    (click)="openCreateModal()">
-    <mat-icon>add_circle</mat-icon>
-    Create Event
-  </button>
+    <button 
+      id="createEventBtn" 
+      class="create-event" 
+      (click)="openCreateModal()">
+      <mat-icon>add_circle</mat-icon>
+      Create Event
+    </button>
   </div>
 
   <!-- Create Event Modal -->
   <app-create-event 
     [createEventModal]="createEventModal"
     (eventCreated)=" showUpcomingEvents()"
+    (draftSaved)=" showDraftEvents()"
     (closeModal)="closeCreateModal()"></app-create-event>
     
 
 <!-- EDIT Event Form Modal -->
-<div id="eventFormModal" class="modal" [class.visible]="editEventModal">
-  <div class="modal-content">
-    <span class="close" (click)="closeCreateEditModal()">&times;</span>
+  <div id="eventFormModal" class="modal" [class.visible]="editEventModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeCreateEditModal()">&times;</span>
 
-    <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
-      <!-- Event Information Form -->
-      @if(currentStep === 0){
-        <h2>EVENT FORM</h2>
-        <h4>Event Information</h4>
-        <label for="event_name">Name:</label>
-        <input
-          type="text"
-          id="event_name"
-          formControlName="event_name"
-          placeholder="Event Name"/>
-        <label for="location">Location:</label>
-        <input
-          type="text"
-          id="location"
-          formControlName="location"
-          placeholder="Location"/>
+      <form [formGroup]="eventForm" (ngSubmit)="saveEdit('publish')">
+        <!-- Event Information Form -->
+        @if(currentStep === 0){
+          <h2>EVENT FORM</h2>
+          <h4>Event Information</h4>
+          <label for="event_name">Name:</label>
+          <input
+            type="text"
+            id="event_name"
+            formControlName="event_name"
+            placeholder="Event Name"/>
+          <label for="location">Location:</label>
+          <input
+            type="text"
+            id="location"
+            formControlName="location"
+            placeholder="Location"/>
 
-        <!-- Inline container for date and time inputs -->
-        <div class="inline-container">
-          <div>
-            <label for="date">Date:</label>
-            <input type="date" id="date" formControlName="date" />
+          <!-- Inline container for date and time inputs -->
+          <div class="inline-container">
+            <div>
+              <label for="date">Date:</label>
+              <input type="date" id="date" formControlName="date" />
+            </div>
+            <div>
+              <label for="time">Time:</label>
+              <input type="time" id="time" formControlName="time" />
+            </div>
           </div>
-          <div>
-            <label for="time">Time:</label>
-            <input type="time" id="time" formControlName="time" />
-          </div>
-        </div>
 
-        <div class="button-container">
-          <button 
-            type="button" 
-            class="step-next-btn" 
-            (click)="nextStep()">
-             NEXT
-          </button>
-        </div>
-      }
-
-      <!-- Registration & Admission Form -->
-      @if(currentStep === 1){
-        <h2>EVENT FORM</h2>
-        <h4>Registration & Admission</h4>
-        <div class="inline-radio">
-          <label>Are all members required to attend?</label>
-          <input
-            type="radio"
-            id="all_members_requiredYes"
-            formControlName="all_members_required"
-            [value]="1"/>
-          <label for="all_members_requiredYes">Yes</label>
-          <input
-            type="radio"
-            id="all_members_requiredNo"
-            formControlName="all_members_required"
-            [value]="0"/>
-          <label for="all_members_requiredNo">No</label>
-        </div>
-
-        <div class="inline-radio">
-          <label>Will there be a registration fee?</label>
-          <input
-            type="radio"
-            id="has_reg_fee_yes"
-            formControlName="has_reg_fee"
-            [value]="1"/>
-          <label for="has_reg_fee_yes">Yes</label>
-          <input
-            type="radio"
-            id="has_reg_fee_no"
-            formControlName="has_reg_fee"
-            [value]="0"/>
-          <label for="has_reg_fee_no">No</label>
-        </div>
-
-        <input
-          type="number"
-          id="registration_fee"
-          formControlName="registration_fee"
-          placeholder="Specify the amount"/>
-        <input
-          type="number"
-          id="max_attendees"
-          formControlName="max_attendees"
-          placeholder="Max no. of attendees"/>
-
-        <div class="button-container">
-          <button type="button" class="step-back-btn" (click)="prevStep()">
-            BACK
-          </button>
-          <button type="button" class="step-next-btn" (click)="nextStep()">
-            NEXT
-          </button>
-        </div>
-      }
-
-      <!-- Caption & Poster Form -->
-      @if(currentStep === 2){
-        <h2>EVENT FORM</h2>
-        <h4>Publication Material</h4>
-        <label for="caption">Write a caption:</label>
-        <textarea
-          id="caption"
-          formControlName="caption"
-          placeholder="Write a maximum of 500 characters caption">
-        </textarea>
-        <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
-        <div class="button-container">
-          <button 
-            type="button" 
-            class="step-2-back-btn" 
-            (click)="prevStep()">
-              BACK
-          </button>
-          <button 
-            type="button" 
-            class="step-2-next-btn" 
-            (click)="nextStep()">
+          <div class="button-container">
+            <button 
+              type="button" 
+              class="step-next-btn" 
+              (click)="nextStep()">
               NEXT
-          </button>
-        </div>
-      }
-      
+            </button>
+          </div>
+        }
 
-      <!-- Final Buttons -->
-      @if(currentStep === 3){
-        <div class="event-preview">
-          <img [src]="preview" alt="Event Poster"/>
-          <h3>{{ eventForm.get('event_name').value }}</h3>
-          <p>{{ eventForm.get('location').value }}</p>
-          <p>{{ eventForm.get('date').value | date }}</p>
-          <p>{{ eventForm.get('caption').value }}</p>
-        </div>
-        <div class="button-container">
-          <button 
-            type="button" 
-            class="back-btn" 
-            (click)="prevStep()">
+        <!-- Registration & Admission Form -->
+        @if(currentStep === 1){
+          <h2>EVENT FORM</h2>
+          <h4>Registration & Admission</h4>
+          <div class="inline-radio">
+            <label>Are all members required to attend?</label>
+            <input
+              type="radio"
+              id="all_members_requiredYes"
+              formControlName="all_members_required"
+              [value]="1"/>
+            <label for="all_members_requiredYes">Yes</label>
+            <input
+              type="radio"
+              id="all_members_requiredNo"
+              formControlName="all_members_required"
+              [value]="0"/>
+            <label for="all_members_requiredNo">No</label>
+          </div>
+
+          <div class="inline-radio">
+            <label>Will there be a registration fee?</label>
+            <input
+              type="radio"
+              id="has_reg_fee_yes"
+              formControlName="has_reg_fee"
+              [value]="1"/>
+            <label for="has_reg_fee_yes">Yes</label>
+            <input
+              type="radio"
+              id="has_reg_fee_no"
+              formControlName="has_reg_fee"
+              [value]="0"/>
+            <label for="has_reg_fee_no">No</label>
+          </div>
+
+          <input
+            type="number"
+            id="registration_fee"
+            formControlName="registration_fee"
+            placeholder="Specify the amount"/>
+          <input
+            type="number"
+            id="max_attendees"
+            formControlName="max_attendees"
+            placeholder="Max no. of attendees"/>
+
+          <div class="button-container">
+            <button type="button" class="step-back-btn" (click)="prevStep()">
               BACK
-          </button>
-          <button
-            type="submit"
-            class="publish-btn"
-            (click)="saveEdit('publish')">
-              Publish
-          </button>
-          <button
-            type="button"
-            class="save-draft-btn"
-            (click)="saveEdit('draft')">
-              SAVE TO DRAFT
-          </button>
-        </div> 
-      }
-    </form>
-  </div>
-</div>
-
-<!-- event tabs -->
-<div class="tabs">
-  <button
-    class="tab"
-    [ngClass]="{ active: activeTab === 'UPCOMING' }"
-    (click)="displayEvents('UPCOMING')">
-      UPCOMING
-  </button>
-  <button
-    class="tab"
-    [ngClass]="{ active: activeTab === 'OCCURING' }"
-    (click)="displayEvents('OCCURING')">
-      OCCURING
-  </button>
-  <button
-    class="tab"
-    [ngClass]="{ active: activeTab === 'DRAFTS' }"
-    (click)="displayEvents('DRAFTS')">
-      DRAFTS
-  </button>
-</div>
-
-<!-- list of events -->
-<div class="event-list">
-  @if(activeTab === 'UPCOMING'){
-    @if(!filteredEvents.length) {
-      <p class="no-request">No upcoming events yet.</p>
-    }
-  }
-  @if(activeTab === 'OCCURING'){
-    @if(!filteredEvents.length) {
-      <p class="no-request">No occuring events yet.</p>
-    }
-  }
-  @if(activeTab === 'DRAFTS'){
-    @if(!filteredEvents.length) {
-      <p class="no-request">No drafts yet.</p>
-    }
-  }
-  @for(event of filteredEvents; track filteredEvents){
-    <div
-    class="event-card"
-    [class.registered]="event.registered">
-    <div class="event-img">
-      <img src="{{imgPath}}{{event.poster_loc}}" />
-    </div>
-    <div class="event-details">
-      <h3>{{ event.event_name }}</h3>
-      <p> {{ event.location }} </p>
-      <p> {{ event.date }} </p>
-      <p id="reg_fee">
-        {{ event.registration_fee === 0 ? 
-           'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
-      </p>
-    </div>
-    <div class="manage-container">
-      <div class="manage-info">
-        <img src="../../../assets/person.png"  
-          alt="registered icon" class="registered-icon">
-        <span class="registered-text">{{event.reg_count}} registered</span>
-      </div>
-      <button 
-        class="manage-button" 
-        (click)="openManageModal(event)">
-          Manage
-      </button>
-    </div>
-  </div>
-  }
-</div>
-</div>
-
-<!-- Manage Event Modal -->
-<div id="manageEventModal" class="modal" [class.visible]="isManageModalVisible">
-  <div class="modal-content-manage">
-    <div class="modal-manage-content">
-      <div class="manage-content">
-        <h3 class="eventtag">Event</h3>
-        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
-        <div class="eventinfo">
-          <p class="title">{{ selectedEvent?.event_name }}</p>
-          <p>{{ selectedEvent?.location }}</p>
-          <p>{{ selectedEvent?.date }}</p>
-        </div>
-        @if(showModalUpcoming){
-          <button class="edit-btn" (click)="editEvent(selectedEvent)">
-            Edit Details
-          </button>
-          <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
-            Mark as Occurring
-          </button>
-          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
-            Cancel Event
-          </button>
+            </button>
+            <button type="button" class="step-next-btn" (click)="nextStep()">
+              NEXT
+            </button>
+          </div>
         }
-        @if(showModalOccuring){
-          <button class="occurring-btn" (click)="markAsComplete(selectedEvent)">
-            Mark as Complete
-          </button>
-          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
-            Cancel Event
-          </button>
-        }
-        @if(showModalDraft){
-          <button class="edit-btn" (click)="editEvent(selectedEvent)">
-            Edit Details
-          </button>
-          <button class="occurring-btn" (click)="publishDraft(selectedEvent)">
-            Publish
-          </button>
-          <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
-            Cancel Event
-          </button>
+
+        <!-- Caption & Poster Form -->
+        @if(currentStep === 2){
+          <h2>EVENT FORM</h2>
+          <h4>Publication Material</h4>
+          <label for="caption">Write a caption:</label>
+          <textarea
+            id="caption"
+            formControlName="caption"
+            placeholder="Write a maximum of 500 characters caption">
+          </textarea>
+          <label for="poster_loc">Upload a poster:</label>
+          <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
+          <div class="button-container">
+            <button 
+              type="button" 
+              class="step-2-back-btn" 
+              (click)="prevStep()">
+                BACK
+            </button>
+            <button 
+              type="button" 
+              class="step-2-next-btn" 
+              (click)="nextStep()">
+                NEXT
+            </button>
+          </div>
         }
         
-      </div>
-      <div class="manage-members">
-        <span class="close" (click)="closeManageModal()">&times;</span>
-        <h3>Registered Members</h3>
-        <div class="members-list">
-          @for(member of members; track members){
-            <div class="member">
-              <img src="{{ member.icon_location }}" 
-                alt="{{member.first_name}}" 
-                class="member-photo">
-              <span class="member-name">{{member.first_name}} {{member.last_name}}</span>
-            </div>
-          }
-        </div>
-      </div>
+
+        <!-- Final Buttons -->
+        @if(currentStep === 3){
+          <div class="event-preview">
+            <img [src]="preview" alt="Event Poster"/>
+            <h3>{{ eventForm.get('event_name').value }}</h3>
+            <p>{{ eventForm.get('location').value }}</p>
+            <p>{{ eventForm.get('date').value | date }}</p>
+            <p>{{ eventForm.get('caption').value }}</p>
+          </div>
+          <div class="button-container">
+            <button 
+              type="button" 
+              class="back-btn" 
+              (click)="prevStep()">
+                BACK
+            </button>
+            <button
+              type="submit"
+              class="publish-btn"
+              (click)="saveEdit('publish')">
+                Publish
+            </button>
+            <button
+              type="button"
+              class="save-draft-btn"
+              (click)="saveEdit('draft')">
+                SAVE TO DRAFT
+            </button>
+          </div> 
+        }
+      </form>
     </div>
   </div>
+
+<!-- event tabs -->
+  <div class="tabs">
+    <button
+      class="tab"
+      [ngClass]="{ active: activeTab === 'UPCOMING' }"
+      (click)="displayEvents('UPCOMING')">
+        UPCOMING
+    </button>
+    <button
+      class="tab"
+      [ngClass]="{ active: activeTab === 'OCCURING' }"
+      (click)="displayEvents('OCCURING')">
+        OCCURING
+    </button>
+    <button
+      class="tab"
+      [ngClass]="{ active: activeTab === 'DRAFTS' }"
+      (click)="displayEvents('DRAFTS')">
+        DRAFTS
+    </button>
+  </div>
+
+  <!-- list of events -->
+  <div class="event-list">
+    @if(activeTab === 'UPCOMING'){
+      @if(!filteredEvents.length) {
+        <p class="no-request">No upcoming events yet.</p>
+      }
+    }
+    @if(activeTab === 'OCCURING'){
+      @if(!filteredEvents.length) {
+        <p class="no-request">No occuring events yet.</p>
+      }
+    }
+    @if(activeTab === 'DRAFTS'){
+      @if(!filteredEvents.length) {
+        <p class="no-request">No drafts yet.</p>
+      }
+    }
+    @for(event of filteredEvents; track filteredEvents){
+      <div
+      class="event-card"
+      [class.registered]="event.registered">
+      <div class="event-img">
+        <img src="{{imgPath}}{{event.poster_loc}}" />
+      </div>
+      <div class="event-details">
+        <h3>{{ event.event_name }}</h3>
+        <p> {{ event.location }} </p>
+        <p> {{ event.date }} </p>
+        <p id="reg_fee">
+          {{ event.registration_fee === 0 ? 
+            'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
+        </p>
+      </div>
+      <div class="manage-container">
+        <div class="manage-info">
+          <img src="../../../assets/person.png"  
+            alt="registered icon" class="registered-icon">
+          <span class="registered-text">{{event.reg_count}} registered</span>
+        </div>
+        <button 
+          class="manage-button" 
+          (click)="openManageModal(event)">
+            Manage
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Manage Event Modal -->
+  <app-manage-event
+    [selectedEvent]="selectedEvent"
+    [members]="members"
+    [cancelEventTab]="cancelEventTab"
+    [modalButton]="modalButton"
+    [isManageModalVisible]="isManageModalVisible"
+    (updateState)="showUpdate($event)"
+    (closeModal)="closeManageModal()"></app-manage-event>
+
 </div>
