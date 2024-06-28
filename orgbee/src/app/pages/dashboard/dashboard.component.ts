@@ -11,7 +11,7 @@ import { LoginService, UserInfo } from '../../../service/login.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
-
+import { LoadingService } from '../../../service/loading.service';
 enum Roles {
   Student = 1,
   Officer = 2,
@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit {
   showSettings = false;
   activeTab: string = 'all';
   loggingOut: boolean = false;
+  isLoading: boolean = false;
   userInfo: UserInfo = {
     email: '',
     id: '',
@@ -60,20 +61,20 @@ export class DashboardComponent implements OnInit {
     private announcementService: AnnouncementService,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private router:Router
+    private router:Router,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    this.announcementForm = this.formBuilder.group({
-      subject: ['', [Validators.required]],
-      message: ['', [Validators.required]],
-      recipient: ['', Validators.required],  
-    });
-    this.loginService.onDataRetrieved((data: UserInfo) => {
-      this.userInfo = data;
-    });
-    this.fetchAnnouncements();const today = new Date();
-
+      this.announcementForm = this.formBuilder.group({
+        subject: ['', [Validators.required]],
+        message: ['', [Validators.required]],
+        recipient: ['', Validators.required],  
+      });
+      this.loginService.onDataRetrieved((data: UserInfo) => {
+        this.userInfo = data;
+      });
+      this.fetchAnnouncements();const today = new Date();
   }
 
   //TODO: update later according to new table in database

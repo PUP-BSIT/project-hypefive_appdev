@@ -63,6 +63,7 @@ import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.compone
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { StepperComponent } from './pages/events/stepper/stepper.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -86,9 +87,10 @@ import { StepperComponent } from './pages/events/stepper/stepper.component';
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
-    LandingPageComponent
+    LandingPageComponent,
     SettingsComponent,
-    StepperComponent
+    StepperComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
