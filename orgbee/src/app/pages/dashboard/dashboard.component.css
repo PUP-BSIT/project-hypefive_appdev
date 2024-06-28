@@ -502,18 +502,6 @@ height: 100%;
   margin: 0;
 }
 
-mat-card-title {
-  font-family: "Outfit";
-  font-size: clamp(16px, 2vw, 15px);
-  font-weight: semi-bold;
-  color: #333;
-}
-
-.example-card:hover {
-  background-color: #e0e0e0; 
-  cursor: pointer;
-}
-
 .submit-button {
   display: flex;
   justify-content: center;
@@ -533,10 +521,6 @@ mat-card-title {
 
 .submit-button:hover {
   background-color: #e6b800; 
-}
-
-.notstudent {
-  visibility: hidden;
 }
 
 @media screen and (max-width: 525px) { 
@@ -665,6 +649,4 @@ app-admin-today {
   .announcement-container {
     height: 460px;
   }
-
-
 }
