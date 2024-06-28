@@ -156,13 +156,16 @@ export class EventsComponent implements OnInit {
     this.createEventModal = true;
   }
 
+  closeCreateModal() {
+    this.createEventModal = false;
+  }
+
   closeCreateEditModal(): void {
     this.createEventModal = false;
     this.editEventModal = false;
     this.eventForm.reset();
     this.currentStep = 0;
   }
-
 
   openManageModal(event: Event): void {
     this.selectedEvent = event;
@@ -304,46 +307,46 @@ preview: string;
     }
   }
 
-  submitForm(type: string): void {
-    console.log(this.eventForm.value);
-    if (this.eventForm.valid) {
-      // const newEvent = this.eventForm.value as Event;
-      const formData = new FormData();
-      const formControls = this.eventForm.controls;
+  // submitForm(type: string): void {
+  //   console.log(this.eventForm.value);
+  //   if (this.eventForm.valid) {
+  //     // const newEvent = this.eventForm.value as Event;
+  //     const formData = new FormData();
+  //     const formControls = this.eventForm.controls;
 
-      for (const key in formControls) {
-        const value = formControls[key].value;
-        formData.append(key, value !== null ? value.toString() : '');
-      }
+  //     for (const key in formControls) {
+  //       const value = formControls[key].value;
+  //       formData.append(key, value !== null ? value.toString() : '');
+  //     }
       
-      formData.append('poster_loc', this.file);
+  //     formData.append('poster_loc', this.file);
 
-      if (type === 'publish') {
-        formData.append('event_status_id', '2'); //set the status to publish
-        console.log(formData); //review the details
-        this.dataService.createEvent(formData).subscribe(res=>{
-          this.response=res;
-          console.log(this.response);
-          this.showUpcomingEvents();
-        });
-      } else {
-        formData.append('event_status_id', '1'); //set the status to draft
-        console.log(formData); //review the details
-        this.dataService.createEvent(formData).subscribe(res=>{
-          this.response=res;
-          console.log(this.response); 
-          this.showDraftEvents();
-        });
-      }
+  //     if (type === 'publish') {
+  //       formData.append('event_status_id', '2'); //set the status to publish
+  //       console.log(formData); //review the details
+  //       this.dataService.createEvent(formData).subscribe(res=>{
+  //         this.response=res;
+  //         console.log(this.response);
+  //         this.showUpcomingEvents();
+  //       });
+  //     } else {
+  //       formData.append('event_status_id', '1'); //set the status to draft
+  //       console.log(formData); //review the details
+  //       this.dataService.createEvent(formData).subscribe(res=>{
+  //         this.response=res;
+  //         console.log(this.response); 
+  //         this.showDraftEvents();
+  //       });
+  //     }
 
-      this.closeCreateEditModal();
-      this.currentStep = 0;
-      this.eventForm.reset();
-      this.displayEvents(this.activeTab);
-    } else { 
-      alert('Please fill in all required fields.');
-    }
-  }
+  //     this.closeCreateEditModal();
+  //     this.currentStep = 0;
+  //     this.eventForm.reset();
+  //     this.displayEvents(this.activeTab);
+  //   } else { 
+  //     alert('Please fill in all required fields.');
+  //   }
+  // }
 
   currentPoster:string;
   editEvent(event: Event): void {
