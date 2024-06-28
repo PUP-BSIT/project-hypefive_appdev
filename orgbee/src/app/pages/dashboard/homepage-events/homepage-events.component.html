@@ -6,6 +6,11 @@
 
   <!-- list of events -->
   <div class="event-list">
+    @if(filteredEvents.length === 0) {
+      <ng-container>
+        <p class="no-request">No upcoming events yet.</p>
+      </ng-container>
+      } 
     @for(events of filteredEvents; track filteredEvents){
       <div class="event-card">
         <div class="event-img">
@@ -15,7 +20,10 @@
           <h3>{{events.event_name}}</h3>
           <p>{{events.location}}</p>
           <p>{{events.date}}</p>
-          <p id="reg_fee">Php {{ events.registration_fee }}</p>
+          <p id="reg_fee">
+            {{ events.registration_fee === 0 ? 
+               'Free Admission' : 'PHP ' + events.registration_fee + '.00' }}
+          </p>
         </div>
         <div>
           <button class="view-more-button" (click)="openEventModal(events)">
@@ -35,7 +43,10 @@
     <h3>{{ selectedEvent?.event_name }}</h3>
     <p>{{ selectedEvent?.location }}</p>
     <p>{{ selectedEvent?.date }}</p>
-    <p id="modal_reg_fee">Registration Fee: Php {{ selectedEvent?.registration_fee }}</p>
+    <p id="modal_reg_fee">
+      {{ selectedEvent?.registration_fee === 0 ? 
+      'Free Admission' : 'PHP ' + selectedEvent?.registration_fee + '.00' }}
+    </p>
     <p class="caption">{{ selectedEvent?.caption }}</p>
     <div class="full-reg">
       <p>{{ message }}</p>
