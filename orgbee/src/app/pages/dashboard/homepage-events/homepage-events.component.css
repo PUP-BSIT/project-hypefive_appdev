@@ -197,4 +197,8 @@
   .modal-content {
     width: 60%;
   }
+
+  .event-card {
+    width: 95%; 
+  }
 }
