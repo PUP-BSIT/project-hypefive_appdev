@@ -82,24 +82,25 @@ export class ManageEventComponent implements OnInit {
 
   cancelEvent(event: Event): void {
     this.confirmationDialogService.confirmAction('Action Confirmation', 'This action cant be undone. Are you sure you want to cancel this event?', () => {
-    const id = {id : event.id};
-    this.dataService.cancelEvent(id).subscribe((res:Response) =>{
-      this.response=res;
-      this.handleResponse();
-      
-      //Update current tab event list
-      if (this.cancelEventTab === 'UPCOMING') {
-        this.updateState.emit('upcoming');
-        this.cancelEventTab = "";
-      } else if (this.cancelEventTab === 'OCCURING') {
-        this.updateState.emit('occuring');
-        this.cancelEventTab = "";
-      } else if (this.cancelEventTab === 'DRAFT') {
-        this.updateState.emit('draft');
-        this.cancelEventTab = "";
-      }
+      const id = {id : event.id};
+      this.dataService.cancelEvent(id).subscribe((res:Response) =>{
+        this.response=res;
+        this.handleResponse();
+        
+        //Update current tab event list
+        if (this.cancelEventTab === 'UPCOMING') {
+          this.updateState.emit('upcoming');
+          this.cancelEventTab = "";
+        } else if (this.cancelEventTab === 'OCCURING') {
+          this.updateState.emit('occuring');
+          this.cancelEventTab = "";
+        } else if (this.cancelEventTab === 'DRAFT') {
+          this.updateState.emit('draft');
+          this.cancelEventTab = "";
+        }
 
-      this.closeManageModal();
+        this.closeManageModal();
+      });
     });
   }
 
@@ -123,7 +124,4 @@ export class ManageEventComponent implements OnInit {
     }
   }
 
-  editEvent(): void {
-    this.editEventModal.emit();
-  }
 }
