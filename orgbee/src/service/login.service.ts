@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 
 export interface UserInfo {
   email: string;
-  id: string;
+  id: number;
   first_name?: string;
   last_name?: string;
   student_number?: string;
@@ -38,7 +38,7 @@ export class LoginService {
   isDataRetrieved: boolean = false;
   userInfo: UserInfo = {
     email: '',
-    id: ''
+    id: 0
   };
   onDataRetrievedCallbacks: Function[] = [];
 
