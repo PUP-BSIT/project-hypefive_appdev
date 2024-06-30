@@ -5,6 +5,7 @@ import { LoginService, UserInfo }
   from '../../../../service/login.service';
 import { AnnouncementService, Announcement } 
   from '../../../../service/announcement.service';
+  import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-an-modal',
@@ -23,7 +24,8 @@ export class AnModalComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private snackBar: MatSnackBar
   ) {}
 
   updateSubjectCharacterCount(): void {
@@ -82,20 +84,33 @@ export class AnModalComponent implements OnInit {
             this.announcementForm.reset();
             this.showModal = false;
             this.announcementCreated.emit(newAnnouncement); 
-            alert('Announcement created successfully! ID: ' + announcementId);
+            this.showSnackBar('Announcement created successfully.', 'success');
           },
           (error) => {
             console.error('Error creating announcement:', error);
             alert('Error creating announcement. Please try again later.');
+
+            // Show error message using MatSnackBar
+            this.showSnackBar('Error creating announcement. Please try again later.', 'error');
           }
         );
       } else {
         console.error('Error extracting user ID from token.');
         alert('Error creating announcement. Please try again later.');
+
+        // Show error message using MatSnackBar
+        this.showSnackBar('Error creating announcement. Please try again later.', 'error');
       }
     } else {
       this.announcementForm.markAllAsTouched();
     }
+  }
+
+  private showSnackBar(message: string, panelClass: string) {
+    this.snackBar.open(message,'', {
+      duration: 2000,
+      panelClass: ['custom-snackbar', panelClass] 
+    });
   }
 
   closeModal(): void {

@@ -18,6 +18,11 @@
                   (click)="displayAccountManagement()">
                     Account Management
                 </button>
+                <button
+                  class="tab"
+                  (click)="displayAccountDeletion()">
+                    Account Deletion
+                </button>
             </div>
 
             @if(showInformation){
@@ -130,10 +135,12 @@
                                   }
                                 </div>
                               </div>
-                              <button (click)="onUpdateSubmit()">Save</button>
+                              <div class="buttons">
+                                <button (click)="cancel()" class="cancel">Cancel</button>
+                                <button (click)="onUpdateSubmit()" class="save" [disabled]="!changesMade">Save</button>
+                              </div>
                             
                             </form>
-                            <button (click)="cancel()">Cancel</button>
                         </div>
                     </div>
                 </ng-container>
@@ -142,7 +149,8 @@
 
             @if(showAccountManagement){
                 <ng-container>
-                    <h2>Change Password</h2>
+                    <div class="management">
+                      <h2>Change Password</h2>
                         <p>
                             Update your account security by modifying your 
                             current password
@@ -200,16 +208,51 @@
                                         </div>
                                     }
                                 </div>
-                                <button (click)="changePass()">change pass</button>
+                                <div class="buttons">
+                                  <button (click)="cancel()" class="cancel">Cancel</button>
+                                  <button (click)="changePass()" class="save">Save</button>
+                                </div>
+                                
                             </form>
                         </div>
-
-                        <h2>Account Deactivation</h2>
-                        <p>Security manage your account status by disabling access</p>
-
-                        <h4>Delete my aoount</h4>
-                        <button> Continue</button>
+                    </div>
                 </ng-container>
+            }
+
+            @if(showAccountDeletion){
+              <ng-container>
+                <div class="deletion">
+                  <h2>Account Deletion</h2>
+                  <p>Security manage your account status by disabling access</p>
+                  <div class="deleteButton">
+                    <button (click)="deleteModal()" class="delete">Delete my account</button>
+                  </div>
+                </div>
+              </ng-container>
+            }
+
+            @if(showDeleteModal) {
+              <div class="deleteAccModal">
+                <div class="delete-content">
+                    <span class="closeDelete" (click)="closeDeleteModal()">&times;</span>
+                    <p>Type your password to delete your account</p>
+                    <form [formGroup]="deleteForm">
+                      <label for="deletion_password">Password</label>
+                      <input 
+                        type="password"
+                        id ="deletion_password" 
+                        formControlName="deletion_password" />
+                      @if(deletion_passwordControl.invalid && deletion_passwordControl.touched) {
+                        <div class="inc">
+                            @if(current_passwordControl.errors?.['required']){
+                                <div>password is required</div>
+                            }
+                        </div>
+                      }
+                      <button (click)="deleteAccount()" class="delete">Delete</button>
+                    </form>
+                </div>
+              </div>
             }
         </div>
     </div>

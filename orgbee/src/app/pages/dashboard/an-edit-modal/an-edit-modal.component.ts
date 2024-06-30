@@ -4,6 +4,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../../service/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-an-edit-modal',
@@ -21,7 +22,8 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private snackBar: MatSnackBar
   ) {}
 
   updateSubjectCharacterCount(): void {
@@ -94,18 +96,27 @@ export class AnEditModalComponent implements OnInit, OnChanges {
             this.announcementUpdated.emit(updatedAnnouncementResponse);
             this.closeModal.emit();
             this.announcementForm.reset();
-            console.log('Announcement updated successfully.');
-          },
-          (error) => {
-            console.error('Error updating announcement:', error);
-          }
-        );
+              this.showSnackBar('Announcement updated successfully.', 'success');
+            },
+            (error) => {
+              console.error('Error updating announcement:', error);
+              
+              // Show error message using MatSnackBar
+              this.showSnackBar('Error updating announcement. Please try again later.', 'error');
+            }
+          );
+        } else {
+          this.showSnackBar('Error updating announcement. Please try again later.', 'error');
+        }
       } else {
-        console.error('Error extracting user ID from token.');
-        alert('Error updating announcement. Please try again later.');
+        this.announcementForm.markAllAsTouched();
       }
-    } else {
-      this.announcementForm.markAllAsTouched();
     }
-  }
+
+    private showSnackBar(message: string, panelClass: string) {
+      this.snackBar.open(message, '', {
+        duration: 2000,
+        panelClass: ['custom-snackbar', panelClass] 
+      });
+    }
 }

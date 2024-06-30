@@ -7,11 +7,8 @@ import { LoginService, UserInfo } from '../../service/login.service';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit {
-  userInfo: UserInfo = {
-    email: '',
-    id: ''
-  };
+export class SidebarComponent {
+  userInfo: UserInfo;
 
   constructor(private router: Router, private loginService: LoginService) {}
 
@@ -22,7 +19,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.onDataRetrieved((data: UserInfo) => {
       this.userInfo = data;
-      console.log('User information retrieved:', this.userInfo);
     });
   }
 }

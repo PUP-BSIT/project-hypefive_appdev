@@ -4,10 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { Response } from '../../app.component';
 import { LoginService, UserInfo } from '../../../service/login.service';
-
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from '../../../service/confirmation-dialog.service';
 export interface Post {
   subject: string;
   content: string;
@@ -40,6 +41,7 @@ export class FreedomWallComponent implements OnInit {
   showManageWallModal = false; 
   deletePostCount = 0;
   manageWallCount = 0;
+  showFilterMessage: boolean = false;
 
   userInfo: UserInfo;
   requestDelete:Post[];
@@ -48,7 +50,8 @@ export class FreedomWallComponent implements OnInit {
     private dataService: DataService, 
     private toastr: ToastrService,
     private fb: FormBuilder, 
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private confirmationDialogService: ConfirmationDialogService) { }
     
   ngOnInit(): void {
     this.showPosts();
@@ -176,6 +179,7 @@ export class FreedomWallComponent implements OnInit {
   }
 
   deletePost(id: number) {
+    this.confirmationDialogService.confirmAction('Delete Confirmation', 'This action cant be undone. Are you sure you want to delete this post?', () => {
     const post_id = { id: id };
     this.dataService.deletePosts(post_id).subscribe((res: Response) => {
       this.response = res;
@@ -195,7 +199,8 @@ export class FreedomWallComponent implements OnInit {
       this.showPosts();
       this.getDeletionRequests();
     });
-  }
+  });
+}
 
   openManageWallModal() {
     this.showManageWallModal = true;
@@ -236,6 +241,7 @@ export class FreedomWallComponent implements OnInit {
   }
 
   approvePost(postId: number) {
+    this.confirmationDialogService.confirmAction('Approve Confirmation', 'This action cant be undone. Are you sure you want to approve this post?', () => {
     const post_id = { id: postId };
     this.dataService.acceptPost(post_id).subscribe((res: Response)=>{
       this.response =res;
@@ -256,9 +262,11 @@ export class FreedomWallComponent implements OnInit {
       this.showPosts();
       this.loadPendingPosts();
     });
-  }
+  });
+}
 
   declinePost(postId: number) {
+    this.confirmationDialogService.confirmAction('Decline Confirmation', 'This action cant be undone. Are you sure you want to decline this post?', () => {
     const post_id = { id: postId };
     this.dataService.declinePost(post_id).subscribe((res: Response)=>{
       this.response =res;
@@ -278,7 +286,8 @@ export class FreedomWallComponent implements OnInit {
       this.showPosts();
       this.loadPendingPosts();
     });
-  }
+  });
+}
 
   showRequestToDeleteModal=false;
   openRequestToDeleteModal(){
@@ -293,6 +302,7 @@ export class FreedomWallComponent implements OnInit {
   }
 
   requestPostToDelete(post: Post){
+    this.confirmationDialogService.confirmAction('Request Confirmation', 'This action cant be undone. Are you sure you want to request to delete this post?', () => {
     const post_id = { id: post.id };
     this.dataService.deletionRequest(post_id).subscribe((res: Response)=>{
       this.response = res;
@@ -312,7 +322,8 @@ export class FreedomWallComponent implements OnInit {
       this.toggleOptions(post);
       this.getDeletionRequests();
     });
-  }
+  });
+}
 
   declineRequestToDelete(id: number){
     const post_id = { id: id };
@@ -339,4 +350,19 @@ export class FreedomWallComponent implements OnInit {
     this.deletePostCount = this.requestDelete ? this.requestDelete.length : 0;
     this.manageWallCount = this.pendingPosts ? this.pendingPosts.length : 0;
   }
+
+  onDropdownClick(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  filterPostsByUser(): Post[] {
+    this.showFilterMessage = true;
+    return this.posts.filter(post => post.student_id === this.userInfo.id);
+  }
+
+  clearFilter(): void {
+    this.showFilterMessage = false;
+    this.showPosts(); // Update posts
+  }
+
 }

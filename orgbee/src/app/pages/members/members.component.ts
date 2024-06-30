@@ -44,7 +44,7 @@ export class MembersComponent implements OnInit {
     private toastr: ToastrService,
     private fb:FormBuilder,
     public dialog: MatDialog,
-   private loginService: LoginService) {}
+    private loginService: LoginService) {}
 
   ngOnInit(): void{
     this.searchMember = this.fb.group({keyword:['']});
@@ -79,6 +79,7 @@ export class MembersComponent implements OnInit {
   }
 
   acceptRequest(student_number: string) {
+    this.confirmAction('Confirm Demotion', 'Are you sure you want to accept this user?', () => {
     const data = {student_number: student_number };
     
     this.dataService.acceptMember(data).subscribe((res: Response) => {
@@ -100,7 +101,7 @@ export class MembersComponent implements OnInit {
       this.showRequest();
       this.showMembers();
     });
-    
+  });
   }
 
   declineRequest(student_number: string) {

@@ -15,8 +15,12 @@ import { UserService } from '../../../../service/user.service';
 export class SettingsComponent implements OnInit {
   updateForm: FormGroup;
   passwordForm: FormGroup;
+  deleteForm: FormGroup;
   showInformation = false;
   showAccountManagement = false;
+  showAccountDeletion = false;
+  showDeleteModal = false;
+  changesMade: boolean = false;
   userInfo: UserInfo;
   constructor(
     private formBuilder: FormBuilder, 
@@ -70,6 +74,16 @@ export class SettingsComponent implements OnInit {
       this.userInfo = userInfo;
       this.populateForm(userInfo);
     });
+
+    this.deleteForm = this.formBuilder.group ({
+      deletion_password: ['', {
+        validators: [Validators.required]
+      }],
+    })
+
+    this.updateForm.valueChanges.subscribe(() => {
+      this.changesMade = true;
+  });
   }
 
   private populateForm(userInfo: UserInfo): void {
@@ -118,6 +132,9 @@ export class SettingsComponent implements OnInit {
     return this.passwordForm.get('confirm_password');
   }
 
+  get deletion_passwordControl() {
+    return this.deleteForm.get('deletion_password');
+  }
   noNumbersValidator(control: FormControl) {
     const containsNumbers = /[0-9]/.test(control.value);
     return containsNumbers ? { containsNumbers: true } : null;
@@ -156,11 +173,23 @@ export class SettingsComponent implements OnInit {
   displayAccountInfo() {
     this.showInformation = true;
     this.showAccountManagement = false;
+    this.showAccountDeletion = false;
   }
 
   displayAccountManagement() {
     this.showAccountManagement = true;
     this.showInformation = false;
+    this.showAccountDeletion = false;
+  }
+
+  displayAccountDeletion() {
+    this.showAccountManagement = false;
+    this.showInformation = false;
+    this.showAccountDeletion = true;
+  }
+
+  deleteModal() {
+    this.showDeleteModal = true;
   }
 
   onUpdateSubmit() {
@@ -183,6 +212,7 @@ export class SettingsComponent implements OnInit {
     } else {
         console.log('Form is invalid');
     }
+    this.changesMade = false;
   }
 
   cancel() {
@@ -193,11 +223,16 @@ export class SettingsComponent implements OnInit {
       this.updateForm.markAsUntouched(); 
       this.updateForm.updateValueAndValidity(); 
     }
+    this.changesMade = false;
   }
 
   closeModal() {
     this.showSettings = false;
     this.close.emit(); 
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
   }
 
   changePass() {
@@ -218,5 +253,4 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  
 }
