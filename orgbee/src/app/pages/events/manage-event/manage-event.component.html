@@ -4,24 +4,30 @@
     <div class="modal-manage-content">
       <div class="manage-content">
         <h3 class="event-tag">Event</h3>
-        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
+        <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster"/>
+
         <div class="event-info">
           <p class="title">{{ selectedEvent?.event_name }}</p>
           <p>{{ selectedEvent?.location }}</p>
           <p>{{ selectedEvent?.date }}</p>
         </div>
-        @if(modalButton.showModalUpcoming){
+
+        <!-- Upcoming Tab Buttons -->
+        @if(modalButton.upcomingModalButton){
           <button class="edit-btn" (click)="editEvent()">
             Edit Details
           </button>
-          <button class="occurring-btn" (click)="markAsOccurring(selectedEvent)">
+          <button class="occurring-btn" 
+            (click)="markAsOccurring(selectedEvent)">
             Mark as Occurring
           </button>
           <button class="cancel-btn" (click)="cancelEvent(selectedEvent)">
             Cancel Event
           </button>
         } 
-        @if(modalButton.showModalOccuring){
+
+        <!-- Occuring Tab Buttons -->
+        @if(modalButton.occuringModalButton){
           <button class="occurring-btn" (click)="markAsComplete(selectedEvent)">
             Mark as Complete
           </button>
@@ -29,7 +35,9 @@
             Cancel Event
           </button>
         }
-        @if(modalButton.showModalDraft){
+
+        <!-- Draft Tab Buttons -->
+        @if(modalButton.draftModalButton){
           <button class="edit-btn" (click)="editEvent(selectedEvent)">
             Edit Details
           </button>
@@ -40,18 +48,23 @@
             Cancel Event
           </button>
         }
-         
       </div>
+
+      <!-- List of Registered Users -->
       <div class="manage-members">
         <span class="close" (click)="closeManageModal()">&times;</span>
         <h3>Registered Members</h3>
+
         <div class="members-list">
           @for(member of members; track members){
             <div class="member">
               <img src="{{ member.icon_location }}" 
                 alt="{{member.first_name}}" 
                 class="member-photo">
-              <span class="member-name">{{member.first_name}} {{member.last_name}}</span>
+                
+              <span class="member-name">
+                {{member.first_name}} {{member.last_name}}
+              </span>
             </div>
           }
         </div>

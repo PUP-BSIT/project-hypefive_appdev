@@ -1,6 +1,10 @@
 <div class="events-page">
   <div class="top">
-    <app-header [title]="'Events'" [showImage]="false" [height]="'shorter-height'"></app-header>
+    <app-header [title]="'Events'" 
+      [showImage]="false" 
+      [height]="'shorter-height'">
+    </app-header>
+
     <button 
       id="createEventBtn" 
       class="create-event" 
@@ -15,7 +19,8 @@
     [createEventModal]="createEventModal"
     (eventCreated)=" showUpcomingEvents()"
     (draftSaved)=" showDraftEvents()"
-    (closeModal)="closeCreateModal()"></app-create-event>
+    (closeModal)="closeCreateModal()">
+  </app-create-event>
     
 <!-- event tabs -->
   <div class="tabs">
@@ -39,52 +44,47 @@
     </button>
   </div>
 
-  <!-- list of events -->
   <div class="event-list">
-    @if(activeTab === 'UPCOMING'){
-      @if(!filteredEvents.length) {
-        <p class="no-request">No upcoming events yet.</p>
-      }
+    @if(activeTab === 'UPCOMING' && !filteredEvents.length){
+      <p class="no-request">No upcoming events yet.</p>
     }
-    @if(activeTab === 'OCCURING'){
-      @if(!filteredEvents.length) {
-        <p class="no-request">No occuring events yet.</p>
-      }
+    @if(activeTab === 'OCCURING' && !filteredEvents.length){
+      <p class="no-request">No occuring events yet.</p>
     }
-    @if(activeTab === 'DRAFTS'){
-      @if(!filteredEvents.length) {
-        <p class="no-request">No drafts yet.</p>
-      }
+    @if(activeTab === 'DRAFTS' && !filteredEvents.length){
+      <p class="no-request">No drafts yet.</p>
     }
+    
+    <!-- list of events -->
     @for(event of filteredEvents; track filteredEvents){
       <div
-      class="event-card"
-      [class.registered]="event.registered">
-      <div class="event-img">
-        <img src="{{imgPath}}{{event.poster_loc}}" />
+        class="event-card"
+        [class.registered]="event.registered">
+          <div class="event-img">
+            <img src="{{imgPath}}{{event.poster_loc}}" />
+          </div>
+          <div class="event-details">
+            <h3>{{ event.event_name }}</h3>
+            <p> {{ event.location }} </p>
+            <p> {{ event.date }} </p>
+            <p id="reg_fee">
+              {{ event.registration_fee === 0 ? 
+                'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
+            </p>
+          </div>
+          <div class="manage-container">
+            <div class="manage-info">
+              <img src="../../../assets/person.png"  
+                alt="registered icon" class="registered-icon">
+              <span class="registered-text">{{event.reg_count}} registered</span>
+            </div>
+            <button 
+              class="manage-button" 
+              (click)="openManageModal(event)">
+                Manage
+            </button>
+          </div>
       </div>
-      <div class="event-details">
-        <h3>{{ event.event_name }}</h3>
-        <p> {{ event.location }} </p>
-        <p> {{ event.date }} </p>
-        <p id="reg_fee">
-          {{ event.registration_fee === 0 ? 
-            'Free Admission' : 'PHP ' + event.registration_fee + '.00' }}
-        </p>
-      </div>
-      <div class="manage-container">
-        <div class="manage-info">
-          <img src="../../../assets/person.png"  
-            alt="registered icon" class="registered-icon">
-          <span class="registered-text">{{event.reg_count}} registered</span>
-        </div>
-        <button 
-          class="manage-button" 
-          (click)="openManageModal(event)">
-            Manage
-        </button>
-      </div>
-    </div>
     }
   </div>
 
@@ -97,13 +97,16 @@
     [isManageModalVisible]="isManageModalVisible"
     (updateState)="showUpdate($event)"
     (editEventModal)="handleEditEvent()" 
-    (closeModal)="closeManageModal()"></app-manage-event>
+    (closeModal)="closeManageModal()">
+  </app-manage-event>
 
   <!-- Edit Event Modal -->
   <app-edit-event
     [selectedEvent]="selectedEvent"
     [editEventModal]="editEventModal"
+    [activeTab]="activeTab"
     (eventUpdate)="showUpdate($event)"
-    (closeModal)="closeCreateModal()"></app-edit-event>
+    (closeModal)="closeCreateModal()">
+  </app-edit-event>
 
 </div>
