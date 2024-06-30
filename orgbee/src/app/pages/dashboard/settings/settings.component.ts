@@ -217,9 +217,9 @@ export class SettingsComponent implements OnInit {
     this.changesMade = false;
   }
 
-  closeModal() {
-    this.showSettings = false;
-    this.close.emit(); 
+  cancelProfile() {
+    this.currentSelectedAvatar='';
+    this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
   }
 
   deleteModal() {
@@ -234,18 +234,31 @@ export class SettingsComponent implements OnInit {
       return;
     }
   
-    const currentPassword = this.passwordForm.value.current_password;
-    const newPassword = this.passwordForm.value.new_password;
-    const confirm_password = this.passwordForm.value.confirm_password; 
+    const currentPassword = this.current_passwordControl.value;
+    const newPassword = this.new_passwordControl.value;
+    const confirmPassword = this.confirm_passwordControl.value;
   
-    this.userService.changePassword(currentPassword, newPassword, confirm_password).subscribe(
+    this.userService.changePassword(currentPassword, newPassword, confirmPassword).subscribe(
       response => {
         console.log('Password updated successfully:', response);
+        this.passwordForm.reset();
+        this.toastr.success('Password updated successfully', 'Success', { 
+          timeOut: 2000, 
+          progressBar: true 
+        });
       },
       error => {
         console.error('Error updating password:', error);
+        this.toastr.error('Failed to update password', 'Error', { 
+          timeOut: 2000, 
+          progressBar: true 
+        });
       }
     );
+  }
+
+  cancelPass() {
+    this.passwordForm.reset();
   }
 
   deleteAccount() {
@@ -286,7 +299,6 @@ export class SettingsComponent implements OnInit {
         console.error('Failed to update icon:', error);
       }
     );
-    this.closeModal();
   }
 
   private getIconIdFromPath(iconPath: string): number {

@@ -168,7 +168,7 @@
                                                 @if(new_passwordControl.errors?.['required']){
                                                     <div>Please type your new password</div>
                                                 }
-                                                @if(signUpPasswordControl.errors?.['minlength']){
+                                                @if(new_passwordControl.errors?.['minlength']){
                                                     <div>Password must be 8 characters long</div>
                                                 }
                                             </div>
@@ -193,8 +193,8 @@
                                     }
                                 </div>
                                 <div class="buttons">
-                                  <button (click)="cancel()" class="cancel">Cancel</button>
-                                  <button (click)="changePass()" class="save">Save</button>
+                                  <button (click)="cancelPass()" class="cancel">Cancel</button>
+                                  <button (click)="changePass()" [disabled]="passwordForm.invalid" class="save">Save</button>
                                 </div>
                                 
                             </form>
@@ -300,7 +300,7 @@
                         (click)="selectAvatar('assets/icons/10.png')">
                     </div>
                     <div class="options">
-                      <button class="cancel" (click)="closeModal()">Cancel</button>
+                      <button class="cancel" (click)="cancelProfile()">Cancel</button>
                       <button class="save" [disabled]="!currentSelectedAvatar" (click)="saveAvatar()">Save</button>
                     </div>
                   </div>

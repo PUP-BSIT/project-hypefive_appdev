@@ -23,8 +23,6 @@ import { AnModalComponent }
   from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } 
   from './pages/dashboard/an-edit-modal/an-edit-modal.component';
-import { ProfileIconComponent } 
-  from './pages/dashboard/profile-icon/profile-icon.component';
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
 import { DataService } from '../service/data.service';
@@ -82,7 +80,6 @@ import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.componen
     ArchiveComponent,
     AnModalComponent,
     AnEditModalComponent,
-    ProfileIconComponent,
     VerifyComponent,
     HomepageEventsComponent,
     AdminDataComponent,
