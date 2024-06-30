@@ -5,7 +5,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
 import { MustMatch } from './confirmed.validator';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 import { UserService } from '../../../../service/user.service';
-
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -22,10 +23,13 @@ export class SettingsComponent implements OnInit {
   showDeleteModal = false;
   changesMade: boolean = false;
   userInfo: UserInfo;
+
   constructor(
     private formBuilder: FormBuilder, 
     private loginService: LoginService,
-  private userService: UserService) {}
+    private userService: UserService,
+    private toastr: ToastrService,
+    private router:Router ) {}
 
   @Input() showSettings: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
@@ -253,4 +257,29 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
+
+  deleteAccount() {
+    if (this.deleteForm.invalid) {
+      return;
+    }
+
+    const deletionPassword = this.deleteForm.value.deletion_password;
+
+    this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe(
+      response => {
+        this.toastr.success('Account deactivated successfully', 'Success', { 
+          timeOut: 2000, 
+          progressBar: true 
+        });
+        this.router.navigate(['/login']);
+      },
+      error => {
+        this.toastr.error('Failed to deactivate user', 'Error', { 
+          timeOut: 2000, 
+          progressBar: true 
+        });
+      }
+    );
+  }
+
 }

@@ -93,6 +93,13 @@ class StudentsController extends Controller {
 
     $user = auth()->user();
 
+    if (!$user->is_active) {
+      $response['status'] = 0;
+      $response['code'] = 401;
+      $response['message'] = 'Your account is deactivated.';
+      return response()->json($response);
+  }
+
     // Check the account status of the user
     if ($user->account_status_id != 2) {
       $response['status'] = 0;
@@ -100,6 +107,9 @@ class StudentsController extends Controller {
       $response['message'] = 'Please wait for the confirmation';
       return response()->json($response);
     }
+
+    $user->last_active_at = now();
+    $user->save();
 
     $data['token'] = auth()->claims([
       'user_id' => $user->id,
@@ -112,6 +122,23 @@ class StudentsController extends Controller {
     $response['message'] = 'Login successful';
 
     return response()->json($response);
+  }
+
+  public function deactivateUser(Request $request, $id){
+    $request->validate([
+      'password' => 'required|string'
+    ]);
+
+    $user = User::findOrFail($id);
+
+    if (!Hash::check($request->password, $user->password)) {
+      return response()->json(['message' => 'Invalid password'], 403);
+    }
+
+    $user->is_active = false;
+    $user->save();
+
+    return response()->json(['message' => 'User deactivated successfully'], 200);
   }
 
   public function sendVerificationEmail($student) {

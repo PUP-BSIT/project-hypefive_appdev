@@ -176,3 +176,6 @@ Route::post('auth/verify-code', [PasswordResetController::class,
   'verifyToken']);
 Route::post('auth/reset-password', [PasswordResetController::class, 
   'reset']);
+
+// Deactivate users
+Route::post('users/deactivate/{id}', [StudentsController::class, 'deactivateUser']);

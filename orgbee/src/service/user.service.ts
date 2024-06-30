@@ -27,5 +27,9 @@ export class UserService {
       };
       return this.http.put<any>(`${this.apiUrl}change-password`, body, { headers });
     }
-  }
 
+    deactivateUser(userId: number, password: string): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}users/deactivate/${userId}`, { password });
+  }
+  
+}
