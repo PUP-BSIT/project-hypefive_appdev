@@ -4,11 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { DataService } from '../../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
-import { ChangeDetectorRef } from '@angular/core';
 import { Response } from '../../app.component';
 import { LoginService, UserInfo } from '../../../service/login.service';
-import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from '../../../service/confirmation-dialog.service';
+import { SpinnerService } from '../../../service/spinner.service';
 export interface Post {
   subject: string;
   content: string;
@@ -51,7 +50,8 @@ export class FreedomWallComponent implements OnInit {
     private toastr: ToastrService,
     private fb: FormBuilder, 
     private loginService: LoginService,
-    private confirmationDialogService: ConfirmationDialogService) { }
+    private confirmationDialogService: ConfirmationDialogService,
+    private spinnerService: SpinnerService) { }
     
   ngOnInit(): void {
     this.showPosts();
@@ -95,7 +95,9 @@ export class FreedomWallComponent implements OnInit {
   }
 
   addPost() {
-    if (this.freedomwallForm.invalid) {
+    this.confirmationDialogService.confirmAction('Post Confirmation', 'Your post will be reviewed first by the officers. Are you sure you want to post this?', () => {
+    this.spinnerService.show('Submitting post...')
+      if (this.freedomwallForm.invalid) {
       this.freedomwallForm.markAllAsTouched();
       return;
     }
@@ -110,6 +112,8 @@ export class FreedomWallComponent implements OnInit {
     
     this.dataService.addPosts(newPost).subscribe((res: Response) => {
       this.response = res;
+            setTimeout(() => {
+        this.spinnerService.hide();
       if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
@@ -125,11 +129,13 @@ export class FreedomWallComponent implements OnInit {
       }
       this.showPosts();
       this.loadPendingPosts();
-    })
+    }, 500); // Adjust timeout delay as needed
+  });
 
-    this.freedomwallForm.reset();
-    this.toggleModal();
-  }
+  this.freedomwallForm.reset();
+  this.toggleModal();
+});
+}
 
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
@@ -180,9 +186,12 @@ export class FreedomWallComponent implements OnInit {
 
   deletePost(id: number) {
     this.confirmationDialogService.confirmAction('Delete Confirmation', 'This action cant be undone. Are you sure you want to delete this post?', () => {
+    this.spinnerService.show('Deleting post...')
     const post_id = { id: id };
     this.dataService.deletePosts(post_id).subscribe((res: Response) => {
       this.response = res;
+      setTimeout(() => {
+        this.spinnerService.hide();
       if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
@@ -198,6 +207,7 @@ export class FreedomWallComponent implements OnInit {
       }
       this.showPosts();
       this.getDeletionRequests();
+    }, 500);
     });
   });
 }
@@ -243,8 +253,11 @@ export class FreedomWallComponent implements OnInit {
   approvePost(postId: number) {
     this.confirmationDialogService.confirmAction('Approve Confirmation', 'This action cant be undone. Are you sure you want to approve this post?', () => {
     const post_id = { id: postId };
+    this.spinnerService.show('Approving post...')
     this.dataService.acceptPost(post_id).subscribe((res: Response)=>{
       this.response =res;
+      setTimeout(() => {
+        this.spinnerService.hide();
       if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
@@ -261,6 +274,7 @@ export class FreedomWallComponent implements OnInit {
       console.log(this.response);
       this.showPosts();
       this.loadPendingPosts();
+    },500)
     });
   });
 }

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../../../../service/data.service';
 import { Response } from '../../../app.component';
 import { Event } from '../events.component';
+import { SpinnerService } from '../../../../service/spinner.service';
 
 @Component({
   selector: 'app-edit-event',
@@ -33,7 +34,8 @@ export class EditEventComponent implements OnInit {
   imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   constructor (private formBuilder: FormBuilder, 
     private dataService: DataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinnerService: SpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -188,17 +190,21 @@ export class EditEventComponent implements OnInit {
 
     if(formData){
       if(type ==='publish') {
+        this.spinnerService.show('Updating event details...')
         formData.append('event_status_id', '2');
         this.dataService.updateEvent(formData).subscribe((res:Response)=>{
           this.response=res;
           this.handleResponse();
           this.eventUpdate.emit('upcoming');
+          this.spinnerService.hide();
         });
       } else if(type ==='draft') {
+        this.spinnerService.show('Saving to drafts...')
         formData.append('event_status_id', '1');
         this.dataService.updateEvent(formData).subscribe((res:Response)=>{
           this.response=res;
           this.handleResponse();
+          this.spinnerService.hide();
 
           if(this.activeTab === 'UPCOMING'){
             this.eventUpdate.emit('upcoming');

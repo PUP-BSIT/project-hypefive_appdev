@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { LoadingService } from '../../../service/loading.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpinnerService } from '../../../service/spinner.service';
 
 enum Roles {
   Student = 1,
@@ -65,7 +66,8 @@ export class DashboardComponent implements OnInit {
     private datePipe: DatePipe,
     private router:Router,
     private loadingService: LoadingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private spinnerService: SpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -207,13 +209,16 @@ export class DashboardComponent implements OnInit {
   
   deleteAnnouncement(announcement: Announcement): void {
     this.confirmAction('Confirm Delete', 'Are you sure you want to delete this announcement?', () => {
+    this.spinnerService.show('Deleting announcement...');
     this.announcementService.deleteAnnouncement(announcement.id).subscribe(
       () => {
         this.announcements = 
           this.announcements.filter(a => a.id !== announcement.id);
+          this.spinnerService.hide();
           this.showSnackBar('Announcement deleted successfully.', 'success');
         },
         (error) => {
+          this.spinnerService.hide();
           this.showSnackBar('Error deleting announcement. Please try again later.', 'error');
         }
     );

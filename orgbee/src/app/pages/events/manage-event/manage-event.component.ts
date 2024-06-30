@@ -8,6 +8,7 @@ import { Response } from '../../../app.component';
 
 import { DataService } from '../../../../service/data.service';
 import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
+import { SpinnerService } from '../../../../service/spinner.service';
 
 @Component({
   selector: 'app-manage-event',
@@ -33,10 +34,10 @@ export class ManageEventComponent implements OnInit {
   constructor(
     private dataService:DataService, 
     private toastr: ToastrService, 
-    private confirmationDialogService: ConfirmationDialogService){}
+    private confirmationDialogService: ConfirmationDialogService,
+    private spinnerService: SpinnerService){}
 
   ngOnInit(): void {
-    
   }
 
   closeManageModal(){
