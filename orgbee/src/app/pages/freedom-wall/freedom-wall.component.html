@@ -8,7 +8,17 @@
       <button class="create-post-btn" (click)="toggleModal()">
         <img [src]="userInfo?.icon_path">
         Create an anonymous post
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="dropdown-btn" (click)="onDropdownClick($event)">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
       </button>
+      
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="posts = filterPostsByUser()">
+          <mat-icon>visibility</mat-icon>
+          <span>See My Posts</span >
+        </button>
+      </mat-menu>
       
       @if (userInfo.role_id !== 1) {
         <div>
@@ -32,6 +42,12 @@
       }
     </div>
   </div>
+    <div *ngIf="showFilterMessage">
+        <div class="filter-message">
+          You are seeing your own posts.
+          <button mat-button (click)="clearFilter()">Show All Posts</button>
+        </div>
+      </div>
 
 @if(showModal) {
   <div class="modal">
