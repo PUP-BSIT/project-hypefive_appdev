@@ -54,11 +54,10 @@ class SearchController extends Controller {
     }
 
     $results = $query->get();
+
     if ($results->isNotEmpty()) {
-      // $response['message'] = 'Email already exists';
       return response()->json('Email already exists');
     } 
-    return response()->json();
 
   }
 
@@ -71,11 +70,9 @@ class SearchController extends Controller {
     }
 
     $results = $query->get();
-    if ($results->isNotEmpty()) {
-      // $response['message'] = 'Email already exists';
-      return response()->json('Student number already exists');
-    } 
-    return response()->json();
 
+    if ($results->isNotEmpty()) {
+      return response()->json('Student already exists');
+    } 
   }
 }
