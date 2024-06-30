@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { MustMatch } from './confirmed.validator';
 
+import { catchError, of, map } from 'rxjs';
 interface ResponseData {
   status: number;
   data: {
@@ -29,7 +30,6 @@ export class LoginComponent implements OnInit {
   token: string;
   showSignup = false;
   loadingProgress = 0;
-
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -58,10 +58,12 @@ export class LoginComponent implements OnInit {
       student_number: ['', {
         validators: [
           Validators.required, 
-          Validators.pattern(/^\d{4}-\d{5}-TG-0$/)]
+          Validators.pattern(/^\d{4}-\d{5}-TG-0$/)],
+        asyncValidators:[ this.studentNumChecker.bind(this)]
       }],
       email: ['', {
-        validators: [Validators.required, Validators.email]
+        validators: [Validators.required, Validators.email,],
+        asyncValidators:[ this.emailExists.bind(this)]
       }],
       birthday: ['', {
         validators: [
@@ -82,15 +84,8 @@ export class LoginComponent implements OnInit {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
 
-    //TO DO: TAPISPISAN: Email authentication
-    // this.route.queryParams.subscribe(params => {
-    //   if (params['verified'] === '1') {
-    //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
-    //   } else if (params['verified'] === '0') {
-    //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
-    //   }
-    // });
   }
+
   incrementProgress() {
     const interval = setInterval(() => {
       this.loadingProgress += 20;
@@ -173,6 +168,26 @@ export class LoginComponent implements OnInit {
       }
       return null;
     };
+  }
+  
+  emailExists(control:FormControl){
+    const email = control.value;
+    return this.dataService.searchEmail(email).pipe(
+      map((response: string) => {
+        return response ? { emailExists: true } : null;
+      }),
+      catchError(() => of(null)) 
+    );
+  }
+
+  studentNumChecker(control:FormControl){
+    const studentNum = control.value;
+    return this.dataService.searchStudentNum(studentNum).pipe(
+      map((response: string) => {
+        return response ? { studentNumExists: true } : null;
+      }),
+      catchError(() => of(null)) 
+    );
   }
 
   onSubmit() {
