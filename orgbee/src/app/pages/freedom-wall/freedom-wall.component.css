@@ -512,6 +512,18 @@ h4 {
   font-weight: 500;
 }
 
+.filter-message {
+  display: flex;
+  margin-top: 5px;
+  background-color: #fff6d7ea;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.filter-message p {
+  margin-left: 10px;
+}
+
 @media (max-width: 766px) { 
   .top {
     flex-direction: column;

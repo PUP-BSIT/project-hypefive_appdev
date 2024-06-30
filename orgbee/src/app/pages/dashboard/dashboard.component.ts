@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   isLoading: boolean = false;
   userInfo: UserInfo = {
     email: '',
-    id: '',
+    id: 0,
     role_id: 0,
     first_name: '',
     last_name: '',

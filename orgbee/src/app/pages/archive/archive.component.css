@@ -75,12 +75,14 @@ body {
   background-color: #eeeeed;
   width: calc(33.33% - 10px);
   box-sizing: border-box;
+  padding: 3%;
 }
 
 .archive-event img {
-  border-radius: 10px;
-  width: 80%;
+  width: 100%;
   height: auto;
+  object-fit:cover;
+  aspect-ratio: 3 / 4; 
 }
 
 .previous-events {
