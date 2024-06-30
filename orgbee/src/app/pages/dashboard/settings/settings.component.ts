@@ -21,9 +21,12 @@ export class SettingsComponent implements OnInit {
   showAccountManagement = false;
   showAccountDeletion = false;
   showDeleteModal = false;
+  showChangeAvatar = true;
   changesMade: boolean = false;
   userInfo: UserInfo;
-
+  selectedAvatarPath: string = ''; 
+  currentSelectedAvatar: string = ''; 
+  selectedTab: string = 'profile';
   constructor(
     private formBuilder: FormBuilder, 
     private loginService: LoginService,
@@ -35,6 +38,7 @@ export class SettingsComponent implements OnInit {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
+
     this.updateForm = this.formBuilder.group({
       first_name: ['', {
         validators: [Validators.required, this.noNumbersValidator]
@@ -77,6 +81,7 @@ export class SettingsComponent implements OnInit {
     this.loginService.onDataRetrieved((userInfo: UserInfo) => {
       this.userInfo = userInfo;
       this.populateForm(userInfo);
+      this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
     });
 
     this.deleteForm = this.formBuilder.group ({
@@ -98,6 +103,10 @@ export class SettingsComponent implements OnInit {
       birthday: userInfo.birthday,
       gender: userInfo.gender.toLowerCase()
     });
+  }
+
+  selectTab(tab: string) {
+    this.selectedTab = tab;
   }
 
   get emailControl() {
@@ -174,28 +183,6 @@ export class SettingsComponent implements OnInit {
     };
   }
 
-  displayAccountInfo() {
-    this.showInformation = true;
-    this.showAccountManagement = false;
-    this.showAccountDeletion = false;
-  }
-
-  displayAccountManagement() {
-    this.showAccountManagement = true;
-    this.showInformation = false;
-    this.showAccountDeletion = false;
-  }
-
-  displayAccountDeletion() {
-    this.showAccountManagement = false;
-    this.showInformation = false;
-    this.showAccountDeletion = true;
-  }
-
-  deleteModal() {
-    this.showDeleteModal = true;
-  }
-
   onUpdateSubmit() {
     if (this.updateForm.valid) {
       const updatedUserInfo = {
@@ -235,6 +222,9 @@ export class SettingsComponent implements OnInit {
     this.close.emit(); 
   }
 
+  deleteModal() {
+    this.showDeleteModal = true;
+  }
   closeDeleteModal() {
     this.showDeleteModal = false;
   }
@@ -280,6 +270,28 @@ export class SettingsComponent implements OnInit {
         });
       }
     );
+  }
+
+  selectAvatar(avatarPath: string): void {
+    this.selectedAvatarPath = avatarPath; 
+    this.currentSelectedAvatar = avatarPath; 
+  }
+
+  saveAvatar() {
+    this.loginService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe(
+      response => {
+        console.log('Icon updated successfully:', response);
+      },
+      error => {
+        console.error('Failed to update icon:', error);
+      }
+    );
+    this.closeModal();
+  }
+
+  private getIconIdFromPath(iconPath: string): number {
+    const iconId = parseInt(iconPath.split('/').pop().split('.')[0]);
+    return iconId;
   }
 
 }
