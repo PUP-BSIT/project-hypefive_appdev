@@ -185,10 +185,11 @@ export class DashboardComponent implements OnInit {
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
         updated_at: this.getCurrentDateTime(), 
       };
-      this.filterByOfficers();
     }
+    this.refreshAnnouncements();
     this.closeModalEditAnnouncement();
   }
+  
   
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
     const newAnnouncementDisplay: Announcement = {
@@ -308,5 +309,21 @@ export class DashboardComponent implements OnInit {
       duration: 2000,
       panelClass: ['custom-snackbar', panelClass]
     });
+  }
+
+  refreshAnnouncements(): void {
+    switch (this.activeTab) {
+      case 'all':
+        this.filterByAll();
+        break;
+      case 'officers':
+        this.filterByOfficers();
+        break;
+      case 'me':
+        this.filterByMe();
+        break;
+      default:
+        break;
+    }
   }
 }
