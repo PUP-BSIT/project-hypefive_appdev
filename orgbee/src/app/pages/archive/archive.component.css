@@ -288,6 +288,7 @@ body {
   .modal-event {
     order: 1;
     text-align: center;
+
   }
 
   .modal-event img {
@@ -296,6 +297,10 @@ body {
 
   .modal-details {
     order: 2;
+  }
+
+  .modal {
+    height: auto;
   }
 }
 
