@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, 
     OnChanges, SimpleChanges  } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 import { DataService } from '../../../../service/data.service';
@@ -10,12 +10,13 @@ import { Event } from '../events.component';
 @Component({
   selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
-  styleUrl: '../events.component.css'
+  styleUrl: '../create-event/create-event.component.css'
 })
 
 export class EditEventComponent implements OnInit {
   @Input() editEventModal: boolean;
   @Input() selectedEvent: Event;
+  @Input() activeTab:string;
 
   @Output() closeModal = new EventEmitter<void>();
   @Output() eventUpdate = new EventEmitter<string>();
@@ -25,7 +26,7 @@ export class EditEventComponent implements OnInit {
   response:Response;
 
   currentStep= 0;
-  file:any;
+  file: File;
   preview:string;
 
   updateEventId:number;
@@ -36,12 +37,12 @@ export class EditEventComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Edit!');
     this.eventForm = this.formBuilder.group({
-      event_name: 
-        ['', {validators: [Validators.required, Validators.maxLength(100)],}],
+      event_name: ['', 
+        {validators: [Validators.required, Validators.maxLength(100)],}],
       location: ['', {validators: [Validators.required],}],
-      date: ['', {validators: [Validators.required],}],
+      date: ['', 
+        {validators: [Validators.required, this.futureDateValidator],}],
       time: ['', {validators: [Validators.required],}],
       all_members_required: ['', {validators: [Validators.required],}],
       has_reg_fee: ['', {validators: [Validators.required],}],
@@ -80,6 +81,14 @@ export class EditEventComponent implements OnInit {
     if (messageControl && messageControl.value.length > 300) {
       messageControl.setValue(messageControl.value.substring(0, 300));
     }
+  }
+
+  futureDateValidator(control: FormControl) {
+    const inputDate = new Date(control.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return inputDate >= today ? null : { pastDate: true };
   }
 
   isStepValid(stepIndex: number): boolean {
@@ -147,6 +156,7 @@ export class EditEventComponent implements OnInit {
   closeCreateEditModal(){
     this.closeModal.emit();
     this.currentStep = 0;
+    this.eventForm.patchValue(this.selectedEvent);
   }
   
   uploadImage(event) {
@@ -177,50 +187,45 @@ export class EditEventComponent implements OnInit {
     formData.append('id', this.updateEventId.toString()); 
 
     if(formData){
-      if(type ==='publish'){
+      if(type ==='publish') {
         formData.append('event_status_id', '2');
         this.dataService.updateEvent(formData).subscribe((res:Response)=>{
           this.response=res;
-          if (this.response.code === 200) {
-            this.toastr.success(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast success'
-            });
-          } else {
-            this.toastr.error(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast error'
-            });
-          }
-          console.log(this.response);
+          this.handleResponse();
           this.eventUpdate.emit('upcoming');
         });
-      } else {
+      } else if(type ==='draft') {
         formData.append('event_status_id', '1');
         this.dataService.updateEvent(formData).subscribe((res:Response)=>{
           this.response=res;
-          if (this.response.code === 200) {
-            this.toastr.success(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast success'
-            });
-          } else {
-            this.toastr.error(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast error'
-            });
+          this.handleResponse();
+
+          if(this.activeTab === 'UPCOMING'){
+            this.eventUpdate.emit('upcoming');
+          } else if ((this.activeTab === 'DRAFTS')) {
+            this.eventUpdate.emit('draft');
           }
-          console.log(this.response);
-          this.eventUpdate.emit('draft');
         });
       }
       this.closeCreateEditModal();
       this.currentStep = 0;
       this.eventForm.reset();
+    }
+  }
+
+  handleResponse(){
+    if (this.response.code === 200) {
+      this.toastr.success(JSON.stringify(this.response.message), '', {
+        timeOut: 2000,
+        progressBar: true,
+        toastClass: 'custom-toast success'
+      });
+    } else {
+      this.toastr.error(JSON.stringify(this.response.message), '', {
+        timeOut: 2000,
+        progressBar: true,
+        toastClass: 'custom-toast error'
+      });
     }
   }
 }

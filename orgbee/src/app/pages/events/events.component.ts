@@ -16,16 +16,16 @@ export interface Event {
   registration_fee?: number; 
   max_attendees: number; 
   caption?: string;
-  poster_loc: any; 
+  poster_loc: string; 
   event_status_id: number;
   event_state_id: number;
   reg_count:number;
 }
 
 export interface ModalButton {
-  showModalUpcoming: boolean;
-  showModalDraft: boolean;
-  showModalOccuring: boolean;
+  upcomingModalButton: boolean;
+  draftModalButton: boolean;
+  occuringModalButton: boolean;
 }
 
 @Component({
@@ -33,60 +33,61 @@ export interface ModalButton {
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css'],
 })
+
 export class EventsComponent implements OnInit {
   eventForm: FormGroup;
   members: Member[] = [];
+  filteredEvents: Event[] = [];
+  selectedEvent: Event;
+  cancelEventTab:string;
+
+  activeTab = 'UPCOMING';
+  imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
+
   createEventModal = false;
   isManageModalVisible = false;
   editEventModal = false;
 
-  selectedEvent: Event;
   modalButton: ModalButton = {
-    showModalUpcoming: false,
-    showModalDraft: false,
-    showModalOccuring: false
+    upcomingModalButton: false,
+    draftModalButton: false,
+    occuringModalButton: false
   };
 
-  activeTab = 'UPCOMING';
-  filteredEvents: Event[] = [];
-  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
-
-  cancelEventTab:string;
-
-  updateEventId: number;
-
-  constructor(private dataService:DataService){}
+  constructor(private dataService:DataService) {}
 
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
   }
 
-  openCreateModal(){
+  openCreateModal() {
     this.createEventModal = true;
   }
 
-  openManageModal(event:Event){
+  openManageModal(event:Event) {
     this.selectedEvent = event;
     this.getRegisteredMembers();
     this.isManageModalVisible = true;
-    if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id === 1 ) {
-      this.modalButton.showModalUpcoming = true;
-      this.modalButton.showModalDraft = false;
-      this.modalButton.showModalOccuring = false;
+    if (this.selectedEvent.event_status_id === 2 && 
+      this.selectedEvent.event_state_id === 1 ) {
+        this.modalButton.upcomingModalButton = true;
+        this.modalButton.draftModalButton = false;
+        this.modalButton.occuringModalButton = false;
 
-      this.cancelEventTab = 'UPCOMING';
-    } else if (this.selectedEvent.event_status_id === 2 && this.selectedEvent.event_state_id ===2  ) {
-      this.modalButton.showModalOccuring = true;
-      this.modalButton.showModalUpcoming = false;
-      this.modalButton.showModalDraft = false;
+        this.cancelEventTab = 'UPCOMING';
+    } else if (this.selectedEvent.event_status_id === 2 && 
+        this.selectedEvent.event_state_id ===2  ) {
+          this.modalButton.occuringModalButton = true;
+          this.modalButton.upcomingModalButton = false;
+          this.modalButton.draftModalButton = false;
 
-      this.cancelEventTab = 'OCCURING';
+          this.cancelEventTab = 'OCCURING';
     } else if(this.selectedEvent.event_status_id === 1){
-      this.modalButton.showModalDraft=true;
-      this.modalButton.showModalOccuring = false;
-      this.modalButton.showModalUpcoming = false;
+        this.modalButton.draftModalButton=true;
+        this.modalButton.occuringModalButton = false;
+        this.modalButton.upcomingModalButton = false;
 
-      this.cancelEventTab = 'DRAFT';
+        this.cancelEventTab = 'DRAFT';
     }
   }
 
@@ -115,42 +116,41 @@ export class EventsComponent implements OnInit {
     this.dataService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
       this.filteredEvents = upcoming;
     });
-    console.log("upcoming");
   }
 
   showDraftEvents() {
     //Get events with event_state = 1 and status of 1
     this.dataService.getDraftEvents().subscribe((draft: Event[])=>{
       this.filteredEvents = draft;
-    })
+    });
   }
 
-  showOccuringEvents(){
+  showOccuringEvents() {
     //Get events with event_state = 2 and status of 2
     this.dataService.getOccuringEvents().subscribe((occuring: Event[])=>{
       this.filteredEvents = occuring;
-    })
+    });
   }
 
-  getRegisteredMembers (){
-    this.dataService.getRegisteredMembers(this.selectedEvent.id).subscribe((res: Member[])=>{
+  getRegisteredMembers() {
+    this.dataService.getRegisteredMembers(this.selectedEvent.id)
+      .subscribe((res: Member[])=>{
       this.members = res;
-      console.log(this.members);
-    })
+    });
   }
-  showUpdate(tab:string){
-    if(tab === 'upcoming'){
+
+  showUpdate(tab:string) {
+    if(tab === 'upcoming') {
       this.showUpcomingEvents();
-    } else if (tab === 'occuring'){
+    } else if (tab === 'occuring') {
       this.showOccuringEvents();
-    } else if (tab === 'draft'){
+    } else if (tab === 'draft') {
       this.showDraftEvents();
     }
   }
 
-  handleEditEvent(){
+  handleEditEvent() {
     this.editEventModal =true;
-    console.log(this.selectedEvent);
     this.closeManageModal();
   }
 

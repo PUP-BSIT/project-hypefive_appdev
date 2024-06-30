@@ -27,11 +27,14 @@ export class ManageEventComponent implements OnInit {
   imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   response:Response;
 
-  constructor(private dataService:DataService, private toastr: ToastrService){}
+  constructor(
+    private dataService:DataService, 
+    private toastr: ToastrService){}
 
   ngOnInit(): void {
     
   }
+
   closeManageModal(){
     this.closeModal.emit();
   }
@@ -40,20 +43,7 @@ export class ManageEventComponent implements OnInit {
     const id = {id : event.id};
     this.dataService.publishDraft(id).subscribe((res: Response )=>{
       this.response=res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      console.log(this.response);
+      this.handleResponse();
 
       this.updateState.emit('draft');
       this.closeManageModal();
@@ -64,20 +54,8 @@ export class ManageEventComponent implements OnInit {
     const id = {id : event.id};
     this.dataService.markAsOccuring(id).subscribe((res:Response) =>{
       this.response=res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      
+      this.handleResponse();
+
       this.updateState.emit('upcoming');
       this.closeManageModal();
     });
@@ -87,19 +65,7 @@ export class ManageEventComponent implements OnInit {
     const id = {id : event.id};
     this.dataService.markAsComplete(id).subscribe((res:Response) =>{
       this.response=res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
+      this.handleResponse();
 
       this.updateState.emit('occuring');
       this.closeManageModal();
@@ -110,19 +76,8 @@ export class ManageEventComponent implements OnInit {
     const id = {id : event.id};
     this.dataService.cancelEvent(id).subscribe((res:Response) =>{
       this.response=res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
+      this.handleResponse();
+      
       //Update current tab event list
       if (this.cancelEventTab === 'UPCOMING') {
         this.updateState.emit('upcoming');
@@ -138,8 +93,24 @@ export class ManageEventComponent implements OnInit {
       this.closeManageModal();
     });
   }
+
   editEvent(): void {
     this.editEventModal.emit();
-   
+  }
+
+  handleResponse() {
+    if (this.response.code === 200) {
+      this.toastr.success(JSON.stringify(this.response.message), '', {
+        timeOut: 2000,
+        progressBar: true,
+        toastClass: 'custom-toast success'
+      });
+    } else {
+      this.toastr.error(JSON.stringify(this.response.message), '', {
+        timeOut: 2000,
+        progressBar: true,
+        toastClass: 'custom-toast error'
+      });
+    }
   }
 }

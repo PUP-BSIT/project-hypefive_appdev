@@ -1,4 +1,4 @@
-<div id="eventFormModal" class="modal" [class.visible]="editEventModal">
+<div class="modal" [class.visible]="editEventModal">
   <div class="modal-content">
     <span class="close" (click)="closeCreateEditModal()">&times;</span>
 
@@ -19,7 +19,9 @@
                <div>Event name is required.</div>
              }
              @if(event_name.errors?.['maxlength']){
-               <div>Event name should not contain more than 100 charcaters.</div>
+               <div>
+                  Event name should not contain more than 100 charcaters.
+                </div>
              }
             </div>
            }
@@ -30,12 +32,11 @@
           id="location"
           formControlName="location"
           placeholder="Location"/>
-        @if(location.invalid && location.touched){
-          <div class="inc">
-            @if(location.errors?.['required']){
+        @if(location.invalid && location.touched && 
+          location.errors?.['required']){
+            <div class="inc">
               <div>Location is required.</div>
-            }
-          </div>
+            </div>
         }
 
         <!-- Inline container for date and time inputs -->
@@ -43,22 +44,23 @@
           <div>
             <label for="date">Date:</label>
             <input type="date" id="date" formControlName="date" />
-            @if(date.invalid && date.touched){
+            @if(date.invalid && date.touched) {
               <div class="inc">
-               @if(date.errors?.['required']){
-                 <div>Date is required.</div>
-              }
+                @if(date.errors?.['required']) {
+                  <div>Date is required.</div>
+                }
+                @if(date.errors?.['pastDate']) {
+                  <div>Date cannot be in the past.</div>
+                }
               </div>
             }
           </div>
           <div>
             <label for="time">Time:</label>
             <input type="time" id="time" formControlName="time" />
-            @if(time.invalid && time.touched){
+            @if(time.invalid && time.touched && time.errors?.['required']){
               <div class="inc">
-               @if(time.errors?.['required']){
-                 <div>Time is required.</div>
-              }
+                <div>Time is required.</div>
               </div>
             }
           </div>
@@ -80,16 +82,16 @@
           <label>Are all members required to attend?</label>
           <input
             type="radio"
-            id="all_members_requiredYes"
+            id="all_members_required_yes"
             formControlName="all_members_required"
             [value]="1"/>
-          <label for="all_members_requiredYes">Yes</label>
+          <label for="all_members_required_yes">Yes</label>
           <input
             type="radio"
-            id="all_members_requiredNo"
+            id="all_members_required_no"
             formControlName="all_members_required"
             [value]="0"/>
-          <label for="all_members_requiredNo">No</label>
+          <label for="all_members_required_no">No</label>
         </div>
 
         <div class="inline-radio">
@@ -113,12 +115,11 @@
           id="registration_fee"
           formControlName="registration_fee"
           placeholder="Specify the amount"/>
-        @if(registration_fee.invalid && registration_fee.touched){
-          <div class="inc">
-            @if(registration_fee.errors?.['required']){
-              <div>Registration fee is required.</div>
-            }
-          </div>
+        @if(registration_fee.invalid && registration_fee.touched 
+            && registration_fee.errors?.['required']) {
+              <div class="inc">
+                <div>Registration fee is required.</div>
+              </div>
         }
 
         <input
@@ -159,7 +160,8 @@
             class="caption-textarea">
           </textarea>
           <span class="character-counter-message">
-            {{ eventForm.get('caption').value ? eventForm.get('caption').value.length : 0 }}/300
+            {{ eventForm.get('caption').value ? 
+                eventForm.get('caption').value.length : 0 }}/300
           </span>
         </div>
         @if(caption.invalid && caption.touched){
@@ -174,25 +176,20 @@
         }
 
         <label for="poster_loc">Upload a poster:</label>
-        <input type="file" id="poster_loc" (change)="uploadImage($event)" accept="image/*"/>
+        <h5>Current poster name: {{ currentPoster }}</h5>
+        <input type="file" id="poster_loc" 
+          (change)="uploadImage($event)" accept="image/*"/>
         <div class="button-container">
-          <button 
-            type="button" 
-            class="step-2-back-btn" 
-            (click)="prevStep()">
-              BACK
+          <button type="button" class="step-2-back-btn" (click)="prevStep()">
+            BACK
           </button>
-          <button 
-            type="button" 
-            class="step-2-next-btn" 
-            (click)="nextStep()">
-              NEXT
+          <button type="button" class="step-2-next-btn" (click)="nextStep()">
+            NEXT
           </button>
         </div>
       }
-      
 
-      <!-- Final Buttons -->
+      <!-- Preview -->
       @if(currentStep === 3){
         <div class="event-preview">
           <img [src]="preview" alt="Event Poster"/>
@@ -202,10 +199,7 @@
           <p>{{ eventForm.get('caption').value }}</p>
         </div>
         <div class="button-container">
-          <button 
-            type="button" 
-            class="back-btn" 
-            (click)="prevStep()">
+          <button type="button" class="back-btn" (click)="prevStep()">
               BACK
           </button>
           <button
