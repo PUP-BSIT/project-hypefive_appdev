@@ -7,7 +7,7 @@ import { DataService } from '../../../../service/data.service';
 import { Response } from '../../../app.component';
 import { Event } from '../events.component';
 import { SpinnerService } from '../../../../service/spinner.service';
-
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
 @Component({
   selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
@@ -35,7 +35,8 @@ export class EditEventComponent implements OnInit {
   constructor (private formBuilder: FormBuilder, 
     private dataService: DataService,
     private toastr: ToastrService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {}
 
   ngOnInit(): void {
@@ -190,6 +191,7 @@ export class EditEventComponent implements OnInit {
 
     if(formData){
       if(type ==='publish') {
+        this.confirmationDialogService.confirmAction('Update Confirmation', 'Are you sure you want to update event details? This will overwrite the current one.', () => {
         this.spinnerService.show('Updating event details...')
         formData.append('event_status_id', '2');
         this.dataService.updateEvent(formData).subscribe((res:Response)=>{
@@ -198,6 +200,7 @@ export class EditEventComponent implements OnInit {
           this.eventUpdate.emit('upcoming');
           this.spinnerService.hide();
         });
+      });
       } else if(type ==='draft') {
         this.spinnerService.show('Saving to drafts...')
         formData.append('event_status_id', '1');

@@ -7,6 +7,7 @@ import { LoginService, UserInfo } from '../../../../service/login.service';
 import { UserService } from '../../../../service/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
 
 @Component({
   selector: 'app-settings',
@@ -32,7 +33,8 @@ export class SettingsComponent implements OnInit {
     private loginService: LoginService,
     private userService: UserService,
     private toastr: ToastrService,
-    private router:Router ) {}
+    private router:Router,
+    private confirmationDialogService: ConfirmationDialogService) {}
 
   @Input() showSettings: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
@@ -148,6 +150,7 @@ export class SettingsComponent implements OnInit {
   get deletion_passwordControl() {
     return this.deleteForm.get('deletion_password');
   }
+
   noNumbersValidator(control: FormControl) {
     const containsNumbers = /[0-9]/.test(control.value);
     return containsNumbers ? { containsNumbers: true } : null;
@@ -184,6 +187,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onUpdateSubmit() {
+    this.confirmationDialogService.confirmAction('Update Info Confirmation', 'Are you sure you want to update your information?', () => {
     if (this.updateForm.valid) {
       const updatedUserInfo = {
         ...this.updateForm.value,
@@ -204,7 +208,8 @@ export class SettingsComponent implements OnInit {
         console.log('Form is invalid');
     }
     this.changesMade = false;
-  }
+  });
+}
 
   cancel() {
     console.log('Cancel button clicked');
@@ -222,14 +227,22 @@ export class SettingsComponent implements OnInit {
     this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
   }
 
+  closeModal() {
+    this.showSettings = false;
+    this.close.emit(); 
+  }
+
   deleteModal() {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', 'Are you sure you want to delete your account?', () => {
     this.showDeleteModal = true;
+    });
   }
   closeDeleteModal() {
     this.showDeleteModal = false;
   }
 
   changePass() {
+    this.confirmationDialogService.confirmAction('Change Password Confirmation', 'Are you sure you want to change your password?', () => {
     if (this.passwordForm.invalid) {
       return;
     }
@@ -255,6 +268,7 @@ export class SettingsComponent implements OnInit {
         });
       }
     );
+  });
   }
 
   cancelPass() {
@@ -262,6 +276,7 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteAccount() {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', 'Your account will be deleted. Do you still want to proceed?', () => {
     if (this.deleteForm.invalid) {
       return;
     }
@@ -283,7 +298,8 @@ export class SettingsComponent implements OnInit {
         });
       }
     );
-  }
+  });
+}
 
   selectAvatar(avatarPath: string): void {
     this.selectedAvatarPath = avatarPath; 
@@ -291,6 +307,7 @@ export class SettingsComponent implements OnInit {
   }
 
   saveAvatar() {
+    this.confirmationDialogService.confirmAction('Change Avatar Confirmation', 'Are you sure you want to change your avatar?', () => {
     this.loginService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe(
       response => {
         console.log('Icon updated successfully:', response);
@@ -299,7 +316,8 @@ export class SettingsComponent implements OnInit {
         console.error('Failed to update icon:', error);
       }
     );
-  }
+  });
+}
 
   private getIconIdFromPath(iconPath: string): number {
     const iconId = parseInt(iconPath.split('/').pop().split('.')[0]);
