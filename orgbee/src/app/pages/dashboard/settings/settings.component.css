@@ -245,3 +245,32 @@ h2 {
     margin-right: 2%;
   }
 }
+
+@media (max-width: 460px) {
+  .tabs {
+    width: 25%;
+    padding-left: 0;
+    height: 460px;
+  }
+
+  .tab {
+    width: 100%;
+    font-size: 10px;
+    padding-right: 1%;
+  }
+
+  .tab:hover {
+    width: 100%;
+  }
+
+  .information {
+    margin-right: 5%;
+    padding: 3%;
+    width: auto;
+  }
+
+  input,
+  select {
+    width: 90%;
+  }
+}
