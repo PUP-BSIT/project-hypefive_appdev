@@ -67,6 +67,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CreateEventComponent } from './pages/events/create-event/create-event.component';
 import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
+import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { EditEventComponent } from './pages/events/edit-event/edit-event.compone
     LandingPageComponent,
     SettingsComponent,
     StepperComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    CustomSpinnerComponent
   ],
   imports: [
     BrowserModule,
