@@ -293,6 +293,7 @@ h2 {
   .modal-event {
     order: 1;
     text-align: center;
+
   }
 
   .modal-event img {
@@ -301,6 +302,10 @@ h2 {
 
   .modal-details {
     order: 2;
+  }
+
+  .modal {
+    height: auto;
   }
 }
 
