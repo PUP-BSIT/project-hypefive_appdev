@@ -6,6 +6,12 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin-top: 0px;
+}
+
+.members-page {
+  height: 100%;
+  height:100%;
+  overflow-y: auto;
   padding: 15px;
 }
 
