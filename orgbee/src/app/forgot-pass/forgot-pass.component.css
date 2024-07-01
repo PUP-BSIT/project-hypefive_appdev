@@ -1,9 +1,9 @@
 .logo {
   display: flex;
-  margin-top: 2%;
+  margin-top: 5%;
   margin-left: 45%;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 186px;
 }
 
 .logo img {
@@ -15,7 +15,7 @@
   flex: 1;
   flex-direction: column;
   max-width: 400px;
-  height: 320px;
+  height: 250px;
   margin: 0 auto;
   margin-top: -1%;
   padding: 20px;
@@ -33,6 +33,7 @@ h1 {
 
 p {
   margin-top: 5%;
+  margin-bottom: 5%;
   text-align: center;
 }
 
@@ -54,21 +55,15 @@ p {
   margin-bottom: 10px;
 }
 
-#email_label {
-  text-align: left;
-  margin-left: 6%;
-  margin-top: 12%;
-}
-
 .auth-button {
   width: calc(100% - 40px);
   padding: 10px;
   background-color: #ffca10;
-  color: #fff;
+  color: #242424;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 5%;
+  margin-top: 2%;
   margin-bottom: 20px;
 }
 
@@ -161,16 +156,29 @@ p {
   margin-top: 18%;
 }
 
-@media (max-width: 766px) { 
-  
+.inc {
+  font-size: 12px;
+  color: red;
+}
+
+@media (max-width: 576px) { 
   .logo {
     margin-top: 15%;
     margin-left: 38%;
-    width: 40%;
-    height: 20%;
   }
 
   .auth-container {
-    margin: 5%;
+    margin-left: 11%;
+  }
+}
+
+@media (max-width: 768px) { 
+  .logo {
+    margin-top: 15%;
+    margin-left: 38%;
+  }
+
+  .auth-container {
+    margin-left: 20%;
   }
 }
