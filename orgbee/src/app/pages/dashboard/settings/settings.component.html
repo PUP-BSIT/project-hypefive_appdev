@@ -6,7 +6,7 @@
               <button class="tab" [ngClass]="{'active': selectedTab === 'profile'}" (click)="selectTab('profile')">Profile Avatar</button>
               <button class="tab" [ngClass]="{'active': selectedTab === 'accountInfo'}" (click)="selectTab('accountInfo')">Account Info</button>
               <button class="tab" [ngClass]="{'active': selectedTab === 'changePassword'}" (click)="selectTab('changePassword')">Password</button>
-              <button class="tab" [ngClass]="{'active': selectedTab === 'deleteAccount'}" (click)="selectTab('deleteAccount')">Account Deletion</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'deleteAccount'}" (click)="selectTab('deleteAccount')">Deactivation</button>
             </div>
 
             @if(selectedTab === 'accountInfo'){
@@ -206,10 +206,10 @@
             @if(selectedTab === 'deleteAccount'){
               <ng-container>
                 <div class="deletion">
-                  <h2>Account Deletion</h2>
+                  <h2>Account Deactivation</h2>
                   <p>Security manage your account status by disabling access</p>
                   <div class="deleteButton">
-                    <button (click)="deleteModal()" class="delete">Delete my account</button>
+                    <button (click)="deleteModal()" class="delete">Deactivate my account</button>
                   </div>
                 </div>
               </ng-container>
@@ -219,7 +219,7 @@
               <div class="deleteAccModal">
                 <div class="delete-content">
                     <span class="closeDelete" (click)="closeDeleteModal()">&times;</span>
-                    <p>Type your password to delete your account</p>
+                    <p>Type your password to deactivate your account</p>
                     <form [formGroup]="deleteForm">
                       <label for="deletion_password">Password</label>
                       <input 
