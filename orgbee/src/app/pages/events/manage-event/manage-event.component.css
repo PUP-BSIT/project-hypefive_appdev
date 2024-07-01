@@ -9,7 +9,9 @@ body {
 }
 
 #manage_event_modal img {
-  width: 50%;
+  width: 250px;
+  height: 230px;
+  border-radius: 10px;
 }
 
 .modal {
@@ -22,7 +24,7 @@ body {
   height: 125%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
-  margin-top: -5%;
+  margin-top: -8%;
 }
 
 .modal.visible {
