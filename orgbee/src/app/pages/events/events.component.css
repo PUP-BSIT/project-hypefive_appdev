@@ -251,7 +251,7 @@ app-header {
   }
 }
 
-@media (max-width: 766px) {
+@media (max-width: 768px) {
   .top {
     display: flex;
     flex-direction: column;
