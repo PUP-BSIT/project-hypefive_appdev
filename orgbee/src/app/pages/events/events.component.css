@@ -182,7 +182,7 @@ app-header {
   text-align: center;
 }
 
-@media (max-height: 896px) and (max-width: 766px) { 
+@media (max-width: 576px) { 
   .top {
     display: flex;
     flex-direction: column;
@@ -207,7 +207,7 @@ app-header {
 
   .event-card {
     width: 90%;
-    height: 30%;
+    height: 25%;
   }
 
   .event-img img {
@@ -218,7 +218,7 @@ app-header {
   
   .event-details h3 {
     font-size: 14px;
-    margin-bottom: 20%;
+    margin-bottom: 15%;
     white-space: nowrap; 
   }
   
@@ -230,7 +230,76 @@ app-header {
   }
   
   .manage-container {
-    margin-top: 18%;
+    margin-top: 15%;
+  }
+
+  .manage-info {
+    margin-bottom: 10px;
+    margin-right: 20%;
+    margin-left: -10%;
+  }
+
+  .registered-text {
+    margin-left: 3%;
+    white-space: nowrap; 
+  }
+
+  .manage-button {
+    padding: 10px 30px;
+    border-radius: 10px;
+    margin-left: -20%;
+  }
+}
+
+@media (max-width: 766px) {
+  .top {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .create-event {
+    padding: 5%;
+    margin: 0%;
+    margin-bottom: 1%;
+  }
+
+  .tabs {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .tab {
+    width: 30%;
+    margin-top: 3%;
+    padding: 2%;
+  }
+
+  .event-card {
+    width: 90%;
+    height: 25%;
+  }
+
+  .event-img img {
+    width: 150px;
+    height: 150px;
+    margin-left: 1%;
+  }
+  
+  .event-details h3 {
+    font-size: 14px;
+    margin-bottom: 10%;
+    white-space: nowrap; 
+  }
+  
+  .event-details p {
+    font-size: 12px;
+    color: #777;
+    margin: 8px 0;
+    white-space: nowrap; 
+  }
+  
+  .manage-container {
+    margin-top: 12%;
   }
 
   .manage-info {
