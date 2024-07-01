@@ -13,6 +13,7 @@ body {
 app-header {
   width: 100%;
   margin-top: 1%;
+  margin-right: 0.5%;
 }
 
 .top {
@@ -34,6 +35,7 @@ app-header {
   font-weight: 500;
   text-wrap: nowrap;
   margin-top: 1%;
+  margin-bottom: 0.6%;
   font-family: 'Outfit';
 }
 
@@ -57,7 +59,9 @@ app-header {
   border: none;
   border-radius: 10px;
   margin-top: 1%;
-  padding: 1.5% 12%;
+  margin-bottom: 1%;
+  margin-left: 2%;
+  padding: 1.3% 12%;
   font-size: 14px;
   cursor: pointer;
   font-family: 'Outfit';
@@ -77,7 +81,7 @@ app-header {
   border-bottom-right-radius: 10px;
   width: 100%;
   overflow-y: scroll;
-  height: 75%;
+  height: 70%;
 }
 
 .event-list::-webkit-scrollbar {
@@ -99,7 +103,7 @@ app-header {
 .event-img img {
   flex: 1;
   width: 250px;
-  height: 187px;
+  height: 172px;
   display: block;
   margin-left: 5%;
   border-radius: 10px;
@@ -115,6 +119,7 @@ app-header {
   font-size: 18px;
   text-align: start;
   font-weight: bolder;
+  margin-bottom: 2.5%;
 }
 
 .event-details p {
@@ -161,64 +166,10 @@ app-header {
   background-color: #ffca10;
   color: black;
   border: none;
-  padding: 10px 25px;
+  padding: 10px 30px;
   border-radius: 10px;
   margin-left: -50%;
   cursor: pointer;
-}
-
-.modal.visible {
-  display: block;
-}
-
-.edit-btn {
-  margin: 10px;
-  padding: 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #ffca10;
-}
-
-.occurring-btn {
-  margin: 10px;
-  padding: 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: white;
-}
-
-.cancel-btn {
-  margin: 10px;
-  padding: 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #888;
-}
-
-.manage-content button:hover {
-  background-color: #e0ac00;
-}
-
-.manage-modal.visible {
-  display: block;
-}
-
-.eventtag {
-  color: #ffca10;
-}
-
-.eventinfo {
-  padding-left: 3%;
-  text-align: start;
-  color: #eeeeed;
-}
-
-.title {
-  font-weight: bold;
-  font-size: 20px;
 }
 
 .inc {
@@ -229,4 +180,73 @@ app-header {
 .no-request {
   padding: 10%;
   text-align: center;
+}
+
+@media (max-height: 896px) and (max-width: 766px) { 
+  .top {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .create-event {
+    padding: 5%;
+    margin: 0%;
+    margin-bottom: 1%;
+  }
+
+  .tabs {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .tab {
+    width: 30%;
+    margin-top: 3%;
+    padding: 2%;
+  }
+
+  .event-card {
+    width: 90%;
+    height: 30%;
+  }
+
+  .event-img img {
+    width: 150px;
+    height: 150px;
+    margin-left: 1%;
+  }
+  
+  .event-details h3 {
+    font-size: 14px;
+    margin-bottom: 20%;
+    white-space: nowrap; 
+  }
+  
+  .event-details p {
+    font-size: 12px;
+    color: #777;
+    margin: 8px 0;
+    white-space: nowrap; 
+  }
+  
+  .manage-container {
+    margin-top: 18%;
+  }
+
+  .manage-info {
+    margin-bottom: 10px;
+    margin-right: 20%;
+    margin-left: -10%;
+  }
+
+  .registered-text {
+    margin-left: 3%;
+    white-space: nowrap; 
+  }
+
+  .manage-button {
+    padding: 10px 30px;
+    border-radius: 10px;
+    margin-left: -20%;
+  }
 }
