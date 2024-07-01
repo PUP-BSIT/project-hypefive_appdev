@@ -109,7 +109,10 @@
     </div>
   </div>
 }
-
+<div class="show-container">
+<div *ngIf="showSpinner" class="spinner-overlay">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
 <ngx-masonry>
   @for(post of posts; track posts) {
     <div ngxMasonryItem class="masonry-item">
@@ -142,6 +145,7 @@
     </div>
   }
 </ngx-masonry>
+</div>
 
 <!-- Manage Wall Modal -->
 @if(showManageWallModal) {

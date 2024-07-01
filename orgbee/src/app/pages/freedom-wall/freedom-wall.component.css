@@ -15,6 +15,7 @@ body {
   justify-content: space-between;
   gap: 10px;
   align-items: center;
+  
 }
 
 .header {
@@ -523,6 +524,37 @@ h4 {
 .filter-message p {
   margin-left: 10px;
 }
+
+.show-container {
+  position: relative;
+  width: 100%;
+}
+
+.spinner-overlay {
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.633); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; 
+}
+
+.mat-spinner {
+  width: 100px; 
+  height: 100px;
+}
+
+button:disabled {
+  background-color: #ccc; 
+  color: #666;
+  cursor: not-allowed; 
+}
+
 
 @media (max-width: 766px) { 
   .top {

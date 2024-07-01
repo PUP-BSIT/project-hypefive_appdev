@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
@@ -8,16 +8,19 @@ import { Response } from '../../app.component';
 import { LoginService, UserInfo } from '../../../service/login.service';
 import { ConfirmationDialogService } from '../../../service/confirmation-dialog.service';
 import { SpinnerService } from '../../../service/spinner.service';
+import {NgxMasonryComponent}  from "ngx-masonry";
+
 export interface Post {
   subject: string;
   content: string;
   background_color: string;
   showOptions?: boolean;
   id?: number; // for sample only
-  post_status_id:number; //Update to status
-  student_id:number;
-  deletion_req_count?:number;
+  post_status_id: number; //Update to status
+  student_id: number;
+  deletion_req_count?: number;
 }
+
 
 @Component({
   selector: 'app-freedom-wall',
@@ -26,6 +29,7 @@ export interface Post {
 })
 
 export class FreedomWallComponent implements OnInit {
+  @ViewChild(NgxMasonryComponent) masonry: NgxMasonryComponent;
   posts: Post[];
   showModal = false;
   selectedPost: Post;
@@ -41,7 +45,7 @@ export class FreedomWallComponent implements OnInit {
   deletePostCount = 0;
   manageWallCount = 0;
   showFilterMessage: boolean = false;
-
+  showSpinner = false;
   userInfo: UserInfo;
   requestDelete:Post[];
   constructor(
@@ -71,7 +75,21 @@ export class FreedomWallComponent implements OnInit {
     this.getDeletionRequests();
     
   }
-
+  reloadMasonryLayout() {
+    if (this.masonry) {
+      this.masonry.reloadItems(); 
+      this.masonry.layout(); 
+      
+    }
+  }
+  
+  isCurrentUserPost(post: Post): boolean {
+    console.log('Post:', post);
+    console.log('Current User ID:', this.userInfo.id);
+    return post.student_id === this.userInfo.id;
+  }
+  
+  
   updateTitleCharacterCount(): void {
     const subjectControl = this.freedomwallForm.get('newPostTitle');
     if (subjectControl && subjectControl.value.length > 30) {
@@ -127,9 +145,13 @@ export class FreedomWallComponent implements OnInit {
           toastClass: 'custom-toast error'
         });
       }
-      this.showPosts();
+      if (this.showFilterMessage) {
+        this.filterPostsByUser();
+      } else {
+        this.showPosts();
+      }
       this.loadPendingPosts();
-    }, 500); // Adjust timeout delay as needed
+    }, 500);
   });
 
   this.freedomwallForm.reset();
@@ -140,7 +162,6 @@ export class FreedomWallComponent implements OnInit {
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
-      console.log(this.posts);
     });
   }
 
@@ -185,32 +206,39 @@ export class FreedomWallComponent implements OnInit {
   }
 
   deletePost(id: number) {
-    this.confirmationDialogService.confirmAction('Delete Confirmation', 'This action cant be undone. Are you sure you want to delete this post?', () => {
-    this.spinnerService.show('Deleting post...')
-    const post_id = { id: id };
-    this.dataService.deletePosts(post_id).subscribe((res: Response) => {
-      this.response = res;
-      setTimeout(() => {
-        this.spinnerService.hide();
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      this.showPosts();
-      this.getDeletionRequests();
-    }, 500);
+    this.confirmationDialogService.confirmAction('Delete Confirmation', 'This action can\'t be undone. Are you sure you want to delete this post?', () => {
+      this.spinnerService.show('Deleting post...');
+      const post_id = { id: id };
+      this.dataService.deletePosts(post_id).subscribe((res: Response) => {
+        this.response = res;
+        setTimeout(() => {
+          this.spinnerService.hide();
+          if (this.response.code === 200) {
+            this.toastr.success(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast success'
+            });
+          } else {
+            this.toastr.error(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast error'
+            });
+          }
+          
+          // Update posts based on filter status
+          if (this.showFilterMessage) {
+            this.posts = this.posts.filter(post => post.id !== id);
+            this.reloadMasonryLayout();
+          } else {
+            this.showPosts();
+          }
+          this.getDeletionRequests();
+        }, 500);
+      });
     });
-  });
-}
+  }
 
   openManageWallModal() {
     this.showManageWallModal = true;
@@ -250,58 +278,81 @@ export class FreedomWallComponent implements OnInit {
     }
   }
 
-  approvePost(postId: number) {
-    this.confirmationDialogService.confirmAction('Approve Confirmation', 'This action cant be undone. Are you sure you want to approve this post?', () => {
-    const post_id = { id: postId };
-    this.spinnerService.show('Approving post...')
-    this.dataService.acceptPost(post_id).subscribe((res: Response)=>{
-      this.response =res;
-      setTimeout(() => {
-        this.spinnerService.hide();
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      console.log(this.response);
-      this.showPosts();
-      this.loadPendingPosts();
-    },500)
+  approvePost(postId: number): void {
+    this.confirmationDialogService.confirmAction('Approve Confirmation', 'This action can\'t be undone. Are you sure you want to approve this post?', () => {
+      const post_id = { id: postId };
+      this.spinnerService.show('Approving post...');
+      this.dataService.acceptPost(post_id).subscribe(
+        (res: Response) => {
+          this.response = res;
+          setTimeout(() => {
+            this.spinnerService.hide();
+            if (this.response.code === 200) {
+              this.toastr.success(JSON.stringify(this.response.message), '', {
+                timeOut: 2000,
+                progressBar: true,
+                toastClass: 'custom-toast success'
+              });
+              // Refresh posts based on current view
+              if (this.showFilterMessage) {
+                this.showPosts();
+                this.filterPostsByUser();
+              } else {
+                this.showPosts();
+              }
+              this.loadPendingPosts(); // Refresh pending posts
+            } else {
+              this.toastr.error(JSON.stringify(this.response.message), '', {
+                timeOut: 2000,
+                progressBar: true,
+                toastClass: 'custom-toast error'
+              });
+            }
+          }, 500);
+        },
+        (error) => {
+          this.toastr.error('An error occurred while approving the post.', '', {
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast error'
+          });
+          console.error('Error approving post:', error);
+          this.spinnerService.hide();
+        }
+      );
     });
-  });
-}
-
+  }
+  
   declinePost(postId: number) {
     this.confirmationDialogService.confirmAction('Decline Confirmation', 'This action cant be undone. Are you sure you want to decline this post?', () => {
-    const post_id = { id: postId };
-    this.dataService.declinePost(post_id).subscribe((res: Response)=>{
-      this.response =res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      this.showPosts();
-      this.loadPendingPosts();
+      const post_id = { id: postId };
+      this.dataService.declinePost(post_id).subscribe((res: Response) => {
+        this.response = res;
+        setTimeout(() => {
+          if (this.response.code === 200) {
+            this.toastr.success(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast success'
+            });
+          } else {
+            this.toastr.error(JSON.stringify(this.response.message), '', {
+              timeOut: 2000,
+              progressBar: true,
+              toastClass: 'custom-toast error'
+            });
+          }
+  
+          if (this.showFilterMessage) {
+            this.filterPostsByUser();
+          } else {
+            this.showPosts();
+          }
+          this.loadPendingPosts();
+        }, 500);
+      });
     });
-  });
-}
+  }
 
   showRequestToDeleteModal=false;
   openRequestToDeleteModal(){
@@ -371,12 +422,24 @@ export class FreedomWallComponent implements OnInit {
 
   filterPostsByUser(): Post[] {
     this.showFilterMessage = true;
+    this.showSpinner = true; 
+    this.reloadMasonryLayout(); 
+    setTimeout(() => {
+      this.showSpinner = false;
+
+    }, 1000); 
     return this.posts.filter(post => post.student_id === this.userInfo.id);
+    
   }
 
   clearFilter(): void {
     this.showFilterMessage = false;
-    this.showPosts(); // Update posts
+    this.showSpinner = true; 
+    this.showPosts(); 
+  
+    setTimeout(() => {
+      this.reloadMasonryLayout(); 
+      this.showSpinner = false;
+    }, 1000); 
   }
-
 }
