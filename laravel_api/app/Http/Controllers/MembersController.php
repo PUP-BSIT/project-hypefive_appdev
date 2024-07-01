@@ -29,6 +29,7 @@ class MembersController extends Controller {
       ->where('students.id', '!=', 1)
       //Fetch students with an account_status of pending
       ->where('users.account_status_id', "=", 1)
+      ->where('users.is_verified', true)
       ->get(['students.*', 'icons.icon_location']);
 
     return response()->json($students, 200);
