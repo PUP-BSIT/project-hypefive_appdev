@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { MustMatch } from './confirmed.validator';
+import { SpinnerService } from '../../service/spinner.service';
 
 import { catchError, of, map } from 'rxjs';
 interface ResponseData {
@@ -36,7 +37,8 @@ export class LoginComponent implements OnInit {
     private dataService: DataService, 
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute, 
+    private spinnerService: SpinnerService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -84,15 +86,6 @@ export class LoginComponent implements OnInit {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
 
-  }
-
-  incrementProgress() {
-    const interval = setInterval(() => {
-      this.loadingProgress += 20;
-      if (this.loadingProgress >= 100) {
-        clearInterval(interval);
-      }
-    }, 200);
   }
 
   get emailControl() {
@@ -191,11 +184,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.loginForm.valid) return;
+    this.spinnerService.show('Logging in...');
+    if (!this.loginForm.valid) {
+      this.spinnerService.hide();
+      return;
+    }
   
     this.dataService.login(this.loginForm.value)
         .subscribe((res: ResponseData)=>{
       this.data = res;
+      this.spinnerService.hide();
       if (this.data.status === 1) {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
@@ -214,6 +212,7 @@ export class LoginComponent implements OnInit {
         });
       }
     });
+
   }
 
   showSignupPopup() {
@@ -226,11 +225,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSignupSubmit() {
-    if (!this.signupForm.valid) return;
+    this.spinnerService.show('Creating account...');
+    if (!this.signupForm.valid) {
+      this.spinnerService.hide();
+      return;
+    }
 
     this.dataService.registerUser(this.signupForm.value)
       .subscribe((res: ResponseData)=>{
         this.data = res;
+        this.spinnerService.hide();
         if(this.data.status === 1) {
           this.toastr.success(JSON.stringify(this.data.message), 
             JSON.stringify(this.data.code),{

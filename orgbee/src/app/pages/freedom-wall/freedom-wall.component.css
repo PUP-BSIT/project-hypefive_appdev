@@ -141,7 +141,7 @@ body {
   cursor: pointer;
   margin: 5px; 
   width: calc((100% - 40px) / 4); 
-  min-width: 120px;
+  min-width: 85px;
 }
 
 .masonry-container {
@@ -605,4 +605,10 @@ button:disabled {
     margin-right: 37%;
   }
   
+  @media screen and (max-width: 460px) {
+    .masonry-item {
+      width: calc((100% - 30px) / 3); 
+      min-width: 80px; 
+    }
+  }
 }

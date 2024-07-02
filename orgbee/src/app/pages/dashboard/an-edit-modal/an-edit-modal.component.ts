@@ -18,7 +18,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @Output() announcementUpdated: EventEmitter<Announcement> = new EventEmitter<Announcement>();
   announcementForm: FormGroup;
-  userInfo: UserInfo | null = null;
+  userInfo: UserInfo;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -93,19 +93,19 @@ export class AnEditModalComponent implements OnInit, OnChanges {
           student_id: currentUserId
         };
         this.spinnerService.show('Updating announcement...')
-        this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe(
-          (updatedAnnouncementResponse: Announcement) => {
+        this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe({
+          next: (updatedAnnouncementResponse: Announcement) => {
             this.announcementUpdated.emit(updatedAnnouncementResponse);
             this.closeModal.emit();
             this.announcementForm.reset();
             this.spinnerService.hide();
               this.showSnackBar('Announcement updated successfully.', 'success');
             },
-            (error) => {
+            error: (error) => {
               this.spinnerService.hide();
               this.showSnackBar('Error updating announcement. Please try again later.', 'error');
             }
-          );
+      });
         } else {
           this.spinnerService.hide();
           this.showSnackBar('Error updating announcement. Please try again later.', 'error');
