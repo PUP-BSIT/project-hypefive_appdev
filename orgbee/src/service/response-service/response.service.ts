@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export interface Response {
   message: string;
-  code: number;
+  code?: number;
 }
 
 @Injectable()
@@ -26,5 +26,21 @@ export class ResponseService {
         toastClass: 'custom-toast error'
       });
     }
+  }
+
+  handleSuccess(response: string){
+    this.toastr.success(JSON.stringify(response), '', {
+      timeOut: 2000,
+      progressBar: true,
+      toastClass: 'custom-toast success'
+    });
+  }
+
+  handleError(response: string){
+    this.toastr.error(JSON.stringify(response), '', {
+      timeOut: 2000,
+      progressBar: true,
+      toastClass: 'custom-toast error'
+    });
   }
 }
