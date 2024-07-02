@@ -588,7 +588,7 @@ button:disabled {
 
   .input-wrapper {
     display: flex;
-    width: 320%;
+    width: 100%;
   }
 
   .post-card {
