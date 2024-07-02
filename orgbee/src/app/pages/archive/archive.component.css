@@ -307,6 +307,12 @@ h2 {
   .modal {
     height: auto;
   }
+
+  .search-results {
+    width: 50%;
+    margin-top: 3px;
+  }
+  
 }
 
 .no-request {
