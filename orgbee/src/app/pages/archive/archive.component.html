@@ -1,7 +1,9 @@
 <div class="archive-page">
   <div class="container">
     <div class="header">
-      <app-header [title]="'Archive'" [showImage]="false" [height]="'shorter-height'"></app-header>
+      <app-header [title]="'Archive'" 
+        [showImage]="false" 
+        [height]="'shorter-height'"></app-header>
     </div>
 
     <div class="row">
@@ -13,11 +15,14 @@
         <div class="page">
           @if(events.length === 0) {
             <ng-container>
-              <p class="no-request">Events that have already ended will be viewed here.</p>
+              <p class="no-request">
+                Events that have already ended will be viewed here.
+              </p>
             </ng-container>
           } 
-          @for(event of events.slice(currentSlide, currentSlide + 3); track
-            events) {
+
+          @for(event of events.slice(currentSlide, currentSlide + 3); 
+            track event.id) {
               <div class="archive-event" (click)="eventClick(event)">
                 <!-- Temporary -->
                 <img src="{{imgPath}}{{event.poster_loc}}" />
@@ -45,18 +50,21 @@
               formControlName="keyword"
               (input)="seeResults()"
               (blur)="exitSearch()"/>
+
             @if(isSearchResult) {
               <div class="search-results">
                 @if(response) {
                   <div id="search_results">
                     <li>{{ response.message }}</li>
                   </div>
-                } @for(retrievedEvent of retrievedEvent; track retrievedEvent) {
-                  <div
-                    id="search_results"
-                    (mousedown)="searchClick(retrievedEvent)">
-                      <li>{{ retrievedEvent.event_name }}</li>
-                  </div>
+                } 
+                @for(retrievedEvent of retrievedEvent; 
+                  track retrievedEvent.id) {
+                    <div
+                      id="search_results"
+                      (mousedown)="searchClick(retrievedEvent)">
+                        <li>{{ retrievedEvent.event_name }}</li>
+                    </div>
                 }
               </div>
             }
@@ -75,7 +83,7 @@
                 <p class="no-request">No archives yet.</p>
               </ng-container>
             } 
-            @for(event of oldEvents; track oldEvents) {
+            @for(event of oldEvents; track event.id) {
               <div class="event-list-table">
                 <div (click)="eventClick(event)">
                   <td>{{ event.event_name }}</td>
@@ -96,7 +104,6 @@
       <span class="close" (click)="closeModal()">&times;</span>
       @for(detail of selectedEvent; track selectedEvent){
         <div class="modal-event">
-          <!-- Temporary -->
           <img src="{{imgPath}}{{detail.poster_loc}}" />
         </div>
         <div class="modal-details">

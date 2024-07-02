@@ -36,16 +36,17 @@
           id = "password"
           placeholder="Password"
           formControlName="password"/>
-        @if(passwordControl.invalid && passwordControl.touched) {
+        @if(passwordControl.invalid && passwordControl.touched && 
+          passwordControl.errors?.['required']) {
           <div class="inc">
-            @if(passwordControl.errors?.['required']) {
               <div>Password is Required.</div>
-            }
           </div>
         }
       </div>
         <a class="forgot-pass" routerLink="/forgot-pass"> Forgot password?</a>
-      <button type="submit">Log In to OrgBee</button>
+      <button type="submit" [disabled]="loginForm.invalid">
+        Log In to OrgBee
+      </button>
 
       <h4>
         Don't have an account?
@@ -180,11 +181,10 @@
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-              @if(genderControl.invalid && genderControl.touched) {
+              @if(genderControl.invalid && genderControl.touched && 
+                genderControl.errors?.['required']) {
                 <div class="inc">
-                   @if(genderControl.errors?.['required']) {
-                    <div>Gender is required</div>
-                  }
+                  <div>Gender is required</div>
                 </div>
               }
             </div>
