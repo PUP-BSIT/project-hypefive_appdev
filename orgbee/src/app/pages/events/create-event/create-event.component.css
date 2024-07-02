@@ -8,7 +8,7 @@
   height: 125%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
-  margin-top: -5%;
+  margin-top: -9%;
 }
 
 .modal.visible {
@@ -222,8 +222,8 @@ button:hover {
 }
 
 .event-preview img {
-  max-width: 30%; 
-  height: auto; 
+  width: 100px;
+  height: 100px;
   border-radius: 10px; 
   margin: 0%;
 }
@@ -237,7 +237,7 @@ button:hover {
 .event-preview p {
   font-size: 12px; 
   margin: 5px 0; 
-  color: #666; 
+  color: #333; 
   word-wrap: break-word; 
   overflow-wrap: break-word;
 }
@@ -268,4 +268,26 @@ button:hover {
 .inc {
   font-size: 12px;
   color: red;
+}
+
+@media (max-width: 576px) { 
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content {
+    width: 70%;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) { 
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content {
+    width: 70%;
+    height: auto;
+  }
 }
