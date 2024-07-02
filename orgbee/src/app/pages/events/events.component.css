@@ -98,9 +98,7 @@ app-header {
   height: 35%;
   margin: 10px;
   display: flex;
-  overflow: hidden;
-  overflow-y: auto; 
-  scrollbar-width: none; 
+  overflow: hidden; 
 }
 
 .event-img img {
@@ -244,10 +242,11 @@ app-header {
   }
 
   .registered-icon {
-    font-weight: 5px;
+    font-size: 10px;
   }
 
   .registered-text {
+    font-size: 10px; 
     margin-left: 3%;
     white-space: nowrap; 
   }
@@ -318,7 +317,12 @@ app-header {
     margin-left: -10%;
   }
 
+  .registered-icon {
+    font-size: 10px;
+  }
+
   .registered-text {
+    font-size: 10px; 
     margin-left: 3%;
     white-space: nowrap; 
   }
@@ -388,7 +392,12 @@ app-header {
     margin-left: -10%;
   }
 
+  .registered-icon {
+    font-size: 10px;
+  }
+
   .registered-text {
+    font-size: 10px; 
     margin-left: 3%;
     white-space: nowrap; 
   }
