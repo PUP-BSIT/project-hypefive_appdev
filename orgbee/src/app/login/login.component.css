@@ -169,8 +169,8 @@ button:hover {
 }
 
 .forgot-pass {
-  color: inherit; /* or color: black; to remove any inherited color */
-  text-decoration: none; /* to remove underline if any */
+  color: inherit;
+  text-decoration: none; 
   margin-bottom: 35px;
   font-size: 12px;
 }
@@ -191,7 +191,8 @@ button:hover {
   
   .form {
     width: 90%;
-    padding: 15px;
+    padding: 0;
+    height: auto;
   }
 
   .form-row {
@@ -203,6 +204,7 @@ button:hover {
     width: 70%;
     padding: 10px;
     padding-left: 6%;
+    height: 60%;
   }
   
   .form button, .popup-content button {
@@ -225,10 +227,20 @@ button:hover {
     height: 30%;
   }
 
+  .popup {
+    position: absolute;
+  }
+
+  .popup form {
+    height: 60%;
+    margin-top: -20%;
+  }
+
   .popup-content {
     width: 70%;
     padding: 10px;
     padding-left: 6%;
+    height: 80%;
   }
   
   .form button, .popup-content button {

@@ -13,6 +13,16 @@ export class DataService {
     return this.http.post(this.apiUrl +'api/register/', data);
   }
 
+  searchEmail(data) {
+    return this.http.get(this.apiUrl +
+        `api/signup/search_email?search_email=${data}`);
+  }
+
+  searchStudentNum(data) {
+    return this.http.get(this.apiUrl +
+        `api/signup/search_student_num?search_student_num=${data}`);
+  }
+
   login(data) {
     return this.http.post(this.apiUrl +'api/login/', data);
   }

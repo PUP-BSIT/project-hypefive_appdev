@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('student_id');
             $table->boolean('is_registered')->default(true); 
+            $table->timestamps();
 
             $table->foreign('event_id')->references('id')->on('events')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');

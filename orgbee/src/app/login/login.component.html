@@ -120,6 +120,9 @@
                     @if(studentNumberControl.errors?.['pattern']) {
                       <div>Invalid student number format. </div>
                     }
+                    @if(studentNumberControl.errors?.['studentNumExists']) {
+                      <div>Student number already exists</div>
+                    }
                   </div>
               }
             </div>
@@ -137,6 +140,9 @@
                   }
                   @if(signUpEmailControl.errors?.['email']) {
                     <div>Invalid Email format.</div>
+                  }
+                  @if(signUpEmailControl.errors?.['emailExists']) {
+                    <div>Email already exists.</div>
                   }
                 </div>
               }

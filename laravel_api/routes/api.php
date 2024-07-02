@@ -27,6 +27,12 @@ Route::post('/login', [StudentsController::class, 'login'])->name('api.login');
 
 Route::post('/verify', [EmailVerificationController::class, 'verify']);
 
+Route::get('/signup/search_email', [SearchController::class, 'searchEmail'])
+  ->name('api.searchEmail');
+
+Route::get('/signup/search_student_num', [SearchController::class, 
+  'searchStudentNumber'])->name('api.search_student_num');
+
 //Announcement Page Controllers
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
 Route::post('/announcements', [Announce::class, 'createAnnouncement']);
@@ -37,8 +43,7 @@ Route::delete('/announcements/{announcement}', [Announce::class,
                        
 //Homepage Controllers
 //User Data
-Route::get('/retrieve/{id}&{email}', 
-  [StudentsController::class, 'retrieve']);
+Route::get('/retrieve/{id}&{email}', [StudentsController::class, 'retrieve']);
 
 //Update Icon
 Route::put('students/update-icon', [StudentsController::class, 'updateIcon']);
@@ -131,10 +136,11 @@ Route::post('/deletionRequest', [FreedomWallController::class, 'deletionRequest'
 
 Route::post('/declineDeletionRequest', [FreedomWallController::class, 
   'declineDeletionRequest'])->name('api.declineDeletionRequest'); 
+
+//Events Page Controllers
 Route::post('/createEvent', [EventsController::class, 'createEvent'])
   ->name('api.createEvent');
 
-//Events Page Controllers
 Route::get('/getUpcomingEvents', [EventsController::class, 'getUpcomingEvents'])
   ->name('api.getUpcomingEvents');
 

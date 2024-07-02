@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use App\Models\Events;
+use App\Models\User;
 
 class SearchController extends Controller {
   public function searchArchive(Request $request) {
@@ -42,5 +43,36 @@ class SearchController extends Controller {
     }
 
     return $results;
+  }
+
+  public function searchEmail(Request $request) {
+    $query = User::query();
+    $keyword = $request->input('search_email');
+
+    if ($keyword) {
+      $query->whereRaw("email LIKE '%" . $keyword . "%' ");
+    }
+
+    $results = $query->get();
+
+    if ($results->isNotEmpty()) {
+      return response()->json('Email already exists');
+    } 
+
+  }
+
+  public function searchStudentNumber(Request $request) {
+    $query = Students::query();
+    $keyword = $request->input('search_student_num');
+
+    if ($keyword) {
+      $query->whereRaw("student_number LIKE '%" . $keyword . "%' ");
+    }
+
+    $results = $query->get();
+
+    if ($results->isNotEmpty()) {
+      return response()->json('Student already exists');
+    } 
   }
 }
