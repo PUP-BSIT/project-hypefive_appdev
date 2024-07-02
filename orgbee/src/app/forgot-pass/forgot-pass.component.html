@@ -5,7 +5,7 @@
 <div class="auth-container">
   <!-- Step 1: Enter Email -->
   @if(step === 1){
-  <h1>Forgot Password?</h1>
+  <h1 id="forgot_title">Forgot Password?</h1>
   <p>Enter your email and we will send you verification code</p>
   <form [formGroup]="emailForm" (ngSubmit)="sendVerificationCode()">
     <div class="input-field">
@@ -27,7 +27,7 @@
 
   <!-- Step 2: Enter Verification Code -->
   @if(step === 2){
-  <h1>Verification Code</h1>
+  <h1 id="code_title">Verification Code</h1>
   <form [formGroup]="codeForm" (ngSubmit)="verifyCode()">
     <div class="input-field">
       <label id="code_label" for="code">Enter Code</label>
