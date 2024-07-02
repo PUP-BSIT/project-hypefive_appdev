@@ -6,6 +6,12 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin-top: 0px;
+}
+
+.members-page {
+  height: 100%;
+  height:100%;
+  overflow-y: auto;
   padding: 15px;
 }
 
@@ -35,7 +41,7 @@ body {
   border-radius: 20px;
   padding: 10px;
   background-color: #eeeeed;
-  height: 500px;
+  height: 140%;
   margin-top: -23%;
 }
 
@@ -67,7 +73,7 @@ body {
   margin-top: -35px;
   padding-bottom: 20px;
   margin-top: 2%;
-  margin-left: 2%;
+  margin-left: 5%;
   margin-right: 2%;
   height: 300px;
 }
@@ -129,7 +135,7 @@ body {
   padding: 10px;
   align-items: center;
   margin-right: 2%;
-  margin-left: 2%;
+  margin-left: 5%;
   height: 300px;
 }
 
@@ -171,8 +177,9 @@ body {
 }
 
 #search_container {
-  width: 100%;
+  width: 80%;
   margin-top: 20px;
+  margin-left: 10%;
   margin-bottom: 0px 20px;
   display: flex;
   justify-content: center;
@@ -197,7 +204,7 @@ body {
   border-radius: 10px;
   border: 1px solid #ccc;
   overflow-y: auto;
-  width: 15%;
+  width: 40%;
   margin-top: 3px;
 }
 
@@ -370,6 +377,11 @@ button.modal-member-button:hover {
   .membership-request {
     margin-top: 2%;
     margin-bottom: 20%;
+    margin-left: 2%;
+  }
+
+  .officers {
+    margin-left: 2%;
   }
 
   .members {
@@ -431,7 +443,7 @@ button.modal-member-button:hover {
 
   .members {
     height: 450px;
-    margin-top: -100%;
+    margin-top: -200%;
   }
 }
 
@@ -441,7 +453,7 @@ button.modal-member-button:hover {
   }
 
   .members {
-    margin-top: -18%;
+    margin-top: -15%;
   }
 }
 
@@ -451,7 +463,7 @@ button.modal-member-button:hover {
   }
 
   .members {
-    margin-top: -18%;
+    margin-top: -17%;
   }
 }
 
@@ -461,6 +473,7 @@ button.modal-member-button:hover {
   }
 
   .members {
+    position: static;
     margin-top: -15%;
   }
 }

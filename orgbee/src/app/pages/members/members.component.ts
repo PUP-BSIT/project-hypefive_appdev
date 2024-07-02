@@ -8,6 +8,7 @@ import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { SpinnerService } from '../../../service/spinner.service';
 
 export interface Member {
   first_name: string;
@@ -44,7 +45,8 @@ export class MembersComponent implements OnInit {
     private toastr: ToastrService,
     private fb:FormBuilder,
     public dialog: MatDialog,
-   private loginService: LoginService) {}
+    private loginService: LoginService,
+    private spinnerService: SpinnerService) {}
 
   ngOnInit(): void{
     this.searchMember = this.fb.group({keyword:['']});
@@ -79,10 +81,14 @@ export class MembersComponent implements OnInit {
   }
 
   acceptRequest(student_number: string) {
+    this.confirmAction('Accept Confirmation', 'Are you sure you want to accept this membership request?', () => {
+    this.spinnerService.show('Accepting membership request...')
     const data = {student_number: student_number };
     
     this.dataService.acceptMember(data).subscribe((res: Response) => {
       this.response = res;
+      setTimeout(() => {
+        this.spinnerService.hide();
       if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '',{
           timeOut: 2000,
@@ -99,16 +105,19 @@ export class MembersComponent implements OnInit {
 
       this.showRequest();
       this.showMembers();
+    }, 500);
     });
-    
+  });
   }
 
   declineRequest(student_number: string) {
     this.confirmAction('Decline Confirmation', 'Are you sure you want to decline this membership request?', () => {
+    this.spinnerService.show('Declining membership request...')
     const data = {student_number: student_number };
-
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
+      setTimeout(() => {
+        this.spinnerService.hide();
       if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '',{
           timeOut: 2000,
@@ -125,6 +134,7 @@ export class MembersComponent implements OnInit {
       
       this.showRequest();
       this.showRequest();
+    }, 500);
     });
   });
 }
@@ -169,9 +179,11 @@ export class MembersComponent implements OnInit {
   removeMember() {
   this.confirmAction('Confirm Removal', 'Are you sure you want to remove this member?', () => {
     const data = { student_number: this.student_num };
-
+    this.spinnerService.show('Removing member...')
     this.dataService.declineMember(data).subscribe((res: Response) => {
       this.response = res;
+      setTimeout(() => {
+        this.spinnerService.hide();
       if (this.response.code === 200) {
         this.toastr.success(JSON.stringify(this.response.message), '', {
           timeOut: 2000,
@@ -193,6 +205,7 @@ export class MembersComponent implements OnInit {
 
       this.showMembers(); // Refresh members list
       this.showOfficers(); // Refresh officers list
+    }, 500);
     });
   });
 }
@@ -201,26 +214,30 @@ export class MembersComponent implements OnInit {
   promoteToOfficer() {
     this.confirmAction('Confirm Promotion', 'Are you sure you want to promote this member to officer?', () => {
     const data = {student_number: this.student_num };
-    
+    this.spinnerService.show('Promoting member...');
     this.dataService.promoteToOfficer(data).subscribe((res: Response) => {
       this.response = res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '',{
-          timeOut: 2000,
-          progressBar:true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message),'',{
-          timeOut: 2000,
-          progressBar:true,
-          toastClass: 'custom-toast error'
-        });
-      }
+       setTimeout(() => {
+        this.spinnerService.hide();
+        if (this.response.code === 200) {
+          this.toastr.success(JSON.stringify(this.response.message), '',{
+            timeOut: 2000,
+            progressBar:true,
+            toastClass: 'custom-toast success'
+          });
+        } else {
+          this.toastr.error(JSON.stringify(this.response.message),'',{
+            timeOut: 2000,
+            progressBar:true,
+            toastClass: 'custom-toast error'
+          });
+        }
+  
+        this.showModalMember = false;
+        this.showOfficers();
+        this.details=[]; 
+        }, 500);
 
-      this.showModalMember = false;
-      this.showOfficers();
-      this.details=[]; 
     });
   });
 }
@@ -228,27 +245,30 @@ export class MembersComponent implements OnInit {
   demoteToMember() {
     this.confirmAction('Confirm Demotion', 'Are you sure you want to demote this officer?', () => {
     const data = {student_number: this.student_num };
-    
+    this.spinnerService.show('Demoting to member...')
     this.dataService.demoteToMember(data).subscribe((res: Response) => {
       this.response = res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '',{
-          timeOut: 2000,
-          progressBar:true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message),'',{
-          timeOut: 2000,
-          progressBar:true,
-          toastClass: 'custom-toast error'
-        });
-      }
-
-      this.showModalMember = false;
-      this.showModalOfficer = false;
-      this.showOfficers();
-      this.details=[]; 
+      setTimeout(() => {
+        this.spinnerService.hide();
+        if (this.response.code === 200) {
+          this.toastr.success(JSON.stringify(this.response.message), '',{
+            timeOut: 2000,
+            progressBar:true,
+            toastClass: 'custom-toast success'
+          });
+        } else {
+          this.toastr.error(JSON.stringify(this.response.message),'',{
+            timeOut: 2000,
+            progressBar:true,
+            toastClass: 'custom-toast error'
+          });
+        }
+  
+        this.showModalMember = false;
+        this.showModalOfficer = false;
+        this.showOfficers();
+        this.details=[]; 
+      }, 500);
     });
   });
 }

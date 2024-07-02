@@ -4,6 +4,8 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../../service/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpinnerService } from '../../../../service/spinner.service';
 
 @Component({
   selector: 'app-an-edit-modal',
@@ -21,7 +23,9 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private snackBar: MatSnackBar,
+    private spinnerService: SpinnerService
   ) {}
 
   updateSubjectCharacterCount(): void {
@@ -88,24 +92,33 @@ export class AnEditModalComponent implements OnInit, OnChanges {
           recipient: this.announcementForm.get('recipient')?.value,
           student_id: currentUserId
         };
-
+        this.spinnerService.show('Updating announcement...')
         this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe(
           (updatedAnnouncementResponse: Announcement) => {
             this.announcementUpdated.emit(updatedAnnouncementResponse);
             this.closeModal.emit();
             this.announcementForm.reset();
-            console.log('Announcement updated successfully.');
-          },
-          (error) => {
-            console.error('Error updating announcement:', error);
-          }
-        );
+            this.spinnerService.hide();
+              this.showSnackBar('Announcement updated successfully.', 'success');
+            },
+            (error) => {
+              this.spinnerService.hide();
+              this.showSnackBar('Error updating announcement. Please try again later.', 'error');
+            }
+          );
+        } else {
+          this.spinnerService.hide();
+          this.showSnackBar('Error updating announcement. Please try again later.', 'error');
+        }
       } else {
-        console.error('Error extracting user ID from token.');
-        alert('Error updating announcement. Please try again later.');
+        this.announcementForm.markAllAsTouched();
       }
-    } else {
-      this.announcementForm.markAllAsTouched();
     }
-  }
+
+    private showSnackBar(message: string, panelClass: string) {
+      this.snackBar.open(message, '', {
+        duration: 2000,
+        panelClass: ['custom-snackbar', panelClass] 
+      });
+    }
 }

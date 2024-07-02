@@ -93,6 +93,13 @@ class StudentsController extends Controller {
 
     $user = auth()->user();
 
+    if (!$user->is_active) {
+      $response['status'] = 0;
+      $response['code'] = 401;
+      $response['message'] = 'Your account is deactivated.';
+      return response()->json($response);
+  }
+
     // Check the account status of the user
     if ($user->account_status_id != 2) {
       $response['status'] = 0;
@@ -100,6 +107,9 @@ class StudentsController extends Controller {
       $response['message'] = 'Please wait for the confirmation';
       return response()->json($response);
     }
+
+    $user->last_active_at = now();
+    $user->save();
 
     $data['token'] = auth()->claims([
       'user_id' => $user->id,
@@ -112,6 +122,23 @@ class StudentsController extends Controller {
     $response['message'] = 'Login successful';
 
     return response()->json($response);
+  }
+
+  public function deactivateUser(Request $request, $id){
+    $request->validate([
+      'password' => 'required|string'
+    ]);
+
+    $user = User::findOrFail($id);
+
+    if (!Hash::check($request->password, $user->password)) {
+      return response()->json(['message' => 'Invalid password'], 403);
+    }
+
+    $user->is_active = false;
+    $user->save();
+
+    return response()->json(['message' => 'User deactivated successfully'], 200);
   }
 
   public function sendVerificationEmail($student) {
@@ -186,6 +213,79 @@ class StudentsController extends Controller {
     } else {
       return response()->json(['message' => 'Failed to update icon ID'], 500);
     }
+  }
+
+  public function updateUserInfo(Request $request)
+  {
+  try {
+    $user = JWTAuth::parseToken()->authenticate();
+    } catch (TokenExpiredException $e) {
+      return response()->json(['message' => 'Token expired'], 401);
+    } catch (TokenInvalidException $e) {
+       return response()->json(['message' => 'Token invalid'], 401);
+   } catch (JWTException $e) {
+       return response()->json(['message' => 'Token absent'], 401);
+    }
+  
+      $user_id = $user->id;
+      $validatedData = $request->validate([
+          'first_name' => 'required|string|max:255',
+          'last_name' => 'required|string|max:255',
+          'birthday' => 'required|date',
+          'gender' => 'required|in:male,female,other',
+          'student_number' => [
+              'required',
+              'regex:/^\d{4}-\d{5}-TG-0$/'
+          ],
+      ]);
+  
+      try {
+          $student = Students::where('user_id', $user_id)->first();
+  
+          if (!$student) {
+              return response()->json(['message' => 'No student record found for user_id: ' . $user_id], 404);
+          }
+  
+          $student->update($validatedData);
+  
+          return response()->json([
+              'message' => 'Student information updated successfully',
+              'updated_student' => $student
+          ], 200);
+      } catch (\Exception $e) {
+          return response()->json(['message' => 'Internal server error: ' . $e->getMessage()], 500);
+      }
+  }
+  
+  public function changePassword(Request $request)
+  {
+      try {
+          $token = JWTAuth::parseToken()->authenticate();
+      } catch (TokenExpiredException $e) {
+          return response()->json(['message' => 'Token expired'], 401);
+      } catch (TokenInvalidException $e) {
+          return response()->json(['message' => 'Token invalid'], 401);
+      } catch (JWTException $e) {
+          return response()->json(['message' => 'Token absent'], 401);
+      }
+  
+      $request->validate([
+          'current_password' => 'required',
+          'new_password' => 'required|min:8',
+          'confirm_password' => 'required|same:new_password',
+      ]);
+  
+      // Check if the current password same with user's password
+      if (!Hash::check($request->current_password, $token->password)) {
+          return response()->json(['message' => 'Current password is incorrect.'], 401);
+      }
+  
+      // Update the user's password
+      $user = User::find($token->id);
+      $user->password = Hash::make($request->new_password);
+      $user->save();
+  
+      return response()->json(['message' => 'Password updated successfully.']);
   }
 
   public function getTotalMembers() {

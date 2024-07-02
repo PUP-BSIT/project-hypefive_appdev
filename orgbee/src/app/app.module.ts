@@ -23,8 +23,6 @@ import { AnModalComponent }
   from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } 
   from './pages/dashboard/an-edit-modal/an-edit-modal.component';
-import { ProfileIconComponent } 
-  from './pages/dashboard/profile-icon/profile-icon.component';
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
 import { DataService } from '../service/data.service';
@@ -61,6 +59,13 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarDateFormatter } from 'angular-calendar';
 import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
+import { SettingsComponent } from './pages/dashboard/settings/settings.component';
+import { StepperComponent } from './pages/events/stepper/stepper.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { CreateEventComponent } from './pages/events/create-event/create-event.component';
+import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
+import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
+import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +80,6 @@ import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.c
     ArchiveComponent,
     AnModalComponent,
     AnEditModalComponent,
-    ProfileIconComponent,
     VerifyComponent,
     HomepageEventsComponent,
     AdminDataComponent,
@@ -84,7 +88,14 @@ import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.c
     ConfirmationDialogComponent,
     CalendarComponent,
     AdminTodayComponent,
-    LandingPageComponent
+    CreateEventComponent,
+    ManageEventComponent,
+    EditEventComponent,
+    LandingPageComponent,
+    SettingsComponent,
+    StepperComponent,
+    ProgressBarComponent,
+    CustomSpinnerComponent
   ],
   imports: [
     BrowserModule,

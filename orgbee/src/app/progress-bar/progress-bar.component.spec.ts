@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileIconComponent } from './profile-icon.component';
+import { ProgressBarComponent } from './progress-bar.component';
 
-describe('ProfileIconComponent', () => {
-  let component: ProfileIconComponent;
-  let fixture: ComponentFixture<ProfileIconComponent>;
+describe('ProgressBarComponent', () => {
+  let component: ProgressBarComponent;
+  let fixture: ComponentFixture<ProgressBarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileIconComponent]
+      declarations: [ProgressBarComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ProfileIconComponent);
+    fixture = TestBed.createComponent(ProgressBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

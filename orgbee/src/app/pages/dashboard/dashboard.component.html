@@ -1,3 +1,7 @@
+<div *ngIf="isLoading" class="spinner-overlay">
+  <mat-spinner diameter="50" color="primary"></mat-spinner>
+  <p>Loading...</p>
+</div>
 <div class="dashboard">
   <div class="content">
     <div class="header">
@@ -20,20 +24,27 @@
                 class="profile-menu"
                 xPosition="before"
                 yPosition="below">
-                <button
+                <!--TODO: Ternal, move to settings component-->
+                <!--<button
                   mat-menu-item
                   class="profile-menu-item"
                   (click)="toggleProfileIconEdit()">
                   <mat-icon class="profile-menu-icon">edit</mat-icon>
                   <span class="profile-menu-text">Change Profile</span>
+                </button>!-->
+                <button mat-menu-item (click)="toggleSettings()">
+                  <mat-icon mat-icon class="settings-menu-icon"
+                    >settings</mat-icon
+                  >
+                  <span class="profile-menu-text">Settings</span>
                 </button>
-    
                 <button mat-menu-item (click)="logout()">
                   <mat-icon mat-icon class="profile-menu-icon"
                     >exit_to_app</mat-icon
                   >
                   <span class="profile-menu-text">Logout</span>
                 </button>
+
               </mat-menu>
             </div>
           </div>
@@ -170,12 +181,10 @@
     (announcementCreated)="handleAnnouncementCreated($event)">
   </app-an-modal>
 
-  
-  <app-profile-icon
-  (avatarSaved)="updateUserInfo($event)"
-  (close)="handleProfileIconClose()"
-  [showProfileIconEdit]="showProfileIconEdit">
-</app-profile-icon>
+<app-settings
+(close)="handleSettingsClose()"
+  [showSettings] ="showSettings">
+</app-settings>
 
   <div *ngIf="loggingOut" class="spinner-overlay">
     <mat-spinner diameter="50" color="primary"></mat-spinner>

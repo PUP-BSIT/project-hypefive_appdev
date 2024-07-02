@@ -11,6 +11,7 @@ use App\Http\Controllers\FreedomWallController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\EmailVerificationController;
 
 use App\Http\Controllers\PasswordResetController;
 
@@ -24,6 +25,8 @@ Route::post('/register', [StudentsController::class, 'register'])
 
 Route::post('/login', [StudentsController::class, 'login'])->name('api.login');
 
+Route::post('/verify', [EmailVerificationController::class, 'verify']);
+
 //Announcement Page Controllers
 Route::get('/announcements', [Announce::class, 'getAnnouncements']);
 Route::post('/announcements', [Announce::class, 'createAnnouncement']);
@@ -34,11 +37,20 @@ Route::delete('/announcements/{announcement}', [Announce::class,
                        
 //Homepage Controllers
 //User Data
-Route::middleware('jwt.auth')->get('/retrieve/{id}&{email}', 
+Route::get('/retrieve/{id}&{email}', 
   [StudentsController::class, 'retrieve']);
 
 //Update Icon
 Route::put('students/update-icon', [StudentsController::class, 'updateIcon']);
+
+//Update Info
+Route::put('/update-student-info', [StudentsController::class, 'updateUserInfo'])
+   ->name('api.updateUserInfo');
+
+  //Update password
+Route::put('/change-password', [StudentsController::class, 'changePassword'])
+  ->name('api.changePassword');    
+
 Route::post('/registerEvent', [EventRegisterController::class, 'registerEvent'])
   ->name('api.registerEvent');
 
@@ -164,3 +176,6 @@ Route::post('auth/verify-code', [PasswordResetController::class,
   'verifyToken']);
 Route::post('auth/reset-password', [PasswordResetController::class, 
   'reset']);
+
+// Deactivate users
+Route::post('users/deactivate/{id}', [StudentsController::class, 'deactivateUser']);

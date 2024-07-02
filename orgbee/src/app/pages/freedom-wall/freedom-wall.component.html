@@ -6,16 +6,48 @@
   
     <div class="button-container">
       <button class="create-post-btn" (click)="toggleModal()">
-        <img  [src]="userInfo?.icon_path" >
-          Create an anonymous post</button>
-      @if (userInfo.role_id !==1) {
+        <img [src]="userInfo?.icon_path">
+        Create an anonymous post
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="dropdown-btn" (click)="onDropdownClick($event)">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+      </button>
+      
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="posts = filterPostsByUser()">
+          <mat-icon>visibility</mat-icon>
+          <span>See My Posts</span >
+        </button>
+      </mat-menu>
+      
+      @if (userInfo.role_id !== 1) {
         <div>
-          <button (click)="openRequestToDeleteModal()" class="delete-post-btn">Delete Post</button>
-          <button (click)="openManageWallModal()" class="manage-wall-btn">Manage Wall</button>
+          <div class="button-wrapper">
+            <button (click)="openRequestToDeleteModal()" class="delete-post-btn">
+              Delete Requests 
+              @if (deletePostCount > 0) {
+              <span class="badge badge-danger">{{ deletePostCount }}</span>
+              }
+            </button>
+          </div>
+          <div class="button-wrapper">
+            <button (click)="openManageWallModal()" class="manage-wall-btn">
+              Pending Posts 
+              @if (manageWallCount > 0) {
+                <span class="badge badge-danger">{{ manageWallCount }}</span>
+              }
+            </button>
+          </div>
         </div>
       }
     </div>
   </div>
+    <div *ngIf="showFilterMessage">
+        <div class="filter-message">
+          <p>You are seeing your own posts.</p>
+          <button mat-button (click)="clearFilter()">Show All Posts</button>
+        </div>
+      </div>
 
 @if(showModal) {
   <div class="modal">
@@ -77,7 +109,10 @@
     </div>
   </div>
 }
-
+<div class="show-container">
+<div *ngIf="showSpinner" class="spinner-overlay">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
 <ngx-masonry>
   @for(post of posts; track posts) {
     <div ngxMasonryItem class="masonry-item">
@@ -85,26 +120,32 @@
         <div class="post-header">
           <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
           
-            <div class="post-options">
-              <span class="three-dots" (click)="toggleOptions(post)">
-                &#x22EE;
-              </span>
-              <div class="dropdown-menu">
-                @if(post.showOptions) {
-                  @if(post.student_id ===userInfo.id){
-                    <button (click)="deletePost(post.id)">Delete</button>
-                  } @else {
-                    <button (click)="requestPostToDelete(post)">Request to delete</button>
-                  }
-                }
-              </div>
-            </div>
+          <div class="post-options">
+            <span class="three-dots" [matMenuTriggerFor]="menu">
+              &#x22EE;
+            </span>
+            <mat-menu #menu="matMenu" class="post-menu">
+              @if(post.student_id === userInfo.id) {
+                <button mat-menu-item (click)="deletePost(post.id)">
+                  <mat-icon class="menu-icon">delete</mat-icon>
+                  <span class="menu-item-text">Delete</span>
+                </button>
+              }
+              @if(post.student_id !== userInfo.id) {
+                <button mat-menu-item (click)="requestPostToDelete(post)">
+                  <mat-icon class="menu-icon">report_problem</mat-icon>
+                  <span class="menu-item-text">Request to delete</span>
+                </button>
+              }
+            </mat-menu>
+          </div>
         </div>
         <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
       </div>
     </div>
   }
 </ngx-masonry>
+</div>
 
 <!-- Manage Wall Modal -->
 @if(showManageWallModal) {
@@ -114,11 +155,12 @@
         &times;
       </span>
       <div class="modal-header">
-        <h4>pending post approval</h4>
-      </div>
+        <h4>Pending Post Approval</h4>
+        <span class="pending-count">{{ manageWallCount }}</span>
+      </div>      
       <div class="modal-body">
         <div class="post-cards-container">
-          @for(post of paginatedPosts; track paginatedPosts) {
+          @for(post of pendingPosts; track post) {
             <div class="post-card">
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>
@@ -134,11 +176,6 @@
           }
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
-        <span>page {{ currentPage }}</span>
-        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
-      </div>
     </div>
   </div>
 }
@@ -150,13 +187,14 @@
         &times;
       </span>
       <div class="modal-header">
-        <h4>Request to delete posts</h4>
+        <h4>Request to Delete Posts</h4>
+        <span class="request-delete-count">{{ deletePostCount }}</span>
       </div>
       <div class="modal-body">
         <div class="post-cards-container">
-          @for(post of requestDelete; track requestDelete) {
+          @for(post of requestDelete; track post) {
             <div class="post-card">
-              <h5>{{post.deletion_req_count}}</h5>
+              <h5>Total deletion request: {{ post.deletion_req_count }}</h5>
               <h4>{{ post.subject }}</h4>
               <p>{{ post.content }}</p>
               <div class="button-request">
@@ -170,11 +208,6 @@
             </div>
           }
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
-        <span>page {{ currentPage }}</span>
-        <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
       </div>
     </div>
   </div>

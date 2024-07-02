@@ -58,3 +58,9 @@
     text-overflow: ellipsis; 
     color:#333;
   }
+
+  .no-events {
+    color: gray;
+    text-align: center;
+    padding: 10px;
+  }
