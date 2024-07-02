@@ -55,8 +55,6 @@ export class HomepageEventsComponent implements OnInit {
     this.showUpcomingEvents();
     this.loginService.onDataRetrieved((data: UserInfo) => {
       this.userInfo = data;
-      console.log("events");
-      console.log(this.userInfo);
     });
     
   }

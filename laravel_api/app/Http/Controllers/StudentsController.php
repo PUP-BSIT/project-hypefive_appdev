@@ -289,7 +289,12 @@ class StudentsController extends Controller {
   }
 
   public function getTotalMembers() {
-    $members = DB::table('students')->whereNotIn('id', [1])->count();
+    $members = DB::table('students')
+      ->join('users', 'students.user_id', '=', 'users.id')
+      ->whereNotIn('students.id', [1])
+      ->where('users.account_status_id', 2)
+      ->where('users.is_active', 1)
+      ->count();
     
     return response()->json($members);
   }

@@ -103,11 +103,9 @@ export class ArchiveComponent implements OnInit  {
   searchEvents(){
     this.searchArchive.get('keyword')!.valueChanges.pipe(
       switchMap((keyword)=>{
-        console.log(keyword);
         return this.dataService.searchArchive(keyword).pipe(
           debounceTime(2000),
           catchError((error: HttpErrorResponse)=>{
-            console.log(error);
             return EMPTY;
         }))
       }))
