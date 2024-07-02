@@ -81,11 +81,6 @@ export class DashboardComponent implements OnInit {
       });
       this.fetchAnnouncements();const today = new Date();
   }
-
-  //TODO: update later according to new table in database
-  updateUserInfo(selectedAvatarPath: string): void {
-    //this.userInfo.icon = selectedAvatarPath; 
-  }
   
   confirmAction(title: string, message: string, callback: () => void) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
