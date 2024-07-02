@@ -26,18 +26,6 @@ export class DataService {
   login(data) {
     return this.http.post(this.apiUrl +'api/login/', data);
   }
-  
-  getPosts() {
-    return this.http.get(this.apiUrl +'api/getPosts/');
-  }
-  
-  addPosts(data) {
-    return this.http.post(this.apiUrl +'api/createPostFW/', data);
-  }
-
-  deletePosts(data) {
-    return this.http.post(this.apiUrl +'api/deletePost/', data);
-  }
 
   createEvent(data) {
     return this.http.post(this.apiUrl +'api/createEvent/', data);
@@ -106,30 +94,6 @@ export class DataService {
 
   getRegisteredMembers(event_id: number){
     return this.http.get(this.apiUrl + `api/getRegisteredMembers/${event_id}`);
-  }
-    
-  getPostRequest(){
-    return this.http.get(this.apiUrl +'api/getPostRequest/');
-  }
-
-  acceptPost(data){
-    return this.http.post(this.apiUrl +'api/acceptPost/', data);
-  }
-
-  declinePost(data) {
-    return this.http.post(this.apiUrl +'api/declinePost/', data);
-  }
-
-  getDeletionRequests(){
-    return this.http.get(this.apiUrl +'api/getDeletionRequests/');
-  }
-
-  deletionRequest(data){
-    return this.http.post(this.apiUrl +'api/deletionRequest/', data);
-  }
-
-  declineDeletionRequest(data){
-    return this.http.post(this.apiUrl +'api/declineDeletionRequest/', data);
   }
 
   getTotalMembers(){

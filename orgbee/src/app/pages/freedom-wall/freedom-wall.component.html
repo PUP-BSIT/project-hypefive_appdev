@@ -1,15 +1,20 @@
 <div class="freedomwall-page">
   <div class="top">
     <div class="header">
-      <app-header [title]="'Computer Society Freedom Wall'" [orgName]="'Welcome to'" [showImage]="false" [height]="'short-height'"></app-header>
+      <app-header 
+        [title]="'Computer Society Freedom Wall'" 
+        [orgName]="'Welcome to'" 
+        [showImage]="false" 
+        [height]="'short-height'"></app-header>
     </div>
   
     <div class="button-container">
       <button class="create-post-btn" (click)="toggleModal()">
         <img [src]="userInfo?.icon_path">
         Create an anonymous post
-        <button mat-icon-button [matMenuTriggerFor]="menu" class="dropdown-btn" (click)="onDropdownClick($event)">
-          <mat-icon>arrow_drop_down</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menu" 
+          class="dropdown-btn" (click)="onDropdownClick($event)">
+            <mat-icon>arrow_drop_down</mat-icon>
         </button>
       </button>
       
@@ -23,11 +28,12 @@
       @if (userInfo.role_id !== 1) {
         <div>
           <div class="button-wrapper">
-            <button (click)="openRequestToDeleteModal()" class="delete-post-btn">
-              Delete Requests 
-              @if (deletePostCount > 0) {
-              <span class="badge badge-danger">{{ deletePostCount }}</span>
-              }
+            <button (click)="openRequestToDeleteModal()" 
+              class="delete-post-btn">
+                Delete Requests 
+                @if (deletePostCount > 0) {
+                  <span class="badge badge-danger">{{ deletePostCount }}</span>
+                }
             </button>
           </div>
           <div class="button-wrapper">
@@ -42,173 +48,176 @@
       }
     </div>
   </div>
-    <div *ngIf="showFilterMessage">
-        <div class="filter-message">
-          <p>You are seeing your own posts.</p>
-          <button mat-button (click)="clearFilter()">Show All Posts</button>
-        </div>
-      </div>
-
-@if(showModal) {
-  <div class="modal">
-    <div class="modal-content">
-      <span class="close-btn" (click)="closeModal()">&times;</span>
-      <form [formGroup]="freedomwallForm" (ngSubmit)="addPost()">
-        <div class="form-group new-post-title">
-          <label for="new_post_title">Subject:</label>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="new_post_title"
-              formControlName="newPostTitle"
-              required
-              (input)="updateTitleCharacterCount()" />
-            <span class="character-counter-subject">
-              {{ freedomwallForm.get('newPostTitle').value ? 
-                freedomwallForm.get('newPostTitle').value.length : 0 }}/30
-            </span>
-          </div>
-          @if(newPostTitleControl.invalid && newPostTitleControl.touched) {
-            @if(newPostTitleControl.errors?.['required']) {
-              <div class="error-required-subject">
-                Subject is required.
-              </div>
-            }
-          }
-        </div>
-      
-        <div class="form-group new-post-text">
-          <label for="new_post_text">Message:</label>
-          <div class="textarea-wrapper">
-            <textarea
-              id="new_post_text"
-              formControlName="newPostText"
-              required
-              (input)="updateTextCharacterCount()">
-            </textarea>
-            <span class="character-counter-message">
-              {{ freedomwallForm.get('newPostText').value ? 
-                freedomwallForm.get('newPostText').value.length : 0 }}/500
-            </span>
-          </div>
-          @if(newPostTextControl.invalid && newPostTextControl.touched) {
-            @if(newPostTextControl.errors?.['required']) {
-              <div class="error-required-message">
-                Message is required.
-              </div>
-            }
-          }
-        </div>
-        <button 
-          type="submit" 
-          class="submit-button" 
-          [disabled]="freedomwallForm.invalid">
-            POST ANONYMOUSLY
-        </button>
-      </form>      
+  @if(showFilterMessage){
+    <div class="filter-message">
+      <p>You are seeing your own posts.</p>
+      <button mat-button (click)="clearFilter()">Show All Posts</button>
     </div>
-  </div>
-}
-<div class="show-container">
-<div *ngIf="showSpinner" class="spinner-overlay">
-  <mat-spinner diameter="50"></mat-spinner>
-</div>
-<ngx-masonry>
-  @for(post of posts; track posts) {
-    <div ngxMasonryItem class="masonry-item">
-      <div [ngClass]="getBackgroundColorClass(post)">
-        <div class="post-header">
-          <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
-          
-          <div class="post-options">
-            <span class="three-dots" [matMenuTriggerFor]="menu">
-              &#x22EE;
-            </span>
-            <mat-menu #menu="matMenu" class="post-menu">
-              @if(post.student_id === userInfo.id) {
-                <button mat-menu-item (click)="deletePost(post.id)">
-                  <mat-icon class="menu-icon">delete</mat-icon>
-                  <span class="menu-item-text">Delete</span>
-                </button>
-              }
-              @if(post.student_id !== userInfo.id) {
-                <button mat-menu-item (click)="requestPostToDelete(post)">
-                  <mat-icon class="menu-icon">report_problem</mat-icon>
-                  <span class="menu-item-text">Request to delete</span>
-                </button>
-              }
-            </mat-menu>
+  }
+
+  @if(showModal) {
+    <div class="modal">
+      <div class="modal-content">
+        <span class="close-btn" (click)="closeModal()">&times;</span>
+        <form [formGroup]="freedomwallForm" (ngSubmit)="addPost()">
+          <div class="form-group new-post-title">
+            <label for="new_post_title">Subject:</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="new_post_title"
+                formControlName="newPostTitle"
+                required
+                (input)="updateTitleCharacterCount()" />
+              <span class="character-counter-subject">
+                {{ freedomwallForm.get('newPostTitle').value ? 
+                  freedomwallForm.get('newPostTitle').value.length : 0 }}/30
+              </span>
+            </div>
+            @if(newPostTitleControl.invalid && newPostTitleControl.touched && 
+              newPostTitleControl.errors?.['required']) {
+                <div class="error-required-subject">
+                  Subject is required.
+                </div>
+            }
           </div>
-        </div>
-        <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
+        
+          <div class="form-group new-post-text">
+            <label for="new_post_text">Message:</label>
+            <div class="textarea-wrapper">
+              <textarea
+                id="new_post_text"
+                formControlName="newPostText"
+                required
+                (input)="updateTextCharacterCount()">
+              </textarea>
+              <span class="character-counter-message">
+                {{ freedomwallForm.get('newPostText').value ? 
+                  freedomwallForm.get('newPostText').value.length : 0 }}/500
+              </span>
+            </div>
+            @if(newPostTextControl.invalid && newPostTextControl.touched && 
+              newPostTextControl.errors?.['required']) {
+                <div class="error-required-message">
+                  Message is required.
+                </div>
+            }
+          </div>
+          <button 
+            type="submit" 
+            class="submit-button" 
+            [disabled]="freedomwallForm.invalid">
+              POST ANONYMOUSLY
+          </button>
+        </form>      
       </div>
     </div>
   }
-</ngx-masonry>
+  <div class="show-container">
+    @if(showSpinner) {
+      <div class="spinner-overlay">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    }
+
+    <ngx-masonry>
+      @for(post of posts; track post.id) {
+        <div ngxMasonryItem class="masonry-item">
+          <div [ngClass]="getBackgroundColorClass(post)">
+            <div class="post-header">
+              <h4 (click)="openPost(post)" #postBox>{{ post.subject }}</h4>
+              
+              <div class="post-options">
+                <span class="three-dots" [matMenuTriggerFor]="menu">
+                  &#x22EE;
+                </span>
+                <mat-menu #menu="matMenu" class="post-menu">
+                  @if(post.student_id === userInfo.id) {
+                    <button mat-menu-item (click)="deletePost(post.id)">
+                      <mat-icon class="menu-icon">delete</mat-icon>
+                      <span class="menu-item-text">Delete</span>
+                    </button>
+                  }
+                  @else() {
+                    <button mat-menu-item (click)="requestPostToDelete(post)">
+                      <mat-icon class="menu-icon">report_problem</mat-icon>
+                      <span class="menu-item-text">Request to delete</span>
+                    </button>
+                  }
+                </mat-menu>
+              </div>
+            </div>
+            <p (click)="openPost(post)" #postBox>{{ post.content }}</p>
+          </div>
+        </div>
+      }
+    </ngx-masonry>
+  </div>
+
+  <!-- Manage Wall Modal -->
+  @if(showManageWallModal) {
+    <div class="manage-wall-modal">
+      <div class="manage-modal-content">
+        <span class="manage-close-btn" (click)="closeManageWallModal()">
+          &times;
+        </span>
+        <div class="modal-header">
+          <h4>Pending Post Approval</h4>
+          <span class="pending-count">{{ manageWallCount }}</span>
+        </div>      
+        <div class="modal-body">
+          <div class="post-cards-container">
+            @for(post of pendingPosts; track post.id) {
+              <div class="post-card">
+                <h4>{{ post.subject }}</h4>
+                <p>{{ post.content }}</p>
+                <div class="button-request">
+                  <button (click)="approvePost(post.id)" class="accept-btn">
+                    Accept
+                  </button>
+                  <button (click)="declinePost(post.id)" class="decline-btn">
+                    Decline
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if(showRequestToDeleteModal) {
+    <div class="manage-wall-modal">
+      <div class="manage-modal-content">
+        <span class="manage-close-btn" (click)="closeModal()">
+          &times;
+        </span>
+        <div class="modal-header">
+          <h4>Request to Delete Posts</h4>
+          <span class="request-delete-count">{{ deletePostCount }}</span>
+        </div>
+        <div class="modal-body">
+          <div class="post-cards-container">
+            @for(post of requestDelete; track post.id) {
+              <div class="post-card">
+                <h5>Total deletion request: {{ post.deletion_req_count }}</h5>
+                <h4>{{ post.subject }}</h4>
+                <p>{{ post.content }}</p>
+                <div class="button-request">
+                  <button class="accept-btn" (click)="deletePost(post.id)" >
+                    Delete Post
+                  </button>
+                  <button class="decline-btn" 
+                    (click)="declineRequestToDelete(post.id)">
+                      Decline Request
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>
-
-<!-- Manage Wall Modal -->
-@if(showManageWallModal) {
-  <div class="manage-wall-modal">
-    <div class="manage-modal-content">
-      <span class="manage-close-btn" (click)="closeManageWallModal()">
-        &times;
-      </span>
-      <div class="modal-header">
-        <h4>Pending Post Approval</h4>
-        <span class="pending-count">{{ manageWallCount }}</span>
-      </div>      
-      <div class="modal-body">
-        <div class="post-cards-container">
-          @for(post of pendingPosts; track post) {
-            <div class="post-card">
-              <h4>{{ post.subject }}</h4>
-              <p>{{ post.content }}</p>
-              <div class="button-request">
-                <button (click)="approvePost(post.id)" class="accept-btn">
-                  Accept
-                </button>
-                <button (click)="declinePost(post.id)" class="decline-btn">
-                  Decline
-                </button>
-              </div>
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-}
-
-@if(showRequestToDeleteModal) {
-  <div class="manage-wall-modal">
-    <div class="manage-modal-content">
-      <span class="manage-close-btn" (click)="closeModal()">
-        &times;
-      </span>
-      <div class="modal-header">
-        <h4>Request to Delete Posts</h4>
-        <span class="request-delete-count">{{ deletePostCount }}</span>
-      </div>
-      <div class="modal-body">
-        <div class="post-cards-container">
-          @for(post of requestDelete; track post) {
-            <div class="post-card">
-              <h5>Total deletion request: {{ post.deletion_req_count }}</h5>
-              <h4>{{ post.subject }}</h4>
-              <p>{{ post.content }}</p>
-              <div class="button-request">
-                <button (click)="deletePost(post.id)" class="accept-btn">
-                  Delete Post
-                </button>
-                <button (click)="declineRequestToDelete(post.id)" class="decline-btn">
-                  Decline Request
-                </button>
-              </div>
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-}
