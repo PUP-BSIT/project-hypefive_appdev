@@ -186,8 +186,7 @@ export class DashboardComponent implements OnInit {
     this.refreshAnnouncements();
     this.closeModalEditAnnouncement();
   }
-  
-  
+   
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
     const newAnnouncementDisplay: Announcement = {
       ...newAnnouncement,

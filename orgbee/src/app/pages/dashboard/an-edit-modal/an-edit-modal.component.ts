@@ -18,7 +18,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @Output() announcementUpdated: EventEmitter<Announcement> = new EventEmitter<Announcement>();
   announcementForm: FormGroup;
-  userInfo: UserInfo | null = null;
+  userInfo: UserInfo;
 
   constructor(
     private formBuilder: FormBuilder,

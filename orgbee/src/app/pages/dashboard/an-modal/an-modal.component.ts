@@ -15,8 +15,7 @@ export class AnModalComponent implements OnInit {
   @Input() showModal = false;
   @Input() announcementForm: FormGroup;
   @Output() announcementCreated = new EventEmitter<Announcement>(); 
-
-  userInfo: UserInfo | null = null;
+  userInfo: UserInfo;
   announcements: Announcement[] = [];
   
   constructor(
