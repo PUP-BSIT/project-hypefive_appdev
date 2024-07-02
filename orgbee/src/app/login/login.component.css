@@ -231,10 +231,15 @@ button:hover {
     position: absolute;
   }
 
+  .signup-form input,
+  .signup-form label {
+    margin-left: 6%;
+  } 
+
   .popup-content {
     width: 70%;
     padding: 10px;
-    padding-left: 6%;
+    padding-left: 0%;
   }
   
   .form button, .popup-content button {
