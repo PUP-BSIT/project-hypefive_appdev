@@ -98,6 +98,9 @@ app-header {
   height: 35%;
   margin: 10px;
   display: flex;
+  overflow: hidden;
+  overflow-y: auto; 
+  scrollbar-width: none; 
 }
 
 .event-img img {
@@ -182,7 +185,82 @@ app-header {
   text-align: center;
 }
 
-@media (max-width: 576px) { 
+@media (width < 432px) { 
+  .top {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .create-event {
+    padding: 5%;
+    margin: 0%;
+    margin-bottom: 1%;
+  }
+
+  .tabs {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .tab {
+    width: 30%;
+    margin-top: 3%;
+    padding: 2%;
+  }
+
+  .event-card {
+    width: 90%;
+    height: 25%;
+  }
+
+  .event-img img {
+    width: 100px;
+    height: 130px;
+    margin-left: 1%;
+    object-fit: cover;
+  }
+  
+  .event-details h3 {
+    font-size: 14px;
+    margin-bottom: 15%;
+    white-space: nowrap; 
+  }
+  
+  .event-details p {
+    font-size: 12px;
+    color: #777;
+    margin: 8px 0;
+    white-space: nowrap; 
+  }
+  
+  .manage-container {
+    margin-top: 18%;
+  }
+
+  .manage-info {
+    margin-bottom: 10px;
+    margin-right: 20%;
+    margin-left: -0%;
+  }
+
+  .registered-icon {
+    font-weight: 5px;
+  }
+
+  .registered-text {
+    margin-left: 3%;
+    white-space: nowrap; 
+  }
+
+  .manage-button {
+    padding: 10px 15px;
+    font-weight: 10px;
+    border-radius: 10px;
+    margin-left: -1%;
+  }
+}
+
+@media (min-width: 432px) and (max-width: 576px) { 
   .top {
     display: flex;
     flex-direction: column;
@@ -214,6 +292,7 @@ app-header {
     width: 150px;
     height: 150px;
     margin-left: 1%;
+    object-fit: cover;
   }
   
   .event-details h3 {
@@ -251,7 +330,7 @@ app-header {
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 577px) and (max-width: 767px) {
   .top {
     display: flex;
     flex-direction: column;
@@ -283,6 +362,7 @@ app-header {
     width: 150px;
     height: 150px;
     margin-left: 1%;
+    object-fit: cover;
   }
   
   .event-details h3 {
@@ -318,4 +398,48 @@ app-header {
     border-radius: 10px;
     margin-left: -20%;
   }
-}
+} 
+
+@media (min-width: 767px) and (max-width: 1050px) {
+  .tabs {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .tab {
+    width: 30%;
+    margin-top: 3%;
+    padding: 2%;
+  }
+
+  .event-card {
+    width: 90%;
+    height: 30%;
+  }
+
+  .manage-container {
+    margin-top: 12%;
+  }
+} 
+
+@media (min-width: 1050px) and (max-width: 1200px) {
+  .tabs {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .tab {
+    width: 30%;
+    margin-top: 3%;
+    padding: 2%;
+  }
+
+  .event-card {
+    width: 90%;
+    height: 30%;
+  }
+
+  .manage-container {
+    margin-top: 10%;
+  }
+} 
