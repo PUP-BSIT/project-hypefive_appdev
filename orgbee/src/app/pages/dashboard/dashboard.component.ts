@@ -129,8 +129,8 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchAnnouncements(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements) => {
         if (this.userInfo.role_id === Roles.Student) {
           this.announcements = announcements.filter(a => a.recipient === 0);
         } else if (this.userInfo.role_id === Roles.Officer || 
@@ -139,10 +139,10 @@ export class DashboardComponent implements OnInit {
             announcements.filter(a => a.recipient === 0 || a.recipient === 1);
         }
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-    );
+  });
   }
 
   openModal(announcement: Announcement): void {
@@ -210,18 +210,18 @@ export class DashboardComponent implements OnInit {
   deleteAnnouncement(announcement: Announcement): void {
     this.confirmAction('Confirm Delete', 'Are you sure you want to delete this announcement?', () => {
     this.spinnerService.show('Deleting announcement...');
-    this.announcementService.deleteAnnouncement(announcement.id).subscribe(
-      () => {
+    this.announcementService.deleteAnnouncement(announcement.id).subscribe({
+      next: () => {
         this.announcements = 
           this.announcements.filter(a => a.id !== announcement.id);
           this.spinnerService.hide();
           this.showSnackBar('Announcement deleted successfully.', 'success');
         },
-        (error) => {
+        error: (error) => {
           this.spinnerService.hide();
           this.showSnackBar('Error deleting announcement. Please try again later.', 'error');
         }
-    );
+    });
   });
 }
 
@@ -230,29 +230,29 @@ export class DashboardComponent implements OnInit {
   }
 
   filterByOfficers(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements) => {
         this.announcements = announcements.filter(a => 
           a.recipient === 1
         );
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-    );
+  });
   }
 
   filterByMe(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements) => {
         this.announcements = announcements.filter(a => 
           a.student_id === this.userInfo.user_id
         );
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-    );
+  });
   }
 
    setActiveTab(tab: string) {
@@ -267,7 +267,6 @@ export class DashboardComponent implements OnInit {
       case 'me':
         this.filterByMe();
         break;
-      // Add more cases for additional tabs as needed
       default:
         break;
     }

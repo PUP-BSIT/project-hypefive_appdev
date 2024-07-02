@@ -195,15 +195,16 @@ export class SettingsComponent implements OnInit {
       };
 
       this.userService.updateUserInfo(updatedUserInfo)
-        .subscribe(
-          response => {
+        .subscribe({
+          next: response => {
             console.log('User info updated successfully:', response);
               // Update userInfo with the response from the server
               this.userInfo = response.updated_student;
           },
-            error => {
+            error: error => {
               console.error('Failed to update user info:', error);
-            });
+            }
+    });
     } else {
         console.log('Form is invalid');
     }
@@ -251,8 +252,8 @@ export class SettingsComponent implements OnInit {
     const newPassword = this.new_passwordControl.value;
     const confirmPassword = this.confirm_passwordControl.value;
   
-    this.userService.changePassword(currentPassword, newPassword, confirmPassword).subscribe(
-      response => {
+    this.userService.changePassword(currentPassword, newPassword, confirmPassword).subscribe({
+      next: response => {
         console.log('Password updated successfully:', response);
         this.passwordForm.reset();
         this.toastr.success('Password updated successfully', 'Success', { 
@@ -260,14 +261,14 @@ export class SettingsComponent implements OnInit {
           progressBar: true 
         });
       },
-      error => {
+      error: error => {
         console.error('Error updating password:', error);
         this.toastr.error('Failed to update password', 'Error', { 
           timeOut: 2000, 
           progressBar: true 
         });
       }
-    );
+    });
   });
   }
 
@@ -283,21 +284,21 @@ export class SettingsComponent implements OnInit {
 
     const deletionPassword = this.deleteForm.value.deletion_password;
 
-    this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe(
-      response => {
+    this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
+      next: response => {
         this.toastr.success('Account deactivated successfully', 'Success', { 
           timeOut: 2000, 
           progressBar: true 
         });
         this.router.navigate(['/login']);
       },
-      error => {
+      error: error => {
         this.toastr.error('Failed to deactivate user', 'Error', { 
           timeOut: 2000, 
           progressBar: true 
         });
       }
-    );
+    });
   });
 }
 
@@ -308,14 +309,14 @@ export class SettingsComponent implements OnInit {
 
   saveAvatar() {
     this.confirmationDialogService.confirmAction('Change Avatar Confirmation', 'Are you sure you want to change your avatar?', () => {
-    this.loginService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe(
-      response => {
+    this.loginService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe({
+      next: response => {
         console.log('Icon updated successfully:', response);
       },
-      error => {
+      error: error => {
         console.error('Failed to update icon:', error);
       }
-    );
+    });
   });
 }
 

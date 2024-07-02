@@ -79,8 +79,8 @@ export class AnModalComponent implements OnInit {
 
         this.spinnerService.show('Creating announcement...');
 
-        this.announcementService.createAnnouncement(newAnnouncement).subscribe(
-          (announcementId: number) => {
+        this.announcementService.createAnnouncement(newAnnouncement).subscribe({
+          next: (announcementId: number) => {
             this.spinnerService.hide();
             newAnnouncement.id = announcementId;
             this.announcementForm.reset();
@@ -88,14 +88,14 @@ export class AnModalComponent implements OnInit {
             this.announcementCreated.emit(newAnnouncement); 
             this.showSnackBar('Announcement created successfully.', 'success');
           },
-          (error) => {
+          error: (error) => {
             this.spinnerService.hide();
             console.error('Error creating announcement:', error);
             alert('Error creating announcement. Please try again later.');
 
             this.showSnackBar('Error creating announcement. Please try again later.', 'error');
           }
-        );
+      });
       } else {
         console.error('Error extracting user ID from token.');
         alert('Error creating announcement. Please try again later.');
