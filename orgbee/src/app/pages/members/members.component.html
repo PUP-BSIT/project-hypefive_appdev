@@ -4,33 +4,34 @@
       <app-header
         [title]="'Members'"
         [showImage]="false"
-        [height]="'shorter-height'"
-      ></app-header>
+        [height]="'shorter-height'"></app-header>
     </div>
 
     <div class="membership-request">
       <h2>MEMBERSHIP REQUESTS</h2>
+
       @if(membershipRequests.length === 0) {
-      <ng-container>
-        <p class="no-request">No requests yet.</p>
-      </ng-container>
+        <ng-container>
+          <p class="no-request">No requests yet.</p>
+        </ng-container>
       } 
-      @for(request of membershipRequests; track membershipRequests) {
-      <div class="request">
-        <div class="profile">
-          <img src="{{ request.icon_location }}" alt="Profile Picture" />
-          <p>{{ request.first_name + " " + request.last_name }}</p>
+
+      @for(request of membershipRequests; track request.id) {
+        <div class="request">
+          <div class="profile">
+            <img src="{{ request.icon_location }}" alt="Profile Picture" />
+            <p>{{  request.last_name + ", " + request.first_name  }}</p>
+          </div>
+          <button class="accept" 
+            (click)="acceptRequest(request.student_number)">
+              Accept
+          </button>
+          <button
+            class="decline"
+            (click)="declineRequest(request.student_number)">
+              Decline
+          </button>
         </div>
-        <button class="accept" (click)="acceptRequest(request.student_number)">
-          Accept
-        </button>
-        <button
-          class="decline"
-          (click)="declineRequest(request.student_number)"
-        >
-          Decline
-        </button>
-      </div>
       }
     </div>
 
@@ -44,37 +45,37 @@
             formControlName="keyword"
             (input)="seeResults()"
             (blur)="exitSearch()"
-            autocomplete="off"
-          />
+            autocomplete="off"/>
+
           @if(isSearchResult) {
-          <div class="search-results-container">
-            @if(response){
-            <div id="search_results">
-              <li>{{ response.message }}</li>
+            <div class="search-results-container">
+              @if(response){
+                <div id="search_results">
+                  <li>{{ response.message }}</li>
+                </div>
+              } 
+
+              @for(retrievedMember of retrievedMember;
+                track retrievedMember.id) {
+                  <div id="search_results"
+                    (mousedown)="memberClick(retrievedMember.student_number)">
+                    <li>
+                      {{  retrievedMember.last_name + ", " + 
+                          retrievedMember.first_name }}
+                    </li>
+                  </div>
+              }
             </div>
-            } @for(retrievedMember of retrievedMember; track retrievedMember) {
-            <div
-              id="search_results"
-              (mousedown)="memberClick(retrievedMember.student_number)"
-            >
-              <li>
-                {{
-                  retrievedMember.first_name + " " + retrievedMember.last_name
-                }}
-              </li>
-            </div>
-            }
-          </div>
           }
         </form>
 
         <div class="all-members1">
           <div class="all-members">
-            @for(member of members; track members) {
-            <div class="member" (click)="memberClick(member.student_number)">
-              <img src="{{ member.icon_location }}" alt="Profile Picture" />
-              <p>{{ member.first_name + " " + member.last_name }}</p>
-            </div>
+            @for(member of members; track member.id) {
+              <div class="member" (click)="memberClick(member.student_number)">
+                <img src="{{ member.icon_location }}" alt="Profile Picture" />
+                <p>{{ member.last_name + ", " + member.first_name }}</p>
+              </div>
             }
           </div>
         </div>
@@ -84,13 +85,13 @@
     <div class="officers">
       <h2>OFFICERS</h2>
       <div class="officer1">
-        @for(officer of officers; track officers) {
-        <div class="officer" (click)="officerClick(officer.student_number)">
-          <div class="profile">
-            <img src="{{ officer.icon_location }}" alt="Profile Picture" />
-            <p>{{ officer.first_name + " " + officer.last_name }}</p>
+        @for(officer of officers; track officer.id) {
+          <div class="officer" (click)="officerClick(officer.student_number)">
+            <div class="profile">
+              <img src="{{ officer.icon_location }}" alt="Profile Picture" />
+              <p>{{ officer.last_name + ", " + officer.first_name }}</p>
+            </div>
           </div>
-        </div>
         }
       </div>
     </div>
@@ -132,12 +133,15 @@
       }
       @if (userInfo.role_id===3) {
         @if (!isMemberAnOfficer(details[0]?.student_number)) {
-          <button class="modal-button-officer" (click)="promoteToOfficer()">Promote to Officer </button>
+          <button class="modal-button-officer" 
+            (click)="promoteToOfficer()">Promote to Officer </button>
         } @else {  
-            <button class="modal-button-officer" (click)="demoteToMember()">Demote to Member</button>
+            <button class="modal-button-officer" 
+              (click)="demoteToMember()">Demote to Member</button>
           }
       }
-        <button class="modal-button-member" (click)="removeMember()">Remove Member</button>
+        <button class="modal-button-member" 
+          (click)="removeMember()">Remove Member</button>
     </div>
   </div>
 } 

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DataService } from '../../../service/data.service';
 
-import { Member } from '../members/members.component';
+import { Member } from '../../../service/member-service/member.service';
 
 export interface Event {
   id: number;

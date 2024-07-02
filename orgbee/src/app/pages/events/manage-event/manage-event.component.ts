@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { Event } from '../events.component';
-import { Member } from '../../members/members.component';
+import { Member } from '../../../../service/member-service/member.service';
 import { ModalButton } from '../events.component';
 import { Response } from '../../../app.component';
 

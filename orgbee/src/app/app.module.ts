@@ -25,9 +25,12 @@ import { AnEditModalComponent }
   from './pages/dashboard/an-edit-modal/an-edit-modal.component';
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
+//Services
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
 import { AnnouncementService } from '../service/announcement.service';
+import { MemberService } from '../service/member-service/member.service';
+import { ResponseService } from '../service/response-service/response.service';
 
 import { PostDialogComponent } 
   from './pages/freedom-wall/post-dialog/post-dialog.component';
@@ -52,7 +55,7 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
 import { HeaderComponent } from './header/header.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CalendarComponent } from './pages/dashboard/calendar/calendar.component'; 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -132,7 +135,9 @@ import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.componen
     AuthGuard,
     DataService, 
     LoginService,
-    AnnouncementService,  
+    AnnouncementService, 
+    MemberService,
+    ResponseService, 
     provideAnimationsAsync(),  
     DatePipe,
     {provide: CalendarDateFormatter, useClass: CustomDateFormatter}
