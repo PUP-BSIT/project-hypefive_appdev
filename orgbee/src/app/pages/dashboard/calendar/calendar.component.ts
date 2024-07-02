@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { formatDate } from '@angular/common';
 import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
-import { DataService } from '../../../../service/data.service'; 
+import { DataService } from '../../../../service/data.service';
 
 @Component({
   selector: 'app-calendar',
@@ -32,6 +32,15 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  formatTime(timeString: string): string {
+    const [hours, minutes] = timeString.split(':');
+    let hour = parseInt(hours, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 || 12; 
+    const formattedTime = `${hour}:${minutes} ${ampm}`;
+    return formattedTime;
+  }
+
   setViewDate(monthOffset: number) {
     const currentMonth = this.viewDate.getMonth();
     const currentYear = this.viewDate.getFullYear();
@@ -58,12 +67,8 @@ export class CalendarComponent implements OnInit {
       event.start.getDate() === clickedDate.getDate()
     );
 
-    if (clickedEvents.length === 0 || clickedDate.getTime() === today.getTime()) {
-      this.isEventDetailsVisible = false;
-    } else {
-      this.selectedEvents = clickedEvents;
-      this.isEventDetailsVisible = true;
-    }
+    this.selectedEvents = clickedEvents;
+    this.isEventDetailsVisible = true;
   }
 }
 
