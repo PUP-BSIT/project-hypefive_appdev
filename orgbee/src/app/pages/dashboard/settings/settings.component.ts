@@ -309,7 +309,7 @@ export class SettingsComponent implements OnInit {
 
   saveAvatar() {
     this.confirmationDialogService.confirmAction('Change Avatar Confirmation', 'Are you sure you want to change your avatar?', () => {
-    this.loginService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe({
+    this.userService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe({
       next: response => {
         console.log('Icon updated successfully:', response);
       },
