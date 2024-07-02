@@ -665,3 +665,10 @@ app-admin-today {
     height: 460px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .dashboard {
+    height: auto;
+    margin-bottom: 50px;
+  }
+}

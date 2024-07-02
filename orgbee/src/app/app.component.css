@@ -21,14 +21,11 @@ app-progress-bar {
 
 app-sidebar {
   width: 110px;
-  height: 100%;
 }
 
 .content-display {
   flex: 2;
   padding: 0px;
-  width: 100%;
-  height: 95%;
   box-sizing: border-box;
 }
 
