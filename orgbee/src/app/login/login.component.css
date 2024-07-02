@@ -143,8 +143,8 @@ button {
   margin-right: 10%;
 }
 
-button:hover {
-  background-color: #fbcc15;
+button:disabled {
+  background-color: #afafaf;
 }
 
 .form-row {
