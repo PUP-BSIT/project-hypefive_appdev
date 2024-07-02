@@ -29,6 +29,7 @@ class MembersController extends Controller {
       ->where('students.id', '!=', 1)
       //Fetch students with an account_status of pending
       ->where('users.account_status_id', "=", 1)
+      ->where('users.is_verified', true)
       ->get(['students.*', 'icons.icon_location']);
 
     return response()->json($students, 200);
@@ -36,31 +37,28 @@ class MembersController extends Controller {
 
   public function acceptMember(Request $request) {
     $student_number = $request->input('student_number');
-    $student = DB::table('students')
+    $user_id = DB::table('students')
       ->where('student_number', $student_number)
-      ->first();
+      ->value('user_id');
 
-    if (!$student) {
-      return response()->json(['message' => 'Student not found', 'code' => 404]);
-    }
-
-    $user = DB::table('users')->where('id', $student->user_id)->first();
-
-    if (!$user) {
+    if (!$user_id) {
       return response()->json(['message' => 'User not found', 'code' => 404]);
     }
 
     $updateTime = now();
-    DB::table('users')->where('id', $student->user_id)
+    DB::table('users')->where('id', $user_id)
       ->update(['account_status_id' => 2, 'updated_at' => $updateTime]);
 
     DB::table('students')->where('student_number', $student_number)
       ->update(['updated_at' => $updateTime]);
 
-    // Combine student and user data
-    $student->email = $user->email;
+    $user = DB::table('users')
+      ->join('students', 'users.id', '=', 'students.user_id')
+      ->where('students.student_number', $student_number)
+      ->first(['users.email', 'students.first_name']);
 
-    Mail::to($user->email)->send(new MemberAccepted($student));
+    $statusMessage = 'Congratulations! Your membership request has been accepted.';
+    Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
 
     $response = [
       'message' => 'Student accepted successfully',
@@ -68,30 +66,39 @@ class MembersController extends Controller {
     ];
 
     return response()->json($response);
-}
+  }
 
   public function declineMember(Request $request) {
-    $student_number = $request->only('student_number');
+    $student_number = $request->input('student_number');
     $user_id = DB::table('students')
-      ->where('student_number', $student_number)
-      ->value('user_id');
-    
-    $updateTime = now();
-    if ($user_id) {
+        ->where('student_number', $student_number)
+        ->value('user_id');
+
+      if (!$user_id) {
+        return response()->json(['message' => 'User not found', 'code' => 404]);
+      }
+
+      $updateTime = now();
       DB::table('users')->where('id', $user_id)
         ->update(['account_status_id' => 3, 'updated_at' => $updateTime]);
 
       DB::table('students')->where('student_number', $student_number)
         ->update(['role_id' => 1, 'updated_at' => $updateTime]);
 
-      $response['message'] = 'Student declined successfully';
-      $response['code'] = 200;
+      $user = DB::table('users')
+        ->join('students', 'users.id', '=', 'students.user_id')
+        ->where('students.student_number', $student_number)
+        ->first(['users.email', 'students.first_name']);
+
+      $statusMessage = 'Unfortunately, your membership request has been declined.';
+      Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+
+      $response = [
+        'message' => 'Student declined successfully',
+        'code' => 200
+      ];
+
       return response()->json($response);
-    } else {
-      $response['message'] = 'User not found';
-      $response['code'] = 404;
-      return response()->json($response);
-    }
   }
 
   public function getOfficers() {
@@ -108,36 +115,54 @@ class MembersController extends Controller {
   }
 
   public function promoteToOfficer(Request $request) {
-    $student_number = $request->only('student_number');
+    $student_number = $request->input('student_number');
 
     if ($student_number) {
-      DB::table('students')->where('student_number', $student_number)
-        ->update(['role_id' => 2]);
+        DB::table('students')->where('student_number', $student_number)
+            ->update(['role_id' => 2]);
 
-      $response['message'] = 'Student added as an officer';
-      $response['code'] = 200;
-      return response()->json($response);
+        $user = DB::table('users')
+            ->join('students', 'users.id', '=', 'students.user_id')
+            ->where('students.student_number', $student_number)
+            ->first(['users.email', 'students.first_name']);
+
+        $statusMessage = 'You have been promoted to an officer.';
+
+        Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+
+        $response['message'] = 'Student added as an officer';
+        $response['code'] = 200;
+        return response()->json($response);
     } else {
-      $response['message'] = 'Member accepted successfully';
-      $response['code'] = 404;
-      return response()->json($response);
+        $response['message'] = 'Member not found';
+        $response['code'] = 404;
+        return response()->json($response);
     }
-  }
+}
 
   public function demoteToMember(Request $request) {
-    $student_number = $request->only('student_number');
+    $student_number = $request->input('student_number');
 
     if ($student_number) {
-      DB::table('students')->where('student_number', $student_number)
-        ->update(['role_id' => 1]);
+        DB::table('students')->where('student_number', $student_number)
+            ->update(['role_id' => 1]);
 
-      $response['message'] = 'Student demoted to member';
-      $response['code'] = 200;
-      return response()->json($response);
+        $user = DB::table('users')
+            ->join('students', 'users.id', '=', 'students.user_id')
+            ->where('students.student_number', $student_number)
+            ->first(['users.email', 'students.first_name']);
+
+        $statusMessage = 'You have been demoted to a member.';
+
+        Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+
+        $response['message'] = 'Student demoted to member';
+        $response['code'] = 200;
+        return response()->json($response);
     } else {
-      $response['message'] = 'User not found';
-      $response['code'] = 404;
-      return response()->json($response);
+        $response['message'] = 'User not found';
+        $response['code'] = 404;
+        return response()->json($response);
     }
   }
 

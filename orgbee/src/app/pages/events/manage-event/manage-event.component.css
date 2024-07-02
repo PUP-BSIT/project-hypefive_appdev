@@ -9,7 +9,9 @@ body {
 }
 
 #manage_event_modal img {
-  width: 50%;
+  width: 250px;
+  height: 230px;
+  border-radius: 10px;
 }
 
 .modal {
@@ -22,7 +24,7 @@ body {
   height: 125%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
-  margin-top: -5%;
+  margin-top: -8%;
 }
 
 .modal.visible {
@@ -136,10 +138,10 @@ button:hover {
 }
 
 .member-photo {
-  width: 40px; 
-  height: 40px; 
-  border-radius: 50%;
-  margin-right: 10px; 
+  width: 40px !important; 
+  height: 40px !important; 
+  border-radius: 50% !important;
+  margin-right: 10px !important; 
 }
 
 .member-name {
@@ -160,4 +162,84 @@ button:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+@media (max-width: 576px) { 
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content-manage {
+    width: 80%;
+  }
+
+  #manage_event_modal img {
+    width: 180px;
+    height: 200px;
+  }
+
+  .edit-btn {
+    padding: 10px 29%;
+    margin: 0%;
+  }
+
+  .occurring-btn {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 10px 20%;
+    white-space: nowrap; 
+  }
+  
+  .cancel-btn {
+    margin: 0;
+    margin-bottom: 5%;
+    padding: 10px 27%;
+  }
+  
+  .member {
+    width: 30%; 
+    margin-right: 20%;
+    margin-bottom: 10px;
+  }
+  
+}
+
+@media (max-width: 768px) { 
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content-manage {
+    width: 80%;
+  }
+
+  #manage_event_modal img {
+    width: 180px;
+    height: 200px;
+  }
+
+  .edit-btn {
+    padding: 10px 29%;
+    margin: 0%;
+  }
+
+  .occurring-btn {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 10px 22%;
+    white-space: nowrap; 
+  }
+  
+  .cancel-btn {
+    margin: 0;
+    margin-bottom: 5%;
+    padding: 10px 27%;
+  }
+  
+  .member {
+    width: 30%; 
+    margin-right: 20%;
+    margin-bottom: 10px;
+  }
+  
 }

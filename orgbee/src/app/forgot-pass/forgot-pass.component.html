@@ -6,19 +6,18 @@
   <!-- Step 1: Enter Email -->
   @if(step === 1){
   <h1>Forgot Password?</h1>
-  <p>Enter your email and will send you verification code</p>
+  <p>Enter your email and we will send you verification code</p>
   <form [formGroup]="emailForm" (ngSubmit)="sendVerificationCode()">
     <div class="input-field">
-      <label id="email_label" for="email">
-        Email Address
-      </label>
       <input
         id ="email_input"
         type="email"
         formControlName="email"
         placeholder="Enter Email Address"/>
+      <div class="inc">
       @if(emailForm.controls.email.invalid && emailForm.controls.email.touched)
          { Please enter a valid email. }
+      </div>
     </div>
     <button class="auth-button" type="submit" [disabled]="loading">
       Send Verification Code
@@ -37,8 +36,10 @@
         type="text"
         formControlName="code"
         placeholder="Enter the code sent to your email"/>
-      @if(codeForm.controls.code.invalid && codeForm.controls.code.touched)
+      <div class="inc">
+        @if(codeForm.controls.code.invalid && codeForm.controls.code.touched)
          { Please enter the 6-digit code. }
+      </div>
     </div>
     <button class="code-button" type="submit" [disabled]="loading">
       Verify Code
@@ -57,9 +58,11 @@
         type="password"
         formControlName="newPassword"
         placeholder="Enter new password"/>
-      @if(passwordForm.controls.newPassword.invalid &&
+      <div class="inc">
+        @if(passwordForm.controls.newPassword.invalid &&
           passwordForm.controls.newPassword.touched) 
           { Password must be at least 8 characters. }
+      </div>
     </div>
     <div class="input-field">
       <label class="confirm-label" for="confirmPassword">
@@ -70,9 +73,11 @@
         type="password"
         formControlName="confirmPassword"
         placeholder="Confirm new password"/>
-      @if(passwordForm.hasError('mismatch') &&
+      <div class="inc">
+        @if(passwordForm.hasError('mismatch') &&
          passwordForm.controls.confirmPassword.touched)
-        { Passwords do not match. }
+          { Passwords do not match. }
+      </div>
     </div>
     <button class="pass-button" type="submit" [disabled]="loading">
       Update Password

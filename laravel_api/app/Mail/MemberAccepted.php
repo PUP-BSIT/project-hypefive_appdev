@@ -15,15 +15,17 @@ class MemberAccepted extends Mailable
     use Queueable, SerializesModels;
 
     public $students;
+    public $statusMessage;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($students)
+    public function __construct($students, $statusMessage)
     {
         $this->students = $students;
+        $this->statusMessage = $statusMessage;
     }
 
     /**
@@ -38,8 +40,11 @@ class MemberAccepted extends Mailable
         $imageMimeType = mime_content_type($imagePath);
 
         return $this->view('emails.memberAccepted')
-                    ->subject('Membership Accepted')
-                    ->with(['students' => $this->students])
+                    ->subject('Membership Status Update')
+                    ->with([
+                        'students' => $this->students,
+                        'statusMessage' => $this->statusMessage
+                    ])
                     ->attachData($imageData, 'logo.png', ['mime' => $imageMimeType]);
     }
 }

@@ -9,12 +9,11 @@ use App\Models\Events;
 class EventRegisterController extends Controller {
   public function registerEvent(Request $request) {
     $register = $request->only('event_id', 'student_id');
+    $registrationTime = now();
+    $register['created_at'] = $registrationTime;
 
     if ($register) {
-      DB::table('registrations')->insert([
-        'event_id' => $register['event_id'],
-        'student_id' => $register['student_id']
-      ]);
+      DB::table('registrations')->insert($register);
       $event = Events::find($request->event_id);
       // Increment the reg_count for the event
       $event->reg_count += 1;
@@ -50,11 +49,12 @@ class EventRegisterController extends Controller {
 
   public function unregisterEvent(Request $request) {
     $register = $request->only('event_id', 'student_id');
+    $registrationTime=now();
 
     if ($register) {
       DB::table('registrations')->where('event_id', $register['event_id'])
         ->where('student_id', $register['student_id'])
-        ->update(['is_registered' => 0]);
+        ->update(['is_registered' => 0, 'updated_at'=>$registrationTime]);
 
       $event = Events::find($request->event_id);
       // Increment the reg_count for the event
@@ -72,11 +72,12 @@ class EventRegisterController extends Controller {
 
   public function reRegisterEvent(Request $request) {
     $register = $request->only('event_id', 'student_id');
+    $registrationTime=now();
 
     if ($register) {
       DB::table('registrations')->where('event_id', $register['event_id'])
         ->where('student_id', $register['student_id'])
-        ->update(['is_registered' => 1]);
+        ->update(['is_registered' => 1, 'updated_at'=>$registrationTime]);
 
       $event = Events::find($request->event_id);
       // Increment the reg_count for the event
