@@ -41,10 +41,8 @@
             </div>
           </div>
             <div class="details">
-              <p class="name">
-                {{ userInfo.first_name }} {{ userInfo.last_name }}
-              </p>
-              <p class="course">{{ userInfo.student_number }}</p>
+              <p class="name">{{ userInfo?.first_name }} {{ userInfo?.last_name }}</p>
+              <p class="course">{{ userInfo?.student_number }}</p>
               <div class="role-button" [class]="getHeaderClasses()">
                 {{ getRoleName(userInfo.role_id) }}
               </div>

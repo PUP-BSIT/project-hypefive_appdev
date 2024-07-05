@@ -14,8 +14,26 @@ export class UserService {
 
   updateUserInfo(userInfo: UserInfo): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.loginService.getToken());
-    return this.http.put<any>(`${this.apiUrl}update-student-info`, userInfo, { headers });
+    return this.http.put<any>(`${this.apiUrl}update-student-info`, userInfo, { headers }).pipe(
+      map((response: any) => {
+        if (response && response.updated_student) {
+          this.loginService.userInfo.first_name = response.updated_student.first_name;
+          this.loginService.userInfo.last_name = response.updated_student.last_name;
+          this.loginService.userInfo.birthday = response.updated_student.birthday;
+          this.loginService.userInfo.gender = response.updated_student.gender;
+          this.loginService.userInfo.student_number = response.updated_student.student_number;
+        } else {
+          console.error('Invalid response format:', response);
+        }
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error updating user info:', error);
+        return throwError(error);
+      })
+    );
   }
+  
 
     //TODO (move this to user service)
     updateIconId(iconId: number): Observable<any> {

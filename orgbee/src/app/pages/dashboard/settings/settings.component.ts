@@ -199,8 +199,6 @@ export class SettingsComponent implements OnInit {
         .subscribe({
           next: response => {
             this.responseService.handleSuccess(response.message);
-              // Update userInfo with the response from the server
-              this.userInfo = response.updated_student;
           },
             error: error => {
               this.responseService.handleSuccess(error.message);
