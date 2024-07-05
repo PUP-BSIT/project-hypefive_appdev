@@ -1,25 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { PostDialogComponent } from './post-dialog/post-dialog.component';
-import { DataService } from '../../../service/data.service';
-import { ToastrService } from 'ngx-toastr';
-import { Response } from '../../app.component';
-import { LoginService, UserInfo } from '../../../service/login.service';
-import { ConfirmationDialogService } from '../../../service/confirmation-dialog.service';
-import { SpinnerService } from '../../../service/spinner.service';
 import {NgxMasonryComponent}  from "ngx-masonry";
 
-export interface Post {
-  subject: string;
-  content: string;
-  background_color: string;
-  showOptions?: boolean;
-  id?: number; // for sample only
-  post_status_id: number; //Update to status
-  student_id: number;
-  deletion_req_count?: number;
-}
+import { PostDialogComponent } from './post-dialog/post-dialog.component';
+import { FreedomwallService } from '../../../service/freedomwall-service/freedomwall.service';
+import { LoginService, UserInfo } from '../../../service/login.service';
+import { ConfirmationDialogService } 
+  from '../../../service/confirmation-dialog.service';
+import { SpinnerService } from '../../../service/spinner.service';
+import { Post } from '../../../service/freedomwall-service/freedomwall.service';
+import { ResponseService } 
+  from '../../../service/response-service/response.service';
+import { Response } from '../../../service/response-service/response.service';
+
 
 
 @Component({
@@ -30,32 +24,37 @@ export interface Post {
 
 export class FreedomWallComponent implements OnInit {
   @ViewChild(NgxMasonryComponent) masonry: NgxMasonryComponent;
-  posts: Post[];
-  showModal = false;
-  selectedPost: Post;
+
   freedomwallForm: FormGroup;
-  response: Response;
-  adminApproval = true; 
+  posts: Post[];
   pendingPosts: Post[] = []; 
   paginatedPosts: Post[] = []; 
+  requestDelete:Post[];
+  selectedPost: Post;
+  response: Response;
+  userInfo: UserInfo;
+
+  showModal = false;
+  adminApproval = true; 
+  showManageWallModal = false; 
+  showFilterMessage = false;
+  showRequestToDeleteModal = false;
+  showSpinner = false;
+
   currentPage = 0; 
   postsPerPage = 4; 
   totalPages = 1; 
-  showManageWallModal = false; 
   deletePostCount = 0;
   manageWallCount = 0;
-  showFilterMessage: boolean = false;
-  showSpinner = false;
-  userInfo: UserInfo;
-  requestDelete:Post[];
+
   constructor(
     private dialog: MatDialog, 
-    private dataService: DataService, 
-    private toastr: ToastrService,
+    private dataService: FreedomwallService, 
     private fb: FormBuilder, 
     private loginService: LoginService,
     private confirmationDialogService: ConfirmationDialogService,
-    private spinnerService: SpinnerService) { }
+    private spinnerService: SpinnerService,
+    private responseService: ResponseService) { }
     
   ngOnInit(): void {
     this.showPosts();
@@ -84,11 +83,8 @@ export class FreedomWallComponent implements OnInit {
   }
   
   isCurrentUserPost(post: Post): boolean {
-    console.log('Post:', post);
-    console.log('Current User ID:', this.userInfo.id);
     return post.student_id === this.userInfo.id;
   }
-  
   
   updateTitleCharacterCount(): void {
     const subjectControl = this.freedomwallForm.get('newPostTitle');
@@ -113,51 +109,37 @@ export class FreedomWallComponent implements OnInit {
   }
 
   addPost() {
-    this.confirmationDialogService.confirmAction('Post Confirmation', 'Your post will be reviewed first by the officers. Are you sure you want to post this?', () => {
-    this.spinnerService.show('Submitting post...')
-      if (this.freedomwallForm.invalid) {
-      this.freedomwallForm.markAllAsTouched();
-      return;
-    }
+    this.confirmationDialogService.confirmAction('Post Confirmation', 
+      `Your post will be reviewed first by the officers. 
+       Are you sure you want to post this?`, () => {
+        this.spinnerService.show('Submitting post...')
+          if (this.freedomwallForm.invalid) {
+            this.freedomwallForm.markAllAsTouched();
+            return;
+          }
 
-    const newPost: Post = {
-      subject: this.freedomwallForm.value.newPostTitle,
-      content: this.freedomwallForm.value.newPostText,
-      background_color: this.getRandomColor(),
-      post_status_id: 1, //Update to status
-      student_id:  Number(this.userInfo.id),
-    };
-    
-    this.dataService.addPosts(newPost).subscribe((res: Response) => {
-      this.response = res;
-            setTimeout(() => {
-        this.spinnerService.hide();
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
+        const newPost: Post = {
+          subject: this.freedomwallForm.value.newPostTitle,
+          content: this.freedomwallForm.value.newPostText,
+          background_color: this.getRandomColor(),
+          post_status_id: 1, //Update to status
+          student_id:  Number(this.userInfo.id),
+        };
+        
+        this.dataService.addPosts(newPost).subscribe((res: Response) => {
+          this.response = res;
+          setTimeout(() => {
+            this.spinnerService.hide();
+            this.responseService.handleResponse(this.response);
+            this.handleUpdate();
+            this.loadPendingPosts();
+          }, 500);
         });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      if (this.showFilterMessage) {
-        this.filterPostsByUser();
-      } else {
-        this.showPosts();
-      }
-      this.loadPendingPosts();
-    }, 500);
-  });
 
-  this.freedomwallForm.reset();
-  this.toggleModal();
-});
-}
+        this.freedomwallForm.reset();
+        this.toggleModal();
+    });
+  }
 
   showPosts() {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
@@ -183,7 +165,8 @@ export class FreedomWallComponent implements OnInit {
   }
 
   getBackgroundColorClass(post: Post): string[] {
-    const colorClass = `background-color-class-${this.getColorIndex(post.background_color)}`;
+    const colorClass = 
+      `background-color-class-${this.getColorIndex(post.background_color)}`;
     return [colorClass];
   }
   
@@ -206,37 +189,28 @@ export class FreedomWallComponent implements OnInit {
   }
 
   deletePost(id: number) {
-    this.confirmationDialogService.confirmAction('Delete Confirmation', 'This action can\'t be undone. Are you sure you want to delete this post?', () => {
-      this.spinnerService.show('Deleting post...');
-      const post_id = { id: id };
-      this.dataService.deletePosts(post_id).subscribe((res: Response) => {
-        this.response = res;
-        setTimeout(() => {
-          this.spinnerService.hide();
-          if (this.response.code === 200) {
-            this.toastr.success(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast success'
-            });
-          } else {
-            this.toastr.error(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast error'
-            });
-          }
-          
-          // Update posts based on filter status
-          if (this.showFilterMessage) {
-            this.posts = this.posts.filter(post => post.id !== id);
+    this.confirmationDialogService.confirmAction('Delete Confirmation', 
+     `This action can\'t be undone. Are you sure you want to 
+      delete this post?`, () => {
+        this.spinnerService.show('Deleting post...');
+        const post_id = { id: id };
+        this.dataService.deletePosts(post_id).subscribe((res: Response) => {
+          this.response = res;
+          setTimeout(() => {
+            this.spinnerService.hide();
+            this.responseService.handleResponse(this.response);
+
+            // Update posts based on filter status
+            if (this.showFilterMessage) {
+              this.posts = this.posts.filter(post => post.id !== id);
+            } else {
+              this.showPosts();
+            }
+            
             this.reloadMasonryLayout();
-          } else {
-            this.showPosts();
-          }
-          this.getDeletionRequests();
-        }, 500);
-      });
+            this.getDeletionRequests();
+          }, 500);
+        });
     });
   }
 
@@ -279,82 +253,51 @@ export class FreedomWallComponent implements OnInit {
   }
 
   approvePost(postId: number): void {
-    this.confirmationDialogService.confirmAction('Approve Confirmation', 'This action can\'t be undone. Are you sure you want to approve this post?', () => {
-      const post_id = { id: postId };
-      this.spinnerService.show('Approving post...');
-      this.dataService.acceptPost(post_id).subscribe(
-        (res: Response) => {
-          this.response = res;
-          setTimeout(() => {
-            this.spinnerService.hide();
-            if (this.response.code === 200) {
-              this.toastr.success(JSON.stringify(this.response.message), '', {
-                timeOut: 2000,
-                progressBar: true,
-                toastClass: 'custom-toast success'
-              });
-              // Refresh posts based on current view
-              if (this.showFilterMessage) {
-                this.showPosts();
-                this.filterPostsByUser();
-              } else {
-                this.showPosts();
-              }
+    this.confirmationDialogService.confirmAction('Approve Confirmation', 
+     `This action can\'t be undone. Are you sure you want 
+      to approve this post?`, () => {
+        const post_id = { id: postId };
+        this.spinnerService.show('Approving post...');
+        this.dataService.acceptPost(post_id).subscribe(
+          (res: Response) => {
+            this.response = res;
+            setTimeout(() => {
+              this.spinnerService.hide();
+              this.responseService.handleResponse(this.response);
+              this.handleUpdate();
               this.loadPendingPosts(); // Refresh pending posts
-            } else {
-              this.toastr.error(JSON.stringify(this.response.message), '', {
-                timeOut: 2000,
-                progressBar: true,
-                toastClass: 'custom-toast error'
-              });
-            }
-          }, 500);
-        },
-        (error) => {
-          this.toastr.error('An error occurred while approving the post.', '', {
-            timeOut: 2000,
-            progressBar: true,
-            toastClass: 'custom-toast error'
-          });
-          console.error('Error approving post:', error);
-          this.spinnerService.hide();
-        }
-      );
+            }, 500);
+          },
+          //TO DO: under review
+          // (error) => {
+          //   this.toastr.error('An error occurred while approving the post.', '', {
+          //     timeOut: 2000,
+          //     progressBar: true,
+          //     toastClass: 'custom-toast error'
+          //   });
+          //   console.error('Error approving post:', error);
+          //   this.spinnerService.hide();
+          // }
+        );
     });
   }
   
   declinePost(postId: number) {
-    this.confirmationDialogService.confirmAction('Decline Confirmation', 'This action cant be undone. Are you sure you want to decline this post?', () => {
-      const post_id = { id: postId };
-      this.dataService.declinePost(post_id).subscribe((res: Response) => {
-        this.response = res;
-        setTimeout(() => {
-          if (this.response.code === 200) {
-            this.toastr.success(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast success'
-            });
-          } else {
-            this.toastr.error(JSON.stringify(this.response.message), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast error'
-            });
-          }
-  
-          if (this.showFilterMessage) {
-            this.filterPostsByUser();
-          } else {
-            this.showPosts();
-          }
-          this.loadPendingPosts();
-        }, 500);
-      });
+    this.confirmationDialogService.confirmAction('Decline Confirmation', 
+     'This action cant be undone. Are you sure you want to decline this post?', 
+      () => {
+        const post_id = { id: postId };
+        this.dataService.declinePost(post_id).subscribe((res: Response) => {
+          this.response = res;
+          setTimeout(() => {
+            this.responseService.handleResponse(this.response);
+            this.handleUpdate();
+            this.loadPendingPosts();
+          }, 500);
+        });
     });
   }
 
-  showRequestToDeleteModal=false;
   openRequestToDeleteModal(){
     this.showRequestToDeleteModal=true;
   }
@@ -367,26 +310,16 @@ export class FreedomWallComponent implements OnInit {
   }
 
   requestPostToDelete(post: Post){
-    this.confirmationDialogService.confirmAction('Request Confirmation', 'This action cant be undone. Are you sure you want to request to delete this post?', () => {
-    const post_id = { id: post.id };
-    this.dataService.deletionRequest(post_id).subscribe((res: Response)=>{
-      this.response = res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
+    this.confirmationDialogService.confirmAction('Request Confirmation', 
+     `This action cant be undone. Are you sure you want to request to 
+      delete this post?`, () => {
+        const post_id = { id: post.id };
+        this.dataService.deletionRequest(post_id).subscribe((res: Response)=>{
+          this.response = res;
+          this.responseService.handleResponse(this.response);
+          this.toggleOptions(post);
+          this.getDeletionRequests();
         });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
-      this.toggleOptions(post);
-      this.getDeletionRequests();
-    });
   });
 }
 
@@ -394,19 +327,7 @@ export class FreedomWallComponent implements OnInit {
     const post_id = { id: id };
     this.dataService.declineDeletionRequest(post_id).subscribe((res:Response)=>{
       this.response = res;
-      if (this.response.code === 200) {
-        this.toastr.success(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast success'
-        });
-      } else {
-        this.toastr.error(JSON.stringify(this.response.message), '', {
-          timeOut: 2000,
-          progressBar: true,
-          toastClass: 'custom-toast error'
-        });
-      }
+      this.responseService.handleResponse(this.response);
       this.getDeletionRequests();
     })
   }
@@ -426,10 +347,8 @@ export class FreedomWallComponent implements OnInit {
     this.reloadMasonryLayout(); 
     setTimeout(() => {
       this.showSpinner = false;
-
     }, 1000); 
     return this.posts.filter(post => post.student_id === this.userInfo.id);
-    
   }
 
   clearFilter(): void {
@@ -441,5 +360,13 @@ export class FreedomWallComponent implements OnInit {
       this.reloadMasonryLayout(); 
       this.showSpinner = false;
     }, 1000); 
+  }
+
+  handleUpdate() {
+    if (this.showFilterMessage) {
+      this.filterPostsByUser();
+    } else {
+      this.showPosts();
+    }
   }
 }

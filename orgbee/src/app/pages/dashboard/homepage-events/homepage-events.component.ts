@@ -5,7 +5,8 @@ import { DataService } from '../../../../service/data.service';
 import { Time } from '@angular/common';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 
-import { Event } from '../../events/events.component';
+import { Event } from '../../../../service/event-service/event.service';
+import { EventService } from '../../../../service/event-service/event.service';
 import { ToastrService } from 'ngx-toastr';
 import { Response } from '../../../app.component';
 
@@ -48,6 +49,7 @@ export class HomepageEventsComponent implements OnInit {
   message: string;
   constructor(
     private dataService: DataService, 
+    private eventService: EventService,
     private loginService: LoginService,  
     private toastr: ToastrService,) {}
 
@@ -55,8 +57,6 @@ export class HomepageEventsComponent implements OnInit {
     this.showUpcomingEvents();
     this.loginService.onDataRetrieved((data: UserInfo) => {
       this.userInfo = data;
-      console.log("events");
-      console.log(this.userInfo);
     });
     
   }
@@ -73,7 +73,7 @@ export class HomepageEventsComponent implements OnInit {
 
   showUpcomingEvents() {
     //Get events with event_state = 1 with status of 2
-    this.dataService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
+    this.eventService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
       this.filteredEvents = upcoming;
     })
   }

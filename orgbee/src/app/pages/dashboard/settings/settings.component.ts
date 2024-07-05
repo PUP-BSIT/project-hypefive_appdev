@@ -8,7 +8,7 @@ import { UserService } from '../../../../service/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
-
+import { ResponseService } from '../../../../service/response-service/response.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -34,6 +34,7 @@ export class SettingsComponent implements OnInit {
     private userService: UserService,
     private toastr: ToastrService,
     private router:Router,
+    private responseService:ResponseService,
     private confirmationDialogService: ConfirmationDialogService) {}
 
   @Input() showSettings: boolean = false;
@@ -197,12 +198,12 @@ export class SettingsComponent implements OnInit {
       this.userService.updateUserInfo(updatedUserInfo)
         .subscribe({
           next: response => {
-            console.log('User info updated successfully:', response);
+            this.responseService.handleSuccess(response.message);
               // Update userInfo with the response from the server
               this.userInfo = response.updated_student;
           },
             error: error => {
-              console.error('Failed to update user info:', error);
+              this.responseService.handleSuccess(error.message);
             }
     });
     } else {
@@ -254,12 +255,8 @@ export class SettingsComponent implements OnInit {
   
     this.userService.changePassword(currentPassword, newPassword, confirmPassword).subscribe({
       next: response => {
-        console.log('Password updated successfully:', response);
+        this.responseService.handleSuccess(response.message);
         this.passwordForm.reset();
-        this.toastr.success('Password updated successfully', 'Success', { 
-          timeOut: 2000, 
-          progressBar: true 
-        });
       },
       error: error => {
         console.error('Error updating password:', error);
@@ -286,10 +283,7 @@ export class SettingsComponent implements OnInit {
 
     this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
       next: response => {
-        this.toastr.success('Account deactivated successfully', 'Success', { 
-          timeOut: 2000, 
-          progressBar: true 
-        });
+        this.responseService.handleSuccess(response.message);
         this.router.navigate(['/login']);
       },
       error: error => {
@@ -311,7 +305,7 @@ export class SettingsComponent implements OnInit {
     this.confirmationDialogService.confirmAction('Change Avatar Confirmation', 'Are you sure you want to change your avatar?', () => {
     this.userService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe({
       next: response => {
-        console.log('Icon updated successfully:', response);
+        this.responseService.handleSuccess(response.message);
       },
       error: error => {
         console.error('Failed to update icon:', error);

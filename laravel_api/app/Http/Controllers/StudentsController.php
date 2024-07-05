@@ -209,9 +209,9 @@ class StudentsController extends Controller {
     $updated = Students::where('user_id', $user_id)->update(['icon_id' => $request->icon_id]);
 
     if ($updated) {
-      return response()->json(['message' => 'Icon ID updated successfully'], 200);
+      return response()->json(['message' => 'Icon updated successfully'], 200);
     } else {
-      return response()->json(['message' => 'Failed to update icon ID'], 500);
+      return response()->json(['message' => 'Failed to update icon'], 500);
     }
   }
 
@@ -289,7 +289,12 @@ class StudentsController extends Controller {
   }
 
   public function getTotalMembers() {
-    $members = DB::table('students')->whereNotIn('id', [1])->count();
+    $members = DB::table('students')
+      ->join('users', 'students.user_id', '=', 'users.id')
+      ->whereNotIn('students.id', [1])
+      ->where('users.account_status_id', 2)
+      ->where('users.is_active', 1)
+      ->count();
     
     return response()->json($members);
   }

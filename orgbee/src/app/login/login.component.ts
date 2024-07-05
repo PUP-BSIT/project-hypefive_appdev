@@ -3,12 +3,13 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DataService } from '../../service/data.service';
-import { MustMatch } from './confirmed.validator';
-import { SpinnerService } from '../../service/spinner.service';
-
+import { Router } from '@angular/router';
 import { catchError, of, map } from 'rxjs';
+
+import { DataService } from '../../service/data.service';
+import { SpinnerService } from '../../service/spinner.service';
+import { MustMatch } from './confirmed.validator';
+
 interface ResponseData {
   status: number;
   data: {
@@ -37,7 +38,6 @@ export class LoginComponent implements OnInit {
     private dataService: DataService, 
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute, 
     private spinnerService: SpinnerService) {}
 
   ngOnInit(): void {
@@ -198,17 +198,17 @@ export class LoginComponent implements OnInit {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-        this.toastr.success(JSON.stringify(this.data.message), 
-          JSON.stringify(this.data.code),{
-            timeOut: 2000,
-            progressBar:true
+        this.toastr.success(JSON.stringify(this.data.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
 
         });
       } else if (this.data.status === 0) {
-        this.toastr.error(JSON.stringify(this.data.message), 
-          JSON.stringify(this.data.code),{
-            timeOut: 2000,
-            progressBar:true
+        this.toastr.error(JSON.stringify(this.data.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
         });
       }
     });
@@ -236,18 +236,18 @@ export class LoginComponent implements OnInit {
         this.data = res;
         this.spinnerService.hide();
         if(this.data.status === 1) {
-          this.toastr.success(JSON.stringify(this.data.message), 
-            JSON.stringify(this.data.code),{
-              timeOut: 1000,
-              progressBar: true
+          this.toastr.success(JSON.stringify(this.data.message), '',{
+            timeOut: 1000,
+            progressBar: true,
+            toastClass: 'custom-toast success'
           });
 
           this.router.navigate(['./verify']);
         } else {
-          this.toastr.error(JSON.stringify(this.data.message), 
-            JSON.stringify(this.data.code),{
-              timeOut: 2000,
-              progressBar: true
+          this.toastr.error(JSON.stringify(this.data.message), '',{
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast error'
           });
         }
 

@@ -1,6 +1,7 @@
-import { Component, ElementRef, AfterViewInit, Inject, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Post } from '../freedom-wall.component';
+import { Post } 
+  from '../../../../service/freedomwall-service/freedomwall.service';
 
 @Component({
   selector: 'app-post-dialog',

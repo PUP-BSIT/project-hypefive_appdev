@@ -17,6 +17,7 @@ class MembersController extends Controller {
       ->where('students.id', '!=', 1)
       //Fetch students with an account_status of accepted
       ->where('users.account_status_id', 2)
+      ->orderBy('students.last_name')
       ->get(['students.*', 'users.email', 'icons.icon_location']);
     return response()->json($students, 200);
   }
@@ -30,6 +31,7 @@ class MembersController extends Controller {
       //Fetch students with an account_status of pending
       ->where('users.account_status_id', "=", 1)
       ->where('users.is_verified', true)
+      ->orderBy('id')
       ->get(['students.*', 'icons.icon_location']);
 
     return response()->json($students, 200);
@@ -110,6 +112,7 @@ class MembersController extends Controller {
       ->where('students.role_id', '=', 2)
       //Fetch students with an account_status of accepted
       ->where('users.account_status_id', 2)
+      ->orderBy('students.last_name')
       ->get(['students.*', 'users.email', 'icons.icon_location']);
     return response()->json($students, 200);
   }

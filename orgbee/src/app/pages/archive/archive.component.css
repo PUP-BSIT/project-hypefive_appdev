@@ -102,12 +102,23 @@ body {
 
 .event-list-title td {
   padding: 10px;
-  text-align: center;
 }
 
 .event-list td {
   padding: 10px;
-  text-align: justify;
+  border-bottom: 1px solid #ddd;
+}
+
+.event-list th:first-child, .event-list td:first-child {
+  width: 15ch;
+  max-width: 15ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.event-list th:nth-child(2), .event-list td:nth-child(2) {
+  min-width: 100px; 
 }
 
 .event-list-title {
@@ -122,7 +133,14 @@ h2 {
 
 .event-list-table {
   display: table-row;
-  text-align: center;
+}
+
+.event-title {
+  max-width: 15ch; 
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 10%;
 }
 
 .carousel-buttons {
@@ -305,6 +323,12 @@ h2 {
   .modal {
     height: auto;
   }
+
+  .search-results {
+    width: 50%;
+    margin-top: 3px;
+  }
+  
 }
 
 .no-request {

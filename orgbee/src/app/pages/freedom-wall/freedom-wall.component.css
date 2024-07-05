@@ -588,7 +588,7 @@ button:disabled {
 
   .input-wrapper {
     display: flex;
-    width: 320%;
+    width: auto;
   }
 
   .post-card {
@@ -603,6 +603,12 @@ button:disabled {
 
   .request-delete-count {
     margin-right: 37%;
+  }
+
+  .manage-modal-content { 
+    height: 50%; 
+    max-height: 50%; 
+
   }
   
   @media screen and (max-width: 460px) {
