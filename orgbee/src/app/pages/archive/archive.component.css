@@ -14,7 +14,6 @@ body {
 }
 
 .header {
-  border-bottom: 1px solid #ddd;
   border-radius: 10px;
   flex-shrink: 0;
 }
@@ -35,7 +34,7 @@ body {
 
 .left-column {
   flex: 3;
-  padding: 10px;
+  margin-right: 15px;
   box-sizing: border-box;
 }
 
@@ -44,8 +43,7 @@ body {
   padding: 10px;
   box-sizing: border-box;
   background-color: #eeeeed;
-  margin-top: 2%;
-  border-radius: 20px;
+  border-radius: 15px;
   height: 80vh;
   text-align: center;
 }
@@ -56,7 +54,6 @@ body {
   text-align: center;
   border-bottom: solid 2px #ffca10;
   border-radius: 15px;
-  margin-top: 10px;
 }
 
 .page {
@@ -300,6 +297,7 @@ h2 {
   }
 
   .right-column {
+    margin-top: 10px;
     order: 2;
   }
 

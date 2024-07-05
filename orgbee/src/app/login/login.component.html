@@ -20,10 +20,10 @@
         @if(emailControl.invalid && emailControl.touched) {
           <div class="inc">
             @if(emailControl.errors?.['required']) {
-              <div>Email is Required.</div>
+              <div>Email is required.</div>
             }
             @if(emailControl.errors?.['email']) {
-              <div>Invalid Email format.</div>
+              <div>Invalid email format.</div>
             }
           </div>
         }
