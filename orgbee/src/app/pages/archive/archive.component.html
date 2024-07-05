@@ -86,8 +86,9 @@
             @for(event of oldEvents; track event.id) {
               <div class="event-list-table">
                 <div (click)="eventClick(event)">
-                  <td>{{ event.event_name }}</td>
-                  <td>{{ event.date }}</td>
+                  <td class="event-title">
+                    {{ truncateText(event.event_name, 15) }}</td>
+                  <td class="event-date">{{ event.date }}</td>
                 </div>
               </div>
             }

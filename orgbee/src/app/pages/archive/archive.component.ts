@@ -102,6 +102,10 @@ export class ArchiveComponent implements OnInit  {
     }
   }
 
+  truncateText(text: string, limit: number): string {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  }
+
   searchEvents(){
     this.searchArchive.get('keyword')!.valueChanges.pipe(
       switchMap((keyword)=>{
