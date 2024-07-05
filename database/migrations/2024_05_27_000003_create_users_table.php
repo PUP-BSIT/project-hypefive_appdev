@@ -19,6 +19,8 @@ return new class extends Migration
             $table->boolean('is_verified')->default(false); 
             $table->string('email_auth_token', 255)->nullable();
             $table->timestamps();
+            $table->boolean('is_active')->default(true);
+            $table->timestamp('last_active_at')->nullable(); 
             
             $table->foreign('account_status_id')->references('id')
                 ->on('status')->onDelete('CASCADE')
