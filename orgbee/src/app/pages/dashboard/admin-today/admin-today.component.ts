@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../../service/data.service';
-import { Event } from '../../events/events.component';
+import { Event } from '../../../../service/event-service/event.service';
 
 @Component({
   selector: 'app-admin-today',

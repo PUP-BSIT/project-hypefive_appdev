@@ -31,6 +31,8 @@ import { LoginService } from '../service/login.service';
 import { AnnouncementService } from '../service/announcement.service';
 import { MemberService } from '../service/member-service/member.service';
 import { ResponseService } from '../service/response-service/response.service';
+import { FreedomwallService } from '../service/freedomwall-service/freedomwall.service';
+import { EventService } from '../service/event-service/event.service';
 
 import { PostDialogComponent } 
   from './pages/freedom-wall/post-dialog/post-dialog.component';
@@ -138,6 +140,8 @@ import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.componen
     AnnouncementService, 
     MemberService,
     ResponseService, 
+    FreedomwallService,
+    EventService,
     provideAnimationsAsync(),  
     DatePipe,
     {provide: CalendarDateFormatter, useClass: CustomDateFormatter}

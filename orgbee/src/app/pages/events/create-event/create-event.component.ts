@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-import { DataService } from '../../../../service/data.service';
-import { Response } from '../../../app.component';
+import { EventService } from '../../../../service/event-service/event.service';
+import { Response } from '../../../../service/response-service/response.service';
 import { SpinnerService } from '../../../../service/spinner.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class CreateEventComponent implements OnInit {
 
   constructor (
     private formBuilder: FormBuilder, 
-    private dataService: DataService, 
+    private eventService: EventService, 
     private toastr: ToastrService,
     private spinnerService: SpinnerService
   ) {}
@@ -176,7 +176,7 @@ export class CreateEventComponent implements OnInit {
       if (type === 'publish') {
         this.spinnerService.show('Publishing event...')
         formData.append('event_status_id', '2'); //set the status to publish
-        this.dataService.createEvent(formData).subscribe((res:Response)=>{
+        this.eventService.createEvent(formData).subscribe((res:Response)=>{
           this.response=res;
           this.handleResponse();
           this.eventCreated.emit();
@@ -185,7 +185,7 @@ export class CreateEventComponent implements OnInit {
       } else {
         this.spinnerService.show('Saving to drafts...')
         formData.append('event_status_id', '1'); //set the status to draft
-        this.dataService.createEvent(formData).subscribe((res:Response)=>{
+        this.eventService.createEvent(formData).subscribe((res:Response)=>{
           this.response=res;
           this.handleResponse();
           this.draftSaved.emit();

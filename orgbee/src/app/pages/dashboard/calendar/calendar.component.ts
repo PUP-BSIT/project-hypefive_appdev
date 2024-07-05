@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { formatDate } from '@angular/common';
 import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
-import { DataService } from '../../../../service/data.service';
+import { EventService } from '../../../../service/event-service/event.service';
 
 @Component({
   selector: 'app-calendar',
@@ -16,14 +16,14 @@ export class CalendarComponent implements OnInit {
   selectedEvents: CalendarEvent[] = [];
   selectedEvent: CalendarEvent | null = null;
 
-  constructor(private dataService: DataService) {}
+  constructor(private eventService:EventService) {}
 
   ngOnInit(): void {
     this.loadEvents();
   }
 
   loadEvents(): void {
-    this.dataService.getUpcomingEvents().subscribe((events: any) => {
+    this.eventService.getUpcomingEvents().subscribe((events: any) => {
       this.events = events.map((event: any) => ({
         start: new Date(event.date),
         title: event.event_name,

@@ -1,14 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { Event } from '../events.component';
+import { Event } from '../../../../service/event-service/event.service';
 import { Member } from '../../../../service/member-service/member.service';
-import { ModalButton } from '../events.component';
+import { ModalButton } from '../../../../service/event-service/event.service';
 import { Response } from '../../../app.component';
 
-import { DataService } from '../../../../service/data.service';
+import { EventService } from '../../../../service/event-service/event.service';
 import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
 import { SpinnerService } from '../../../../service/spinner.service';
+
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-manage-event',
@@ -27,12 +29,13 @@ export class ManageEventComponent implements OnInit {
   @Output() cancelUpdate = new EventEmitter<string>();
   @Output() editEventModal = new EventEmitter<void>();
 
-  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  imgPath = environment.imgPath;
   response:Response;
 
 
   constructor(
-    private dataService:DataService, 
+    private eventService:EventService, 
     private toastr: ToastrService, 
     private confirmationDialogService: ConfirmationDialogService,
     private spinnerService: SpinnerService){}
@@ -46,7 +49,7 @@ export class ManageEventComponent implements OnInit {
 
   publishDraft(event:Event) {
     const id = {id : event.id};
-    this.dataService.publishDraft(id).subscribe((res: Response )=>{
+    this.eventService.publishDraft(id).subscribe((res: Response )=>{
       this.response=res;
       this.handleResponse();
 
@@ -58,7 +61,7 @@ export class ManageEventComponent implements OnInit {
   markAsOccurring(event: Event): void {
     this.confirmationDialogService.confirmAction('Action Confirmation', 'This action cant be undone. Are you sure you want to mark this event as occuring?', () => {
     const id = {id : event.id};
-    this.dataService.markAsOccuring(id).subscribe((res:Response) =>{
+    this.eventService.markAsOccuring(id).subscribe((res:Response) =>{
       this.response=res;
       this.handleResponse();
 
@@ -71,7 +74,7 @@ export class ManageEventComponent implements OnInit {
   markAsComplete(event: Event) {
     this.confirmationDialogService.confirmAction('Action Confirmation', 'This action cant be undone. Are you sure you want mark this event as completed?', () => {
     const id = {id : event.id};
-    this.dataService.markAsComplete(id).subscribe((res:Response) =>{
+    this.eventService.markAsComplete(id).subscribe((res:Response) =>{
       this.response=res;
       this.handleResponse();
 
@@ -84,7 +87,7 @@ export class ManageEventComponent implements OnInit {
   cancelEvent(event: Event): void {
     this.confirmationDialogService.confirmAction('Action Confirmation', 'This action cant be undone. Are you sure you want to cancel this event?', () => {
       const id = {id : event.id};
-      this.dataService.cancelEvent(id).subscribe((res:Response) =>{
+      this.eventService.cancelEvent(id).subscribe((res:Response) =>{
         this.response=res;
         this.handleResponse();
         

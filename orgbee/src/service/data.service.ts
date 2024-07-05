@@ -27,42 +27,6 @@ export class DataService {
     return this.http.post(this.apiUrl +'api/login/', data);
   }
 
-  createEvent(data) {
-    return this.http.post(this.apiUrl +'api/createEvent/', data);
-  }
-
-  getUpcomingEvents() {
-    return this.http.get(this.apiUrl +'api/getUpcomingEvents/');
-  }
-
-  getDraftEvents() {
-    return this.http.get(this.apiUrl +'api/getDraftEvents/');
-  }
-
-  getOccuringEvents() {
-    return this.http.get(this.apiUrl +'api/getOccuringEvents/');
-  }
-
-  markAsOccuring(data) {
-    return this.http.post(this.apiUrl +'api/markAsOccuring/', data);
-  }
-
-  markAsComplete(data) {
-    return this.http.post(this.apiUrl +'api/markAsComplete/', data);
-  }
-
-  publishDraft(data) {
-    return this.http.post(this.apiUrl +'api/publishDraft/', data);
-  }
-
-  cancelEvent(data) {
-    return this.http.post(this.apiUrl +'api/cancelEvent/', data);
-  }
-
-  updateEvent(data) {
-    return this.http.post(this.apiUrl +'api/updateEvent/', data);
-  }
-
   getYearlyEvents() {
     return this.http.get(this.apiUrl +'api/getYearlyEvents/');
   }
@@ -90,10 +54,6 @@ export class DataService {
 
   reRegisterEvent(data){
     return this.http.post(this.apiUrl +'api/reRegisterEvent/', data);
-  }
-
-  getRegisteredMembers(event_id: number){
-    return this.http.get(this.apiUrl + `api/getRegisteredMembers/${event_id}`);
   }
 
   getTotalMembers(){

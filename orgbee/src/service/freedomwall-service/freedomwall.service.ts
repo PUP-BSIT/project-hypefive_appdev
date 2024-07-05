@@ -12,9 +12,7 @@ export interface Post {
   student_id: number;
   deletion_req_count?: number;
 }
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FreedomwallService {
 
   constructor(private http:HttpClient) { }
