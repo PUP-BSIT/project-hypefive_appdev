@@ -27,19 +27,6 @@ export class DataService {
     return this.http.post(this.apiUrl +'api/login/', data);
   }
 
-  getYearlyEvents() {
-    return this.http.get(this.apiUrl +'api/getYearlyEvents/');
-  }
-
-  getOldEvents() {
-    return this.http.get(this.apiUrl +'api/getOldEvents/');
-  }
-
-  searchArchive(data) {
-    return this.http.get(this.apiUrl +
-        `api/archive/search_archive?search_archive=${data}`);
-  }
-
   registerEvent(data) {
     return this.http.post(this.apiUrl +'api/registerEvent/', data);
   }

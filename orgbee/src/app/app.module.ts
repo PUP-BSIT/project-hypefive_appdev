@@ -33,6 +33,7 @@ import { MemberService } from '../service/member-service/member.service';
 import { ResponseService } from '../service/response-service/response.service';
 import { FreedomwallService } from '../service/freedomwall-service/freedomwall.service';
 import { EventService } from '../service/event-service/event.service';
+import { ArchiveService } from '../service/archive-service/archive.service';
 
 import { PostDialogComponent } 
   from './pages/freedom-wall/post-dialog/post-dialog.component';
@@ -142,6 +143,7 @@ import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.componen
     ResponseService, 
     FreedomwallService,
     EventService,
+    ArchiveService,
     provideAnimationsAsync(),  
     DatePipe,
     {provide: CalendarDateFormatter, useClass: CustomDateFormatter}
