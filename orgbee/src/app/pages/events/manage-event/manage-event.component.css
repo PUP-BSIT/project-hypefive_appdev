@@ -126,6 +126,8 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  overflow-y: scroll;
+  scrollbar-width: none; 
 }
 
 .member {
@@ -164,13 +166,54 @@ button:hover {
   cursor: pointer;
 }
 
-@media (max-width: 576px) { 
+@media (width < 432px) {
   .modal {
     margin-top: 0%;
   }
 
   .modal-content-manage {
-    width: 80%;
+    width: 90%;
+  }
+
+  #manage_event_modal img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .edit-btn {
+    padding: 10px 20%;
+    margin: 0%;
+  }
+
+  .occurring-btn {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 10px 8%;
+    white-space: nowrap; 
+  }
+  
+  .cancel-btn {
+    margin: 0;
+    margin-bottom: 5%;
+    padding: 10px 17%;
+  }
+  
+  .member {
+    width: 30%; 
+    margin-right: 20%;
+    margin-bottom: 10px;
+  }
+
+}
+
+@media (min-width: 432px) and (max-width: 576px) { 
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content-manage {
+    width: 90%;
   }
 
   #manage_event_modal img {
@@ -204,7 +247,7 @@ button:hover {
   
 }
 
-@media (max-width: 768px) { 
+@media (min-width: 577px) and (max-width: 844px) { 
   .modal {
     margin-top: 0%;
   }
@@ -242,4 +285,24 @@ button:hover {
     margin-bottom: 10px;
   }
   
+}
+
+@media (min-width: 845px) and (max-width: 900px) {
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content-manage {
+    width: 95%;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .modal {
+    margin-top: 0%;
+  }
+
+  .modal-content-manage {
+    width: 80%;
+  }
 }
