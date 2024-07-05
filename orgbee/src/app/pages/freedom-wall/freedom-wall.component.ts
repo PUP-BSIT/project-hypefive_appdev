@@ -145,6 +145,7 @@ export class FreedomWallComponent implements OnInit {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
     });
+    this.reloadMasonryLayout();
   }
 
   closeModal() {
@@ -203,11 +204,16 @@ export class FreedomWallComponent implements OnInit {
             // Update posts based on filter status
             if (this.showFilterMessage) {
               this.posts = this.posts.filter(post => post.id !== id);
+              setTimeout(() => {
+                this.reloadMasonryLayout();
+                }, 500);
             } else {
               this.showPosts();
+              setTimeout(() => {
+              this.reloadMasonryLayout();
+              }, 500);
             }
             
-            this.reloadMasonryLayout();
             this.getDeletionRequests();
           }, 500);
         });
@@ -264,7 +270,11 @@ export class FreedomWallComponent implements OnInit {
             setTimeout(() => {
               this.spinnerService.hide();
               this.responseService.handleResponse(this.response);
-              this.handleUpdate();
+              if (this.showFilterMessage) {
+                this.filterPostsByUser();
+              } else {
+                this.showPosts();
+              }
               this.loadPendingPosts(); // Refresh pending posts
             }, 500);
           },
