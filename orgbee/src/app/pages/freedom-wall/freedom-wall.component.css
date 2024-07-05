@@ -452,7 +452,6 @@ body {
   display: flex; 
   gap: 20px; 
   overflow-x: hidden; 
-  margin-left: 2%;
   flex-direction: column;
 }
 
@@ -463,7 +462,6 @@ body {
   border-radius: 10px;
   background-color: #f0f0f0;
   box-shadow: 0 4px 8px #eeeeed;
-  box-sizing: border-box; 
   min-width: 300px; 
   max-width: calc(100% - 40px); 
   word-wrap: break-word;
