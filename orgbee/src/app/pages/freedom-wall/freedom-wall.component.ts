@@ -145,6 +145,7 @@ export class FreedomWallComponent implements OnInit {
     this.dataService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
     });
+    this.reloadMasonryLayout();
   }
 
   closeModal() {
@@ -205,9 +206,11 @@ export class FreedomWallComponent implements OnInit {
               this.posts = this.posts.filter(post => post.id !== id);
             } else {
               this.showPosts();
+              setTimeout(() => {
+              this.reloadMasonryLayout();
+              }, 500);
             }
             
-            this.reloadMasonryLayout();
             this.getDeletionRequests();
           }, 500);
         });
