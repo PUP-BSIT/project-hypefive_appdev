@@ -204,6 +204,9 @@ export class FreedomWallComponent implements OnInit {
             // Update posts based on filter status
             if (this.showFilterMessage) {
               this.posts = this.posts.filter(post => post.id !== id);
+              setTimeout(() => {
+                this.reloadMasonryLayout();
+                }, 500);
             } else {
               this.showPosts();
               setTimeout(() => {
@@ -267,7 +270,11 @@ export class FreedomWallComponent implements OnInit {
             setTimeout(() => {
               this.spinnerService.hide();
               this.responseService.handleResponse(this.response);
-              this.handleUpdate();
+              if (this.showFilterMessage) {
+                this.filterPostsByUser();
+              } else {
+                this.showPosts();
+              }
               this.loadPendingPosts(); // Refresh pending posts
             }, 500);
           },

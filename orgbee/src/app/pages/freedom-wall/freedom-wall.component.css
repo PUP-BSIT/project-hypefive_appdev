@@ -65,6 +65,11 @@ body {
   margin-top: 0;
 }
 
+.create-post-btn:disabled:hover {
+  background-color: #ccc; 
+  color: #666;
+}
+
 .create-post-btn:hover {
   background-color: #fbcc15;
 }
@@ -608,9 +613,9 @@ button:disabled {
   .manage-modal-content { 
     height: 50%; 
     max-height: 50%; 
-
   }
-  
+
+
   @media screen and (max-width: 460px) {
     .masonry-item {
       width: calc((100% - 30px) / 3); 
