@@ -281,6 +281,8 @@ export class SettingsComponent implements OnInit {
 
     this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
       next: response => {
+        localStorage.removeItem('token');
+        this.loginService.setAuthStatus(false);
         this.responseService.handleSuccess(response.message);
         this.router.navigate(['/login']);
       },
