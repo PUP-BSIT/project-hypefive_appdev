@@ -185,3 +185,4 @@ Route::post('auth/reset-password', [PasswordResetController::class,
 
 // Deactivate users
 Route::post('users/deactivate/{id}', [StudentsController::class, 'deactivateUser']);
+Route::post('users/delete/{id}', [StudentsController::class, 'deleteUser']);

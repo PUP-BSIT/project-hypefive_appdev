@@ -93,12 +93,16 @@ class StudentsController extends Controller {
 
     $user = auth()->user();
 
-    if (!$user->is_active) {
+    if ($user->is_active == 2) {
+      $user->is_active = 1;
+    }
+
+    if ($user->is_active == 0) {
       $response['status'] = 0;
       $response['code'] = 401;
-      $response['message'] = 'Your account is deactivated.';
+      $response['message'] = 'Your account is deleted.';
       return response()->json($response);
-  }
+    }
 
     // Check the account status of the user
     if ($user->account_status_id != 2) {
@@ -135,10 +139,27 @@ class StudentsController extends Controller {
       return response()->json(['message' => 'Invalid password'], 403);
     }
 
-    $user->is_active = false;
+    $user->is_active = 2;
     $user->save();
 
     return response()->json(['message' => 'User deactivated successfully'], 200);
+  }
+
+  public function deleteUser(Request $request, $id) {
+    $request->validate([
+        'password' => 'required|string'
+    ]);
+
+    $user = User::findOrFail($id);
+
+    if (!Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Invalid password'], 403);
+    }
+
+    $user->is_active = 0;
+    $user->save();
+
+    return response()->json(['message' => 'User deleted successfully'], 200);
   }
 
   public function sendVerificationEmail($student) {
@@ -160,7 +181,7 @@ class StudentsController extends Controller {
     }
 
     // Check if the user's ID and email match the parameters
-    if ($user->id == $id && $user->email == $email) {
+    if ($user->id == $id && $user->email == $email && $user->is_active == 1) {
       // Retrieve student and user information based on user_id
       $student = Students::where('user_id', $id)->first();
       $userInfo = User::where('email', $email)->first();
