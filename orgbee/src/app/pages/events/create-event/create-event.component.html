@@ -44,7 +44,9 @@
         <div class="inline-container">
           <div>
             <label for="date">Date:</label>
-            <input type="date" id="date" formControlName="date" />
+            <input type="date" id="date" 
+              formControlName="date" 
+              [min]="minDate"/>
             @if(date.invalid && date.touched) {
               <div class="inc">
                 @if(date.errors?.['required']) {
@@ -93,7 +95,7 @@
         </div>
 
         <div class="inline-radio">
-          <label>Will there be a registration fee?</label>
+          <label>Will there be an event fee?</label>
           <input
             type="radio"
             id="has_reg_fee_yes"
@@ -116,7 +118,7 @@
           @if(registration_fee.invalid && registration_fee.touched 
             && registration_fee.errors?.['required']){
               <div class="inc">
-                <div>Registration fee is required.</div>
+                <div>Event fee is required.</div>
               </div>
           }
 
