@@ -23,6 +23,7 @@ export class CreateEventComponent implements OnInit {
   preview: string;
   response: Response;
   file: File;
+  minDate: string;  
 
   constructor (
     private formBuilder: FormBuilder, 
@@ -32,6 +33,8 @@ export class CreateEventComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.minDate = new Date().toISOString().split('T')[0];  
+
     this.eventForm = this.formBuilder.group({
       event_name: 
         ['', {validators: [Validators.required, Validators.maxLength(100)],}],

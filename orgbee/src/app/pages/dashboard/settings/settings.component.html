@@ -6,7 +6,8 @@
               <button class="tab" [ngClass]="{'active': selectedTab === 'profile'}" (click)="selectTab('profile')">Profile Avatar</button>
               <button class="tab" [ngClass]="{'active': selectedTab === 'accountInfo'}" (click)="selectTab('accountInfo')">Account Info</button>
               <button class="tab" [ngClass]="{'active': selectedTab === 'changePassword'}" (click)="selectTab('changePassword')">Password</button>
-              <button class="tab" [ngClass]="{'active': selectedTab === 'deleteAccount'}" (click)="selectTab('deleteAccount')">Deactivation</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'deactivateAccount'}" (click)="selectTab('deactivateAccount')">Deactivation</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'deleteAccount'}" (click)="selectTab('deleteAccount')">Delete Account</button>
             </div>
 
             @if(selectedTab === 'accountInfo'){
@@ -203,13 +204,50 @@
                 </ng-container>
             }
 
-            @if(selectedTab === 'deleteAccount'){
+            @if(selectedTab === 'deactivateAccount'){
               <ng-container>
                 <div class="deletion">
                   <h2>Account Deactivation</h2>
                   <p>Security manage your account status by disabling access</p>
                   <div class="deleteButton">
-                    <button (click)="deleteModal()" class="delete">Deactivate my account</button>
+                    <button (click)="deactivateModal()" class="delete">Deactivate my account</button>
+                  </div>
+                </div>
+              </ng-container>
+            }
+
+            @if(showDeactivateModal) {
+              <div class="deleteAccModal">
+                <div class="delete-content">
+                    <span class="closeDelete" (click)="closeDeactivateModal()">&times;</span>
+                    <p>Type your password to deactivate your account</p>
+                    <form [formGroup]="deleteForm">
+                      <label for="deletion_password">Password</label>
+                      <input 
+                        type="password"
+                        id ="deletion_password" 
+                        formControlName="deletion_password" />
+                      @if(deletion_passwordControl.invalid && deletion_passwordControl.touched) {
+                        <div class="inc">
+                            @if(current_passwordControl.errors?.['required']){
+                                <div>password is required</div>
+                            }
+                        </div>
+                      }
+                      <button (click)="deactivateAccount()" class="delete">Deactivate</button>
+                    </form>
+                </div>
+              </div>
+            }
+
+
+            @if(selectedTab === 'deleteAccount'){
+              <ng-container>
+                <div class="deletion">
+                  <h2>Account Deletion</h2>
+                  <p>Security manage your account status by disabling access</p>
+                  <div class="deleteButton">
+                    <button (click)="deleteModal()" class="delete">Delete my account</button>
                   </div>
                 </div>
               </ng-container>

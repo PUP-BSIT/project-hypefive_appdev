@@ -21,6 +21,7 @@ export class SettingsComponent implements OnInit {
   showInformation = false;
   showAccountManagement = false;
   showAccountDeletion = false;
+  showDeactivateModal = false;
   showDeleteModal = false;
   showChangeAvatar = true;
   changesMade: boolean = false;
@@ -233,12 +234,23 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteModal() {
-    this.confirmationDialogService.confirmAction('Delete Account Confirmation', 'Are you sure you want to delete your account?', () => {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', `Deleting your account means its gone forever.
+      Are you sure you want to delete your account?`, () => {
     this.showDeleteModal = true;
     });
   }
   closeDeleteModal() {
     this.showDeleteModal = false;
+  }
+
+  deactivateModal() {
+    this.confirmationDialogService.confirmAction('Deactivate Account Confirmation', `You can still reactivate your account by logging in again.
+      Are you sure you want to deactivate your account?`, () => {
+    this.showDeactivateModal = true;
+    });
+  }
+  closeDeactivateModal() {
+    this.showDeactivateModal = false;
   }
 
   changePass() {
@@ -271,28 +283,55 @@ export class SettingsComponent implements OnInit {
     this.passwordForm.reset();
   }
 
+  deactivateAccount() {
+    this.confirmationDialogService.confirmAction('Deactivate Account Confirmation', 'Your account will be deactivated. Do you still want to proceed?', () => {
+      if (this.deleteForm.invalid) {
+        return;
+      }
+
+      const deletionPassword = this.deleteForm.value.deletion_password;
+
+      this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
+        next: response => {
+          localStorage.removeItem('token');
+          this.loginService.setAuthStatus(false);
+          this.responseService.handleSuccess(response.message);
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          this.toastr.error('Failed to deactivate user', 'Error', { 
+            timeOut: 2000, 
+            progressBar: true 
+          });
+        }
+      });
+    });
+  }
+
   deleteAccount() {
     this.confirmationDialogService.confirmAction('Delete Account Confirmation', 'Your account will be deleted. Do you still want to proceed?', () => {
-    if (this.deleteForm.invalid) {
-      return;
-    }
-
-    const deletionPassword = this.deleteForm.value.deletion_password;
-
-    this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
-      next: response => {
-        this.responseService.handleSuccess(response.message);
-        this.router.navigate(['/login']);
-      },
-      error: error => {
-        this.toastr.error('Failed to deactivate user', 'Error', { 
-          timeOut: 2000, 
-          progressBar: true 
-        });
+      if (this.deleteForm.invalid) {
+        return;
       }
+
+      const deletionPassword = this.deleteForm.value.deletion_password;
+
+      this.userService.deleteUser(this.userInfo.user_id, deletionPassword).subscribe({
+        next: response => {
+          localStorage.removeItem('token');
+          this.loginService.setAuthStatus(false);
+          this.responseService.handleSuccess(response.message);
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          this.toastr.error('Failed to delete user', 'Error', { 
+            timeOut: 2000, 
+            progressBar: true 
+          });
+        }
+      });
     });
-  });
-}
+  }
 
   selectAvatar(avatarPath: string): void {
     this.selectedAvatarPath = avatarPath; 
