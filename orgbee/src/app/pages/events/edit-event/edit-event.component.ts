@@ -3,10 +3,13 @@ import { Component, OnInit, Input, Output, EventEmitter,
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-import { DataService } from '../../../../service/data.service';
-import { Response } from '../../../app.component';
-import { Event } from '../events.component';
+import { EventService } from '../../../../service/event-service/event.service';
+import { Response } from '../../../../service/response-service/response.service';
+import { Event } from '../../../../service/event-service/event.service';
+import { SpinnerService } from '../../../../service/spinner.service';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
 
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
@@ -30,10 +33,14 @@ export class EditEventComponent implements OnInit {
   preview:string;
 
   updateEventId:number;
-  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  imgPath = environment.imgPath;
+
   constructor (private formBuilder: FormBuilder, 
-    private dataService: DataService,
-    private toastr: ToastrService
+    private eventService: EventService,
+    private toastr: ToastrService,
+    private spinnerService: SpinnerService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {}
 
   ngOnInit(): void {
@@ -188,17 +195,23 @@ export class EditEventComponent implements OnInit {
 
     if(formData){
       if(type ==='publish') {
+        this.confirmationDialogService.confirmAction('Update Confirmation', 'Are you sure you want to update event details? This will overwrite the current one.', () => {
+        this.spinnerService.show('Updating event details...')
         formData.append('event_status_id', '2');
-        this.dataService.updateEvent(formData).subscribe((res:Response)=>{
+        this.eventService.updateEvent(formData).subscribe((res:Response)=>{
           this.response=res;
           this.handleResponse();
           this.eventUpdate.emit('upcoming');
+          this.spinnerService.hide();
         });
+      });
       } else if(type ==='draft') {
+        this.spinnerService.show('Saving to drafts...')
         formData.append('event_status_id', '1');
-        this.dataService.updateEvent(formData).subscribe((res:Response)=>{
+        this.eventService.updateEvent(formData).subscribe((res:Response)=>{
           this.response=res;
           this.handleResponse();
+          this.spinnerService.hide();
 
           if(this.activeTab === 'UPCOMING'){
             this.eventUpdate.emit('upcoming');

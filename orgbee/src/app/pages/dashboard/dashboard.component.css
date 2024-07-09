@@ -121,11 +121,24 @@ height: 100%;
   font-size: 12px;
 }
 
+.icon-drop {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-drop .icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
 .dropdown-menu {
   position: absolute;
-  top: 62%;
-  right: 68%;
-  transform: translateY(-50%);
+  top: 90%;
+  right: 30%;
+  transform: translate(50%, -50%);
 }
 
 .profile-menu mat-menu-item {
@@ -650,5 +663,12 @@ app-admin-today {
 
   .announcement-container {
     height: 460px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .dashboard {
+    height: auto;
+    margin-bottom: 50px;
   }
 }

@@ -3,29 +3,14 @@
         <div class="settings-content">
             <span class="close" (click)="closeModal()">&times;</span>
             <div class="tabs">
-                <button
-                  class="tab"
-                  (click)="displayProfileAvatar()">
-                    Profile Avatar
-                </button>
-                <button
-                  class="tab"
-                  (click)="displayAccountInfo()">
-                    Account Information
-                </button>
-                <button
-                  class="tab"
-                  (click)="displayAccountManagement()">
-                    Account Management
-                </button>
-                <button
-                  class="tab"
-                  (click)="displayAccountDeletion()">
-                    Account Deletion
-                </button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'profile'}" (click)="selectTab('profile')">Profile Avatar</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'accountInfo'}" (click)="selectTab('accountInfo')">Account Info</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'changePassword'}" (click)="selectTab('changePassword')">Password</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'deactivateAccount'}" (click)="selectTab('deactivateAccount')">Deactivation</button>
+              <button class="tab" [ngClass]="{'active': selectedTab === 'deleteAccount'}" (click)="selectTab('deleteAccount')">Delete Account</button>
             </div>
 
-            @if(showInformation){
+            @if(selectedTab === 'accountInfo'){
                 <ng-container>
                     <div class="information">
                         <h2>Update Information</h2>
@@ -147,7 +132,7 @@
             }
             
 
-            @if(showAccountManagement){
+            @if(selectedTab === 'changePassword'){
                 <ng-container>
                     <div class="management">
                       <h2>Change Password</h2>
@@ -184,7 +169,7 @@
                                                 @if(new_passwordControl.errors?.['required']){
                                                     <div>Please type your new password</div>
                                                 }
-                                                @if(signUpPasswordControl.errors?.['minlength']){
+                                                @if(new_passwordControl.errors?.['minlength']){
                                                     <div>Password must be 8 characters long</div>
                                                 }
                                             </div>
@@ -209,8 +194,8 @@
                                     }
                                 </div>
                                 <div class="buttons">
-                                  <button (click)="cancel()" class="cancel">Cancel</button>
-                                  <button (click)="changePass()" class="save">Save</button>
+                                  <button (click)="cancelPass()" class="cancel">Cancel</button>
+                                  <button (click)="changePass()" [disabled]="passwordForm.invalid" class="save">Save</button>
                                 </div>
                                 
                             </form>
@@ -219,7 +204,44 @@
                 </ng-container>
             }
 
-            @if(showAccountDeletion){
+            @if(selectedTab === 'deactivateAccount'){
+              <ng-container>
+                <div class="deletion">
+                  <h2>Account Deactivation</h2>
+                  <p>Security manage your account status by disabling access</p>
+                  <div class="deleteButton">
+                    <button (click)="deactivateModal()" class="delete">Deactivate my account</button>
+                  </div>
+                </div>
+              </ng-container>
+            }
+
+            @if(showDeactivateModal) {
+              <div class="deleteAccModal">
+                <div class="delete-content">
+                    <span class="closeDelete" (click)="closeDeactivateModal()">&times;</span>
+                    <p>Type your password to deactivate your account</p>
+                    <form [formGroup]="deleteForm">
+                      <label for="deletion_password">Password</label>
+                      <input 
+                        type="password"
+                        id ="deletion_password" 
+                        formControlName="deletion_password" />
+                      @if(deletion_passwordControl.invalid && deletion_passwordControl.touched) {
+                        <div class="inc">
+                            @if(current_passwordControl.errors?.['required']){
+                                <div>password is required</div>
+                            }
+                        </div>
+                      }
+                      <button (click)="deactivateAccount()" class="delete">Deactivate</button>
+                    </form>
+                </div>
+              </div>
+            }
+
+
+            @if(selectedTab === 'deleteAccount'){
               <ng-container>
                 <div class="deletion">
                   <h2>Account Deletion</h2>
@@ -235,7 +257,7 @@
               <div class="deleteAccModal">
                 <div class="delete-content">
                     <span class="closeDelete" (click)="closeDeleteModal()">&times;</span>
-                    <p>Type your password to delete your account</p>
+                    <p>Type your password to deactivate your account</p>
                     <form [formGroup]="deleteForm">
                       <label for="deletion_password">Password</label>
                       <input 
@@ -253,6 +275,75 @@
                     </form>
                 </div>
               </div>
+            }
+
+            @if(selectedTab === 'profile'){
+              <ng-container>
+                <div class="change-profile-icon">
+                  <div class="change-icon-content">
+                    <span class="close" (click)="closeModal()">&times;</span>
+                    <img class="current-icon" [src]="selectedAvatarPath" alt="Current Icon">
+                
+                    <div class="choose-avatar">
+                      <h3>Choose an avatar</h3>
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/1.png'"
+                        src="assets/icons/1.png"
+                        (click)="selectAvatar('assets/icons/1.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/2.png'"
+                        src="assets/icons/2.png"
+                        (click)="selectAvatar('assets/icons/2.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/3.png'"
+                        src="assets/icons/3.png"
+                        (click)="selectAvatar('assets/icons/3.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/4.png'"
+                        src="assets/icons/4.png"
+                        (click)="selectAvatar('assets/icons/4.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/5.png'"
+                        src="assets/icons/5.png"
+                        (click)="selectAvatar('assets/icons/5.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/6.png'"
+                        src="assets/icons/6.png"
+                        (click)="selectAvatar('assets/icons/6.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/7.png'"
+                        src="assets/icons/7.png"
+                        (click)="selectAvatar('assets/icons/7.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/8.png'"
+                        src="assets/icons/8.png"
+                        (click)="selectAvatar('assets/icons/8.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/9.png'"
+                        src="assets/icons/9.png"
+                        (click)="selectAvatar('assets/icons/9.png')">
+                      <img
+                        class="avatar"
+                        [class.selected]="currentSelectedAvatar === 'assets/icons/10.png'"
+                        src="assets/icons/10.png"
+                        (click)="selectAvatar('assets/icons/10.png')">
+                    </div>
+                    <div class="options">
+                      <button class="cancel" (click)="cancelProfile()">Cancel</button>
+                      <button class="save" [disabled]="!currentSelectedAvatar" (click)="saveAvatar()">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
             }
         </div>
     </div>

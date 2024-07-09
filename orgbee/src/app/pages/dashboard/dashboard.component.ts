@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { LoadingService } from '../../../service/loading.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpinnerService } from '../../../service/spinner.service';
 
 enum Roles {
   Student = 1,
@@ -65,7 +66,8 @@ export class DashboardComponent implements OnInit {
     private datePipe: DatePipe,
     private router:Router,
     private loadingService: LoadingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private spinnerService: SpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -78,11 +80,6 @@ export class DashboardComponent implements OnInit {
         this.userInfo = data;
       });
       this.fetchAnnouncements();const today = new Date();
-  }
-
-  //TODO: update later according to new table in database
-  updateUserInfo(selectedAvatarPath: string): void {
-    //this.userInfo.icon = selectedAvatarPath; 
   }
   
   confirmAction(title: string, message: string, callback: () => void) {
@@ -127,8 +124,8 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchAnnouncements(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements) => {
         if (this.userInfo.role_id === Roles.Student) {
           this.announcements = announcements.filter(a => a.recipient === 0);
         } else if (this.userInfo.role_id === Roles.Officer || 
@@ -137,10 +134,10 @@ export class DashboardComponent implements OnInit {
             announcements.filter(a => a.recipient === 0 || a.recipient === 1);
         }
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-    );
+  });
   }
 
   openModal(announcement: Announcement): void {
@@ -185,11 +182,11 @@ export class DashboardComponent implements OnInit {
         author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
         updated_at: this.getCurrentDateTime(), 
       };
-      this.filterByOfficers();
     }
+    this.refreshAnnouncements();
     this.closeModalEditAnnouncement();
   }
-  
+   
   handleAnnouncementCreated(newAnnouncement: Announcement): void {
     const newAnnouncementDisplay: Announcement = {
       ...newAnnouncement,
@@ -206,16 +203,19 @@ export class DashboardComponent implements OnInit {
   
   deleteAnnouncement(announcement: Announcement): void {
     this.confirmAction('Confirm Delete', 'Are you sure you want to delete this announcement?', () => {
-    this.announcementService.deleteAnnouncement(announcement.id).subscribe(
-      () => {
+    this.spinnerService.show('Deleting announcement...');
+    this.announcementService.deleteAnnouncement(announcement.id).subscribe({
+      next: () => {
         this.announcements = 
           this.announcements.filter(a => a.id !== announcement.id);
+          this.spinnerService.hide();
           this.showSnackBar('Announcement deleted successfully.', 'success');
         },
-        (error) => {
+        error: (error) => {
+          this.spinnerService.hide();
           this.showSnackBar('Error deleting announcement. Please try again later.', 'error');
         }
-    );
+    });
   });
 }
 
@@ -224,29 +224,29 @@ export class DashboardComponent implements OnInit {
   }
 
   filterByOfficers(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements) => {
         this.announcements = announcements.filter(a => 
           a.recipient === 1
         );
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-    );
+  });
   }
 
   filterByMe(): void {
-    this.announcementService.getAnnouncements().subscribe(
-      (announcements) => {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements) => {
         this.announcements = announcements.filter(a => 
           a.student_id === this.userInfo.user_id
         );
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-    );
+  });
   }
 
    setActiveTab(tab: string) {
@@ -261,7 +261,6 @@ export class DashboardComponent implements OnInit {
       case 'me':
         this.filterByMe();
         break;
-      // Add more cases for additional tabs as needed
       default:
         break;
     }
@@ -308,5 +307,21 @@ export class DashboardComponent implements OnInit {
       duration: 2000,
       panelClass: ['custom-snackbar', panelClass]
     });
+  }
+
+  refreshAnnouncements(): void {
+    switch (this.activeTab) {
+      case 'all':
+        this.filterByAll();
+        break;
+      case 'officers':
+        this.filterByOfficers();
+        break;
+      case 'me':
+        this.filterByMe();
+        break;
+      default:
+        break;
+    }
   }
 }

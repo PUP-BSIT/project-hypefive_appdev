@@ -24,14 +24,6 @@
                 class="profile-menu"
                 xPosition="before"
                 yPosition="below">
-                <!--TODO: Ternal, move to settings component-->
-                <!--<button
-                  mat-menu-item
-                  class="profile-menu-item"
-                  (click)="toggleProfileIconEdit()">
-                  <mat-icon class="profile-menu-icon">edit</mat-icon>
-                  <span class="profile-menu-text">Change Profile</span>
-                </button>!-->
                 <button mat-menu-item (click)="toggleSettings()">
                   <mat-icon mat-icon class="settings-menu-icon"
                     >settings</mat-icon
@@ -49,10 +41,8 @@
             </div>
           </div>
             <div class="details">
-              <p class="name">
-                {{ userInfo.first_name }} {{ userInfo.last_name }}
-              </p>
-              <p class="course">{{ userInfo.student_number }}</p>
+              <p class="name">{{ userInfo?.first_name }} {{ userInfo?.last_name }}</p>
+              <p class="course">{{ userInfo?.student_number }}</p>
               <div class="role-button" [class]="getHeaderClasses()">
                 {{ getRoleName(userInfo.role_id) }}
               </div>
@@ -180,13 +170,6 @@
     [announcementForm]="announcementForm"
     (announcementCreated)="handleAnnouncementCreated($event)">
   </app-an-modal>
-
-  
-  <app-profile-icon
-  (avatarSaved)="updateUserInfo($event)"
-  (close)="handleProfileIconClose()"
-  [showProfileIconEdit]="showProfileIconEdit">
-</app-profile-icon>
 
 <app-settings
 (close)="handleSettingsClose()"

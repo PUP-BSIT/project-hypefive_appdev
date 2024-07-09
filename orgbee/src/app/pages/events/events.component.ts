@@ -1,32 +1,13 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { DataService } from '../../../service/data.service';
+import { EventService } from '../../../service/event-service/event.service';
 
-import { Member } from '../members/members.component';
+import { Member } from '../../../service/member-service/member.service';
+import { Event } from '../../../service/event-service/event.service';
+import { ModalButton } from '../../../service/event-service/event.service';
 
-export interface Event {
-  id: number;
-  event_name: string; 
-  location: string; 
-  date: Date; 
-  time: string; 
-  all_members_required: number; 
-  has_reg_fee: number;  
-  registration_fee?: number; 
-  max_attendees: number; 
-  caption?: string;
-  poster_loc: string; 
-  event_status_id: number;
-  event_state_id: number;
-  reg_count:number;
-}
-
-export interface ModalButton {
-  upcomingModalButton: boolean;
-  draftModalButton: boolean;
-  occuringModalButton: boolean;
-}
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-events',
@@ -42,7 +23,8 @@ export class EventsComponent implements OnInit {
   cancelEventTab:string;
 
   activeTab = 'UPCOMING';
-  imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  imgPath = environment.imgPath;
 
   createEventModal = false;
   isManageModalVisible = false;
@@ -54,7 +36,7 @@ export class EventsComponent implements OnInit {
     occuringModalButton: false
   };
 
-  constructor(private dataService:DataService) {}
+  constructor(private eventService:EventService) {}
 
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
@@ -113,27 +95,27 @@ export class EventsComponent implements OnInit {
 
   showUpcomingEvents() {
     //Get events with event_state = 1 with status of 2
-    this.dataService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
+    this.eventService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
       this.filteredEvents = upcoming;
     });
   }
 
   showDraftEvents() {
     //Get events with event_state = 1 and status of 1
-    this.dataService.getDraftEvents().subscribe((draft: Event[])=>{
+    this.eventService.getDraftEvents().subscribe((draft: Event[])=>{
       this.filteredEvents = draft;
     });
   }
 
   showOccuringEvents() {
     //Get events with event_state = 2 and status of 2
-    this.dataService.getOccuringEvents().subscribe((occuring: Event[])=>{
+    this.eventService.getOccuringEvents().subscribe((occuring: Event[])=>{
       this.filteredEvents = occuring;
     });
   }
 
   getRegisteredMembers() {
-    this.dataService.getRegisteredMembers(this.selectedEvent.id)
+    this.eventService.getRegisteredMembers(this.selectedEvent.id)
       .subscribe((res: Member[])=>{
       this.members = res;
     });

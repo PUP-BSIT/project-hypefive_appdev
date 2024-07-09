@@ -18,12 +18,12 @@ export interface Announcement {
 @Injectable()
 
 export class AnnouncementService {
-  private apiUrl = 'http://127.0.0.1:8000/api/announcements';
+  private apiUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
   getAnnouncements(): Observable<Announcement[]> {
-    return this.http.get<Announcement[]>(this.apiUrl).pipe(
+    return this.http.get<Announcement[]>(this.apiUrl+'/api/announcements').pipe(
       map((announcements: Announcement[]) => {
         return announcements.map(announcement => {
           return {
@@ -40,16 +40,16 @@ export class AnnouncementService {
   }
 
   createAnnouncement(announcement: Announcement): Observable<number> {
-    return this.http.post<{ announcement_id: number }>(this.apiUrl, announcement).pipe(
+    return this.http.post<{ announcement_id: number }>(this.apiUrl+'/api/announcements',  announcement).pipe(
       map(response => response.announcement_id)
     );
   }
   
   updateAnnouncement(id: number, announcement: Announcement): Observable<Announcement> {
-    return this.http.put<Announcement>(`${this.apiUrl}/${id}`, announcement);
+    return this.http.put<Announcement>(`${this.apiUrl}/api/announcements/${id}`, announcement);
   }
 
   deleteAnnouncement(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/announcements/${id}`);
   }
 }

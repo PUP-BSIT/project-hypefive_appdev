@@ -1,0 +1,7 @@
+<div class="spinner-container" *ngIf="spinnerState?.isLoading">
+    <div class="spinner-box">
+        <mat-spinner diameter="60" color="primary"></mat-spinner>
+      <p>{{ spinnerState?.message }}</p>
+    </div>
+  </div>
+  

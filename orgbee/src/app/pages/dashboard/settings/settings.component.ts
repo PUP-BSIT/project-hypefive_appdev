@@ -5,8 +5,10 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
 import { MustMatch } from './confirmed.validator';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 import { UserService } from '../../../../service/user.service';
-
-
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
+import { ResponseService } from '../../../../service/response-service/response.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -19,18 +21,28 @@ export class SettingsComponent implements OnInit {
   showInformation = false;
   showAccountManagement = false;
   showAccountDeletion = false;
+  showDeactivateModal = false;
   showDeleteModal = false;
+  showChangeAvatar = true;
   changesMade: boolean = false;
   userInfo: UserInfo;
+  selectedAvatarPath: string = ''; 
+  currentSelectedAvatar: string = ''; 
+  selectedTab: string = 'profile';
   constructor(
     private formBuilder: FormBuilder, 
     private loginService: LoginService,
-  private userService: UserService) {}
+    private userService: UserService,
+    private toastr: ToastrService,
+    private router:Router,
+    private responseService:ResponseService,
+    private confirmationDialogService: ConfirmationDialogService) {}
 
   @Input() showSettings: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
+
     this.updateForm = this.formBuilder.group({
       first_name: ['', {
         validators: [Validators.required, this.noNumbersValidator]
@@ -73,6 +85,7 @@ export class SettingsComponent implements OnInit {
     this.loginService.onDataRetrieved((userInfo: UserInfo) => {
       this.userInfo = userInfo;
       this.populateForm(userInfo);
+      this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
     });
 
     this.deleteForm = this.formBuilder.group ({
@@ -94,6 +107,10 @@ export class SettingsComponent implements OnInit {
       birthday: userInfo.birthday,
       gender: userInfo.gender.toLowerCase()
     });
+  }
+
+  selectTab(tab: string) {
+    this.selectedTab = tab;
   }
 
   get emailControl() {
@@ -135,6 +152,7 @@ export class SettingsComponent implements OnInit {
   get deletion_passwordControl() {
     return this.deleteForm.get('deletion_password');
   }
+
   noNumbersValidator(control: FormControl) {
     const containsNumbers = /[0-9]/.test(control.value);
     return containsNumbers ? { containsNumbers: true } : null;
@@ -170,29 +188,8 @@ export class SettingsComponent implements OnInit {
     };
   }
 
-  displayAccountInfo() {
-    this.showInformation = true;
-    this.showAccountManagement = false;
-    this.showAccountDeletion = false;
-  }
-
-  displayAccountManagement() {
-    this.showAccountManagement = true;
-    this.showInformation = false;
-    this.showAccountDeletion = false;
-  }
-
-  displayAccountDeletion() {
-    this.showAccountManagement = false;
-    this.showInformation = false;
-    this.showAccountDeletion = true;
-  }
-
-  deleteModal() {
-    this.showDeleteModal = true;
-  }
-
   onUpdateSubmit() {
+    this.confirmationDialogService.confirmAction('Update Info Confirmation', 'Are you sure you want to update your information?', () => {
     if (this.updateForm.valid) {
       const updatedUserInfo = {
         ...this.updateForm.value,
@@ -200,20 +197,20 @@ export class SettingsComponent implements OnInit {
       };
 
       this.userService.updateUserInfo(updatedUserInfo)
-        .subscribe(
-          response => {
-            console.log('User info updated successfully:', response);
-              // Update userInfo with the response from the server
-              this.userInfo = response.updated_student;
+        .subscribe({
+          next: response => {
+            this.responseService.handleSuccess(response.message);
           },
-            error => {
-              console.error('Failed to update user info:', error);
-            });
+            error: error => {
+              this.responseService.handleSuccess(error.message);
+            }
+    });
     } else {
         console.log('Form is invalid');
     }
     this.changesMade = false;
-  }
+  });
+}
 
   cancel() {
     console.log('Cancel button clicked');
@@ -226,31 +223,137 @@ export class SettingsComponent implements OnInit {
     this.changesMade = false;
   }
 
+  cancelProfile() {
+    this.currentSelectedAvatar='';
+    this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
+  }
+
   closeModal() {
     this.showSettings = false;
     this.close.emit(); 
   }
 
+  deleteModal() {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', `Deleting your account means its gone forever.
+      Are you sure you want to delete your account?`, () => {
+    this.showDeleteModal = true;
+    });
+  }
   closeDeleteModal() {
     this.showDeleteModal = false;
   }
 
+  deactivateModal() {
+    this.confirmationDialogService.confirmAction('Deactivate Account Confirmation', `You can still reactivate your account by logging in again.
+      Are you sure you want to deactivate your account?`, () => {
+    this.showDeactivateModal = true;
+    });
+  }
+  closeDeactivateModal() {
+    this.showDeactivateModal = false;
+  }
+
   changePass() {
+    this.confirmationDialogService.confirmAction('Change Password Confirmation', 'Are you sure you want to change your password?', () => {
     if (this.passwordForm.invalid) {
       return;
     }
   
-    const currentPassword = this.passwordForm.value.current_password;
-    const newPassword = this.passwordForm.value.new_password;
-    const confirm_password = this.passwordForm.value.confirm_password; 
+    const currentPassword = this.current_passwordControl.value;
+    const newPassword = this.new_passwordControl.value;
+    const confirmPassword = this.confirm_passwordControl.value;
   
-    this.userService.changePassword(currentPassword, newPassword, confirm_password).subscribe(
-      response => {
-        console.log('Password updated successfully:', response);
+    this.userService.changePassword(currentPassword, newPassword, confirmPassword).subscribe({
+      next: response => {
+        this.responseService.handleSuccess(response.message);
+        this.passwordForm.reset();
       },
-      error => {
+      error: error => {
         console.error('Error updating password:', error);
+        this.toastr.error('Failed to update password', 'Error', { 
+          timeOut: 2000, 
+          progressBar: true 
+        });
       }
-    );
+    });
+  });
   }
+
+  cancelPass() {
+    this.passwordForm.reset();
+  }
+
+  deactivateAccount() {
+    this.confirmationDialogService.confirmAction('Deactivate Account Confirmation', 'Your account will be deactivated. Do you still want to proceed?', () => {
+      if (this.deleteForm.invalid) {
+        return;
+      }
+
+      const deletionPassword = this.deleteForm.value.deletion_password;
+
+      this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
+        next: response => {
+          localStorage.removeItem('token');
+          this.loginService.setAuthStatus(false);
+          this.responseService.handleSuccess(response.message);
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          this.toastr.error('Failed to deactivate user', 'Error', { 
+            timeOut: 2000, 
+            progressBar: true 
+          });
+        }
+      });
+    });
+  }
+
+  deleteAccount() {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', 'Your account will be deleted. Do you still want to proceed?', () => {
+      if (this.deleteForm.invalid) {
+        return;
+      }
+
+      const deletionPassword = this.deleteForm.value.deletion_password;
+
+      this.userService.deleteUser(this.userInfo.user_id, deletionPassword).subscribe({
+        next: response => {
+          localStorage.removeItem('token');
+          this.loginService.setAuthStatus(false);
+          this.responseService.handleSuccess(response.message);
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          this.toastr.error('Failed to delete user', 'Error', { 
+            timeOut: 2000, 
+            progressBar: true 
+          });
+        }
+      });
+    });
+  }
+
+  selectAvatar(avatarPath: string): void {
+    this.selectedAvatarPath = avatarPath; 
+    this.currentSelectedAvatar = avatarPath; 
+  }
+
+  saveAvatar() {
+    this.confirmationDialogService.confirmAction('Change Avatar Confirmation', 'Are you sure you want to change your avatar?', () => {
+    this.userService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe({
+      next: response => {
+        this.responseService.handleSuccess(response.message);
+      },
+      error: error => {
+        console.error('Failed to update icon:', error);
+      }
+    });
+  });
+}
+
+  private getIconIdFromPath(iconPath: string): number {
+    const iconId = parseInt(iconPath.split('/').pop().split('.')[0]);
+    return iconId;
+  }
+
 }

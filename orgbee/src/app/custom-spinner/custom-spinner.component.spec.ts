@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileIconComponent } from './profile-icon.component';
+import { CustomSpinnerComponent } from './custom-spinner.component';
 
-describe('ProfileIconComponent', () => {
-  let component: ProfileIconComponent;
-  let fixture: ComponentFixture<ProfileIconComponent>;
+describe('CustomSpinnerComponent', () => {
+  let component: CustomSpinnerComponent;
+  let fixture: ComponentFixture<CustomSpinnerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileIconComponent]
+      declarations: [CustomSpinnerComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ProfileIconComponent);
+    fixture = TestBed.createComponent(CustomSpinnerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

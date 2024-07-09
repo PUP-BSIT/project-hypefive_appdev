@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { formatDate } from '@angular/common';
 import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
-import { DataService } from '../../../../service/data.service'; 
+import { EventService } from '../../../../service/event-service/event.service';
 
 @Component({
   selector: 'app-calendar',
@@ -16,20 +16,29 @@ export class CalendarComponent implements OnInit {
   selectedEvents: CalendarEvent[] = [];
   selectedEvent: CalendarEvent | null = null;
 
-  constructor(private dataService: DataService) {}
+  constructor(private eventService:EventService) {}
 
   ngOnInit(): void {
     this.loadEvents();
   }
 
   loadEvents(): void {
-    this.dataService.getUpcomingEvents().subscribe((events: any) => {
+    this.eventService.getUpcomingEvents().subscribe((events: any) => {
       this.events = events.map((event: any) => ({
         start: new Date(event.date),
         title: event.event_name,
         time: event.time,
       }));
     });
+  }
+
+  formatTime(timeString: string): string {
+    const [hours, minutes] = timeString.split(':');
+    let hour = parseInt(hours, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 || 12; 
+    const formattedTime = `${hour}:${minutes} ${ampm}`;
+    return formattedTime;
   }
 
   setViewDate(monthOffset: number) {
@@ -58,12 +67,8 @@ export class CalendarComponent implements OnInit {
       event.start.getDate() === clickedDate.getDate()
     );
 
-    if (clickedEvents.length === 0 || clickedDate.getTime() === today.getTime()) {
-      this.isEventDetailsVisible = false;
-    } else {
-      this.selectedEvents = clickedEvents;
-      this.isEventDetailsVisible = true;
-    }
+    this.selectedEvents = clickedEvents;
+    this.isEventDetailsVisible = true;
   }
 }
 

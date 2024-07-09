@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Time } from '@angular/common';
 
-import { DataService } from '../../../service/data.service';
+import { ArchiveService } from '../../../service/archive-service/archive.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Response } from '../../app.component';
+import { environment } from '../../../environments/environment';
 interface Event {
   id: number;
   event_name: string; 
@@ -42,9 +43,10 @@ export class ArchiveComponent implements OnInit  {
   retrievedEvent: Event[];
   response: Response;
 
-  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
+  imgPath = environment.imgPath;
   constructor(
-    private dataService: DataService,
+    private archiveService: ArchiveService,
     private fb:FormBuilder) {}
 
   ngOnInit(): void {
@@ -60,13 +62,13 @@ export class ArchiveComponent implements OnInit  {
   }
 
   getYearlyEvents() {
-    this.dataService.getYearlyEvents().subscribe((yearlyEvents: Event[])=>{
+    this.archiveService.getYearlyEvents().subscribe((yearlyEvents: Event[])=>{
       this.events = yearlyEvents;
     });
   }
 
   getOldEvents() {
-    this.dataService.getOldEvents().subscribe((oldEvents: Event[])=>{
+    this.archiveService.getOldEvents().subscribe((oldEvents: Event[])=>{
       this.oldEvents = oldEvents;
     });
   }
@@ -100,14 +102,16 @@ export class ArchiveComponent implements OnInit  {
     }
   }
 
+  truncateText(text: string, limit: number): string {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  }
+
   searchEvents(){
     this.searchArchive.get('keyword')!.valueChanges.pipe(
       switchMap((keyword)=>{
-        console.log(keyword);
-        return this.dataService.searchArchive(keyword).pipe(
+        return this.archiveService.searchArchive(keyword).pipe(
           debounceTime(2000),
           catchError((error: HttpErrorResponse)=>{
-            console.log(error);
             return EMPTY;
         }))
       }))

@@ -23,13 +23,17 @@ import { AnModalComponent }
   from './pages/dashboard/an-modal/an-modal.component';
 import { AnEditModalComponent } 
   from './pages/dashboard/an-edit-modal/an-edit-modal.component';
-import { ProfileIconComponent } 
-  from './pages/dashboard/profile-icon/profile-icon.component';
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
+//Services
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
 import { AnnouncementService } from '../service/announcement.service';
+import { MemberService } from '../service/member-service/member.service';
+import { ResponseService } from '../service/response-service/response.service';
+import { FreedomwallService } from '../service/freedomwall-service/freedomwall.service';
+import { EventService } from '../service/event-service/event.service';
+import { ArchiveService } from '../service/archive-service/archive.service';
 
 import { PostDialogComponent } 
   from './pages/freedom-wall/post-dialog/post-dialog.component';
@@ -54,7 +58,7 @@ import { AdminDataComponent } from './pages/dashboard/admin-data/admin-data.comp
 import { HeaderComponent } from './header/header.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CalendarComponent } from './pages/dashboard/calendar/calendar.component'; 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -67,6 +71,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CreateEventComponent } from './pages/events/create-event/create-event.component';
 import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
+import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +86,6 @@ import { EditEventComponent } from './pages/events/edit-event/edit-event.compone
     ArchiveComponent,
     AnModalComponent,
     AnEditModalComponent,
-    ProfileIconComponent,
     VerifyComponent,
     HomepageEventsComponent,
     AdminDataComponent,
@@ -96,7 +100,8 @@ import { EditEventComponent } from './pages/events/edit-event/edit-event.compone
     LandingPageComponent,
     SettingsComponent,
     StepperComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    CustomSpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +138,12 @@ import { EditEventComponent } from './pages/events/edit-event/edit-event.compone
     AuthGuard,
     DataService, 
     LoginService,
-    AnnouncementService,  
+    AnnouncementService, 
+    MemberService,
+    ResponseService, 
+    FreedomwallService,
+    EventService,
+    ArchiveService,
     provideAnimationsAsync(),  
     DatePipe,
     {provide: CalendarDateFormatter, useClass: CustomDateFormatter}

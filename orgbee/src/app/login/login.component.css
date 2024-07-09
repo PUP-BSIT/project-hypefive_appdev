@@ -29,7 +29,7 @@ body {
 
 .form div {
   margin-bottom: 15px;
-  margin-left: 10px;
+  margin-left: 2px;
   text-align: left;
 }
 
@@ -143,8 +143,8 @@ button {
   margin-right: 10%;
 }
 
-button:hover {
-  background-color: #fbcc15;
+button:disabled {
+  background-color: #afafaf;
 }
 
 .form-row {
@@ -169,8 +169,8 @@ button:hover {
 }
 
 .forgot-pass {
-  color: inherit; /* or color: black; to remove any inherited color */
-  text-decoration: none; /* to remove underline if any */
+  color: inherit;
+  text-decoration: none; 
   margin-bottom: 35px;
   font-size: 12px;
 }
@@ -191,7 +191,8 @@ button:hover {
   
   .form {
     width: 90%;
-    padding: 15px;
+    padding: 10px;
+    height: auto;
   }
 
   .form-row {
@@ -203,6 +204,7 @@ button:hover {
     width: 70%;
     padding: 10px;
     padding-left: 6%;
+    height: 90%;
   }
   
   .form button, .popup-content button {
@@ -225,10 +227,19 @@ button:hover {
     height: 30%;
   }
 
+  .popup {
+    position: absolute;
+  }
+
+  .signup-form input,
+  .signup-form label {
+    margin-left: 6%;
+  } 
+
   .popup-content {
     width: 70%;
     padding: 10px;
-    padding-left: 6%;
+    padding-left: 0%;
   }
   
   .form button, .popup-content button {

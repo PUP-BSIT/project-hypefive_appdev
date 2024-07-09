@@ -1,9 +1,9 @@
 .logo {
   display: flex;
-  margin-top: 2%;
+  margin-top: 5%;
   margin-left: 45%;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 186px;
 }
 
 .logo img {
@@ -25,6 +25,14 @@
   text-align: center;
 }
 
+#forgot_title {
+  margin-top: 10%;
+}
+
+#code_title {
+  margin-top: 10%;
+}
+
 h1 {
   color: #ffca10;
   font-size: 24px;
@@ -33,6 +41,7 @@ h1 {
 
 p {
   margin-top: 5%;
+  margin-bottom: 5%;
   text-align: center;
 }
 
@@ -54,21 +63,15 @@ p {
   margin-bottom: 10px;
 }
 
-#email_label {
-  text-align: left;
-  margin-left: 6%;
-  margin-top: 12%;
-}
-
 .auth-button {
   width: calc(100% - 40px);
   padding: 10px;
   background-color: #ffca10;
-  color: #fff;
+  color: #242424;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 5%;
+  margin-top: 2%;
   margin-bottom: 20px;
 }
 
@@ -78,7 +81,7 @@ p {
 
 #code_label {
   text-align: left;
-  margin-top: 15%;
+  margin-top: 10%;
   margin-left: 6%;
 }
 
@@ -86,11 +89,11 @@ p {
   width: calc(100% - 40px);
   padding: 10px;
   background-color: #ffca10;
-  color: #fff;
+  color: #242424;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 12%;
+  margin-top: 1.5%;
   margin-bottom: 20px;
 }
 
@@ -102,7 +105,7 @@ p {
   width: calc(100% - 40px);
   padding: 10px;
   background-color: #ffca10;
-  color: #fff;
+  color: #242424;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -115,7 +118,7 @@ p {
 
 .error-message {
   color: #ff3860;
-  margin-top: 20px;
+  margin-top: auto;
 }
 
 #new_pass {
@@ -144,8 +147,8 @@ p {
 }
 
 .login-button {
-  background-color: #008cba;
-  color: #fff;
+  background-color: #ffca10;
+  color: #242424;
   padding: 10px 20px;
   text-decoration: none;
   display: inline-block;
@@ -154,9 +157,25 @@ p {
 }
 
 .login-button:hover {
-  background-color: #007b9e;
+  background-color: #e5b900;
 }
 
 .updated {
   margin-top: 18%;
+}
+
+.inc {
+  font-size: 12px;
+  color: red;
+}
+
+@media (width < 576px) { 
+  .logo {
+    margin-top: 15%;
+    margin-left: 38%;
+  }
+
+  .auth-container {
+    margin-left: 12%;
+  }
 }

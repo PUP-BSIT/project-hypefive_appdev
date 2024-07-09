@@ -147,22 +147,6 @@ export class LoginService {
     return this.iconPaths[iconId];
   }
 
-  //TODO (move this to user service)
-  updateIconId(iconId: number): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.getToken());
-    return this.http.put<any>(`http://127.0.0.1:8000/api/students/update-icon`, { icon_id: iconId }, { headers }).pipe(
-      map((data: any) => {
-        this.userInfo.icon_id = iconId;
-        this.userInfo.icon_path = this.getIconPath(iconId);
-        return data; 
-      }),
-      catchError((error) => {
-        console.error('Error updating icon:', error);
-        return throwError(error);
-      })
-    );
-  }
-
   private invokeDataRetrievedCallbacks() {
     if (this.isDataRetrieved) {
       this.onDataRetrievedCallbacks.forEach(callback => callback(this.userInfo));

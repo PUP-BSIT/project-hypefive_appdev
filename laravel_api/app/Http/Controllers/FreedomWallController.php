@@ -11,7 +11,7 @@ class FreedomWallController extends Controller
 
   public function getPosts()
   {
-    $posts = DB::table('freedomwall')->where('is_posted', 1)->where('post_status_id', 2)->get();  //update to status
+    $posts = DB::table('freedomwall')->where('is_posted', 1)->where('post_status_id', 2)->get();  
     foreach ($posts as $post) {
       $post->student_id = Crypt::decrypt($post->student_id);
     }
@@ -21,7 +21,9 @@ class FreedomWallController extends Controller
   public function createPostFW(Request $request)
   {
     $post = $request->only('subject', 'content', 'background_color', 'post_status_id', 'student_id', );
+    $postTime = now();
 
+    $post['created_at'] = $postTime;
     $post['student_id'] = Crypt::encrypt($request->student_id);
     if ($post) {
       DB::table('freedomwall')->insert($post);
@@ -39,6 +41,7 @@ class FreedomWallController extends Controller
   {
     $postId = $request->only('id');
     $updatePost = now();
+
     if ($postId) {
       DB::table('freedomwall')->where('id', $postId)
         ->update(['is_posted' => 0, 'updated_at' => $updatePost]);
@@ -62,6 +65,7 @@ class FreedomWallController extends Controller
   {
     $postId = $request->only('id');
     $updateTime = now();
+
     if ($postId) {
       DB::table('freedomwall')->where('id', $postId)->update(['post_status_id' => 2, 'updated_at' => $updateTime]);
       $response['message'] = 'Post accepted successfully.';
@@ -78,6 +82,7 @@ class FreedomWallController extends Controller
   {
     $postId = $request->only('id');
     $updateTime = now();
+    
     if ($postId) {
       DB::table('freedomwall')->where('id', $postId)->update(['post_status_id' => 3, 'updated_at' => $updateTime]);
       $response['message'] = 'Post declined successfully.';

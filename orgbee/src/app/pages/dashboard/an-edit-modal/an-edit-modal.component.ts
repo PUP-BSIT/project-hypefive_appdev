@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpinnerService } from '../../../../service/spinner.service';
 
 @Component({
   selector: 'app-an-edit-modal',
@@ -17,13 +18,14 @@ export class AnEditModalComponent implements OnInit, OnChanges {
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @Output() announcementUpdated: EventEmitter<Announcement> = new EventEmitter<Announcement>();
   announcementForm: FormGroup;
-  userInfo: UserInfo | null = null;
+  userInfo: UserInfo;
 
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private announcementService: AnnouncementService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private spinnerService: SpinnerService
   ) {}
 
   updateSubjectCharacterCount(): void {
@@ -90,22 +92,22 @@ export class AnEditModalComponent implements OnInit, OnChanges {
           recipient: this.announcementForm.get('recipient')?.value,
           student_id: currentUserId
         };
-
-        this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe(
-          (updatedAnnouncementResponse: Announcement) => {
+        this.spinnerService.show('Updating announcement...')
+        this.announcementService.updateAnnouncement(this.selectedAnnouncement.id, updatedAnnouncement).subscribe({
+          next: (updatedAnnouncementResponse: Announcement) => {
             this.announcementUpdated.emit(updatedAnnouncementResponse);
             this.closeModal.emit();
             this.announcementForm.reset();
+            this.spinnerService.hide();
               this.showSnackBar('Announcement updated successfully.', 'success');
             },
-            (error) => {
-              console.error('Error updating announcement:', error);
-              
-              // Show error message using MatSnackBar
+            error: (error) => {
+              this.spinnerService.hide();
               this.showSnackBar('Error updating announcement. Please try again later.', 'error');
             }
-          );
+      });
         } else {
+          this.spinnerService.hide();
           this.showSnackBar('Error updating announcement. Please try again later.', 'error');
         }
       } else {

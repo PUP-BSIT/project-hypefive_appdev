@@ -14,7 +14,6 @@ body {
 }
 
 .header {
-  border-bottom: 1px solid #ddd;
   border-radius: 10px;
   flex-shrink: 0;
 }
@@ -35,7 +34,7 @@ body {
 
 .left-column {
   flex: 3;
-  padding: 10px;
+  margin-right: 15px;
   box-sizing: border-box;
 }
 
@@ -44,8 +43,7 @@ body {
   padding: 10px;
   box-sizing: border-box;
   background-color: #eeeeed;
-  margin-top: 2%;
-  border-radius: 20px;
+  border-radius: 15px;
   height: 80vh;
   text-align: center;
 }
@@ -56,7 +54,6 @@ body {
   text-align: center;
   border-bottom: solid 2px #ffca10;
   border-radius: 15px;
-  margin-top: 10px;
 }
 
 .page {
@@ -105,12 +102,23 @@ body {
 
 .event-list-title td {
   padding: 10px;
-  text-align: center;
 }
 
 .event-list td {
   padding: 10px;
-  text-align: justify;
+  border-bottom: 1px solid #ddd;
+}
+
+.event-list th:first-child, .event-list td:first-child {
+  width: 15ch;
+  max-width: 15ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.event-list th:nth-child(2), .event-list td:nth-child(2) {
+  min-width: 100px; 
 }
 
 .event-list-title {
@@ -125,7 +133,14 @@ h2 {
 
 .event-list-table {
   display: table-row;
-  text-align: center;
+}
+
+.event-title {
+  max-width: 15ch; 
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 10%;
 }
 
 .carousel-buttons {
@@ -282,6 +297,7 @@ h2 {
   }
 
   .right-column {
+    margin-top: 10px;
     order: 2;
   }
 
@@ -293,6 +309,7 @@ h2 {
   .modal-event {
     order: 1;
     text-align: center;
+
   }
 
   .modal-event img {
@@ -302,6 +319,16 @@ h2 {
   .modal-details {
     order: 2;
   }
+
+  .modal {
+    height: auto;
+  }
+
+  .search-results {
+    width: 50%;
+    margin-top: 3px;
+  }
+  
 }
 
 .no-request {

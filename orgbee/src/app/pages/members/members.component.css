@@ -6,6 +6,12 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   margin-top: 0px;
+}
+
+.members-page {
+  height: 100%;
+  height:100%;
+  overflow-y: auto;
   padding: 15px;
 }
 
@@ -31,12 +37,11 @@ body {
 }
 
 .members {
-  margin: 15px;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 10px;
   background-color: #eeeeed;
   height: 140%;
-  margin-top: -23%;
+  margin-top: -191px;
 }
 
 .member {
@@ -59,7 +64,7 @@ body {
 }
 
 .membership-request {
-  border-radius: 20px;
+  border-radius: 15px;
   background-color: #eeeeed;
   flex: 1;
   overflow-y: scroll;
@@ -68,7 +73,6 @@ body {
   padding-bottom: 20px;
   margin-top: 2%;
   margin-left: 5%;
-  margin-right: 2%;
   height: 300px;
 }
 
@@ -123,12 +127,11 @@ body {
 .officers {
   cursor: pointer;
   margin-top: 20px;
-  border-radius: 20px;
+  border-radius: 15px;
   background-color: #eeeeed;
   flex: 1;
   padding: 10px;
   align-items: center;
-  margin-right: 2%;
   margin-left: 5%;
   height: 300px;
 }

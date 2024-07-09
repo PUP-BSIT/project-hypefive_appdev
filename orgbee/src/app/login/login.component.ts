@@ -3,8 +3,11 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { catchError, of, map } from 'rxjs';
+
 import { DataService } from '../../service/data.service';
+import { SpinnerService } from '../../service/spinner.service';
 import { MustMatch } from './confirmed.validator';
 
 interface ResponseData {
@@ -30,13 +33,12 @@ export class LoginComponent implements OnInit {
   showSignup = false;
   loadingProgress = 0;
 
-
   constructor(
     private formBuilder: FormBuilder, 
     private dataService: DataService, 
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private spinnerService: SpinnerService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -58,10 +60,12 @@ export class LoginComponent implements OnInit {
       student_number: ['', {
         validators: [
           Validators.required, 
-          Validators.pattern(/^\d{4}-\d{5}-TG-0$/)]
+          Validators.pattern(/^\d{4}-\d{5}-TG-0$/)],
+        asyncValidators:[ this.studentNumChecker.bind(this)]
       }],
       email: ['', {
-        validators: [Validators.required, Validators.email]
+        validators: [Validators.required, Validators.email,],
+        asyncValidators:[ this.emailExists.bind(this)]
       }],
       birthday: ['', {
         validators: [
@@ -82,22 +86,6 @@ export class LoginComponent implements OnInit {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
 
-    //TO DO: TAPISPISAN: Email authentication
-    // this.route.queryParams.subscribe(params => {
-    //   if (params['verified'] === '1') {
-    //     this.toastr.success('Email verified successfully', 'Success', { timeOut: 2000, progressBar: true });
-    //   } else if (params['verified'] === '0') {
-    //     this.toastr.error('Email verification failed', 'Error', { timeOut: 2000, progressBar: true });
-    //   }
-    // });
-  }
-  incrementProgress() {
-    const interval = setInterval(() => {
-      this.loadingProgress += 20;
-      if (this.loadingProgress >= 100) {
-        clearInterval(interval);
-      }
-    }, 200);
   }
 
   get emailControl() {
@@ -174,31 +162,57 @@ export class LoginComponent implements OnInit {
       return null;
     };
   }
+  
+  emailExists(control:FormControl){
+    const email = control.value;
+    return this.dataService.searchEmail(email).pipe(
+      map((response: string) => {
+        return response ? { emailExists: true } : null;
+      }),
+      catchError(() => of(null)) 
+    );
+  }
+
+  studentNumChecker(control:FormControl){
+    const studentNum = control.value;
+    return this.dataService.searchStudentNum(studentNum).pipe(
+      map((response: string) => {
+        return response ? { studentNumExists: true } : null;
+      }),
+      catchError(() => of(null)) 
+    );
+  }
 
   onSubmit() {
-    if (!this.loginForm.valid) return;
+    this.spinnerService.show('Logging in...');
+    if (!this.loginForm.valid) {
+      this.spinnerService.hide();
+      return;
+    }
   
     this.dataService.login(this.loginForm.value)
         .subscribe((res: ResponseData)=>{
       this.data = res;
+      this.spinnerService.hide();
       if (this.data.status === 1) {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-        this.toastr.success(JSON.stringify(this.data.message), 
-          JSON.stringify(this.data.code),{
-            timeOut: 2000,
-            progressBar:true
+        this.toastr.success(JSON.stringify(this.data.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast success'
 
         });
       } else if (this.data.status === 0) {
-        this.toastr.error(JSON.stringify(this.data.message), 
-          JSON.stringify(this.data.code),{
-            timeOut: 2000,
-            progressBar:true
+        this.toastr.error(JSON.stringify(this.data.message), '',{
+          timeOut: 2000,
+          progressBar:true,
+          toastClass: 'custom-toast error'
         });
       }
     });
+
   }
 
   showSignupPopup() {
@@ -211,24 +225,29 @@ export class LoginComponent implements OnInit {
   }
 
   onSignupSubmit() {
-    if (!this.signupForm.valid) return;
+    this.spinnerService.show('Creating account...');
+    if (!this.signupForm.valid) {
+      this.spinnerService.hide();
+      return;
+    }
 
     this.dataService.registerUser(this.signupForm.value)
       .subscribe((res: ResponseData)=>{
         this.data = res;
+        this.spinnerService.hide();
         if(this.data.status === 1) {
-          this.toastr.success(JSON.stringify(this.data.message), 
-            JSON.stringify(this.data.code),{
-              timeOut: 1000,
-              progressBar: true
+          this.toastr.success(JSON.stringify(this.data.message), '',{
+            timeOut: 1000,
+            progressBar: true,
+            toastClass: 'custom-toast success'
           });
 
           this.router.navigate(['./verify']);
         } else {
-          this.toastr.error(JSON.stringify(this.data.message), 
-            JSON.stringify(this.data.code),{
-              timeOut: 2000,
-              progressBar: true
+          this.toastr.error(JSON.stringify(this.data.message), '',{
+            timeOut: 2000,
+            progressBar: true,
+            toastClass: 'custom-toast error'
           });
         }
 
