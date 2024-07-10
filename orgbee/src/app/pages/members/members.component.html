@@ -7,32 +7,34 @@
         [height]="'shorter-height'"></app-header>
     </div>
 
-    <div class="membership-request">
-      <h2>MEMBERSHIP REQUESTS</h2>
-
-      @if(membershipRequests.length === 0) {
-        <ng-container>
-          <p class="no-request">No requests yet.</p>
-        </ng-container>
-      } 
-
-      @for(request of membershipRequests; track request.id) {
-        <div class="request">
-          <div class="profile">
-            <img src="{{ request.icon_location }}" alt="Profile Picture" />
-            <p>{{  request.last_name + ", " + request.first_name  }}</p>
+    <div class="membership-request-container">
+      <div class="membership-request">
+        <h2>MEMBERSHIP REQUESTS</h2>
+  
+        @if(membershipRequests.length === 0) {
+          <ng-container>
+            <p class="no-request">No requests yet.</p>
+          </ng-container>
+        } 
+  
+        @for(request of membershipRequests; track request.id) {
+          <div class="request">
+            <div class="profile">
+              <img src="{{ request.icon_location }}" alt="Profile Picture" />
+              <p>{{  request.last_name + ", " + request.first_name  }}</p>
+            </div>
+            <button class="accept" 
+              (click)="acceptRequest(request.student_number)">
+                Accept
+            </button>
+            <button
+              class="decline"
+              (click)="declineRequest(request.student_number)">
+                Decline
+            </button>
           </div>
-          <button class="accept" 
-            (click)="acceptRequest(request.student_number)">
-              Accept
-          </button>
-          <button
-            class="decline"
-            (click)="declineRequest(request.student_number)">
-              Decline
-          </button>
-        </div>
-      }
+        }
+      </div>
     </div>
 
     <div class="members">

@@ -67,13 +67,20 @@ body {
   border-radius: 15px;
   background-color: #eeeeed;
   flex: 1;
-  overflow-y: scroll;
   padding: 0;
   margin-top: -35px;
   padding-bottom: 20px;
   margin-top: 2%;
   margin-left: 5%;
   height: 300px;
+}
+
+.membership-request-container {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-right: 13%;
+  height: 200px;
 }
 
 .membership-request h2 {
@@ -121,7 +128,7 @@ body {
 }
 
 .request button.decline:hover {
-  background-color: #1e1e1e;
+  background-color: #333333;
 }
 
 .officers {
@@ -161,7 +168,7 @@ body {
 }
 
 .all-members,
-.membership-request,
+.membership-request-container,
 .officer1 {
   overflow-y: auto;
   scrollbar-width: none;
@@ -195,13 +202,13 @@ body {
 }
 
 .search-results-container {
-  position: absolute;
+  position: relative;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   border: 1px solid #ccc;
   overflow-y: auto;
-  width: 40%;
+  width: 100%;
   margin-top: 3px;
 }
 
