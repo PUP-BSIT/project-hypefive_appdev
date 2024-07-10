@@ -188,6 +188,14 @@ textarea {
   margin-right: 2%;
 }
 
+.poster-name {
+  display: block;
+  max-width: 300px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: wrap;
+}
 
 .button-container {
   display: flex;
