@@ -14,7 +14,7 @@
     @for(events of filteredEvents; track filteredEvents){
       <div class="event-card">
         <div class="event-img">
-          <img src="{{imgPath}}{{events.poster_loc}}" alt="Event Poster" />
+          <img src="{{events.poster_loc}}" alt="Event Poster" />
         </div>
         <div class="event-details">
           <h3>{{events.event_name}}</h3>
@@ -39,7 +39,7 @@
 <div id="eventModal" class="modal" [class.visible]="isEventModalVisible" >
   <div class="modal-content" [@modalAnimation]="isEventModalVisible ? 'open' : 'closed'">
     <span class="close" (click)="closeEventModal()">&times;</span>
-    <img src="{{imgPath}}{{selectedEvent?.poster_loc}}" alt="Event Poster" />
+    <img src="{{selectedEvent?.poster_loc}}" alt="Event Poster" />
     <h3>{{ selectedEvent?.event_name }}</h3>
     <p>{{ selectedEvent?.location }}</p>
     <p>{{ selectedEvent?.date }}</p>

@@ -38,7 +38,6 @@ export class HomepageEventsComponent implements OnInit {
 
   filteredEvents:Event[]=[];
   selectedEvent: Event  | null = null;
-  imgPath: string = 'http://127.0.0.1:8000/storage/images/event_poster/';
   userInfo: UserInfo;
   isRegistered = 0;
 

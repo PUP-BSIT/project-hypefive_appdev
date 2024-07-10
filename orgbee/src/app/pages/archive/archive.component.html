@@ -25,7 +25,7 @@
             track event.id) {
               <div class="archive-event" (click)="eventClick(event)">
                 <!-- Temporary -->
-                <img src="{{imgPath}}{{event.poster_loc}}" />
+                <img src="{{event.poster_loc}}" />
                 <p>{{ event.event_name }}</p>
               </div>
           }
@@ -105,7 +105,7 @@
       <span class="close" (click)="closeModal()">&times;</span>
       @for(detail of selectedEvent; track selectedEvent){
         <div class="modal-event">
-          <img src="{{imgPath}}{{detail.poster_loc}}" />
+          <img src="{{detail.poster_loc}}" />
         </div>
         <div class="modal-details">
           <h3>{{ detail.event_name }}</h3>

@@ -23,8 +23,6 @@ export class EventsComponent implements OnInit {
   cancelEventTab:string;
 
   activeTab = 'UPCOMING';
-  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
-  imgPath = environment.imgPath;
 
   createEventModal = false;
   isManageModalVisible = false;

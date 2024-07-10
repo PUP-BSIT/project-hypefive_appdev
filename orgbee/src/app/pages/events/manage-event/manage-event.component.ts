@@ -29,8 +29,6 @@ export class ManageEventComponent implements OnInit {
   @Output() cancelUpdate = new EventEmitter<string>();
   @Output() editEventModal = new EventEmitter<void>();
 
-  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
-  imgPath = environment.imgPath;
   response:Response;
 
 

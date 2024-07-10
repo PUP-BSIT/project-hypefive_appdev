@@ -33,8 +33,6 @@ export class EditEventComponent implements OnInit {
   preview:string;
 
   updateEventId:number;
-  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
-  imgPath = environment.imgPath;
 
   constructor (private formBuilder: FormBuilder, 
     private eventService: EventService,
@@ -79,7 +77,7 @@ export class EditEventComponent implements OnInit {
       this.eventForm.patchValue(this.selectedEvent);
       this.updateEventId = this.selectedEvent.id;
       this.currentPoster = this.selectedEvent.poster_loc;
-      this.preview = this.imgPath+this.currentPoster; 
+      this.preview = this.currentPoster; 
     }
   }
 
