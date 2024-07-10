@@ -64,6 +64,14 @@ body {
 }
 
 .membership-request {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-right: 13%;
+  height: 200px;
+}
+
+.membership-request-container {
   border-radius: 15px;
   background-color: #eeeeed;
   flex: 1;
@@ -73,14 +81,6 @@ body {
   margin-top: 2%;
   margin-left: 5%;
   height: 300px;
-}
-
-.membership-request-container {
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  padding-right: 13%;
-  height: 200px;
 }
 
 .membership-request h2 {
@@ -168,7 +168,7 @@ body {
 }
 
 .all-members,
-.membership-request-container,
+.membership-request,
 .officer1 {
   overflow-y: auto;
   scrollbar-width: none;
