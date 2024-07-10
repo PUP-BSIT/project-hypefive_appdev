@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
-import { formatDate } from '@angular/common';
-import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
 import { EventService } from '../../../../service/event-service/event.service';
 
 @Component({
@@ -72,8 +70,3 @@ export class CalendarComponent implements OnInit {
   }
 }
 
-export class CustomDateFormatter extends CalendarDateFormatter {
-  public monthViewColumnHeader({ date, locale }: DateFormatterParams): string {
-    return formatDate(date, 'EEE', locale); // use short week days
-  }
-}

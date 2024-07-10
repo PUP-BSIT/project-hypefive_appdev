@@ -35,7 +35,6 @@ export class AdminTodayComponent implements OnInit {
           const formattedTime = this.formatTimeTo12Hour(event.time);
           return { ...event, formattedTime }; 
         });
-      console.log(this.upcomingEvents);
     });
   }
 
