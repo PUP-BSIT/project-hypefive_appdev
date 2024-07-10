@@ -40,6 +40,7 @@ export class FreedomWallComponent implements OnInit {
   showFilterMessage = false;
   showRequestToDeleteModal = false;
   showSpinner = false;
+  value= false;
 
   currentPage = 0; 
   postsPerPage = 4; 
@@ -256,6 +257,10 @@ export class FreedomWallComponent implements OnInit {
       this.currentPage--;
       this.updatePaginatedPosts();
     }
+  }
+  
+  isPostFromUser(post: Post): boolean {
+    return post.student_id === this.userInfo.id;
   }
 
   approvePost(postId: number): void {

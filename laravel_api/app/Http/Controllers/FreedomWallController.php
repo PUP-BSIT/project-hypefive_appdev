@@ -58,6 +58,9 @@ class FreedomWallController extends Controller
   public function getPostRequest()
   {
     $posts = DB::table('freedomwall')->where('is_posted', 1)->where('post_status_id', 1)->get();  //update to status
+    foreach ($posts as $post) {
+      $post->student_id = Crypt::decrypt($post->student_id);
+    }
     return response()->json($posts, 200);
   }
 

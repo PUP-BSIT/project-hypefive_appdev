@@ -63,7 +63,7 @@ import { CalendarComponent } from './pages/dashboard/calendar/calendar.component
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarDateFormatter } from 'angular-calendar';
-import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
+import { CustomDateFormatter } from './pages/dashboard/calendar/custom-date-formatter';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { StepperComponent } from './pages/events/stepper/stepper.component';
