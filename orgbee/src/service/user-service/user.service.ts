@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, catchError, throwError } from 'rxjs';
-import { UserInfo } from './login.service'; 
-import { LoginService } from './login.service';
-import { environment } from '../environments/environment';
+import { UserInfo } from '../login-service/login.service'; 
+import { LoginService } from '../login-service/login.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

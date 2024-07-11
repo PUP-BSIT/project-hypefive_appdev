@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { LoginService, UserInfo } from '../../../../service/login.service';
-import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
+import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
+import { AnnouncementService, Announcement } from '../../../../service/announcement-service/announcement.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SpinnerService } from '../../../../service/spinner.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
 @Component({
   selector: 'app-an-modal',

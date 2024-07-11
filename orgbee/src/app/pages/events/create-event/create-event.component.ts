@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { EventService } from '../../../../service/event-service/event.service';
 import { Response } from '../../../../service/response-service/response.service';
-import { SpinnerService } from '../../../../service/spinner.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
 @Component({
   selector: 'app-create-event',

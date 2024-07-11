@@ -3,13 +3,13 @@ import { FormGroup, FormBuilder, Validators, AbstractControlOptions,
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors } from '@angular/forms';
 import { MustMatch } from './confirmed.validator';
-import { LoginService, UserInfo } from '../../../../service/login.service';
-import { UserService } from '../../../../service/user.service';
+import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
+import { UserService } from '../../../../service/user-service/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
 import { ResponseService } from '../../../../service/response-service/response.service';
-import { SpinnerService } from '../../../../service/spinner.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
 @Component({
   selector: 'app-settings',

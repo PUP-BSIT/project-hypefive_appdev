@@ -26,9 +26,9 @@ import { AnEditModalComponent }
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 
 //Services
-import { DataService } from '../service/data.service';
-import { LoginService } from '../service/login.service';
-import { AnnouncementService } from '../service/announcement.service';
+import { DataService } from '../service/data-service/data.service';
+import { LoginService } from '../service/login-service/login.service';
+import { AnnouncementService } from '../service/announcement-service/announcement.service';
 import { MemberService } from '../service/member-service/member.service';
 import { ResponseService } from '../service/response-service/response.service';
 import { FreedomwallService } from '../service/freedomwall-service/freedomwall.service';

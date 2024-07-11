@@ -6,8 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { EventService } from '../../../../service/event-service/event.service';
 import { Response } from '../../../../service/response-service/response.service';
 import { Event } from '../../../../service/event-service/event.service';
-import { SpinnerService } from '../../../../service/spinner.service';
-import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
 
 import { environment } from '../../../../environments/environment';
 @Component({

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
-import { DataService } from '../../../../service/data.service';
+import { DataService } from '../../../../service/data-service/data.service';
 import { Time } from '@angular/common';
-import { LoginService, UserInfo } from '../../../../service/login.service';
+import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
 
 import { Event } from '../../../../service/event-service/event.service';
 import { EventService } from '../../../../service/event-service/event.service';

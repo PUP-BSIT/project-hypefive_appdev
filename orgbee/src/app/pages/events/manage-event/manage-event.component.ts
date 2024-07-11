@@ -7,8 +7,8 @@ import { ModalButton } from '../../../../service/event-service/event.service';
 import { Response } from '../../../app.component';
 
 import { EventService } from '../../../../service/event-service/event.service';
-import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
-import { SpinnerService } from '../../../../service/spinner.service';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
 import { environment } from '../../../../environments/environment';
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { EmailAuthService } from '../../../service/emailauth.service';
+import { EmailAuthService } from '../../../service/emailauth-service/emailauth.service';
 
 @Component({
   selector: 'app-verify',

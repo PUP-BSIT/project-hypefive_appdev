@@ -1,30 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 
 export class DataService {
   
   constructor(private http:HttpClient) { }
-
-  registerUser(data) {
-    return this.http.post(environment.apiUrl +'/register/', data);
-  }
-
-  searchEmail(data) {
-    return this.http.get(environment.apiUrl +
-      `/signup/search_email?search_email=${data}`);
-  }
-
-  searchStudentNum(data) {
-    return this.http.get(environment.apiUrl +
-      `/signup/search_student_num?search_student_num=${data}`);
-  }
-
-  login(data) {
-    return this.http.post(environment.apiUrl +'/login/', data);
-  }
 
   registerEvent(data) {
     return this.http.post(environment.apiUrl +'/registerEvent/', data);
