@@ -68,7 +68,7 @@ body {
   background: #fafafa;
   background-attachment: fixed;
   border-radius: 42px 20px 20px 42px;
-  transition: left 0.7s;
+  transition: top 0.3s;
 }
 
 #nav_content_highlight:before,
@@ -81,6 +81,7 @@ body {
   height: 32px;
   border-radius: 50%;
   box-shadow: 16px 16px #fafafa;
+  
 }
 
 #nav_content_highlight:after {
@@ -119,35 +120,26 @@ body {
 .nav-button .fas,
 .nav-button .bi {
   font-size: 25px;
-  transition: 25px 0.2s;
+  transition: font-size 0.2s;
 }
 
-.nav-button:focus {
-  outline: none;
-  color: #ffca10;
-}
-
-.nav-button:focus ~ #nav_content_highlight {
-  top: 0px; /* Default position for the first button */
-}
-
-.nav-button:nth-of-type(2):focus ~ #nav_content_highlight {
+.nav-button:nth-of-type(2).active ~ #nav_content_highlight {
   top: 105px;
 }
 
-.nav-button:nth-of-type(3):focus ~ #nav_content_highlight {
+.nav-button:nth-of-type(3).active ~ #nav_content_highlight {
   top: 190px;
 }
 
-.nav-button:nth-of-type(4):focus ~ #nav_content_highlight {
+.nav-button:nth-of-type(4).active ~ #nav_content_highlight {
   top: 280px;
 }
 
-.nav-button:nth-of-type(5):focus ~ #nav_content_highlight {
+.nav-button:nth-of-type(5).active ~ #nav_content_highlight {
   top: 370px;
 }
 
-.nav-button:nth-of-type(6):focus ~ #nav_content_highlight {
+.nav-button:nth-of-type(6).active ~ #nav_content_highlight {
   top: 460px;
 }
 
@@ -155,48 +147,31 @@ body {
   color: #ffca10;
 }
 
-.nav-button:nth-of-type(1):hover ~ #nav_content_highlight {
-  top: 0px;
-}
-
 .nav-button:nth-of-type(2):hover {
   color: #ffca10;
-}
-
-.nav-button:nth-of-type(2):hover ~ #nav_content_highlight {
-  top: 105px;
+  transform: scale(1.2);
 }
 
 .nav-button:nth-of-type(3):hover {
   color: #ffca10;
-}
-
-.nav-button:nth-of-type(3):hover ~ #nav_content_highlight {
-  top: 190px;
+  transform: scale(1.2);
 }
 
 .nav-button:nth-of-type(4):hover {
   color: #ffca10;
-}
-
-.nav-button:nth-of-type(4):hover ~ #nav_content_highlight {
-  top: 280px;
+  transform: scale(1.2);
 }
 
 .nav-button:nth-of-type(5):hover {
   color: #ffca10;
+  transform: scale(1.2);
 }
 
-.nav-button:nth-of-type(5):hover ~ #nav_content_highlight {
-  top: 370px;
-}
 
 .nav-button:nth-of-type(6):hover {
   color: #ffca10;
-}
-
-.nav-button:nth-of-type(6):hover ~ #nav_content_highlight {
-  top: 460px;
+  transform: scale(1.2);
+  
 }
 
 #nav_bar .fas {
