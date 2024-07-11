@@ -328,6 +328,11 @@ h2 {
     width: 50%;
     margin-top: 3px;
   }
+
+  .archive-page {
+    height: auto;
+    margin-bottom: 30%;
+  }
   
 }
 

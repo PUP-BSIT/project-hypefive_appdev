@@ -613,11 +613,21 @@ button:disabled {
     max-height: 50%; 
   }
 
-
-  @media screen and (max-width: 460px) {
-    .masonry-item {
-      width: calc((100% - 30px) / 3); 
-      min-width: 80px; 
-    }
+  .freedomwall-page {
+    height: auto;
+    margin-bottom: 30%;
   }
+
+  .masonry-item {
+    max-height: 190px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .masonry-item {
+    width: calc((100% - 30px) / 3); 
+    min-width: 80px; 
+  }
+
+
 }

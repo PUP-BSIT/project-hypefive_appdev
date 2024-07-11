@@ -648,7 +648,7 @@ app-admin-today {
   width: 100%;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .content {
     grid-template-columns: 1fr; 
   }
@@ -664,11 +664,11 @@ app-admin-today {
   .announcement-container {
     height: 460px;
   }
-}
 
-@media screen and (max-width: 767px) {
   .dashboard {
     height: auto;
-    margin-bottom: 50px;
+    margin-bottom: 30%;
   }
 }
+
+
