@@ -138,17 +138,24 @@ export class DashboardComponent implements OnInit {
       next: (announcements) => {
         if (this.userInfo.role_id === Roles.Student) {
           this.announcements = announcements.filter(a => a.recipient === 0);
-        } else if (this.userInfo.role_id === Roles.Officer || 
-                        this.userInfo.role_id === Roles.Admin) {
-          this.announcements = 
-            announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        } else if (this.userInfo.role_id === Roles.Officer || this.userInfo.role_id === Roles.Admin) {
+          this.announcements = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        } else {
+          this.announcements = announcements;
         }
+        this.sortAnnouncements();
       },
       error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-  });
+    });
   }
+  
+  
+  private sortAnnouncements(): void {
+    this.announcements.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  }
+  
 
   openModal(announcement: Announcement): void {
     this.modalSubject = announcement.subject;
@@ -194,6 +201,7 @@ export class DashboardComponent implements OnInit {
       };
     }
     this.refreshAnnouncements();
+    this.sortAnnouncements();
     this.closeModalEditAnnouncement();
   }
    
@@ -204,6 +212,7 @@ export class DashboardComponent implements OnInit {
       author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
     };
     this.announcements.push(newAnnouncementDisplay);
+    this.sortAnnouncements();
   }
   
   getCurrentDateTime(): string {
@@ -239,6 +248,7 @@ export class DashboardComponent implements OnInit {
         this.announcements = announcements.filter(a => 
           a.recipient === 1
         );
+        this.sortAnnouncements();
       },
       error: (error) => {
         console.error('Error fetching announcements:', error);
@@ -252,6 +262,7 @@ export class DashboardComponent implements OnInit {
         this.announcements = announcements.filter(a => 
           a.student_id === this.userInfo.user_id
         );
+        this.sortAnnouncements();
       },
       error: (error) => {
         console.error('Error fetching announcements:', error);
