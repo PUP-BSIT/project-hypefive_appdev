@@ -28,7 +28,7 @@ import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 //Services
 import { DataService } from '../service/data.service';
 import { LoginService } from '../service/login.service';
-import { AnnouncementService } from '../service/announcement.service';
+import { AnnouncementService } from '../service/announcement-service/announcement.service';
 import { MemberService } from '../service/member-service/member.service';
 import { ResponseService } from '../service/response-service/response.service';
 import { FreedomwallService } from '../service/freedomwall-service/freedomwall.service';
@@ -63,7 +63,7 @@ import { CalendarComponent } from './pages/dashboard/calendar/calendar.component
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarDateFormatter } from 'angular-calendar';
-import { CustomDateFormatter } from './pages/dashboard/calendar/calendar.component';
+import { CustomDateFormatter } from './pages/dashboard/calendar/custom-date-formatter';
 import { AdminTodayComponent } from './pages/dashboard/admin-today/admin-today.component';
 import { SettingsComponent } from './pages/dashboard/settings/settings.component';
 import { StepperComponent } from './pages/events/stepper/stepper.component';
@@ -72,7 +72,7 @@ import { CreateEventComponent } from './pages/events/create-event/create-event.c
 import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
 import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.component';
-
+import { LandingPageMainComponent } from './landing-page-main/landing-page-main.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +101,8 @@ import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.componen
     SettingsComponent,
     StepperComponent,
     ProgressBarComponent,
-    CustomSpinnerComponent
+    CustomSpinnerComponent,
+    LandingPageMainComponent
   ],
   imports: [
     BrowserModule,

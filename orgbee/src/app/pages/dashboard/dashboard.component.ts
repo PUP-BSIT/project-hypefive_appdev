@@ -5,8 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { AnnouncementService, Announcement } 
-  from '../../../service/announcement.service';
+import { AnnouncementService, Announcement } from '../../../service/announcement-service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,6 +42,8 @@ export class DashboardComponent implements OnInit {
   showSettings = false;
   activeTab: string = 'all';
   loggingOut: boolean = false;
+  showSpinnerDelete: boolean = false;
+  showSpinnerDeact: boolean = false;
   isLoading: boolean = false;
   userInfo: UserInfo = {
     email: '',
@@ -79,7 +80,8 @@ export class DashboardComponent implements OnInit {
       this.loginService.onDataRetrieved((data: UserInfo) => {
         this.userInfo = data;
       });
-      this.fetchAnnouncements();const today = new Date();
+      this.fetchAnnouncements();
+      const today = new Date();
   }
   
   confirmAction(title: string, message: string, callback: () => void) {
@@ -117,6 +119,14 @@ export class DashboardComponent implements OnInit {
 
   closeModal(): void {
     this.showModal = false;
+  }
+
+  handleShowSpinnerDelete(show: boolean) {
+    this.showSpinnerDelete = show;
+  }
+
+  handleShowSpinnerDeact(show: boolean) {
+    this.showSpinnerDeact = show;
   }
 
   closeOneAnnouncement(): void {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { LoginService, UserInfo } from '../../../../service/login.service';
-import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
+import { AnnouncementService, Announcement } from '../../../../service/announcement-service/announcement.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../../service/spinner.service';
 
@@ -26,6 +26,18 @@ export class AnModalComponent implements OnInit {
     private spinnerService: SpinnerService
   ) {}
 
+  ngOnInit(): void {
+    this.announcementForm = this.formBuilder.group({
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required]],
+      recipient: ['', Validators.required],
+    });
+
+    this.loginService.onDataRetrieved((data: UserInfo) => {
+      this.userInfo = data;
+    });
+  }
+
   updateSubjectCharacterCount(): void {
     const subjectControl = this.announcementForm.get('subject');
     if (subjectControl && subjectControl.value.length > 30) {
@@ -38,18 +50,6 @@ export class AnModalComponent implements OnInit {
     if (messageControl && messageControl.value.length > 850) {
       messageControl.setValue(messageControl.value.substring(0, 850));
     }
-  }
-
-  ngOnInit(): void {
-    this.announcementForm = this.formBuilder.group({
-      subject: ['', [Validators.required]],
-      message: ['', [Validators.required]],
-      recipient: ['', Validators.required],
-    });
-
-    this.loginService.onDataRetrieved((data: UserInfo) => {
-      this.userInfo = data;
-    });
   }
 
   get subjectControl(): AbstractControl | null {
@@ -91,7 +91,6 @@ export class AnModalComponent implements OnInit {
             this.spinnerService.hide();
             console.error('Error creating announcement:', error);
             alert('Error creating announcement. Please try again later.');
-
             this.showSnackBar('Error creating announcement. Please try again later.', 'error');
           }
       });

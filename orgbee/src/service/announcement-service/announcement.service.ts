@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
-
+import { environment } from '../../environments/environment';
 export interface Announcement {
   id: number;
   subject: string;
@@ -18,12 +18,10 @@ export interface Announcement {
 @Injectable()
 
 export class AnnouncementService {
-  private apiUrl = 'http://127.0.0.1:8000';
-
   constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
   getAnnouncements(): Observable<Announcement[]> {
-    return this.http.get<Announcement[]>(this.apiUrl+'/api/announcements').pipe(
+    return this.http.get<Announcement[]>(environment.apiUrl+'/announcements').pipe(
       map((announcements: Announcement[]) => {
         return announcements.map(announcement => {
           return {
@@ -40,16 +38,16 @@ export class AnnouncementService {
   }
 
   createAnnouncement(announcement: Announcement): Observable<number> {
-    return this.http.post<{ announcement_id: number }>(this.apiUrl+'/api/announcements',  announcement).pipe(
+    return this.http.post<{ announcement_id: number }>(environment.apiUrl+'/announcements',  announcement).pipe(
       map(response => response.announcement_id)
     );
   }
   
   updateAnnouncement(id: number, announcement: Announcement): Observable<Announcement> {
-    return this.http.put<Announcement>(`${this.apiUrl}/api/announcements/${id}`, announcement);
+    return this.http.put<Announcement>(`${environment.apiUrl}/announcements/${id}`, announcement);
   }
 
   deleteAnnouncement(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/api/announcements/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/announcements/${id}`);
   }
 }

@@ -2,7 +2,7 @@
 
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { AnnouncementService, Announcement } from '../../../../service/announcement.service';
+import { AnnouncementService, Announcement } from '../../../../service/announcement-service/announcement.service';
 import { LoginService, UserInfo } from '../../../../service/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../../service/spinner.service';
