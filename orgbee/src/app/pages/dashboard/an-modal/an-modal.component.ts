@@ -4,7 +4,7 @@ import { LoginService, UserInfo } from '../../../../service/login.service';
 import { AnnouncementService, Announcement } from '../../../../service/announcement-service/announcement.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../../service/spinner.service';
-
+import { ResponseService } from '../../../../service/response-service/response.service'; // Import ResponseService
 @Component({
   selector: 'app-an-modal',
   templateUrl: './an-modal.component.html',
@@ -23,7 +23,8 @@ export class AnModalComponent implements OnInit {
     private loginService: LoginService,
     private announcementService: AnnouncementService,
     private snackBar: MatSnackBar,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private responseService: ResponseService
   ) {}
 
   ngOnInit(): void {
@@ -85,31 +86,18 @@ export class AnModalComponent implements OnInit {
             this.announcementForm.reset();
             this.showModal = false;
             this.announcementCreated.emit(newAnnouncement); 
-            this.showSnackBar('Announcement created successfully.', 'success');
+            this.responseService.handleSuccess('Announcement created successfully.');
           },
           error: (error) => {
             this.spinnerService.hide();
             console.error('Error creating announcement:', error);
-            alert('Error creating announcement. Please try again later.');
-            this.showSnackBar('Error creating announcement. Please try again later.', 'error');
+            this.responseService.handleError('Error creating announcement. Please try again later.');
           }
       });
       } else {
-        console.error('Error extracting user ID from token.');
-        alert('Error creating announcement. Please try again later.');
-
-        this.showSnackBar('Error creating announcement. Please try again later.', 'error');
-      }
-    } else {
       this.announcementForm.markAllAsTouched();
     }
   }
-
-  private showSnackBar(message: string, panelClass: string) {
-    this.snackBar.open(message, '', {
-      duration: 2000,
-      panelClass: ['custom-snackbar', panelClass]
-    });
   }
 
   closeModal(): void {

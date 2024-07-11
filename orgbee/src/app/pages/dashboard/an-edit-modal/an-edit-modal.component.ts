@@ -4,8 +4,8 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AnnouncementService, Announcement } from '../../../../service/announcement-service/announcement.service';
 import { LoginService, UserInfo } from '../../../../service/login.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../../service/spinner.service';
+import { ResponseService } from '../../../../service/response-service/response.service';
 
 @Component({
   selector: 'app-an-edit-modal',
@@ -24,7 +24,7 @@ export class AnEditModalComponent implements OnInit, OnChanges {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private announcementService: AnnouncementService,
-    private snackBar: MatSnackBar,
+    private responseService: ResponseService,
     private spinnerService: SpinnerService
   ) {}
 
@@ -99,26 +99,20 @@ export class AnEditModalComponent implements OnInit, OnChanges {
             this.closeModal.emit();
             this.announcementForm.reset();
             this.spinnerService.hide();
-              this.showSnackBar('Announcement updated successfully.', 'success');
+            this.responseService.handleSuccess('Announcement updated successfully.');
             },
             error: (error) => {
               this.spinnerService.hide();
-              this.showSnackBar('Error updating announcement. Please try again later.', 'error');
+              this.responseService.handleSuccess('Error creating announcement. Please try again later.');
             }
       });
         } else {
           this.spinnerService.hide();
-          this.showSnackBar('Error updating announcement. Please try again later.', 'error');
+          this.responseService.handleSuccess('Error creating announcement. Please try again later.');
         }
       } else {
         this.announcementForm.markAllAsTouched();
       }
     }
 
-    private showSnackBar(message: string, panelClass: string) {
-      this.snackBar.open(message, '', {
-        duration: 2000,
-        panelClass: ['custom-snackbar', panelClass] 
-      });
-    }
 }
