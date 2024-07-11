@@ -205,11 +205,11 @@
                 <h4>{{ post.subject }}</h4>
                 <p>{{ post.content }}</p>
                 <div class="button-request">
-                  <button class="accept-btn" (click)="deletePost(post.id)" >
+                  <button class="accept-btn" (click)="deletePost(post.id)" [disabled]="isPostFromUser(post)" >
                     Delete Post
                   </button>
                   <button class="decline-btn" 
-                    (click)="declineRequestToDelete(post.id)">
+                    (click)="declineRequestToDelete(post.id)" [disabled]="isPostFromUser(post)">
                       Decline Request
                   </button>
                 </div>

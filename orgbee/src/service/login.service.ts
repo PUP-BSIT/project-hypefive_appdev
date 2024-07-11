@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {jwtDecode} from "jwt-decode";
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 export interface UserInfo {
   email: string;
@@ -114,7 +115,8 @@ export class LoginService {
 
   getUserInfo(headers: HttpHeaders): Observable<void> {
     if (this.userInfo.id && this.userInfo.email) {
-      return this.http.get<UserDataResponse>(`http://127.0.0.1:8000/api/retrieve/${this.userInfo.id}&${this.userInfo.email}`, { headers })
+      return this.http.get<UserDataResponse>(environment.apiUrl +
+        `/retrieve/${this.userInfo.id}&${this.userInfo.email}`, { headers })
         .pipe(
           map((data: UserDataResponse) => {
             this.userInfo.first_name = data.first_name;

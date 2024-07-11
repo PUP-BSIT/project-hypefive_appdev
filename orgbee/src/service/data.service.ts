@@ -1,61 +1,60 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Injectable()
 
 export class DataService {
-  apiUrl = 'http://127.0.0.1:8000/';
-  // apiUrl = 'https://orgbee.online/';
-
+  
   constructor(private http:HttpClient) { }
 
   registerUser(data) {
-    return this.http.post(this.apiUrl +'api/register/', data);
+    return this.http.post(environment.apiUrl +'/register/', data);
   }
 
   searchEmail(data) {
-    return this.http.get(this.apiUrl +
-        `api/signup/search_email?search_email=${data}`);
+    return this.http.get(environment.apiUrl +
+      `/signup/search_email?search_email=${data}`);
   }
 
   searchStudentNum(data) {
-    return this.http.get(this.apiUrl +
-        `api/signup/search_student_num?search_student_num=${data}`);
+    return this.http.get(environment.apiUrl +
+      `/signup/search_student_num?search_student_num=${data}`);
   }
 
   login(data) {
-    return this.http.post(this.apiUrl +'api/login/', data);
+    return this.http.post(environment.apiUrl +'/login/', data);
   }
 
   registerEvent(data) {
-    return this.http.post(this.apiUrl +'api/registerEvent/', data);
+    return this.http.post(environment.apiUrl +'/registerEvent/', data);
   }
 
   checkRegistration(data){
-    return this.http.post(this.apiUrl +'api/checkRegistration/', data);
+    return this.http.post(environment.apiUrl +'/checkRegistration/', data);
   }
 
   unregisterEvent(data){
-    return this.http.post(this.apiUrl +'api/unregisterEvent/', data);
+    return this.http.post(environment.apiUrl +'/unregisterEvent/', data);
   }
 
   reRegisterEvent(data){
-    return this.http.post(this.apiUrl +'api/reRegisterEvent/', data);
+    return this.http.post(environment.apiUrl +'/reRegisterEvent/', data);
   }
 
   getTotalMembers(){
-    return this.http.get(this.apiUrl +'api/getTotalMembers/');
+    return this.http.get(environment.apiUrl +'/getTotalMembers/');
   }
 
   getTotalUpcomingEvents(){
-    return this.http.get(this.apiUrl +'api/getTotalUpcomingEvents/');
+    return this.http.get(environment.apiUrl +'/getTotalUpcomingEvents/');
   }
 
   getTotalPendingPosts(){
-    return this.http.get(this.apiUrl +'api/getTotalPendingPosts/');
+    return this.http.get(environment.apiUrl +'/getTotalPendingPosts/');
   }
 
   getFiveEvents() {
-    return this.http.get(this.apiUrl +'api/getFiveEvents/');
+    return this.http.get(environment.apiUrl +'/getFiveEvents/');
   }
 }

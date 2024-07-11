@@ -6,11 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 
-class FreedomWallController extends Controller
-{
+class FreedomWallController extends Controller {
 
-  public function getPosts()
-  {
+  public function getPosts() {
     $posts = DB::table('freedomwall')->where('is_posted', 1)->where('post_status_id', 2)->get();  
     foreach ($posts as $post) {
       $post->student_id = Crypt::decrypt($post->student_id);
@@ -18,8 +16,7 @@ class FreedomWallController extends Controller
     return response()->json($posts, 200);
   }
 
-  public function createPostFW(Request $request)
-  {
+  public function createPostFW(Request $request) {
     $post = $request->only('subject', 'content', 'background_color', 'post_status_id', 'student_id', );
     $postTime = now();
 
@@ -37,8 +34,7 @@ class FreedomWallController extends Controller
     }
   }
 
-  public function deletePost(Request $request)
-  {
+  public function deletePost(Request $request) {
     $postId = $request->only('id');
     $updatePost = now();
 
@@ -55,8 +51,7 @@ class FreedomWallController extends Controller
     }
   }
 
-  public function getPostRequest()
-  {
+  public function getPostRequest() {
     $posts = DB::table('freedomwall')->where('is_posted', 1)->where('post_status_id', 1)->get();  //update to status
     foreach ($posts as $post) {
       $post->student_id = Crypt::decrypt($post->student_id);
@@ -64,8 +59,7 @@ class FreedomWallController extends Controller
     return response()->json($posts, 200);
   }
 
-  public function acceptPost(Request $request)
-  {
+  public function acceptPost(Request $request) {
     $postId = $request->only('id');
     $updateTime = now();
 
@@ -81,8 +75,7 @@ class FreedomWallController extends Controller
     }
   }
 
-  public function declinePost(Request $request)
-  {
+  public function declinePost(Request $request) {
     $postId = $request->only('id');
     $updateTime = now();
     
@@ -98,13 +91,15 @@ class FreedomWallController extends Controller
     }
   }
 
-  public function getDeletionRequests()
-  {
+  public function getDeletionRequests() {
     $posts = DB::table('freedomwall')
       ->where('is_posted', 1)
       ->where('post_status_id', 2)
       ->where('is_deletion_requested', 1)
       ->orderBy('deletion_req_count', 'DESC')->get();
+      foreach ($posts as $post) {
+        $post->student_id = Crypt::decrypt($post->student_id);
+      }
     return response()->json($posts, 200);
   }
 
