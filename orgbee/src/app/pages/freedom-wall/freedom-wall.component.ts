@@ -5,10 +5,10 @@ import {NgxMasonryComponent}  from "ngx-masonry";
 
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { FreedomwallService } from '../../../service/freedomwall-service/freedomwall.service';
-import { LoginService, UserInfo } from '../../../service/login.service';
+import { LoginService, UserInfo } from '../../../service/login-service/login.service';
 import { ConfirmationDialogService } 
-  from '../../../service/confirmation-dialog.service';
-import { SpinnerService } from '../../../service/spinner.service';
+  from '../../../service/confirmation-dialog-service/confirmation-dialog.service';
+import { SpinnerService } from '../../../service/spinner-service/spinner.service';
 import { Post } from '../../../service/freedomwall-service/freedomwall.service';
 import { ResponseService } 
   from '../../../service/response-service/response.service';
@@ -40,6 +40,7 @@ export class FreedomWallComponent implements OnInit {
   showFilterMessage = false;
   showRequestToDeleteModal = false;
   showSpinner = false;
+  value= false;
 
   currentPage = 0; 
   postsPerPage = 4; 
@@ -256,6 +257,10 @@ export class FreedomWallComponent implements OnInit {
       this.currentPage--;
       this.updatePaginatedPosts();
     }
+  }
+  
+  isPostFromUser(post: Post): boolean {
+    return post.student_id === this.userInfo.id;
   }
 
   approvePost(postId: number): void {

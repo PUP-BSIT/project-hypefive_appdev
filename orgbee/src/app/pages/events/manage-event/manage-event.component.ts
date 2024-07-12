@@ -7,8 +7,8 @@ import { ModalButton } from '../../../../service/event-service/event.service';
 import { Response } from '../../../app.component';
 
 import { EventService } from '../../../../service/event-service/event.service';
-import { ConfirmationDialogService } from '../../../../service/confirmation-dialog.service';
-import { SpinnerService } from '../../../../service/spinner.service';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
 import { environment } from '../../../../environments/environment';
 
@@ -29,8 +29,6 @@ export class ManageEventComponent implements OnInit {
   @Output() cancelUpdate = new EventEmitter<string>();
   @Output() editEventModal = new EventEmitter<void>();
 
-  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
-  imgPath = environment.imgPath;
   response:Response;
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LoadingService } from '../../service/loading.service';
+import { LoadingService } from '../../service/loading-service/loading.service';
 import { Subscription } from 'rxjs';
 
 @Component({

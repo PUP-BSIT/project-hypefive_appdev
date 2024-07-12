@@ -6,8 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { catchError, of, map } from 'rxjs';
 
-import { DataService } from '../../service/data.service';
-import { SpinnerService } from '../../service/spinner.service';
+//import { DataService } from '../../service/data.service';
+import { LoginService } from '../../service/login-service/login.service';
+import { SpinnerService } from '../../service/spinner-service/spinner.service';
 import { MustMatch } from './confirmed.validator';
 import { ResponseService } from '../../service/response-service/response.service';
 
@@ -36,7 +37,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, 
-    private dataService: DataService, 
+    //private dataService: DataService, 
+    private loginService: LoginService,
     private toastr: ToastrService,
     private router: Router,
     private spinnerService: SpinnerService,
@@ -167,7 +169,7 @@ export class LoginComponent implements OnInit {
   
   emailExists(control:FormControl){
     const email = control.value;
-    return this.dataService.searchEmail(email).pipe(
+    return this.loginService.searchEmail(email).pipe(
       map((response: string) => {
         return response ? { emailExists: true } : null;
       }),
@@ -177,7 +179,7 @@ export class LoginComponent implements OnInit {
 
   studentNumChecker(control:FormControl){
     const studentNum = control.value;
-    return this.dataService.searchStudentNum(studentNum).pipe(
+    return this.loginService.searchStudentNum(studentNum).pipe(
       map((response: string) => {
         return response ? { studentNumExists: true } : null;
       }),
@@ -192,7 +194,7 @@ export class LoginComponent implements OnInit {
       return;
     }
   
-    this.dataService.login(this.loginForm.value)
+    this.loginService.login(this.loginForm.value)
         .subscribe((res: ResponseData)=>{
       this.data = res;
       this.spinnerService.hide();
@@ -224,7 +226,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.dataService.registerUser(this.signupForm.value)
+    this.loginService.registerUser(this.signupForm.value)
       .subscribe((res: ResponseData)=>{
         this.data = res;
         this.spinnerService.hide();

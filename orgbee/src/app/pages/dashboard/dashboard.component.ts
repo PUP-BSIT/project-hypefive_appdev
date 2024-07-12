@@ -5,14 +5,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { AnnouncementService, Announcement } from '../../../service/announcement-service/announcement.service';
-import { LoginService, UserInfo } from '../../../service/login.service';
+
+import { AnnouncementService, Announcement } 
+  from '../../../service/announcement-service/announcement.service';
+import { LoginService, UserInfo } from '../../../service/login-service/login.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
-import { LoadingService } from '../../../service/loading.service';
+import { LoadingService } from '../../../service/loading-service/loading.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SpinnerService } from '../../../service/spinner.service';
+import { SpinnerService } from '../../../service/spinner-service/spinner.service';
 
 enum Roles {
   Student = 1,

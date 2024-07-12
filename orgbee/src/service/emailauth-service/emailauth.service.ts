@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment'
 
 interface ApiResponse {
   success: boolean;
@@ -12,12 +13,11 @@ interface ApiResponse {
   providedIn: 'root'
 })
 export class EmailAuthService {
-  private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
 
   verifyEmail(token: string): Observable<ApiResponse> {
-    const url = `${this.apiUrl}/verify`;
+    const url =  environment.apiUrl + `/verify`;
     return this.http.post<ApiResponse>(url, { token });
   }
 }
