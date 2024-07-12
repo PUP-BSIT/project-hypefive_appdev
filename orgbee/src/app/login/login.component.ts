@@ -284,4 +284,8 @@ export class LoginComponent implements OnInit {
         this.signupForm.reset(); //reset fields
     });
   }
+
+  navigateToLanding() {
+    this.router.navigate(['/landing-main']);
+  }
 }
