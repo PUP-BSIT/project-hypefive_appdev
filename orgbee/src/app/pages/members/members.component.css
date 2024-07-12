@@ -60,6 +60,7 @@ body {
   width: 40px;
   height: 40px;
   margin-right: 10px;
+  margin-left: 10px;
   border-radius: 50%;
 }
 
@@ -144,7 +145,6 @@ body {
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  padding-right: 13%;
   height: 200px;
 }
 
@@ -156,9 +156,8 @@ body {
 
 .profile {
   display: flex;
-  padding: 10px;
-  margin: 10px;
-  margin-bottom: 0px;
+  padding: 7px 0px;
+  margin-bottom: 10px;
   background-color: #ffffff;
   border-radius: 20px;
   align-items: center;
@@ -377,16 +376,13 @@ button.modal-member-button:hover {
 
   .membership-request-container {
     margin-top: 2%;
-    margin-left: 2%;
+    margin-left: 0px;
   }
 
   .members {
     margin-top: 20px;
   }
 
-  .officers {
-    margin-left: 2%;
-  }
 
   .details {
     grid-template-columns: 1fr; 
@@ -411,11 +407,6 @@ button.modal-member-button:hover {
     margin-top: 0; 
     margin-left: 0; 
   }
-
-  .officers {
-    padding-right: 5%;
-  }
-
   .members-page {
     height: auto;
     margin-bottom: 30%;
@@ -423,20 +414,12 @@ button.modal-member-button:hover {
 }
 
 @media (max-width: 969px) {
-  .officer1 {
-    padding-right: 20%;
-  }
-
   .membership-request {
     height: 400px;
   }
 }
 
 @media (max-width: 895px) {
-  .officer1 {
-    padding-right: 20%;
-  }
-
   .membership-request,
   .officers {
     height: 300px;
