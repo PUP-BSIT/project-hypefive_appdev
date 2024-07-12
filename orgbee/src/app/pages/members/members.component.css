@@ -123,12 +123,12 @@ body {
 
 .request button.decline {
   background-color: #b4b4b4;
-
   color: #262626;
 }
 
 .request button.decline:hover {
   background-color: #333333;
+  color:#ffffff;
 }
 
 .officers {
