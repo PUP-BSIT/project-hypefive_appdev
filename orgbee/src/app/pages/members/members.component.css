@@ -67,24 +67,22 @@ body {
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  padding-right: 13%;
   height: 200px;
 }
 
 .membership-request-container {
-  margin-top: 20px;
   border-radius: 15px;
   background-color: #eeeeed;
   flex: 1;
-  padding: 10px;
   align-items: center;
-  margin-left: 5%;
+  margin-left: 15px;
   height: 300px;
 }
 
-.membership-request h2 {
+.membership-request-container h2 {
   margin: 20px;
   font-size: 20px;
+  font-weight: 500;
 }
 
 .request {
@@ -138,7 +136,7 @@ body {
   flex: 1;
   padding: 10px;
   align-items: center;
-  margin-left: 5%;
+  margin-left: 15px;
   height: 300px;
 }
 
@@ -153,6 +151,7 @@ body {
 .officers h2 {
   font-size: 20px;
   margin: 20px;
+  font-weight: 500;
 }
 
 .profile {
