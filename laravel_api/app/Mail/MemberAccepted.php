@@ -16,16 +16,18 @@ class MemberAccepted extends Mailable
 
     public $students;
     public $statusMessage;
+    public $redirectLink;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($students, $statusMessage)
+    public function __construct($students, $statusMessage, $redirectLink)
     {
         $this->students = $students;
         $this->statusMessage = $statusMessage;
+        $this->redirectLink = $redirectLink;
     }
 
     /**
@@ -43,7 +45,8 @@ class MemberAccepted extends Mailable
                     ->subject('Membership Status Update')
                     ->with([
                         'students' => $this->students,
-                        'statusMessage' => $this->statusMessage
+                        'statusMessage' => $this->statusMessage,
+                        'redirectLink' => $this->redirectLink
                     ])
                     ->attachData($imageData, 'logo.png', ['mime' => $imageMimeType]);
     }

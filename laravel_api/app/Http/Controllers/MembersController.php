@@ -61,7 +61,10 @@ class MembersController extends Controller {
       ->first(['users.email', 'students.first_name']);
 
     $statusMessage = 'Congratulations! Your membership request has been accepted.';
-    Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+    $redirectLink = url('http://localhost:4200/login');
+    //$redirectLink = url('https://orgbee.online/login'); //change for deployment
+
+    Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage, $redirectLink));
 
     $response = [
       'message' => 'Student accepted successfully',
