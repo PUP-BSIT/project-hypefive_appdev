@@ -2,8 +2,6 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors } from '@angular/forms';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 import { MustMatch } from './confirmed.validator';
 import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
@@ -22,7 +20,7 @@ import { SpinnerService } from '../../../../service/spinner-service/spinner.serv
 export class SettingsComponent implements OnInit {
   @Input() showSettings: boolean = false;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  
+
   updateForm: FormGroup;
   passwordForm: FormGroup;
   deleteForm: FormGroup;
@@ -50,17 +48,17 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateForm = this.formBuilder.group({
-      first_name: ['', { validators: [Validators.required, this.noNumbersValidator] }],
-      last_name: ['', { validators: [Validators.required, this.noNumbersValidator] }],
-      student_number: ['', { validators: [Validators.required, Validators.pattern(/^\d{4}-\d{5}-TG-0$/)] }],
-      birthday: ['', { validators: [Validators.required, this.minAgeValidator(18), this.maxAgeValidator(80)] }],
-      gender: ['', { validators: [Validators.required] }]
+      first_name: ['', [Validators.required, this.noNumbersValidator]],
+      last_name: ['', [Validators.required, this.noNumbersValidator]],
+      student_number: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{5}-TG-0$/)]],
+      birthday: ['', [Validators.required, this.minAgeValidator(18), this.maxAgeValidator(80)]],
+      gender: ['', [Validators.required]]
     });
 
     this.passwordForm = this.formBuilder.group({
-      current_password: ['', { validators: [Validators.required] }],
-      new_password: ['', { validators: [Validators.required, Validators.minLength(8)] }],
-      confirm_password: ['', { validators: [Validators.required] }]
+      current_password: ['', [Validators.required]],
+      new_password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm_password: ['', [Validators.required]]
     }, {
       validator: MustMatch('new_password', 'confirm_password')
     } as AbstractControlOptions);
@@ -72,11 +70,11 @@ export class SettingsComponent implements OnInit {
     });
 
     this.deleteForm = this.formBuilder.group({
-      deletion_password: ['', { validators: [Validators.required] }]
+      deletion_password: ['', [Validators.required]]
     });
 
     this.updateForm.valueChanges.subscribe(() => {
-      this.changesMade = true;
+      this.changesMade = this.updateForm.valid && this.updateForm.dirty;
     });
   }
 
@@ -88,6 +86,7 @@ export class SettingsComponent implements OnInit {
       birthday: userInfo.birthday,
       gender: userInfo.gender.toLowerCase()
     });
+    this.updateForm.markAsPristine();
   }
 
   selectTab(tab: string) {
@@ -181,17 +180,14 @@ export class SettingsComponent implements OnInit {
           },
           error: error => {
             if (!navigator.onLine) {
-              this.responseService.handleError
-                ('You are offline. Please check your internet connection.');
+              this.responseService.handleError('You are offline. Please check your internet connection.');
             } else {
-              this.responseService.handleError
-                (`An error occurred while updating password. 
-                  Please try again.`);
+              this.responseService.handleError('An error occurred while updating the information. Please try again.');
             }
           }
         });
       } else {
-        console.log('Form is invalid');
+        this.responseService.handleError('Your Form is Invalid');
       }
       this.changesMade = false;
     });
@@ -256,12 +252,9 @@ export class SettingsComponent implements OnInit {
         },
         error: error => {
           if (!navigator.onLine) {
-            this.responseService.handleError
-              ('You are offline. Please check your internet connection.');
+            this.responseService.handleError('You are offline. Please check your internet connection.');
           } else {
-            this.responseService.handleError
-              (`An error occurred while updating password. 
-                Please try again.`);
+            this.responseService.handleError('An error occurred while updating password. Please try again.');
           }
         }
       });
@@ -293,12 +286,9 @@ export class SettingsComponent implements OnInit {
         error: error => {
           this.spinnerService.hide();
           if (!navigator.onLine) {
-            this.responseService.handleError
-              ('You are offline. Please check your internet connection.');
+            this.responseService.handleError('You are offline. Please check your internet connection.');
           } else {
-            this.responseService.handleError
-              (`An error occurred while deactivating. 
-                Please try again.`);
+            this.responseService.handleError('An error occurred while deactivating. Please try again.');
           }
         }
       });
@@ -326,11 +316,9 @@ export class SettingsComponent implements OnInit {
         error: error => {
           this.spinnerService.hide();
           if (!navigator.onLine) {
-            this.responseService.handleError
-              ('You are offline. Please check your internet connection.');
+            this.responseService.handleError('You are offline. Please check your internet connection.');
           } else {
-            this.responseService.handleError
-              (`An error occurred. Please try again.`);
+            this.responseService.handleError('An error occurred. Please try again.');
           }
         }
       });
@@ -350,12 +338,9 @@ export class SettingsComponent implements OnInit {
         },
         error: error => {
           if (!navigator.onLine) {
-            this.responseService.handleError
-              ('You are offline. Please check your internet connection.');
+            this.responseService.handleError('You are offline. Please check your internet connection.');
           } else {
-            this.responseService.handleError
-              (`An error occurred while updating password. 
-                Please try again.`);
+            this.responseService.handleError('An error occurred while updating avatar. Please try again.');
           }
         }
       });
