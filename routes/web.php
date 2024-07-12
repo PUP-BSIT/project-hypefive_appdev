@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/landing-main', function () {
+  return view('welcome');
+});
+
 //Check token
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/login', function () {
