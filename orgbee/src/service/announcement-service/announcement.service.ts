@@ -19,7 +19,6 @@ export interface Announcement {
 @Injectable()
 
 export class AnnouncementService {
-  private apiUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
@@ -47,10 +46,10 @@ export class AnnouncementService {
   }
   
   updateAnnouncement(id: number, announcement: Announcement): Observable<Announcement> {
-    return this.http.put<Announcement>(environment.apiUrl+`/announcements/${id}`, announcement);
+    return this.http.put<Announcement>(`${environment.apiUrl}/announcements/${id}`, announcement);
   }
 
   deleteAnnouncement(id: number): Observable<void> {
-    return this.http.delete<void>(environment.apiUrl+`/announcements/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/announcements/${id}`);
   }
 }

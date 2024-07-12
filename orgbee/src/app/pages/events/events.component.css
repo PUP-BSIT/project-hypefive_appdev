@@ -258,6 +258,11 @@ app-header {
     border-radius: 10px;
     margin-left: -1%;
   }
+
+  .events-page {
+    height: auto;
+    margin-bottom: 30%;
+  }
 }
 
 @media (min-width: 432px) and (max-width: 576px) { 
@@ -333,6 +338,11 @@ app-header {
     border-radius: 10px;
     margin-left: -20%;
   }
+
+  .events-page {
+    height: auto;
+    margin-bottom: 30%;
+  }
 }
 
 @media (min-width: 577px) and (max-width: 767px) {
@@ -407,6 +417,11 @@ app-header {
     padding: 10px 30px;
     border-radius: 10px;
     margin-left: -20%;
+  }
+
+  .events-page {
+    height: auto;
+    margin-bottom: 30%;
   }
 } 
 

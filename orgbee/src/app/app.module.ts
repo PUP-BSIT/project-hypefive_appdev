@@ -72,7 +72,7 @@ import { CreateEventComponent } from './pages/events/create-event/create-event.c
 import { ManageEventComponent } from './pages/events/manage-event/manage-event.component';
 import { EditEventComponent } from './pages/events/edit-event/edit-event.component';
 import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.component';
-
+import { LandingPageMainComponent } from './landing-page-main/landing-page-main.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +101,8 @@ import { CustomSpinnerComponent } from './custom-spinner/custom-spinner.componen
     SettingsComponent,
     StepperComponent,
     ProgressBarComponent,
-    CustomSpinnerComponent
+    CustomSpinnerComponent,
+    LandingPageMainComponent
   ],
   imports: [
     BrowserModule,

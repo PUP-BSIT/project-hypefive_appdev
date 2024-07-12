@@ -1,0 +1,553 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+.landing-container {
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #393939;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  transition: top 0.3s ease-in-out;
+}
+
+.header-hidden {
+  top: -80px; /* Adjust based on your header height */
+}
+
+.header .logo {
+  width: 32px;
+  height: 30px;
+}
+
+.header .nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-left: auto; /* Pushes navigation to the right */
+}
+
+.header .nav a {
+  text-decoration: none;
+  color: #fafafa;
+  font-weight: 500;
+}
+
+.header .nav a:last-child {
+  margin-right: 60px; /* Remove margin-right from the last item */
+}
+
+.hero {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 60px;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.hero-content {
+  max-width: 50%;
+  text-align: left;
+  animation: slideInFromLeft 1s ease-in-out;
+}
+
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  animation: slideInFromLeft 1s ease-in-out;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  color: #666;
+  margin-top: 10px;
+  animation: slideInFromLeft 1s ease-in-out;
+}
+
+.get-started {
+  margin-top: 20px;
+  padding: 10px 20px;
+  width: 50%;
+  background-color: #00033a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.get-started:hover {
+  background-color: #ffca10;
+  color:#393939;
+}
+
+.hero-images {
+  position: relative;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.yellow-bg {
+  position: absolute;
+  width: 90%;
+  height: auto;
+  z-index: 1;
+  right: 1%;
+  bottom: -33%;
+  animation: slideInFromBottom 1s ease-in-out;
+}
+
+.desktop-img {
+  position: relative;
+  z-index: 2;
+  width: 70%;
+  height: auto;
+  animation: slideInFromLeft 1s ease-in-out;
+}
+
+.phone-img {
+  position: absolute;
+  right: 9%;
+  bottom: 22%;
+  z-index: 3;
+  width: 30%;
+  height: auto;
+  transform: rotate(10deg);
+  animation: slideInFromRight 1s ease-in-out;
+}
+
+.how-it-works {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #05023f;
+  animation: fadeIn 1s ease-in-out;
+  padding: 100px 20px;
+}
+
+.how-it-works h2 {
+  color: #faf7ff;
+  margin-bottom: 40px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.works-cards-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  animation: fadeIn 1s ease-in-out;
+
+}
+
+.works-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.works-card {
+  width: 40%;
+  height: 220px;
+  background-color: #d8e5ff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #060075;
+  transition: transform 0.3s;
+  animation: slideInLeft 1s ease-in-out;
+}
+
+.works-card .material-icons {
+  font-size: 58px;
+  margin-bottom: 10px;
+}
+
+.works-card p {
+  margin-top: 20px; /* Adjusted top margin for better spacing */
+  margin-bottom: 0;
+  font-weight: 500;
+  font-size: 16px; /* Adjusted font size for better readability */
+}
+
+.works-card:hover {
+  background-color: #060075;
+  color: #fdffe0;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #efefef;
+  animation: fadeIn 1s ease-in-out;
+  padding: 90px 20px;
+}
+
+.features h2 {
+  color: rgb(61, 61, 61);
+  animation: fadeIn 1s ease-in-out;
+  margin: 0px;
+}
+
+.section-description {
+  font-size: 15px;
+  color: gray;
+  margin-bottom: 40px;
+}
+
+.feature-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensure container takes full width */
+  padding: 0 20px; /* Add some padding for spacing */
+}
+
+.feature-cards-1, .feature-cards-2 {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* Allow wrapping for better responsiveness */
+  width: 100%; /* Ensure cards take full width */
+}
+
+.feature-card {
+  flex: 1; /* Allow cards to grow and shrink dynamically */
+  max-width: 191px; 
+  min-width: 140px;
+  height: 170px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+  color: #ffca10;
+  transition: transform 0.3s;
+  animation: slideInLeft 1s ease-in-out;
+  padding: 20px; /* Add some padding for better spacing */
+}
+
+.feature-card .material-icons {
+  font-size: 26px;
+  color: #ffca10; /* Set icon color */
+  background-color: #fffadc; /* Set background color */
+  width: 45px; /* Set width and height for the circle */
+  height: 45px;
+  line-height: 56px; /* Center the icon vertically */
+  border-radius: 50%; /* Create a circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-card p {
+  margin-top: 20px; 
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 16px; 
+  text-align: left;
+}
+
+.feature-card .description {
+  font-size: 12px; 
+  text-align: left;
+  font-weight: 500;
+  color: rgb(96, 96, 96);
+}
+
+.feature-card:hover {
+  background-color: #ffca10;
+  color: #fdffe0;
+}
+
+.role-container {
+  flex-direction: column;
+  padding: 65px;
+}
+
+.role-container h2 {
+  color: rgb(77, 77, 77);
+}
+
+.role-cards-container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.role-card {
+  width: 300px; 
+  max-width: 80%; 
+  height: 350px; 
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #ffca10;
+  transition: transform 0.3s;
+  animation: slideInLeft 1s ease-in-out;
+}
+
+.role-card.admin {
+  background-color: #3b3b3b;
+  color: #ffca10;
+}
+
+.role-card.officer {
+  background-color: #230076;
+  color: #ffffff;
+}
+
+.role-card.student {
+  background-color: #433727;
+  color: #ffffff;
+}
+
+.role-card .material-icons {
+  font-size: 58px;
+  margin-bottom: 10px;
+}
+
+.role-card p {
+  margin-top: 20px; /* Adjusted top margin for better spacing */
+  margin-bottom: 0;
+  font-weight: 500;
+  font-size: 16px; /* Adjusted font size for better readability */
+}
+
+.role-card .role-description {
+  font-size: 14px; /* Adjusted font size for description */
+  padding: 20px;
+}
+
+.role-card:hover {
+  background-color: #ffca10;
+  color: #fdffe0;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.about-us {
+  padding: 150px 20px; /* Adjust padding as needed */
+  text-align: center;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.about-us h2 {
+  color: #333; /* Heading color */
+  margin-bottom: 20px; /* Space below heading */
+}
+
+.about-us .section-description {
+  font-size: 15px; /* Adjust paragraph font size */
+  line-height: 1.6; /* Line height for readability */
+  color: #373737; /* Text color */
+  max-width: 800px; /* Limit width for readability on larger screens */
+  margin: 0 auto; /* Center align text */
+  border-radius: 20px;
+  padding: 50px 20px; /* Add padding for content */
+}
+
+.meet-the-team {
+  margin-top: 60px; /* Space above the Meet the Team section */
+  text-align: center;
+}
+
+.meet-the-team h2 {
+  font-size: 20px;
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px; /* Space between team members */
+}
+
+.team-member {
+  margin: 0 20px;
+  text-align: center;
+}
+
+.team-member-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%; /* Create circular images */
+  margin-bottom: 10px;
+}
+
+.team-member-name {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.footer {
+  background-color: #444444; /* Adjust footer background color */
+  color: #ffffff; /* Adjust footer text color */
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer .footer-links {
+  display: flex;
+  gap: 1rem; /* Adjust gap between footer links */
+}
+
+.footer .footer-links a {
+  color: #ffffff; /* Adjust link color */
+  text-decoration: none;
+  font-size: 1rem; /* Adjust link font size */
+}
+
+.footer .footer-links a:hover {
+  text-decoration: underline; /* Adjust link hover style */
+}
+
+.footer .copyright {
+  margin-top: 2rem;
+  font-size: 0.9rem; /* Adjust copyright font size */
+}
+
+
+/* Animation Keyframes */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .hero {
+    height: 100vh;
+    flex-direction: column;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    padding-top: 60px;
+  }
+
+  .hero-images {
+    display: none;
+  }
+
+  .get-started {
+    width: 100%;
+  }
+
+  .feature-card p {
+    font-size: 10px; /* Adjusted font size for better readability */
+  }
+
+ .team-member {
+  flex-direction: row;
+ }
+
+  .team-member-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .team-member-name {
+    font-size: 8px;
+  }
+
+  .role-cards-container {
+    margin-top: 10px;
+    margin-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+  }
+}

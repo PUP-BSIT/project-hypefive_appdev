@@ -5,6 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+
 import { AnnouncementService, Announcement } 
   from '../../../service/announcement-service/announcement.service';
 import { LoginService, UserInfo } from '../../../service/login-service/login.service';
@@ -43,6 +44,8 @@ export class DashboardComponent implements OnInit {
   showSettings = false;
   activeTab: string = 'all';
   loggingOut: boolean = false;
+  showSpinnerDelete: boolean = false;
+  showSpinnerDeact: boolean = false;
   isLoading: boolean = false;
   userInfo: UserInfo = {
     email: '',
@@ -79,7 +82,8 @@ export class DashboardComponent implements OnInit {
       this.loginService.onDataRetrieved((data: UserInfo) => {
         this.userInfo = data;
       });
-      this.fetchAnnouncements();const today = new Date();
+      this.fetchAnnouncements();
+      const today = new Date();
   }
   
   confirmAction(title: string, message: string, callback: () => void) {
@@ -119,6 +123,14 @@ export class DashboardComponent implements OnInit {
     this.showModal = false;
   }
 
+  handleShowSpinnerDelete(show: boolean) {
+    this.showSpinnerDelete = show;
+  }
+
+  handleShowSpinnerDeact(show: boolean) {
+    this.showSpinnerDeact = show;
+  }
+
   closeOneAnnouncement(): void {
     this.showOneAnnouncement = false;
   }
@@ -128,17 +140,24 @@ export class DashboardComponent implements OnInit {
       next: (announcements) => {
         if (this.userInfo.role_id === Roles.Student) {
           this.announcements = announcements.filter(a => a.recipient === 0);
-        } else if (this.userInfo.role_id === Roles.Officer || 
-                        this.userInfo.role_id === Roles.Admin) {
-          this.announcements = 
-            announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        } else if (this.userInfo.role_id === Roles.Officer || this.userInfo.role_id === Roles.Admin) {
+          this.announcements = announcements.filter(a => a.recipient === 0 || a.recipient === 1);
+        } else {
+          this.announcements = announcements;
         }
+        this.sortAnnouncements();
       },
       error: (error) => {
         console.error('Error fetching announcements:', error);
       }
-  });
+    });
   }
+  
+  
+  private sortAnnouncements(): void {
+    this.announcements.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  }
+  
 
   openModal(announcement: Announcement): void {
     this.modalSubject = announcement.subject;
@@ -184,6 +203,7 @@ export class DashboardComponent implements OnInit {
       };
     }
     this.refreshAnnouncements();
+    this.sortAnnouncements();
     this.closeModalEditAnnouncement();
   }
    
@@ -194,6 +214,7 @@ export class DashboardComponent implements OnInit {
       author: `${this.userInfo.first_name} ${this.userInfo.last_name}`, 
     };
     this.announcements.push(newAnnouncementDisplay);
+    this.sortAnnouncements();
   }
   
   getCurrentDateTime(): string {
@@ -229,6 +250,7 @@ export class DashboardComponent implements OnInit {
         this.announcements = announcements.filter(a => 
           a.recipient === 1
         );
+        this.sortAnnouncements();
       },
       error: (error) => {
         console.error('Error fetching announcements:', error);
@@ -242,6 +264,7 @@ export class DashboardComponent implements OnInit {
         this.announcements = announcements.filter(a => 
           a.student_id === this.userInfo.user_id
         );
+        this.sortAnnouncements();
       },
       error: (error) => {
         console.error('Error fetching announcements:', error);

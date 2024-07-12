@@ -10,6 +10,7 @@ import { catchError, of, map } from 'rxjs';
 import { LoginService } from '../../service/login-service/login.service';
 import { SpinnerService } from '../../service/spinner-service/spinner.service';
 import { MustMatch } from './confirmed.validator';
+import { ResponseService } from '../../service/response-service/response.service';
 
 interface ResponseData {
   status: number;
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private toastr: ToastrService,
     private router: Router,
-    private spinnerService: SpinnerService) {}
+    private spinnerService: SpinnerService,
+    private responseService: ResponseService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -200,18 +202,9 @@ export class LoginComponent implements OnInit {
         this.token =this.data.data.token;
         localStorage.setItem('token', this.token);
         this.router.navigate(['/']);
-        this.toastr.success(JSON.stringify(this.data.message), '',{
-          timeOut: 2000,
-          progressBar:true,
-          toastClass: 'custom-toast success'
-
-        });
+        this.responseService.handleSuccess(this.data.message);
       } else if (this.data.status === 0) {
-        this.toastr.error(JSON.stringify(this.data.message), '',{
-          timeOut: 2000,
-          progressBar:true,
-          toastClass: 'custom-toast error'
-        });
+        this.responseService.handleError(this.data.message);
       }
     });
 
@@ -238,19 +231,10 @@ export class LoginComponent implements OnInit {
         this.data = res;
         this.spinnerService.hide();
         if(this.data.status === 1) {
-          this.toastr.success(JSON.stringify(this.data.message), '',{
-            timeOut: 1000,
-            progressBar: true,
-            toastClass: 'custom-toast success'
-          });
-
+          this.responseService.handleSuccess(this.data.message);
           this.router.navigate(['./verify']);
         } else {
-          this.toastr.error(JSON.stringify(this.data.message), '',{
-            timeOut: 2000,
-            progressBar: true,
-            toastClass: 'custom-toast error'
-          });
+          this.responseService.handleError(this.data.message);
         }
 
         this.showSignup = false;

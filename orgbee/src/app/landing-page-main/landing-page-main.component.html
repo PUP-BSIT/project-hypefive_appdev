@@ -1,0 +1,143 @@
+<div class="landing-container">
+  <header class="header" [ngClass]="{'header-hidden': isNavbarHidden}">
+        <img src="assets/logo.png" alt="OrgBee Logo" class="logo">
+      <nav class="nav">
+        <a [routerLink]="[]" fragment="how_it_works">How it works?</a>
+        <a [routerLink]="[]" fragment="features">Features</a>
+        <a [routerLink]="[]" fragment="about-us">About Us</a>
+      </nav>
+    </header>
+    <main>
+      <section id="hero" class="hero">
+        <div class="hero-content">
+          <h1 class="title">your organizational hive.</h1>
+          <p class="subtitle">Buzzing with tools to organize, communicate, and connect.</p>
+          <button class="get-started" routerLink="/login">Get Started</button>
+        </div>
+
+        <div class="hero-images">
+          <img src="assets/yellow.png" alt="Yellow Background" class="yellow-bg">
+          <img src="assets/desktop.png" alt="Desktop" class="desktop-img">
+          <img src="assets/phone.png" alt="Phone" class="phone-img">
+        </div>
+      </section>
+      <section id="how_it_works" class="how-it-works">
+        <h2>How it works</h2>
+        <div class="works-cards-container">
+          <div class="works-cards">
+            <div class="works-card">
+              <span class="material-icons">person_add</span>
+              <p>Register to the app</p>
+            </div>
+            <div class="works-card">
+              <span class="material-icons">email</span>
+              <p>Verify your email</p>
+            </div>
+            <div class="works-card">
+              <span class="material-icons">how_to_reg</span>
+              <p>Wait for officer to accept your membership</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="features" class="features">
+        <h2>Features</h2>
+        <p class="section-description">Explore the key functionalities that empower your organizational efficiency and connectivity.</p>
+        <div class="feature-cards-container">
+            <div class="feature-cards-1">
+                <div class="feature-card">
+                    <span class="material-icons">calendar_today</span>
+                    <p>Stay Informed</p>
+                    <p class="description">Never miss another event with detailed listings, including registration fees and 
+                      participant limits.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons">forum</span>
+                    <p>Engage Together</p>
+                    <p class="description">Connect directly with fellow members through our interactive Freedom Wall.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons">campaign</span>
+                    <p>Stay Updated</p>
+                    <p class="description">Get the latest news and updates through our announcements.</p>
+                </div>
+                </div>
+                <div class="feature-cards-2">
+                <div class="feature-card">
+                    <span class="material-icons">archive</span>
+                    <p>Explore History</p>
+                    <p class="description">Discover our organization's journey with our archive of past events.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="material-icons">group</span>
+                    <p>Membership Roles</p>
+                    <p class="description">Effortlessly manage member profiles, permissions, and roles to maintain organizational structure.</p>
+                </div>
+                <div class="feature-card">
+                  <span class="material-icons">account_circle</span>
+                  <p>Personalize your profile</p>
+                  <p class="description">Customize your avatar and edit your profile information to reflect your identity within the organization.</p>
+              </div>
+            </div>
+        </div>
+        </section>
+        <div class="role-container">
+          <h2>Learn about Roles</h2>
+             <p class="section-description">Understand the different roles within OrgBee and their respective responsibilities.</p>
+        <div class="role-cards-container">
+            <div class="role-card admin">
+                <span class="material-icons">admin_panel_settings</span>
+                <p>Admin</p>
+                <p class="role-description">
+                    Administrators have full control over OrgBee. They manage user permissions, create and delete events, moderate content, and make announcements.
+                </p>
+            </div>
+            <div class="role-card officer">
+                <span class="material-icons">security</span>
+                <p>Officer</p>
+                <p class="role-description">Officers assist admins in managing specific aspects such as event organization, registration, and moderating discussions on the freedom wall.</p>
+            </div>
+            <div class="role-card student">
+                <span class="material-icons">school</span>
+                <p>Student</p>
+                <p class="role-description">Student members participate in events, engage in discussions, and stay updated with announcements, contributing actively to the organization's activities.</p>
+            </div>
+        </div>
+      </div>
+      <section id="about-us" class="about-us">
+        <h2>About Us</h2>
+        <p class="section-description">OrgBee is powered by HypeFive, a dedicated team passionate about enhancing organizational management through effective communication, streamlined event organization, and active member engagement. Our mission is to empower administrators, officers, and students to collaborate seamlessly, stay informed, and contribute actively to organizational success.</p>
+        <div class="meet-the-team">
+          <h2>Meet the Team</h2>
+          <div class="team-members">
+            <div class="team-member">
+              <img src="assets/icons/4.png" alt="Team Member 1" class="team-member-img">
+              <p class="team-member-name">Bradley Cainday</p>
+            </div>
+            <div class="team-member">
+              <img src="assets/icons/6.png" alt="Team Member 2" class="team-member-img">
+              <p class="team-member-name">Almera Mentok</p>
+            </div>
+            <div class="team-member">
+              <img src="assets/icons/7.png" alt="Team Member 3" class="team-member-img">
+              <p class="team-member-name">Yves John Tapispisan</p>
+            </div>
+            <div class="team-member">
+              <img src="assets/icons/1.png" alt="Team Member 4" class="team-member-img">
+              <p class="team-member-name">April Joy Ternal</p>
+            </div>
+            <div class="team-member">
+              <img src="assets/icons/2.png" alt="Team Member 5" class="team-member-img">
+              <p class="team-member-name">Diana Villa-Villa</p>
+            </div>
+          </div>
+          </div>
+      </section>
+    </main>
+  </div>
+  <footer class="footer">
+    <div class="footer-content">
+    </div>
+    <p class="copyright">© 2024 OrgBee. All rights reserved.</p>
+  </footer>
+  

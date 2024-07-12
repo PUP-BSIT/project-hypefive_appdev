@@ -35,20 +35,42 @@ app-sidebar {
   }
 }
 
-::ng-deep .custom-toast {
+::ng-deep.custom-toast {
   color: #ffffff;
   font-family: "Outfit", sans-serif;
   font-size: 14px;
   font-weight: 500;
-  padding: 20px 15px;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 13px 13px;
+  border-radius: 8px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  bottom: 20px; /* Adjust this value based on your layout */
+  z-index: 9999; /* Ensure it's above other content */
+}
+
+::ng-deep.toast-message {
+  padding-left: 15px;
 }
 
 ::ng-deep .custom-toast.success {
-  background-color: #31aa65;
+  color: #ffca10; /* Text color */
+  background-color: #fff8df; /* Background color */
+  border: 1.5px solid #ffeeaf; /* Border color */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Crect width='24' height='24'%3E%3C/rect%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.7071 9.29289C16.0976 9.68342 16.0976 10.3166 15.7071 10.7071L12.0243 14.3899C11.4586 14.9556 10.5414 14.9556 9.97568 14.3899L8.29289 12.7071C7.90237 12.3166 7.90237 11.6834 8.29289 11.2929C8.68342 10.9024 9.31658 10.9024 9.70711 11.2929L11 12.5858L14.2929 9.29289C14.6834 8.90237 15.3166 8.90237 15.7071 9.29289Z' fill='%23ffca10'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  background-size: 20px 20px;
 }
 
+
 ::ng-deep .custom-toast.error {
-  background-color: #c0564b;
+  background-color: #ffd5d0;
+  color: #c0564b;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='-2.4 -2.4 28.80 28.80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round' stroke='%23CCCCCC' stroke-width='0.048'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z' fill='%23c0564b'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  background-size: 20px 20px;
 }

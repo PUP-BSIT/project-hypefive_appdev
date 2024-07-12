@@ -375,7 +375,6 @@ button.modal-member-button:hover {
   .container {
     display: flex;
     flex-direction: column;
-    padding: 1%;
   }
 
   .membership-request {
@@ -418,6 +417,12 @@ button.modal-member-button:hover {
 
   .officers {
     padding-right: 5%;
+  }
+
+  
+  .members-page {
+    height: auto;
+    margin-bottom: 30%;
   }
 }
 

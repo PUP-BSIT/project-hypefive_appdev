@@ -10,11 +10,12 @@ import { ArchiveComponent } from './pages/archive/archive.component';
 import { VerifyComponent } from './login/verify/verify.component';
 import { ForgotPassComponent } from './forgot-pass/forgot.pass.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-
+import { LandingPageMainComponent } from './landing-page-main/landing-page-main.component';
 import { AuthGuard } from './login/auth.guard';
 
 const routes: Routes = [
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'landing-main', component: LandingPageMainComponent },
   { path: '', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule],
   providers: [AuthGuard],
 })

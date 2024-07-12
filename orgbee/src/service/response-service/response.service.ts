@@ -7,29 +7,20 @@ export interface Response {
 }
 
 @Injectable()
-
 export class ResponseService {
 
   constructor(private toastr: ToastrService) { }
 
   handleResponse(response: Response) {
     if (response.code === 200) {
-      this.toastr.success(JSON.stringify(response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast success'
-      });
+      this.handleSuccess(response.message);
     } else {
-      this.toastr.error(JSON.stringify(response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast error'
-      });
+      this.handleError(response.message);
     }
   }
 
   handleSuccess(response: string){
-    this.toastr.success(JSON.stringify(response), '', {
+    this.toastr.success(response, '', {
       timeOut: 2000,
       progressBar: true,
       toastClass: 'custom-toast success'
@@ -37,7 +28,7 @@ export class ResponseService {
   }
 
   handleError(response: string){
-    this.toastr.error(JSON.stringify(response), '', {
+    this.toastr.error(response, '', {
       timeOut: 2000,
       progressBar: true,
       toastClass: 'custom-toast error'
