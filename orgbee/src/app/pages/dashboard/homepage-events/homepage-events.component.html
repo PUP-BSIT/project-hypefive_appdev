@@ -14,12 +14,12 @@
     @for(events of filteredEvents; track filteredEvents){
       <div class="event-card">
         <div class="event-img">
-          <img src="{{events.poster_loc}}" alt="Event Poster" />
+          <img src="{{ events.poster_loc }}" alt="Event Poster" />
         </div>
         <div class="event-details">
-          <h3>{{events.event_name}}</h3>
-          <p>{{events.location}}</p>
-          <p>{{events.date}}</p>
+          <h3>{{ events.event_name }}</h3>
+          <p>{{ events.location }}</p>
+          <p>{{ events.date }}</p>
           <p id="reg_fee">
             {{ events.registration_fee === 0 ? 
                'Free Admission' : 'PHP ' + events.registration_fee + '.00' }}

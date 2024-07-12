@@ -15,10 +15,12 @@
     <div class="event-details">
       <h3>Events on {{ selectedEvents[0]?.start | date:'mediumDate' }}</h3>
       <div class="event-list">
-        <div *ngFor="let event of selectedEvents" class="event-item">
-          <div>{{ event.title }}</div>
-          <div>{{ formatTime(event.time) }}</div>
-        </div>
+          @for (event of selectedEvents; track event.id) {
+            <div class="event-item">
+              <div>{{ event.title }}</div>
+              <div>{{ formatTime(event.time) }}</div>
+            </div>
+          }
       </div>
     </div>     
   }

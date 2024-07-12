@@ -18,7 +18,11 @@ import { SpinnerService } from '../../../../service/spinner-service/spinner.serv
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
+
 export class SettingsComponent implements OnInit {
+  @Input() showSettings: boolean = false;
+  @Output() close: EventEmitter<void> = new EventEmitter<void>();
+  
   updateForm: FormGroup;
   passwordForm: FormGroup;
   deleteForm: FormGroup;
@@ -43,9 +47,6 @@ export class SettingsComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private spinnerService: SpinnerService
   ) {}
-
-  @Input() showSettings: boolean = false;
-  @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.updateForm = this.formBuilder.group({

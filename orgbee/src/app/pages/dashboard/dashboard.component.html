@@ -1,7 +1,10 @@
-<div *ngIf="isLoading" class="spinner-overlay">
-  <mat-spinner diameter="50" color="primary"></mat-spinner>
-  <p>Loading...</p>
-</div>
+@if (isLoading) {
+  <div class="spinner-overlay">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+    <p>Loading...</p>
+  </div>
+}
+
 <div class="dashboard">
   <div class="content">
     <div class="header">
@@ -26,17 +29,14 @@
                 yPosition="below">
                 <button mat-menu-item (click)="toggleSettings()">
                   <mat-icon mat-icon class="settings-menu-icon"
-                    >settings</mat-icon
-                  >
+                    >settings</mat-icon>
                   <span class="profile-menu-text">Settings</span>
                 </button>
                 <button mat-menu-item (click)="logout()">
                   <mat-icon mat-icon class="profile-menu-icon"
-                    >exit_to_app</mat-icon
-                  >
+                    >exit_to_app</mat-icon>
                   <span class="profile-menu-text">Logout</span>
                 </button>
-
               </mat-menu>
             </div>
           </div>
@@ -48,24 +48,22 @@
               </div>
             </div>
           </div>
-       
         </div>
   
      <!--MAIN CONTENT-->
-     <div class="main">
-
-      @if (userInfo.role_id!==2 && userInfo.role_id!==3) {
-        <app-homepage-events></app-homepage-events>
-      }
-      @if (userInfo.role_id !==1){
-        <div class="admin-view">
-          <div class="for-calendar">
-            <app-admin-today></app-admin-today>
-            <app-calendar></app-calendar>
+      <div class="main">
+        @if (userInfo.role_id!==2 && userInfo.role_id!==3) {
+          <app-homepage-events></app-homepage-events>
+        }
+        @if (userInfo.role_id !==1){
+          <div class="admin-view">
+            <div class="for-calendar">
+              <app-admin-today></app-admin-today>
+              <app-calendar></app-calendar>
+          </div>
         </div>
+        }
       </div>
-      }
-    </div>
 
     <!--MAIN CONTENT ENDS HERE-->
 
@@ -74,12 +72,12 @@
             <div class="tabs-and-title">
             <h4>ANNOUNCEMENTS</h4>
             @if (userInfo.role_id !== 1) {
-            <div class="tabs">
-              <button class="tab" [ngClass]="{ 'active': activeTab === 'all' }" (click)="setActiveTab('all')">All</button>
-              <button class="tab" [ngClass]="{ 'active': activeTab === 'officers' }" (click)="setActiveTab('officers')">Officers</button>
-              <button class="tab" [ngClass]="{ 'active': activeTab === 'me' }" (click)="setActiveTab('me')">Made by Me</button>
-            </div>
-          }
+              <div class="tabs">
+                <button class="tab" [ngClass]="{ 'active': activeTab === 'all' }" (click)="setActiveTab('all')">All</button>
+                <button class="tab" [ngClass]="{ 'active': activeTab === 'officers' }" (click)="setActiveTab('officers')">Officers</button>
+                <button class="tab" [ngClass]="{ 'active': activeTab === 'me' }" (click)="setActiveTab('me')">Made by Me</button>
+              </div>
+            }
             </div>
             
             
@@ -157,27 +155,28 @@
   }
 
   <!--EDIT ANNOUNCEMENT MODAL-->
-  <app-an-edit-modal
-    [selectedAnnouncement]="selectedAnnouncement"
-    [showEditModal]="showEditModal"
-    (closeModal)="closeModalEditAnnouncement()"
-    (announcementUpdated)="handleAnnouncementUpdated($event)">
-  </app-an-edit-modal>
+<app-an-edit-modal
+  [selectedAnnouncement]="selectedAnnouncement"
+  [showEditModal]="showEditModal"
+  (closeModal)="closeModalEditAnnouncement()"
+  (announcementUpdated)="handleAnnouncementUpdated($event)">
+</app-an-edit-modal>
 
   <!--CREATE ANNOUNCEMENT MODAL-->
-  <app-an-modal
-    [showModal]="showModal"
-    [announcementForm]="announcementForm"
-    (announcementCreated)="handleAnnouncementCreated($event)">
-  </app-an-modal>
+<app-an-modal
+  [showModal]="showModal"
+  [announcementForm]="announcementForm"
+  (announcementCreated)="handleAnnouncementCreated($event)">
+</app-an-modal>
 
 <app-settings
-(close)="handleSettingsClose()"
+  (close)="handleSettingsClose()"
   [showSettings] ="showSettings">
 </app-settings>
 
-  <div *ngIf="loggingOut" class="spinner-overlay">
+@if (loggingOut) {
+  <div class="spinner-overlay">
     <mat-spinner diameter="50" color="primary"></mat-spinner>
     <p>Logging Out...</p>
   </div>
-  
+}

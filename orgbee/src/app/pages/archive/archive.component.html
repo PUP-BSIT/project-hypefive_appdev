@@ -103,9 +103,9 @@
   <div class="modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
-      @for(detail of selectedEvent; track selectedEvent){
+      @for(detail of selectedEvent; track selectedEvent) {
         <div class="modal-event">
-          <img src="{{detail.poster_loc}}" />
+          <img src="{{ detail.poster_loc }}" />
         </div>
         <div class="modal-details">
           <h3>{{ detail.event_name }}</h3>

@@ -11,12 +11,12 @@ export class AdminDataComponent implements OnInit {
   currentDay: string;
   currentDate: number;
   today: Date;
-
-  constructor(private dataService: DataService) {}
-
   memberCount: number;
   eventsCount: number;
   pendingPostCount: number;
+  
+  constructor(private dataService: DataService) {}
+
   ngOnInit(): void {
     this.today = new Date();
     this.currentDay = this.today.toLocaleString('en-US', { weekday: 'long' });

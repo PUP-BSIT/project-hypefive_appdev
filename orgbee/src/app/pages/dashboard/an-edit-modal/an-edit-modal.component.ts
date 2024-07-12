@@ -1,14 +1,10 @@
-//TO-DO: Do not use event emitter, revise code
-
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AnnouncementService, Announcement } from '../../../../service/announcement-service/announcement.service';
 
 import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
-
-import { ResponseService } from '../../../../service/response-service/response.service'; // Import ResponseService
+import { ResponseService } from '../../../../service/response-service/response.service'; 
 
 @Component({
   selector: 'app-an-edit-modal',
