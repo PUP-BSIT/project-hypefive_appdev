@@ -1,0 +1,354 @@
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
+  ValidatorFn, AbstractControl, FormControl,
+  ValidationErrors } from '@angular/forms';
+
+import { MustMatch } from './confirmed.validator';
+import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
+import { UserService } from '../../../../service/user-service/user.service';
+import { Router } from '@angular/router';
+import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
+import { ResponseService } from '../../../../service/response-service/response.service';
+import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
+
+@Component({
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css']
+})
+
+export class SettingsComponent implements OnInit {
+  @Input() showSettings: boolean = false;
+  @Output() close: EventEmitter<void> = new EventEmitter<void>();
+
+  updateForm: FormGroup;
+  passwordForm: FormGroup;
+  deleteForm: FormGroup;
+  showInformation = false;
+  showAccountManagement = false;
+  showAccountDeletion = false;
+  showDeactivateModal = false;
+  showDeleteModal = false;
+  showChangeAvatar = true;
+  changesMade: boolean = false;
+  userInfo: UserInfo;
+  selectedAvatarPath: string = ''; 
+  currentSelectedAvatar: string = ''; 
+  selectedTab: string = 'profile';
+
+  constructor(
+    private formBuilder: FormBuilder, 
+    private loginService: LoginService,
+    private userService: UserService,
+    private router: Router,
+    private responseService: ResponseService,
+    private confirmationDialogService: ConfirmationDialogService,
+    private spinnerService: SpinnerService
+  ) {}
+
+  ngOnInit(): void {
+    this.updateForm = this.formBuilder.group({
+      first_name: ['', [Validators.required, this.noNumbersValidator]],
+      last_name: ['', [Validators.required, this.noNumbersValidator]],
+      student_number: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{5}-TG-0$/)]],
+      birthday: ['', [Validators.required, this.minAgeValidator(18), this.maxAgeValidator(80)]],
+      gender: ['', [Validators.required]]
+    });
+
+    this.passwordForm = this.formBuilder.group({
+      current_password: ['', [Validators.required]],
+      new_password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm_password: ['', [Validators.required]]
+    }, {
+      validator: MustMatch('new_password', 'confirm_password')
+    } as AbstractControlOptions);
+
+    this.loginService.onDataRetrieved((userInfo: UserInfo) => {
+      this.userInfo = userInfo;
+      this.populateForm(userInfo);
+      this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
+    });
+
+    this.deleteForm = this.formBuilder.group({
+      deletion_password: ['', [Validators.required]]
+    });
+
+    this.updateForm.valueChanges.subscribe(() => {
+      this.changesMade = this.updateForm.valid && this.updateForm.dirty;
+    });
+  }
+
+  private populateForm(userInfo: UserInfo): void {
+    this.updateForm.patchValue({
+      first_name: userInfo.first_name,
+      last_name: userInfo.last_name,
+      student_number: userInfo.student_number,
+      birthday: userInfo.birthday,
+      gender: userInfo.gender.toLowerCase()
+    });
+    this.updateForm.markAsPristine();
+  }
+
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+  }
+
+  get emailControl() {
+    return this.updateForm.get('email');
+  }
+
+  get firstNameControl() {
+    return this.updateForm.get('first_name');
+  }
+  
+  get lastNameControl() {
+    return this.updateForm.get('last_name');
+  }
+
+  get studentNumberControl() {
+    return this.updateForm.get('student_number');
+  }
+
+  get bdayControl() {
+    return this.updateForm.get('birthday'); 
+  }
+
+  get genderControl() {
+    return this.updateForm.get('gender');
+  }
+
+  get current_passwordControl() {
+    return this.passwordForm.get('current_password');
+  }
+
+  get new_passwordControl() {
+    return this.passwordForm.get('new_password');
+  }
+
+  get confirm_passwordControl() {
+    return this.passwordForm.get('confirm_password');
+  }
+
+  get deletion_passwordControl() {
+    return this.deleteForm.get('deletion_password');
+  }
+
+  noNumbersValidator(control: FormControl) {
+    const containsNumbers = /[0-9]/.test(control.value);
+    return containsNumbers ? { containsNumbers: true } : null;
+  }
+
+  maxAgeValidator(maxAge: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        const today = new Date();
+        const birthDate = new Date(control.value);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        if (age > maxAge) {
+          return { 'maxAge': { value: age } };
+        }
+      }
+      return null;
+    };
+  }
+
+  minAgeValidator(minAge: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        const today = new Date();
+        const birthDate = new Date(control.value);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        if (age < minAge) {
+          return { 'minAge': { value: age } };
+        }
+      }
+      return null;
+    };
+  }
+
+  onUpdateSubmit() {
+    this.confirmationDialogService.confirmAction('Update Info Confirmation', 'Are you sure you want to update your information?', () => {
+      if (this.updateForm.valid) {
+        const updatedUserInfo = {
+          ...this.updateForm.value,
+          id: this.userInfo.user_id
+        };
+
+        this.userService.updateUserInfo(updatedUserInfo).subscribe({
+          next: response => {
+            this.responseService.handleSuccess(response.message);
+          },
+          error: error => {
+            if (!navigator.onLine) {
+              this.responseService.handleError('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError('An error occurred while updating the information. Please try again.');
+            }
+          }
+        });
+      } else {
+        this.responseService.handleError('Your Form is Invalid');
+      }
+      this.changesMade = false;
+    });
+  }
+
+  cancel() {
+    if (this.userInfo) {
+      this.populateForm(this.userInfo);
+      this.updateForm.markAsPristine(); 
+      this.updateForm.markAsUntouched(); 
+      this.updateForm.updateValueAndValidity(); 
+    }
+    this.changesMade = false;
+  }
+
+  cancelProfile() {
+    this.currentSelectedAvatar = '';
+    this.selectedAvatarPath = `assets/icons/${this.userInfo.icon_id}.png`; 
+  }
+
+  closeModal() {
+    this.showSettings = false;
+    this.close.emit(); 
+  }
+
+  deleteModal() {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', `Deleting your 
+      account means its gone forever. Are you sure you want to delete your account?`, () => {
+      this.showDeleteModal = true;
+    });
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+  }
+
+  deactivateModal() {
+    this.confirmationDialogService.confirmAction('Deactivate Account Confirmation', `You can still reactivate your 
+      account by logging in again. Are you sure you want to deactivate your account?`, () => {
+      this.showDeactivateModal = true;
+    });
+  }
+
+  closeDeactivateModal() {
+    this.showDeactivateModal = false;
+  }
+
+  changePass() {
+    this.confirmationDialogService.confirmAction('Change Password Confirmation', 'Are you sure you want to change your password?', () => {
+      if (this.passwordForm.invalid) {
+        return;
+      }
+  
+      const currentPassword = this.current_passwordControl.value;
+      const newPassword = this.new_passwordControl.value;
+      const confirmPassword = this.confirm_passwordControl.value;
+  
+      this.userService.changePassword(currentPassword, newPassword, confirmPassword).subscribe({
+        next: response => {
+          this.responseService.handleSuccess(response.message);
+          this.passwordForm.reset();
+        },
+        error: error => {
+          if (!navigator.onLine) {
+            this.responseService.handleError('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError('An error occurred while updating password. Please try again.');
+          }
+        }
+      });
+    });
+  }
+
+  cancelPass() {
+    this.passwordForm.reset();
+  }
+
+  deactivateAccount() {
+    this.confirmationDialogService.confirmAction('Deactivate Account Confirmation', 'Your account will be deactivated. Do you still want to proceed?', () => {
+      this.spinnerService.show('Deactivating account ... ');
+      if (this.deleteForm.invalid) {
+        this.spinnerService.hide();
+        return;
+      }
+
+      const deletionPassword = this.deleteForm.value.deletion_password;
+
+      this.userService.deactivateUser(this.userInfo.user_id, deletionPassword).subscribe({
+        next: response => {
+          this.spinnerService.hide();
+          localStorage.removeItem('token');
+          this.loginService.setAuthStatus(false);
+          this.responseService.handleSuccess(response.message);
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          this.spinnerService.hide();
+          if (!navigator.onLine) {
+            this.responseService.handleError('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError('An error occurred while deactivating. Please try again.');
+          }
+        }
+      });
+    });
+  }
+
+  deleteAccount() {
+    this.confirmationDialogService.confirmAction('Delete Account Confirmation', 'Your account will be deleted. Do you still want to proceed?', () => {
+      this.spinnerService.show('Deleting Account ...');
+      if (this.deleteForm.invalid) {
+        this.spinnerService.hide();
+        return;
+      }
+
+      const deletionPassword = this.deleteForm.value.deletion_password;
+
+      this.userService.deleteUser(this.userInfo.user_id, deletionPassword).subscribe({
+        next: response => {
+          this.spinnerService.hide();
+          localStorage.removeItem('token');
+          this.loginService.setAuthStatus(false);
+          this.responseService.handleSuccess(response.message);
+          this.router.navigate(['/login']);
+        },
+        error: error => {
+          this.spinnerService.hide();
+          if (!navigator.onLine) {
+            this.responseService.handleError('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError('An error occurred. Please try again.');
+          }
+        }
+      });
+    });
+  }
+
+  selectAvatar(avatarPath: string): void {
+    this.selectedAvatarPath = avatarPath; 
+    this.currentSelectedAvatar = avatarPath; 
+  }
+
+  saveAvatar() {
+    this.confirmationDialogService.confirmAction('Change Avatar Confirmation', 'Are you sure you want to change your avatar?', () => {
+      this.userService.updateIconId(this.getIconIdFromPath(this.selectedAvatarPath)).subscribe({
+        next: response => {
+          this.responseService.handleSuccess(response.message);
+        },
+        error: error => {
+          if (!navigator.onLine) {
+            this.responseService.handleError('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError('An error occurred while updating avatar. Please try again.');
+          }
+        }
+      });
+    });
+  }
+
+  private getIconIdFromPath(iconPath: string): number {
+    const iconId = parseInt(iconPath.split('/').pop().split('.')[0]);
+    return iconId;
+  }
+}

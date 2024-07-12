@@ -1,0 +1,84 @@
+@if(showModal) {
+<div class="modal-announcement">
+    <div class="modal-announcement-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Announcement</h2>
+
+      <form
+        [formGroup]="announcementForm"
+        (ngSubmit)="submitAnnouncement()">
+        <div class="an-modal-content">
+          <div class="form-group subject">
+            <div class="input-wrapper">
+              <label for="subject">Subject:</label>
+              <input
+                type="text"
+                id="subject"
+                formControlName="subject"
+                required
+                (input)="updateSubjectCharacterCount()" />
+              <span class="character-counter-subject">{{
+                  subjectControl.value
+                    ? subjectControl.value.length
+                    : 0 }}/30
+              </span>
+            </div>
+
+            <!--FORM VALIDATORS-->
+            @if(subjectControl.invalid && subjectControl.touched){
+              @if(subjectControl.errors?.['required']){
+                <div class="error-required-subject">
+                  Subject is required.
+                </div>
+              }
+             }
+          </div>
+
+          <div class="form-group message">
+            <label for="message">Message:</label>
+            <div class="textarea-wrapper">
+              <textarea
+                id="message"
+                formControlName="message"
+                required
+                (input)="updateMessageCharacterCount()">
+              </textarea>
+              <span class="character-counter-message">
+                {{messageControl.value
+                    ? messageControl.value.length
+                    : 0}}/850
+              </span>
+            </div>
+
+            @if(messageControl.invalid && messageControl.touched){
+              @if(messageControl.errors?.['required']){
+                <div class="error-required-message">
+                  Message is required.
+                </div>
+              }
+             }
+          </div>
+
+          <div class="form-group recipient">
+            <mat-radio-group formControlName="recipient">
+              <mat-radio-button value="0">Everyone</mat-radio-button>
+              <mat-radio-button value="1">Officers Only</mat-radio-button>
+            </mat-radio-group>
+            @if(recipientControl.invalid && recipientControl.touched){
+              @if(recipientControl.errors?.['required']){
+                <div class="error-required-recipient">
+                  Recipient is required.
+                </div>
+              }
+             }
+          </div>
+          
+          <button type="submit" class="submit-button">
+            PUBLISH ANNOUNCEMENT
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+}

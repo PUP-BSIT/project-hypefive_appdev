@@ -1,0 +1,18 @@
+<div class="stepper-wrapper">
+    <div class="stepper-item" [ngClass]="{ 'completed': currentStep > 0, 'active': currentStep === 0 }">
+      <div class="step-counter">1</div>
+      <div class="step-name">Event Information</div>
+    </div>
+    <div class="stepper-item" [ngClass]="{ 'completed': currentStep > 1, 'active': currentStep === 1}">
+      <div class="step-counter">2</div>
+      <div class="step-name">Registration & Admission</div>
+    </div>
+    <div class="stepper-item" [ngClass]="{ 'completed': currentStep > 2, 'active': currentStep === 2 }">
+      <div class="step-counter">3</div>
+      <div class="step-name">Publication Material</div>
+    </div>
+    <div class="stepper-item" [ngClass]="{ 'completed': currentStep > 3, 'active': currentStep === 3 }">
+      <div class="step-counter">4</div>
+      <div class="step-name">Preview</div>
+    </div>
+  </div>

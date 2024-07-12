@@ -1,0 +1,29 @@
+<div class="logo">
+    <img src="../../../assets/logo.png" alt="Logo">
+</div>
+<div class="auth-container">
+    <h1>Verification Token</h1>
+    <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()">
+        <p>We have sent you a verification token in you email.</p>
+        <div class="input-field">
+            <input 
+              type="text" 
+              id="token" 
+              minlength="15"
+              formControlName="token" 
+              placeholder="Enter the token sent to your email">
+              @if(token.invalid && token.touched){
+                <div class="inc">
+                    @if(token.errors?.['required']){
+                      <div>Token Invalid</div>
+                    }
+                    @if(token.errors?.['minlength']){
+                     <div>Required length not met</div>
+                    }
+                  </div>
+              }
+        </div>
+        <button class="auth-button" type="submit" 
+          [disabled]="verifyForm.invalid">Verify Token</button>
+    </form>
+</div>
