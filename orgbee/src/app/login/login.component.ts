@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors} from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { catchError, of, map } from 'rxjs';
 
@@ -37,9 +36,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, 
-    //private dataService: DataService, 
     private loginService: LoginService,
-    private toastr: ToastrService,
     private router: Router,
     private spinnerService: SpinnerService,
     private responseService: ResponseService) {}
@@ -173,7 +170,18 @@ export class LoginComponent implements OnInit {
       map((response: string) => {
         return response ? { emailExists: true } : null;
       }),
-      catchError(() => of(null)) 
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred. Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
     );
   }
 
@@ -183,7 +191,18 @@ export class LoginComponent implements OnInit {
       map((response: string) => {
         return response ? { studentNumExists: true } : null;
       }),
-      catchError(() => of(null)) 
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred. Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      }) 
     );
   }
 
@@ -194,8 +213,20 @@ export class LoginComponent implements OnInit {
       return;
     }
   
-    this.loginService.login(this.loginForm.value)
-        .subscribe((res: ResponseData)=>{
+    this.loginService.login(this.loginForm.value).pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred. Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((res: ResponseData)=>{
       this.data = res;
       this.spinnerService.hide();
       if (this.data.status === 1) {
@@ -226,8 +257,20 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loginService.registerUser(this.signupForm.value)
-      .subscribe((res: ResponseData)=>{
+    this.loginService.registerUser(this.signupForm.value).pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred. Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((res: ResponseData)=>{
         this.data = res;
         this.spinnerService.hide();
         if(this.data.status === 1) {
