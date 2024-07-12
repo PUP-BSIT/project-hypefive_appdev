@@ -2,15 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MemberService } from '../../../service/member-service/member.service';
 import { Member } from '../../../service/member-service/member.service';
-import { LoginService, UserInfo } from '../../../service/login.service';
+import { LoginService, UserInfo } from '../../../service/login-service/login.service';
 import { ConfirmationDialogComponent } 
   from '../../confirmation-dialog/confirmation-dialog.component';
-import { SpinnerService } from '../../../service/spinner.service';
+import { SpinnerService } from '../../../service/spinner-service/spinner.service';
 import { ResponseService } 
   from '../../../service/response-service/response.service';
 import { Response } from '../../../service/response-service/response.service';
@@ -61,20 +62,65 @@ export class MembersComponent implements OnInit {
   }
 
   showMembers() {
-    this.memberService.getMembers().subscribe((members: Member[]) => {
+    this.memberService.getMembers().pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching members. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((members: Member[]) => {
       this.members = members;
     });
   }
 
   showRequest() {
-    this.memberService.getMembershipRequest()
-      .subscribe((request: Member[]) => {
+    this.memberService.getMembershipRequest().pipe(
+      catchError((error) => {
+        this.spinnerService.hide();
+
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching membership requests. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((request: Member[]) => {
         this.membershipRequests = request;
     });
   }
 
   showOfficers() {
-    this.memberService.getOfficers().subscribe((request: Member[]) => {
+    this.memberService.getOfficers().pipe(
+      catchError((error) => {
+        this.spinnerService.hide();
+
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching officers. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((request: Member[]) => {
       this.officers = request;
     });
   }
@@ -85,7 +131,23 @@ export class MembersComponent implements OnInit {
         this.spinnerService.show('Accepting membership request...')
         const data = {student_number: student_number };
         
-        this.memberService.acceptMember(data).subscribe((res: Response) => {
+        this.memberService.acceptMember(data).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+    
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while accepting the membership request. 
+                  Please try again.`);
+            }
+    
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.spinnerService.hide();
@@ -103,7 +165,23 @@ export class MembersComponent implements OnInit {
       'Are you sure you want to decline this membership request?', () => {
         this.spinnerService.show('Declining membership request...')
         const data = {student_number: student_number };
-        this.memberService.declineMember(data).subscribe((res: Response) => {
+        this.memberService.declineMember(data).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+    
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while declining the membership request. 
+                  Please try again.`);
+            }
+    
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.spinnerService.hide();
@@ -158,7 +236,23 @@ export class MembersComponent implements OnInit {
       const data = { student_number: this.student_num };
       this.spinnerService.show('Removing member...');
 
-      this.memberService.declineMember(data).subscribe((res: Response) => {
+      this.memberService.declineMember(data).pipe(
+        catchError((error) => {
+          this.spinnerService.hide();
+  
+          if (!navigator.onLine) {
+            this.responseService.handleError
+              ('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError
+              (`An error occurred while removing a member. 
+                Please try again.`);
+          }
+  
+          // Return an empty observable to complete the pipe
+          return of(null);
+        })
+      ).subscribe((res: Response) => {
         this.response = res;
         setTimeout(() => {
           this.spinnerService.hide();
@@ -182,7 +276,23 @@ export class MembersComponent implements OnInit {
       'Are you sure you want to promote this member to officer?', () => {
         const data = {student_number: this.student_num };
         this.spinnerService.show('Promoting member...');
-        this.memberService.promoteToOfficer(data).subscribe((res: Response) => {
+        this.memberService.promoteToOfficer(data).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+    
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while promoting a member's role. 
+                  Please try again.`);
+            }
+    
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.spinnerService.hide();
@@ -202,7 +312,23 @@ export class MembersComponent implements OnInit {
         const data = {student_number: this.student_num };
         this.spinnerService.show('Demoting to member...');
 
-        this.memberService.demoteToMember(data).subscribe((res: Response) => {
+        this.memberService.demoteToMember(data).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+    
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while demoting a member's role. 
+                  Please try again.`);
+            }
+    
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.spinnerService.hide();
@@ -223,11 +349,14 @@ export class MembersComponent implements OnInit {
         return this.memberService.searchMember(keyword).pipe(
           debounceTime(2000),
           catchError((error: HttpErrorResponse)=>{
-            this.toastr.error(JSON.stringify(error), '', {
-              timeOut: 2000,
-              progressBar: true,
-              toastClass: 'custom-toast error'
-            });
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred. Please try again.`);
+            }
+    
             return EMPTY;
         }))
       })).subscribe((value:Member[] | Response)=>{

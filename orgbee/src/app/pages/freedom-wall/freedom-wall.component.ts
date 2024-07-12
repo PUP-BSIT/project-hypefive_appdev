@@ -2,13 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {NgxMasonryComponent}  from "ngx-masonry";
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { FreedomwallService } from '../../../service/freedomwall-service/freedomwall.service';
-import { LoginService, UserInfo } from '../../../service/login.service';
+import { LoginService, UserInfo } from '../../../service/login-service/login.service';
 import { ConfirmationDialogService } 
-  from '../../../service/confirmation-dialog.service';
-import { SpinnerService } from '../../../service/spinner.service';
+  from '../../../service/confirmation-dialog-service/confirmation-dialog.service';
+import { SpinnerService } from '../../../service/spinner-service/spinner.service';
 import { Post } from '../../../service/freedomwall-service/freedomwall.service';
 import { ResponseService } 
   from '../../../service/response-service/response.service';
@@ -40,6 +42,7 @@ export class FreedomWallComponent implements OnInit {
   showFilterMessage = false;
   showRequestToDeleteModal = false;
   showSpinner = false;
+  value= false;
 
   currentPage = 0; 
   postsPerPage = 4; 
@@ -126,7 +129,23 @@ export class FreedomWallComponent implements OnInit {
           student_id:  Number(this.userInfo.id),
         };
         
-        this.dataService.addPosts(newPost).subscribe((res: Response) => {
+        this.dataService.addPosts(newPost).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.spinnerService.hide();
@@ -142,7 +161,23 @@ export class FreedomWallComponent implements OnInit {
   }
 
   showPosts() {
-    this.dataService.getPosts().subscribe((posts: Post[]) => {
+    this.dataService.getPosts().pipe(
+      catchError((error) => {
+        this.spinnerService.hide();
+
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while approving the post. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((posts: Post[]) => {
       this.posts = posts;
     });
     this.reloadMasonryLayout();
@@ -195,7 +230,23 @@ export class FreedomWallComponent implements OnInit {
       delete this post?`, () => {
         this.spinnerService.show('Deleting post...');
         const post_id = { id: id };
-        this.dataService.deletePosts(post_id).subscribe((res: Response) => {
+        this.dataService.deletePosts(post_id).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.spinnerService.hide();
@@ -229,7 +280,23 @@ export class FreedomWallComponent implements OnInit {
   }
 
   loadPendingPosts() {
-    this.dataService.getPostRequest().subscribe((posts: Post[]) => {
+    this.dataService.getPostRequest().pipe(
+      catchError((error) => {
+        this.spinnerService.hide();
+
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while approving the post. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((posts: Post[]) => {
       this.pendingPosts = posts;
       this.totalPages = Math.ceil(this.pendingPosts.length / this.postsPerPage);
       this.currentPage = 1;
@@ -257,6 +324,10 @@ export class FreedomWallComponent implements OnInit {
       this.updatePaginatedPosts();
     }
   }
+  
+  isPostFromUser(post: Post): boolean {
+    return post.student_id === this.userInfo.id;
+  }
 
   approvePost(postId: number): void {
     this.confirmationDialogService.confirmAction('Approve Confirmation', 
@@ -264,7 +335,23 @@ export class FreedomWallComponent implements OnInit {
       to approve this post?`, () => {
         const post_id = { id: postId };
         this.spinnerService.show('Approving post...');
-        this.dataService.acceptPost(post_id).subscribe(
+        this.dataService.acceptPost(post_id).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe(
           (res: Response) => {
             this.response = res;
             setTimeout(() => {
@@ -297,7 +384,23 @@ export class FreedomWallComponent implements OnInit {
      'This action cant be undone. Are you sure you want to decline this post?', 
       () => {
         const post_id = { id: postId };
-        this.dataService.declinePost(post_id).subscribe((res: Response) => {
+        this.dataService.declinePost(post_id).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response) => {
           this.response = res;
           setTimeout(() => {
             this.responseService.handleResponse(this.response);
@@ -313,7 +416,23 @@ export class FreedomWallComponent implements OnInit {
   }
 
   getDeletionRequests(){
-    this.dataService.getDeletionRequests().subscribe((posts:Post[])=>{
+    this.dataService.getDeletionRequests().pipe(
+      catchError((error) => {
+        this.spinnerService.hide();
+
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while approving the post. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((posts:Post[])=>{
       this.requestDelete =posts;
       this.updateButtonCounts();
     });
@@ -324,7 +443,23 @@ export class FreedomWallComponent implements OnInit {
      `This action cant be undone. Are you sure you want to request to 
       delete this post?`, () => {
         const post_id = { id: post.id };
-        this.dataService.deletionRequest(post_id).subscribe((res: Response)=>{
+        this.dataService.deletionRequest(post_id).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res: Response)=>{
           this.response = res;
           this.responseService.handleResponse(this.response);
           this.toggleOptions(post);
@@ -335,7 +470,23 @@ export class FreedomWallComponent implements OnInit {
 
   declineRequestToDelete(id: number){
     const post_id = { id: id };
-    this.dataService.declineDeletionRequest(post_id).subscribe((res:Response)=>{
+    this.dataService.declineDeletionRequest(post_id).pipe(
+      catchError((error) => {
+        this.spinnerService.hide();
+
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while approving the post. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((res:Response)=>{
       this.response = res;
       this.responseService.handleResponse(this.response);
       this.getDeletionRequests();

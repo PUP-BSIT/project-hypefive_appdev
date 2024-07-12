@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, catchError, throwError } from 'rxjs';
-import { UserInfo } from './login.service'; 
-import { LoginService } from './login.service';
+import { UserInfo } from '../login-service/login.service'; 
+import { LoginService } from '../login-service/login.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api/'; 
   constructor(private http: HttpClient, private loginService: LoginService) {}
 
   updateUserInfo(userInfo: UserInfo): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.loginService.getToken());
-    return this.http.put<any>(`${this.apiUrl}update-student-info`, userInfo, { headers }).pipe(
+    return this.http.put<any>(environment.apiUrl +
+      `/update-student-info`, userInfo, { headers }).pipe(
       map((response: any) => {
         if (response && response.updated_student) {
           this.loginService.userInfo.first_name = response.updated_student.first_name;
@@ -38,18 +39,19 @@ export class UserService {
     //TODO (move this to user service)
     updateIconId(iconId: number): Observable<any> {
       const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.loginService.getToken());
-      return this.http.put<any>(`http://127.0.0.1:8000/api/students/update-icon`, { icon_id: iconId }, { headers }).pipe(
-        map((data: any) => {
-          // Access userInfo via LoginService
-          this.loginService.userInfo.icon_id = iconId;
-          this.loginService.userInfo.icon_path = this.getIconPath(iconId);
-          return data;
-        }),
-        catchError((error) => {
-          console.error('Error updating icon:', error);
-          return throwError(error);
-        })
-      );
+      return this.http.put<any>(environment.apiUrl +
+        `/students/update-icon`, { icon_id: iconId }, { headers }).pipe(
+          map((data: any) => {
+            // Access userInfo via LoginService
+            this.loginService.userInfo.icon_id = iconId;
+            this.loginService.userInfo.icon_path = this.getIconPath(iconId);
+            return data;
+          }),
+          catchError((error) => {
+            console.error('Error updating icon:', error);
+            return throwError(error);
+          })
+        );
     }
 
     private getIconPath(iconId: number): string {
@@ -76,14 +78,17 @@ export class UserService {
         new_password: newPassword,
         confirm_password: confirm_password 
       };
-      return this.http.put<any>(`${this.apiUrl}change-password`, body, { headers });
+      return this.http.put<any>(environment.apiUrl +
+      `/change-password`, body, { headers });
     }
 
     deactivateUser(userId: number, password: string): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}users/deactivate/${userId}`, { password });
+      return this.http.post<any>(environment.apiUrl +
+      `/users/deactivate/${userId}`, { password });
     }
   
     deleteUser(userId: number, password: string): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}users/delete/${userId}`, {password});
+      return this.http.post<any>(environment.apiUrl +
+      `/users/delete/${userId}`, {password});
     }
 }

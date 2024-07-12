@@ -234,7 +234,7 @@
                             }
                         </div>
                       }
-                      <button (click)="deactivateAccount()" class="delete">Deactivate</button>
+                      <button (click)="deactivateAccount()" [disabled]="deleteForm.invalid" class="delete">Deactivate</button>
                     </form>
                 </div>
               </div>
@@ -271,7 +271,7 @@
                             }
                         </div>
                       }
-                      <button (click)="deleteAccount()" class="delete">Delete</button>
+                      <button (click)="deleteAccount()" [disabled]="deleteForm.invalid" class="delete">Delete</button>
                     </form>
                 </div>
               </div>

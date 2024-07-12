@@ -1,13 +1,13 @@
-import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { EventService } from '../../../service/event-service/event.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
+import { EventService } from '../../../service/event-service/event.service';
 import { Member } from '../../../service/member-service/member.service';
 import { Event } from '../../../service/event-service/event.service';
 import { ModalButton } from '../../../service/event-service/event.service';
-
-import { environment } from '../../../environments/environment';
+import { ResponseService } 
+  from '../../../service/response-service/response.service';
 
 @Component({
   selector: 'app-events',
@@ -16,15 +16,12 @@ import { environment } from '../../../environments/environment';
 })
 
 export class EventsComponent implements OnInit {
-  eventForm: FormGroup;
   members: Member[] = [];
   filteredEvents: Event[] = [];
   selectedEvent: Event;
   cancelEventTab:string;
 
   activeTab = 'UPCOMING';
-  // imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/';
-  imgPath = environment.imgPath;
 
   createEventModal = false;
   isManageModalVisible = false;
@@ -36,7 +33,8 @@ export class EventsComponent implements OnInit {
     occuringModalButton: false
   };
 
-  constructor(private eventService:EventService) {}
+  constructor(private eventService:EventService,
+    private responseService: ResponseService) {}
 
   ngOnInit(): void {
     this.displayEvents(this.activeTab);
@@ -95,27 +93,83 @@ export class EventsComponent implements OnInit {
 
   showUpcomingEvents() {
     //Get events with event_state = 1 with status of 2
-    this.eventService.getUpcomingEvents().subscribe((upcoming: Event[])=>{
+    this.eventService.getUpcomingEvents().pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching events. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((upcoming: Event[])=>{
       this.filteredEvents = upcoming;
     });
   }
 
   showDraftEvents() {
     //Get events with event_state = 1 and status of 1
-    this.eventService.getDraftEvents().subscribe((draft: Event[])=>{
+    this.eventService.getDraftEvents().pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching events. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((draft: Event[])=>{
       this.filteredEvents = draft;
     });
   }
 
   showOccuringEvents() {
     //Get events with event_state = 2 and status of 2
-    this.eventService.getOccuringEvents().subscribe((occuring: Event[])=>{
+    this.eventService.getOccuringEvents().pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching events. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((occuring: Event[])=>{
       this.filteredEvents = occuring;
     });
   }
 
   getRegisteredMembers() {
-    this.eventService.getRegisteredMembers(this.selectedEvent.id)
+    this.eventService.getRegisteredMembers(this.selectedEvent.id).pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching registered members. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    )
       .subscribe((res: Member[])=>{
       this.members = res;
     });

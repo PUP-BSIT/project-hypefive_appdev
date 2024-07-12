@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
+
 export interface Announcement {
   id: number;
   subject: string;
@@ -18,6 +19,7 @@ export interface Announcement {
 @Injectable()
 
 export class AnnouncementService {
+
   constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
   getAnnouncements(): Observable<Announcement[]> {
