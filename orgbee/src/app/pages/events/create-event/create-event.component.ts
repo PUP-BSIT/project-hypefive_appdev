@@ -32,7 +32,6 @@ export class CreateEventComponent implements OnInit {
   constructor (
     private formBuilder: FormBuilder, 
     private eventService: EventService, 
-    private toastr: ToastrService,
     private spinnerService: SpinnerService,
     private responseService: ResponseService
   ) {}
