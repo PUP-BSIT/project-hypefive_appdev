@@ -169,7 +169,7 @@ p {
   color: red;
 }
 
-@media (width < 576px) { 
+@media (width < 576px) {
   .logo {
     margin-top: 15%;
     margin-left: 38%;

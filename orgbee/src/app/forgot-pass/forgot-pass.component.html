@@ -5,24 +5,26 @@
 <div class="auth-container">
   <!-- Step 1: Enter Email -->
   @if(step === 1){
-  <h1 id="forgot_title">Forgot Password?</h1>
-  <p>Enter your email and we will send you verification code</p>
-  <form [formGroup]="emailForm" (ngSubmit)="sendVerificationCode()">
-    <div class="input-field">
-      <input
-        id ="email_input"
-        type="email"
-        formControlName="email"
-        placeholder="Enter Email Address"/>
-      <div class="inc">
-      @if(emailForm.controls.email.invalid && emailForm.controls.email.touched)
-         { Please enter a valid email. }
+    <h1 id="forgot_title">Forgot Password?</h1>
+    <p>Enter your email and we will send you verification code</p>
+    <form [formGroup]="emailForm" (ngSubmit)="sendVerificationCode()">
+      <div class="input-field">
+        <input
+          id ="email_input"
+          type="email"
+          formControlName="email"
+          placeholder="Enter Email Address"/>
+        <div class="inc">
+          @if(emailForm.controls.email.invalid && 
+            emailForm.controls.email.touched) { 
+              Please enter a valid email. 
+          }
+        </div>
       </div>
-    </div>
-    <button class="auth-button" type="submit" [disabled]="loading">
-      Send Verification Code
-    </button>
-  </form>
+      <button class="auth-button" type="submit" [disabled]="loading">
+        Send Verification Code
+      </button>
+    </form>
   }
 
   <!-- Step 2: Enter Verification Code -->

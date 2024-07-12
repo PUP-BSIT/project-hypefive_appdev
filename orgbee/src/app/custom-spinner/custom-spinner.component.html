@@ -1,9 +1,8 @@
-  @if (spinnerState?.isLoading){
-    <div class="spinner-container">
-      <div class="spinner-box">
-        <mat-spinner diameter="60" color="primary"></mat-spinner>
+@if (spinnerState?.isLoading){
+  <div class="spinner-container">
+    <div class="spinner-box">
+      <mat-spinner diameter="60" color="primary"></mat-spinner>
       <p>{{ spinnerState?.message }}</p>
     </div>
-    </div>
-  }
-  
+  </div>
+}
