@@ -1,15 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter, 
     OnChanges, SimpleChanges  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { EventService } from '../../../../service/event-service/event.service';
 import { Response } from '../../../../service/response-service/response.service';
+import { ResponseService } 
+  from '../../../../service/response-service/response.service';
 import { Event } from '../../../../service/event-service/event.service';
 import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
 
-import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
@@ -31,14 +33,14 @@ export class EditEventComponent implements OnInit {
   currentStep= 0;
   file: File;
   preview:string;
-
+  currentPosterName: string;
   updateEventId:number;
 
   constructor (private formBuilder: FormBuilder, 
     private eventService: EventService,
-    private toastr: ToastrService,
     private spinnerService: SpinnerService,
-    private confirmationDialogService: ConfirmationDialogService
+    private confirmationDialogService: ConfirmationDialogService,
+    private responseService: ResponseService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class EditEventComponent implements OnInit {
       this.updateEventId = this.selectedEvent.id;
       this.currentPoster = this.selectedEvent.poster_loc;
       this.preview = this.currentPoster; 
+      this.currentPosterName = this.currentPoster.replace('http://127.0.0.1:8000/storage/images/event_poster/', '')
     }
   }
 
@@ -186,7 +189,7 @@ export class EditEventComponent implements OnInit {
     if (this.file){
       formData.append('poster_loc', this.file);
     } else {
-      formData.append('poster_loc', this.currentPoster);
+      formData.append('poster_loc', this.currentPosterName);
     }
    
     formData.append('id', this.updateEventId.toString()); 
@@ -196,9 +199,25 @@ export class EditEventComponent implements OnInit {
         this.confirmationDialogService.confirmAction('Update Confirmation', 'Are you sure you want to update event details? This will overwrite the current one.', () => {
         this.spinnerService.show('Updating event details...')
         formData.append('event_status_id', '2');
-        this.eventService.updateEvent(formData).subscribe((res:Response)=>{
+        this.eventService.updateEvent(formData).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while updating event details. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res:Response)=>{
           this.response=res;
-          this.handleResponse();
+          this.responseService.handleResponse(this.response);
           this.eventUpdate.emit('upcoming');
           this.spinnerService.hide();
         });
@@ -206,9 +225,25 @@ export class EditEventComponent implements OnInit {
       } else if(type ==='draft') {
         this.spinnerService.show('Saving to drafts...')
         formData.append('event_status_id', '1');
-        this.eventService.updateEvent(formData).subscribe((res:Response)=>{
+        this.eventService.updateEvent(formData).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while updating event details. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res:Response)=>{
           this.response=res;
-          this.handleResponse();
+          this.responseService.handleResponse(this.response);
           this.spinnerService.hide();
 
           if(this.activeTab === 'UPCOMING'){
@@ -224,19 +259,4 @@ export class EditEventComponent implements OnInit {
     }
   }
 
-  handleResponse(){
-    if (this.response.code === 200) {
-      this.toastr.success(JSON.stringify(this.response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast success'
-      });
-    } else {
-      this.toastr.error(JSON.stringify(this.response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast error'
-      });
-    }
-  }
 }

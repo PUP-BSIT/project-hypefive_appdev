@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+
 import { ForgotPassService } from '../../service/forgotpass-service/forgotpass.service'
 
 @Component({
@@ -19,7 +19,6 @@ export class ForgotPassComponent {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
     private router: Router,
     private forgotPassService: ForgotPassService
   ) {

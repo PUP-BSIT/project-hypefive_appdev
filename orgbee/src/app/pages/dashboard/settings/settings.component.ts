@@ -2,10 +2,12 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControlOptions, 
   ValidatorFn, AbstractControl, FormControl,
   ValidationErrors } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import { MustMatch } from './confirmed.validator';
 import { LoginService, UserInfo } from '../../../../service/login-service/login.service';
 import { UserService } from '../../../../service/user-service/user.service';
-import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ConfirmationDialogService } from '../../../../service/confirmation-dialog-service/confirmation-dialog.service';
 import { ResponseService } from '../../../../service/response-service/response.service';
@@ -36,7 +38,6 @@ export class SettingsComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private loginService: LoginService,
     private userService: UserService,
-    private toastr: ToastrService,
     private router: Router,
     private responseService: ResponseService,
     private confirmationDialogService: ConfirmationDialogService,
@@ -178,7 +179,14 @@ export class SettingsComponent implements OnInit {
             this.responseService.handleSuccess(response.message);
           },
           error: error => {
-            this.responseService.handleSuccess(error.message);
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while updating password. 
+                  Please try again.`);
+            }
           }
         });
       } else {
@@ -246,11 +254,14 @@ export class SettingsComponent implements OnInit {
           this.passwordForm.reset();
         },
         error: error => {
-          console.error('Error updating password:', error);
-          this.toastr.error('Failed to update password', 'Error', { 
-            timeOut: 2000, 
-            progressBar: true 
-          });
+          if (!navigator.onLine) {
+            this.responseService.handleError
+              ('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError
+              (`An error occurred while updating password. 
+                Please try again.`);
+          }
         }
       });
     });
@@ -280,10 +291,14 @@ export class SettingsComponent implements OnInit {
         },
         error: error => {
           this.spinnerService.hide();
-          this.toastr.error('Failed to deactivate user', 'Error', { 
-            timeOut: 2000, 
-            progressBar: true 
-          });
+          if (!navigator.onLine) {
+            this.responseService.handleError
+              ('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError
+              (`An error occurred while deactivating. 
+                Please try again.`);
+          }
         }
       });
     });
@@ -309,10 +324,13 @@ export class SettingsComponent implements OnInit {
         },
         error: error => {
           this.spinnerService.hide();
-          this.toastr.error('Failed to delete user', 'Error', { 
-            timeOut: 2000, 
-            progressBar: true 
-          });
+          if (!navigator.onLine) {
+            this.responseService.handleError
+              ('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError
+              (`An error occurred. Please try again.`);
+          }
         }
       });
     });
@@ -330,7 +348,14 @@ export class SettingsComponent implements OnInit {
           this.responseService.handleSuccess(response.message);
         },
         error: error => {
-          console.error('Failed to update icon:', error);
+          if (!navigator.onLine) {
+            this.responseService.handleError
+              ('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError
+              (`An error occurred while updating password. 
+                Please try again.`);
+          }
         }
       });
     });

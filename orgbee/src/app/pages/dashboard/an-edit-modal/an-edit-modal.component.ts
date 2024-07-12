@@ -8,6 +8,8 @@ import { LoginService, UserInfo } from '../../../../service/login-service/login.
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
+import { ResponseService } from '../../../../service/response-service/response.service'; // Import ResponseService
+
 @Component({
   selector: 'app-an-edit-modal',
   templateUrl: './an-edit-modal.component.html',
@@ -103,8 +105,14 @@ export class AnEditModalComponent implements OnInit, OnChanges {
             this.responseService.handleSuccess('Announcement updated successfully.');
             },
             error: (error) => {
-              this.spinnerService.hide();
-              this.responseService.handleSuccess('Error creating announcement. Please try again later.');
+              if (!navigator.onLine) {
+                this.responseService.handleError
+                  ('You are offline. Please check your internet connection.');
+              } else {
+                this.responseService.handleError
+                  (`An error occurred while fetching announcements. 
+                    Please try again.`);
+              }
             }
       });
         } else {
