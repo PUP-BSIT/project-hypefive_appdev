@@ -72,13 +72,12 @@ body {
 }
 
 .membership-request-container {
+  margin-top: 20px;
   border-radius: 15px;
   background-color: #eeeeed;
   flex: 1;
-  padding: 0;
-  margin-top: -35px;
-  padding-bottom: 20px;
-  margin-top: 2%;
+  padding: 10px;
+  align-items: center;
   margin-left: 5%;
   height: 300px;
 }
