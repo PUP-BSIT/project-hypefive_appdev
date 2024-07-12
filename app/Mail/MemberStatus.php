@@ -40,7 +40,7 @@ class MemberStatus extends Mailable
         $imageData = file_get_contents($imagePath);
         $imageMimeType = mime_content_type($imagePath);
 
-        return $this->view('emails.memberAccepted')
+        return $this->view('emails.memberStatus')
                     ->subject('Membership Status Update')
                     ->with([
                         'students' => $this->students,

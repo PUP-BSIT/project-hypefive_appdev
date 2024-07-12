@@ -100,7 +100,7 @@ class MembersController extends Controller {
       if ($user->account_status_id == 1) {
         $statusMessage = 'Unfortunately, your membership request has been declined.';
       } else {
-        $statusMessage = 'Unfortunately, you are removed from the org.';
+        $statusMessage = 'Unfortunately, you are removed from the organization.';
       }
       Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
 
