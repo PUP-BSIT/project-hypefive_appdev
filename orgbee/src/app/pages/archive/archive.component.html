@@ -24,7 +24,6 @@
           @for(event of events.slice(currentSlide, currentSlide + 3); 
             track event.id) {
               <div class="archive-event" (click)="eventClick(event)">
-                <!-- Temporary -->
                 <img src="{{event.poster_loc}}" />
                 <p>{{ event.event_name }}</p>
               </div>

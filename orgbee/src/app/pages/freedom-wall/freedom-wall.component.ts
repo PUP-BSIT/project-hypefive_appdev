@@ -1,16 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } 
+  from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {NgxMasonryComponent}  from "ngx-masonry";
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
-import { FreedomwallService } from '../../../service/freedomwall-service/freedomwall.service';
-import { LoginService, UserInfo } from '../../../service/login-service/login.service';
+import { FreedomwallService } 
+  from '../../../service/freedomwall-service/freedomwall.service';
+import { LoginService, UserInfo } 
+  from '../../../service/login-service/login.service';
 import { ConfirmationDialogService } 
-  from '../../../service/confirmation-dialog-service/confirmation-dialog.service';
-import { SpinnerService } from '../../../service/spinner-service/spinner.service';
+ from '../../../service/confirmation-dialog-service/confirmation-dialog.service';
+import { SpinnerService } 
+  from '../../../service/spinner-service/spinner.service';
 import { Post } from '../../../service/freedomwall-service/freedomwall.service';
 import { ResponseService } 
   from '../../../service/response-service/response.service';
@@ -365,16 +369,6 @@ export class FreedomWallComponent implements OnInit {
               this.loadPendingPosts(); // Refresh pending posts
             }, 500);
           },
-          //TO DO: under review
-          // (error) => {
-          //   this.toastr.error('An error occurred while approving the post.', '', {
-          //     timeOut: 2000,
-          //     progressBar: true,
-          //     toastClass: 'custom-toast error'
-          //   });
-          //   console.error('Error approving post:', error);
-          //   this.spinnerService.hide();
-          // }
         );
     });
   }

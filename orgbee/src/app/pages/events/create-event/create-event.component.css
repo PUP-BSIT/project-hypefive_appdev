@@ -65,7 +65,6 @@ textarea {
   border-radius: 5px;
 }
 
-
 .inline-container {
   display: flex;
   justify-content: space-between;
@@ -115,7 +114,7 @@ textarea {
 }
 
 .step-next-btn[disabled] {
-  color: #b49314; 
+  color: #b49314;
 }
 
 .step-next-btn[disabled]:hover {
@@ -165,7 +164,7 @@ textarea {
 }
 
 .step-2-next-btn[disabled] {
-  color: #b49314; 
+  color: #b49314;
 }
 
 .step-2-next-btn[disabled]:hover {
@@ -190,7 +189,7 @@ textarea {
 
 .poster-name {
   display: block;
-  max-width: 300px; 
+  max-width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -218,43 +217,43 @@ button:hover {
 }
 
 .event-preview {
-  border: 1px solid #ccc; 
-  border-radius: 10px; 
-  padding: 20px; 
-  margin: 30px 0; 
-  background-color: #f9f9f9; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  text-align: center; 
-  word-wrap: break-word; 
-  overflow-wrap: break-word; 
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 30px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .event-preview img {
   width: 100px;
   height: 100px;
-  border-radius: 10px; 
+  border-radius: 10px;
   margin: 0%;
 }
 
 .event-preview h3 {
-  font-size: 14px; 
-  margin: 1px 0; 
-  color: #333; 
+  font-size: 14px;
+  margin: 1px 0;
+  color: #333;
 }
 
 .event-preview p {
-  font-size: 12px; 
-  margin: 5px 0; 
-  color: #333; 
-  word-wrap: break-word; 
+  font-size: 12px;
+  margin: 5px 0;
+  color: #333;
+  word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
 #preview_caption {
-  font-size: 12px; 
-  margin: 5px 0; 
-  color: #666; 
-  word-wrap: break-word; 
+  font-size: 12px;
+  margin: 5px 0;
+  color: #666;
+  word-wrap: break-word;
   overflow-wrap: break-word;
   text-align: left;
 }
@@ -278,7 +277,7 @@ button:hover {
   color: red;
 }
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
   .modal {
     margin-top: 0%;
   }
@@ -289,7 +288,7 @@ button:hover {
   }
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
   .modal {
     margin-top: 0%;
   }
