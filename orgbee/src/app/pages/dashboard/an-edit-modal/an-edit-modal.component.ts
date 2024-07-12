@@ -105,8 +105,14 @@ export class AnEditModalComponent implements OnInit, OnChanges {
             this.responseService.handleSuccess('Announcement updated successfully.');
             },
             error: (error) => {
-              this.spinnerService.hide();
-              this.responseService.handleSuccess('Error creating announcement. Please try again later.');
+              if (!navigator.onLine) {
+                this.responseService.handleError
+                  ('You are offline. Please check your internet connection.');
+              } else {
+                this.responseService.handleError
+                  (`An error occurred while fetching announcements. 
+                    Please try again.`);
+              }
             }
       });
         } else {

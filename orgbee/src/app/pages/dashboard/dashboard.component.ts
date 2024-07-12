@@ -5,8 +5,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 import { AnnouncementService, Announcement } 
   from '../../../service/announcement-service/announcement.service';
