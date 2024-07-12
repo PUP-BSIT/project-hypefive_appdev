@@ -5,6 +5,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { AnnouncementService, Announcement } 
   from '../../../service/announcement-service/announcement.service';
@@ -15,6 +17,8 @@ import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmat
 import { LoadingService } from '../../../service/loading-service/loading.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerService } from '../../../service/spinner-service/spinner.service';
+import { ResponseService } 
+  from '../../../service/response-service/response.service';
 
 enum Roles {
   Student = 1,
@@ -70,7 +74,8 @@ export class DashboardComponent implements OnInit {
     private router:Router,
     private loadingService: LoadingService,
     private snackBar: MatSnackBar,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private responseService: ResponseService
   ) {}
 
   ngOnInit(): void {
@@ -148,7 +153,14 @@ export class DashboardComponent implements OnInit {
         this.sortAnnouncements();
       },
       error: (error) => {
-        console.error('Error fetching announcements:', error);
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching announcements. 
+              Please try again.`);
+        }
       }
     });
   }
@@ -234,7 +246,14 @@ export class DashboardComponent implements OnInit {
         },
         error: (error) => {
           this.spinnerService.hide();
-          this.showSnackBar('Error deleting announcement. Please try again later.', 'error');
+          if (!navigator.onLine) {
+            this.responseService.handleError
+              ('You are offline. Please check your internet connection.');
+          } else {
+            this.responseService.handleError
+              (`An error occurred while fetching announcements. 
+                Please try again.`);
+          }
         }
     });
   });
@@ -253,7 +272,14 @@ export class DashboardComponent implements OnInit {
         this.sortAnnouncements();
       },
       error: (error) => {
-        console.error('Error fetching announcements:', error);
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching announcements. 
+              Please try again.`);
+        }
       }
   });
   }
@@ -267,7 +293,14 @@ export class DashboardComponent implements OnInit {
         this.sortAnnouncements();
       },
       error: (error) => {
-        console.error('Error fetching announcements:', error);
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while fetching announcements. 
+              Please try again.`);
+        }
       }
   });
   }
