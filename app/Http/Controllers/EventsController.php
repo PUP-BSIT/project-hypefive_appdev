@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Events;
 
 class EventsController extends Controller {
-
+  // protected $imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/'; 
+  protected $imgPath = 'https://orgbee.online/storage1/images/event_poster/'; 
   public function createEvent(Request $request) {
     $event = $request->only(
       'event_name', 'location', 'date', 'time', 'all_members_required',
@@ -44,12 +45,20 @@ class EventsController extends Controller {
     $upcoming = DB::table('events')->where('event_status_id', '=', 2)
       ->where('event_state_id', '=', 1)
       ->whereNotIn('event_state_id', [4])->orderBy('date', 'desc')->get();
+
+    foreach ($upcoming as $event) {
+      $event->poster_loc = $this->imgPath . $event->poster_loc;
+    }
     return response()->json($upcoming, 200);
   }
 
   public function getDraftEvents() {
     $upcoming = DB::table('events')->where('event_status_id', '=', 1)
       ->whereNotIn('event_state_id', [4])->orderBy('date', 'desc')->get();
+
+    foreach ($upcoming as $event) {
+      $event->poster_loc = $this->imgPath . $event->poster_loc;
+    }
     return response()->json($upcoming, 200);
   }
 
@@ -57,6 +66,10 @@ class EventsController extends Controller {
     $upcoming = DB::table('events')->where('event_status_id', '=', 2)
       ->where('event_state_id', '=', 2)
       ->whereNotIn('event_state_id', [4])->orderBy('date', 'desc')->get();
+    
+    foreach ($upcoming as $event) {
+      $event->poster_loc = $this->imgPath . $event->poster_loc;
+    }
     return response()->json($upcoming, 200);
   }
 

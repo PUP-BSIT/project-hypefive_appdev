@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
         DB::table('users')-> insert([
             ['id'=>'1', 
              'email'=>'admin@gmail.com', 
-             'password'=>Hash::make('password'), 
+             'password'=>Hash::make('hypefive123admin'), 
              'account_status_id'=>'2',
              'is_verified'=>1,
              'email_auth_token'=>'']

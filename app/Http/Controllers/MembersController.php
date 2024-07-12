@@ -17,6 +17,7 @@ class MembersController extends Controller {
       ->where('students.id', '!=', 1)
       //Fetch students with an account_status of accepted
       ->where('users.account_status_id', 2)
+      ->where('users.is_active', 1)
       ->orderBy('students.last_name')
       ->get(['students.*', 'users.email', 'icons.icon_location']);
     return response()->json($students, 200);
@@ -60,7 +61,10 @@ class MembersController extends Controller {
       ->first(['users.email', 'students.first_name']);
 
     $statusMessage = 'Congratulations! Your membership request has been accepted.';
-    Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+    // $redirectLink = url('http://localhost:4200/login');
+    $redirectLink = url('https://orgbee.online/login'); //change for deployment
+
+    Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage, $redirectLink));
 
     $response = [
       'message' => 'Student accepted successfully',
@@ -112,6 +116,7 @@ class MembersController extends Controller {
       ->where('students.role_id', '=', 2)
       //Fetch students with an account_status of accepted
       ->where('users.account_status_id', 2)
+      ->where('users.is_active', 1)
       ->orderBy('students.last_name')
       ->get(['students.*', 'users.email', 'icons.icon_location']);
     return response()->json($students, 200);
