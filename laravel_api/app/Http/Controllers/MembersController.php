@@ -6,6 +6,7 @@ use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Mail\MemberAccepted;
+use App\Mail\MemberStatus;
 use Illuminate\Support\Facades\Mail;
 
 class MembersController extends Controller {
@@ -97,7 +98,7 @@ class MembersController extends Controller {
         ->first(['users.email', 'students.first_name']);
 
       $statusMessage = 'Unfortunately, your membership request has been declined.';
-      Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+      Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
 
       $response = [
         'message' => 'Student declined successfully',
@@ -136,9 +137,9 @@ class MembersController extends Controller {
 
         $statusMessage = 'You have been promoted to an officer.';
 
-        Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+        Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
 
-        $response['message'] = 'Student added as an officer';
+        $response['message'] = 'Student promoted to officer';
         $response['code'] = 200;
         return response()->json($response);
     } else {
@@ -162,7 +163,7 @@ class MembersController extends Controller {
 
         $statusMessage = 'You have been demoted to a member.';
 
-        Mail::to($user->email)->send(new MemberAccepted($user, $statusMessage));
+        Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
 
         $response['message'] = 'Student demoted to member';
         $response['code'] = 200;
