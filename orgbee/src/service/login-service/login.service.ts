@@ -20,7 +20,7 @@ export interface UserInfo {
   icon_path?: string;
 }
 
-interface UserDataResponse {
+export interface UserDataResponse {
   first_name: string;
   last_name: string;
   email: string;
