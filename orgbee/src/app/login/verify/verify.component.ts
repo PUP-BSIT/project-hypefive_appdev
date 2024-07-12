@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EmailAuthService } from '../../../service/emailauth-service/emailauth.service';
+import { ResponseService } from '../../../service/response-service/response.service';
 
 @Component({
   selector: 'app-verify',
@@ -14,6 +15,7 @@ export class VerifyComponent {
 
   constructor(private fb: FormBuilder, 
       private verifyService: EmailAuthService, 
+      private responseService: ResponseService,
       private router: Router) {
     this.verifyForm = this.fb.group({
       token: ['', [Validators.required, Validators.minLength(15)]]
@@ -27,8 +29,14 @@ export class VerifyComponent {
   onSubmit() {
     if (this.verifyForm.valid) {
       this.verifyService.verifyEmail(this.verifyForm.value.token).subscribe({
-        next: () => this.router.navigate(['/landing-page'], { queryParams: { verified: 1 } }),
-        error: () => this.router.navigate(['/login'], { queryParams: { verified: 0 } })
+        next: () => {
+          this.responseService.handleSuccess('Email verified successfully!');
+          this.router.navigate(['/landing-page'], { queryParams: { verified: 1 } });
+        },
+        error: (err) => {
+          this.responseService.handleError('Verification failed. Please try again.');
+          console.error('Verification error:', err);
+        }
       });
     }
   }
