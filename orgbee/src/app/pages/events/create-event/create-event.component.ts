@@ -1,9 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { EventService } from '../../../../service/event-service/event.service';
 import { Response } from '../../../../service/response-service/response.service';
+import { ResponseService } 
+  from '../../../../service/response-service/response.service';
 import { SpinnerService } from '../../../../service/spinner-service/spinner.service';
 
 @Component({
@@ -29,7 +33,8 @@ export class CreateEventComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private eventService: EventService, 
     private toastr: ToastrService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private responseService: ResponseService
   ) {}
 
   ngOnInit(): void {
@@ -179,18 +184,50 @@ export class CreateEventComponent implements OnInit {
       if (type === 'publish') {
         this.spinnerService.show('Publishing event...')
         formData.append('event_status_id', '2'); //set the status to publish
-        this.eventService.createEvent(formData).subscribe((res:Response)=>{
+        this.eventService.createEvent(formData).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res:Response)=>{
           this.response=res;
-          this.handleResponse();
+          this.responseService.handleResponse(this.response);
           this.eventCreated.emit();
           this.spinnerService.hide();
         });
       } else {
         this.spinnerService.show('Saving to drafts...')
         formData.append('event_status_id', '1'); //set the status to draft
-        this.eventService.createEvent(formData).subscribe((res:Response)=>{
+        this.eventService.createEvent(formData).pipe(
+          catchError((error) => {
+            this.spinnerService.hide();
+  
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
+  
+            // Return an empty observable to complete the pipe
+            return of(null);
+          })
+        ).subscribe((res:Response)=>{
           this.response=res;
-          this.handleResponse();
+          this.responseService.handleResponse(this.response);
           this.draftSaved.emit();
         });
       }
@@ -199,22 +236,6 @@ export class CreateEventComponent implements OnInit {
       this.currentStep = 0;
       this.eventForm.reset();
       // this.file = '';
-    }
-  }
-
-  handleResponse(){
-    if (this.response.code === 200) {
-      this.toastr.success(JSON.stringify(this.response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast success'
-      });
-    } else {
-      this.toastr.error(JSON.stringify(this.response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast error'
-      });
     }
   }
 }
