@@ -12,20 +12,26 @@ class EventRegisterController extends Controller {
     $registrationTime = now();
     $register['created_at'] = $registrationTime;
 
-    if ($register) {
-      DB::table('registrations')->insert($register);
-      $event = Events::find($request->event_id);
-      // Increment the reg_count for the event
-      $event->reg_count += 1;
-      $event->save();
-      $response['message'] = 'Registered successfully!';
-      $response['code'] = 200;
-      return response()->json($response);
-    } else {
-      $response['message'] = 'Registration failed';
-      $response['code'] = 404;
-      return response()->json($response);
+    // Check if the student is already registered for the event
+    $exists = DB::table('registrations')
+      ->where('event_id', $register['event_id'])
+      ->where('student_id', $register['student_id'])
+      ->exists();
+
+    if ($exists) {
+        $response['message'] = 'You are already registered for this event';
+        $response['code'] = 409; // Conflict status code
+        return response()->json($response);
     }
+
+    DB::table('registrations')->insert($register);
+    $event = Events::find($request->event_id);
+    $event->reg_count += 1;
+    $event->save();
+
+    $response['message'] = 'Registered successfully!';
+    $response['code'] = 200;
+    return response()->json($response);
   }
 
   public function checkRegistration(Request $request) {
