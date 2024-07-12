@@ -69,7 +69,7 @@ export class MembersComponent implements OnInit {
             ('You are offline. Please check your internet connection.');
         } else {
           this.responseService.handleError
-            (`An error occurred while approving the post. 
+            (`An error occurred while fetching members. 
               Please try again.`);
         }
 
@@ -91,7 +91,7 @@ export class MembersComponent implements OnInit {
             ('You are offline. Please check your internet connection.');
         } else {
           this.responseService.handleError
-            (`An error occurred while approving the post. 
+            (`An error occurred while fetching membership requests. 
               Please try again.`);
         }
 
@@ -113,7 +113,7 @@ export class MembersComponent implements OnInit {
             ('You are offline. Please check your internet connection.');
         } else {
           this.responseService.handleError
-            (`An error occurred while approving the post. 
+            (`An error occurred while fetching officers. 
               Please try again.`);
         }
 
@@ -140,7 +140,7 @@ export class MembersComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
+                (`An error occurred while accepting the membership request. 
                   Please try again.`);
             }
     
@@ -174,7 +174,7 @@ export class MembersComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
+                (`An error occurred while declining the membership request. 
                   Please try again.`);
             }
     
@@ -245,7 +245,7 @@ export class MembersComponent implements OnInit {
               ('You are offline. Please check your internet connection.');
           } else {
             this.responseService.handleError
-              (`An error occurred while approving the post. 
+              (`An error occurred while removing a member. 
                 Please try again.`);
           }
   
@@ -285,7 +285,7 @@ export class MembersComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
+                (`An error occurred while promoting a member's role. 
                   Please try again.`);
             }
     
@@ -321,7 +321,7 @@ export class MembersComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
+                (`An error occurred while demoting a member's role. 
                   Please try again.`);
             }
     
@@ -354,8 +354,7 @@ export class MembersComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
-                  Please try again.`);
+                (`An error occurred. Please try again.`);
             }
     
             return EMPTY;

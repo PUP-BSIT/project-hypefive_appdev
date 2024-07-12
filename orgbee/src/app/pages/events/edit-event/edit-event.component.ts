@@ -208,7 +208,7 @@ export class EditEventComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
+                (`An error occurred while updating event details. 
                   Please try again.`);
             }
   
@@ -234,7 +234,7 @@ export class EditEventComponent implements OnInit {
                 ('You are offline. Please check your internet connection.');
             } else {
               this.responseService.handleError
-                (`An error occurred while approving the post. 
+                (`An error occurred while updating event details. 
                   Please try again.`);
             }
   
