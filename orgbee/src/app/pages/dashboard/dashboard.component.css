@@ -360,7 +360,7 @@ height: 100%;
   background-color: #ffffff;
   border-radius: 4px;
   border: none;
-  width: 95%;
+  width: 98%;
   margin-top: 5px;
   margin-left: 15px;
   height: 20px;
@@ -394,8 +394,8 @@ height: 100%;
 
 .error-required-subject {
   position: absolute;
-  left: 103px;
-  top: 24%;
+  left: 94px;
+  top: 23%;
   transform: translateY(-50%);
   font-size: 12px;
   color: rgb(172, 48, 48);
@@ -404,8 +404,8 @@ height: 100%;
 
 .error-required-message {
   position: absolute;
-  left: 50px;
-  bottom:  32%;
+  left: 22px;
+  bottom:  30%;
   transform: translateY(-50%);
   font-size: 12px;
   color: rgb(172, 48, 48);
@@ -413,10 +413,6 @@ height: 100%;
 }
 
 .error-required-recipient {
-  position: absolute;
-  left: 220px;
-  bottom:  18%;
-  transform: translateY(-50%);
   font-size: 12px;
   color: rgb(172, 48, 48);
   pointer-events: none; 
@@ -461,15 +457,12 @@ height: 100%;
   flex-direction: column;
   align-items: center;
   margin-top: 15px;
-  width: 100%;
-  margin-bottom: 10px;
 }
 
 .radio-buttons {
   display: flex;
   justify-content: center;
   margin-left: 20px;
-  width: 100%;
 }
 
 .an-modal-content {
