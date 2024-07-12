@@ -4,10 +4,12 @@ import { Time } from '@angular/common';
 import { ArchiveService } from '../../../service/archive-service/archive.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, debounceTime, switchMap } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { Response } from '../../app.component';
-import { environment } from '../../../environments/environment';
+import { Response } from '../../../service/response-service/response.service';
+import { ResponseService } 
+  from '../../../service/response-service/response.service';
 interface Event {
   id: number;
   event_name: string; 
@@ -45,7 +47,8 @@ export class ArchiveComponent implements OnInit  {
 
   constructor(
     private archiveService: ArchiveService,
-    private fb:FormBuilder) {}
+    private fb:FormBuilder, 
+    private responseService: ResponseService) {}
 
   ngOnInit(): void {
     this.searchArchive = this.fb.group({keyword:[''] });
@@ -60,13 +63,41 @@ export class ArchiveComponent implements OnInit  {
   }
 
   getYearlyEvents() {
-    this.archiveService.getYearlyEvents().subscribe((yearlyEvents: Event[])=>{
+    this.archiveService.getYearlyEvents().pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while approving the post. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((yearlyEvents: Event[])=>{
       this.events = yearlyEvents;
     });
   }
 
   getOldEvents() {
-    this.archiveService.getOldEvents().subscribe((oldEvents: Event[])=>{
+    this.archiveService.getOldEvents().pipe(
+      catchError((error) => {
+        if (!navigator.onLine) {
+          this.responseService.handleError
+            ('You are offline. Please check your internet connection.');
+        } else {
+          this.responseService.handleError
+            (`An error occurred while approving the post. 
+              Please try again.`);
+        }
+
+        // Return an empty observable to complete the pipe
+        return of(null);
+      })
+    ).subscribe((oldEvents: Event[])=>{
       this.oldEvents = oldEvents;
     });
   }
@@ -110,6 +141,14 @@ export class ArchiveComponent implements OnInit  {
         return this.archiveService.searchArchive(keyword).pipe(
           debounceTime(2000),
           catchError((error: HttpErrorResponse)=>{
+            if (!navigator.onLine) {
+              this.responseService.handleError
+                ('You are offline. Please check your internet connection.');
+            } else {
+              this.responseService.handleError
+                (`An error occurred while approving the post. 
+                  Please try again.`);
+            }
             return EMPTY;
         }))
       }))

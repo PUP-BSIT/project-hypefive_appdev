@@ -64,8 +64,6 @@ export class MembersComponent implements OnInit {
   showMembers() {
     this.memberService.getMembers().pipe(
       catchError((error) => {
-        this.spinnerService.hide();
-
         if (!navigator.onLine) {
           this.responseService.handleError
             ('You are offline. Please check your internet connection.');
