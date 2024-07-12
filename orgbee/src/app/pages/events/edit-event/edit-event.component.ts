@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, 
     OnChanges, SimpleChanges  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -39,7 +38,6 @@ export class EditEventComponent implements OnInit {
 
   constructor (private formBuilder: FormBuilder, 
     private eventService: EventService,
-    private toastr: ToastrService,
     private spinnerService: SpinnerService,
     private confirmationDialogService: ConfirmationDialogService,
     private responseService: ResponseService
@@ -261,19 +259,4 @@ export class EditEventComponent implements OnInit {
     }
   }
 
-  handleResponse(){
-    if (this.response.code === 200) {
-      this.toastr.success(JSON.stringify(this.response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast success'
-      });
-    } else {
-      this.toastr.error(JSON.stringify(this.response.message), '', {
-        timeOut: 2000,
-        progressBar: true,
-        toastClass: 'custom-toast error'
-      });
-    }
-  }
 }
