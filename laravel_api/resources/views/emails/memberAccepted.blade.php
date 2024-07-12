@@ -66,6 +66,7 @@
         <div class="content">
             <h1>Hello, {{ $students->first_name }}!</h1>
             <p>{{ $statusMessage }}</p>
+            <a href="{{ $redirectLink }}" class="button">Login with us now!</a>
             <div class="footer">
                 <p>Best Regards,<br>The Team</p>
             </div>

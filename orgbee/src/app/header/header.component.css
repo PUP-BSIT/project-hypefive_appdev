@@ -66,3 +66,9 @@
   font-weight: 500;
   font-size: min(5vw, 35px); 
 }
+
+@media (min-width: 776px) and (max-width: 880px) {
+  .org-icon {
+    display: none;
+  }
+}
