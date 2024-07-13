@@ -93,7 +93,7 @@ html {
 
 .get-started:hover {
   background-color: #ffca10;
-  color:#393939;
+  color: #393939;
 }
 
 .hero-images {
@@ -156,7 +156,6 @@ html {
   flex-direction: row;
   align-items: center;
   animation: fadeIn 1s ease-in-out;
-
 }
 
 .works-cards {
@@ -229,7 +228,8 @@ html {
   padding: 0 20px; /* Add some padding for spacing */
 }
 
-.feature-cards-1, .feature-cards-2 {
+.feature-cards-1,
+.feature-cards-2 {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -239,7 +239,7 @@ html {
 
 .feature-card {
   flex: 1; /* Allow cards to grow and shrink dynamically */
-  max-width: 191px; 
+  max-width: 191px;
   min-width: 140px;
   height: 170px;
   background-color: #fff;
@@ -268,15 +268,15 @@ html {
 }
 
 .feature-card p {
-  margin-top: 20px; 
+  margin-top: 20px;
   margin-bottom: 0;
   font-weight: 600;
-  font-size: 16px; 
+  font-size: 16px;
   text-align: left;
 }
 
 .feature-card .description {
-  font-size: 12px; 
+  font-size: 12px;
   text-align: left;
   font-weight: 500;
   color: rgb(96, 96, 96);
@@ -307,9 +307,9 @@ html {
 }
 
 .role-card {
-  width: 300px; 
-  max-width: 80%; 
-  height: 350px; 
+  width: 300px;
+  max-width: 80%;
+  height: 350px;
   padding: 10px;
   border-radius: 10px;
   display: flex;
@@ -452,7 +452,6 @@ h2 {
   font-size: 0.9rem; /* Adjust copyright font size */
 }
 
-
 /* Animation Keyframes */
 @keyframes slideInLeft {
   from {
@@ -531,9 +530,9 @@ h2 {
     font-size: 10px; /* Adjusted font size for better readability */
   }
 
- .team-member {
-  flex-direction: row;
- }
+  .team-member {
+    flex-direction: row;
+  }
 
   .team-member-img {
     width: 50px;

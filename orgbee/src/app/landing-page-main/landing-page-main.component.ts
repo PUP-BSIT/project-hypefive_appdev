@@ -12,7 +12,9 @@ export class LandingPageMainComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-    this.isNavbarHidden = currentScrollTop > this.lastScrollTop && currentScrollTop > 80; // Adjust 80 based on your header height
-    this.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
+    this.isNavbarHidden = currentScrollTop > 
+      this.lastScrollTop && currentScrollTop > 80; 
+    // For Mobile or negative scrolling
+    this.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; 
   }
 }

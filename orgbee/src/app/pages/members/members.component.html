@@ -50,7 +50,7 @@
 
           @if(isSearchResult) {
             <div class="search-results-container">
-              @if(response){
+              @if(response) {
                 <div id="search_results">
                   <li>{{ response.message }}</li>
                 </div>
@@ -110,7 +110,7 @@
             id="modal_icon"
             alt="Profile Picture"/>
         </div>
-        @if(isMemberAnOfficer(details[0]?.student_number)){
+        @if(isMemberAnOfficer(details[0]?.student_number)) {
           <ng-container>
             <div class="role-button">
               <p>Officer</p>

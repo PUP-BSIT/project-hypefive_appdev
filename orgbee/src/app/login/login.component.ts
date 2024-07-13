@@ -9,7 +9,8 @@ import { catchError, of, map } from 'rxjs';
 import { LoginService } from '../../service/login-service/login.service';
 import { SpinnerService } from '../../service/spinner-service/spinner.service';
 import { MustMatch } from './confirmed.validator';
-import { ResponseService } from '../../service/response-service/response.service';
+import { ResponseService } 
+  from '../../service/response-service/response.service';
 
 interface ResponseData {
   status: number;

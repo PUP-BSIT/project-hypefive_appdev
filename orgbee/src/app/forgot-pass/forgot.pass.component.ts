@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ForgotPassService } from '../../service/forgotpass-service/forgotpass.service'
+import { ForgotPassService } 
+  from '../../service/forgotpass-service/forgotpass.service'
 
 @Component({
   selector: 'app-forgot-password',
@@ -49,7 +50,8 @@ export class ForgotPassComponent {
   sendVerificationCode() {
     if (this.emailForm.valid) {
       this.loading = true;
-      this.forgotPassService.sendResetLink(this.emailForm.value.email).subscribe({
+      this.forgotPassService.sendResetLink(this.emailForm.value.email)
+       .subscribe({
         next: (response) => {
           this.loading = false;
           if (response.success) {
@@ -61,7 +63,8 @@ export class ForgotPassComponent {
         },
         error: (error) => {
           this.loading = false;
-          if (error.status === 404 && error.error.message === 'Email not found') {
+          if (error.status === 404 && 
+           error.error.message === 'Email not found') {
             this.errorMessage = 'Email not found';
           } else {
             this.errorMessage = 'An error occurred. Please try again.';
@@ -88,7 +91,8 @@ export class ForgotPassComponent {
         },
         error: (error) => {
           this.loading = false;
-          if (error.status === 401 && error.error.message === 'Incorrect token') {
+          if (error.status === 401 && 
+           error.error.message === 'Incorrect token') {
             this.errorMessage = 'Incorrect token';
           } else {
             this.errorMessage = 'An error occurred. Please try again.';

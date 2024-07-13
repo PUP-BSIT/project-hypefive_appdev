@@ -5,7 +5,7 @@ body {
 }
 
 .freedomwall-page {
-  height:100%;
+  height: 100%;
   overflow-y: auto;
   padding: 15px;
 }
@@ -15,7 +15,6 @@ body {
   justify-content: space-between;
   gap: 10px;
   align-items: center;
-  
 }
 
 .header {
@@ -26,7 +25,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative; 
+  position: relative;
   margin-top: 0;
 }
 
@@ -42,8 +41,8 @@ body {
 }
 
 .button-wrapper {
-  position: relative; 
-  display: inline-block; 
+  position: relative;
+  display: inline-block;
 }
 
 .button-container img {
@@ -66,7 +65,7 @@ body {
 }
 
 .create-post-btn:disabled:hover {
-  background-color: #ccc; 
+  background-color: #ccc;
   color: #666;
 }
 
@@ -144,16 +143,16 @@ body {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  margin: 5px; 
-  width: calc((100% - 40px) / 4); 
+  margin: 5px;
+  width: calc((100% - 40px) / 4);
   min-width: 85px;
 }
 
 .masonry-container {
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
   margin-right: 20px;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 .masonry-item h4 {
@@ -356,27 +355,27 @@ body {
 }
 
 .background-color-class-1 {
-  background-color: #FAA49E;
+  background-color: #faa49e;
 }
 
 .background-color-class-2 {
-  background-color: #E5B769;
+  background-color: #e5b769;
 }
 
 .background-color-class-3 {
-  background-color: #BBA0CA;
+  background-color: #bba0ca;
 }
 
 .background-color-class-4 {
-  background-color: #90E0EF;
+  background-color: #90e0ef;
 }
 
 .background-color-class-5 {
-  background-color: #C2FDB2;
+  background-color: #c2fdb2;
 }
 
 .pending-count {
-  background-color: #ffca10; 
+  background-color: #ffca10;
   color: black;
   padding: 5px 10px;
   border-radius: 5px;
@@ -385,8 +384,8 @@ body {
 }
 
 .request-delete-count {
-  background-color: #ffca10; 
-  color: black; 
+  background-color: #ffca10;
+  color: black;
   padding: 5px 10px;
   border-radius: 5px;
   font-weight: bold;
@@ -404,31 +403,31 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .manage-modal-content {
-  display: flex; 
-  flex-direction: column; 
-  justify-content: flex-start; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 50%;
-  max-width: 800px; 
-  height: 78%; 
-  max-height: 90vh; 
+  max-width: 800px;
+  height: 78%;
+  max-height: 90vh;
   border-radius: 5%;
-  position: relative; 
+  position: relative;
   overflow-y: auto;
 }
 
 .manage-close-btn {
   color: black;
-  position: absolute; 
-  top: 20px; 
-  right: 20px; 
+  position: absolute;
+  top: 20px;
+  right: 20px;
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
@@ -449,9 +448,9 @@ body {
 }
 
 .post-cards-container {
-  display: flex; 
-  gap: 20px; 
-  overflow-x: hidden; 
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
   flex-direction: column;
 }
 
@@ -462,29 +461,29 @@ body {
   border-radius: 10px;
   background-color: #f0f0f0;
   box-shadow: 0 4px 8px #eeeeed;
-  min-width: 300px; 
-  max-width: calc(100% - 40px); 
+  min-width: 300px;
+  max-width: calc(100% - 40px);
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
 .button-request {
   display: flex;
-  position: relative; 
+  position: relative;
 }
 
 .button-request::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 20;
   left: 0;
   width: 100%;
-  height: 1px; 
-  background-color: #ccc; 
+  height: 1px;
+  background-color: #ccc;
 }
 
 .accept-btn {
-  flex: 1 0 25%; 
+  flex: 1 0 25%;
   background-color: #ffca10;
   color: black;
   border: none;
@@ -493,11 +492,11 @@ body {
   border-radius: 15px;
   margin-right: 5%;
   margin-top: 3%;
-  position: relative; 
+  position: relative;
 }
 
 .decline-btn {
-  flex: 2 0 5%; 
+  flex: 2 0 5%;
   background-color: #242424;
   color: white;
   border: none;
@@ -505,7 +504,7 @@ body {
   cursor: pointer;
   border-radius: 15px;
   margin-top: 3%;
-  position: relative; 
+  position: relative;
 }
 
 h5 {
@@ -534,32 +533,31 @@ h4 {
 }
 
 .spinner-overlay {
-  position: absolute; 
-  top: 50%; 
-  left: 50%; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.633); 
+  background-color: rgba(255, 255, 255, 0.633);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1; 
+  z-index: 1;
 }
 
 .mat-spinner {
-  width: 100px; 
+  width: 100px;
   height: 100px;
 }
 
 button:disabled {
-  background-color: #ccc; 
+  background-color: #ccc;
   color: #666;
-  cursor: not-allowed; 
+  cursor: not-allowed;
 }
 
-
-@media (max-width: 766px) { 
+@media (max-width: 766px) {
   .top {
     flex-direction: column;
     align-items: center;
@@ -577,7 +575,8 @@ button:disabled {
     flex-direction: column;
   }
 
-  .new-post-title, .new-post-title {
+  .new-post-title,
+  .new-post-title {
     margin-top: 25px;
     margin-left: 0px;
     margin-right: 100%;
@@ -596,8 +595,8 @@ button:disabled {
 
   .post-card {
     padding: 10px;
-    min-width:95%; 
-    max-width: 70%; 
+    min-width: 95%;
+    max-width: 70%;
   }
 
   .pending-count {
@@ -608,9 +607,9 @@ button:disabled {
     margin-right: 37%;
   }
 
-  .manage-modal-content { 
-    height: 50%; 
-    max-height: 50%; 
+  .manage-modal-content {
+    height: 50%;
+    max-height: 50%;
   }
 
   .freedomwall-page {
@@ -625,9 +624,7 @@ button:disabled {
 
 @media screen and (max-width: 460px) {
   .masonry-item {
-    width: calc((100% - 30px) / 3); 
-    min-width: 80px; 
+    width: calc((100% - 30px) / 3);
+    min-width: 80px;
   }
-
-
 }

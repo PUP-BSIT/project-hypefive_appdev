@@ -8,10 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { MemberService } from '../../../service/member-service/member.service';
 import { Member } from '../../../service/member-service/member.service';
-import { LoginService, UserInfo } from '../../../service/login-service/login.service';
+import { LoginService, UserInfo } 
+  from '../../../service/login-service/login.service';
 import { ConfirmationDialogComponent } 
   from '../../confirmation-dialog/confirmation-dialog.component';
-import { SpinnerService } from '../../../service/spinner-service/spinner.service';
+import { SpinnerService } 
+  from '../../../service/spinner-service/spinner.service';
 import { ResponseService } 
   from '../../../service/response-service/response.service';
 import { Response } from '../../../service/response-service/response.service';

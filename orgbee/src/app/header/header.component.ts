@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoginService, UserInfo } from '../../service/login-service/login.service';
+import { LoginService, UserInfo } 
+  from '../../service/login-service/login.service';
 
 enum Roles {
   Student = 1,

@@ -15,8 +15,8 @@ body {
 .app-logo img {
   padding-top: 5%;
   margin-bottom: 5px;
-  width: 10%; 
-  height: 10%; 
+  width: 10%;
+  height: 10%;
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -28,7 +28,6 @@ body {
   margin: 0 auto;
   animation: fadeIn 0.5s ease-in-out;
 }
-
 
 .form div {
   margin-bottom: 15px;
@@ -52,7 +51,7 @@ body {
 .form button {
   border: none;
   padding: 10px 20px;
-  border-radius: 20px; 
+  border-radius: 20px;
   cursor: pointer;
   width: 70%;
   font-size: 16px;
@@ -62,7 +61,6 @@ body {
 .form h3 {
   color: black;
   font-weight: 500;
-
 }
 
 .title {
@@ -180,7 +178,7 @@ button:disabled {
 
 .forgot-pass {
   color: inherit;
-  text-decoration: none; 
+  text-decoration: none;
   margin-bottom: 35px;
   font-size: 12px;
 }
@@ -196,7 +194,6 @@ button:disabled {
   }
 }
 
-
 @media (max-width: 480px) {
   .container {
     justify-content: center;
@@ -210,7 +207,7 @@ button:disabled {
     width: 50%;
     height: 50%;
   }
-  
+
   .form {
     width: 90%;
     padding: 10px;
@@ -228,8 +225,9 @@ button:disabled {
     padding-left: 6%;
     height: 90%;
   }
-  
-  .form button, .popup-content button {
+
+  .form button,
+  .popup-content button {
     width: 80%;
     font-size: 12px;
   }
@@ -256,15 +254,16 @@ button:disabled {
   .signup-form input,
   .signup-form label {
     margin-left: 6%;
-  } 
+  }
 
   .popup-content {
     width: 70%;
     padding: 10px;
     padding-left: 0%;
   }
-  
-  .form button, .popup-content button {
+
+  .form button,
+  .popup-content button {
     width: 80%;
     font-size: 12px;
   }

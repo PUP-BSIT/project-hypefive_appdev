@@ -97,8 +97,12 @@ class MembersController extends Controller {
         ->where('students.student_number', $student_number)
         ->first(['users.email', 'students.first_name']);
 
-      $statusMessage = 'Unfortunately, your membership request has been declined.';
-      Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
+        if ($user->account_status_id == 1) {
+          $statusMessage = 'Unfortunately, your membership request has been declined.';
+        } else {
+          $statusMessage = 'Unfortunately, you are removed from the organization.';
+        }
+        Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
 
       $response = [
         'message' => 'Student declined successfully',

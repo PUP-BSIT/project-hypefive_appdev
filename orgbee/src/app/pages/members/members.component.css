@@ -10,7 +10,7 @@ body {
 
 .members-page {
   height: 100%;
-  height:100%;
+  height: 100%;
   overflow-y: auto;
   padding: 15px;
 }
@@ -126,7 +126,7 @@ body {
 
 .request button.decline:hover {
   background-color: #333333;
-  color:#ffffff;
+  color: #ffffff;
 }
 
 .officers {
@@ -311,7 +311,6 @@ button.modal-member-button:hover {
   margin-top: 10%;
   text-align: left;
   justify-content: center;
-
 }
 
 .label {
@@ -365,7 +364,7 @@ button.modal-member-button:hover {
   height: 20px;
   text-align: center;
   font-size: 12px;
-  margin: 10px auto; 
+  margin: 10px auto;
 }
 
 @media (max-width: 766px) {
@@ -383,9 +382,8 @@ button.modal-member-button:hover {
     margin-top: 20px;
   }
 
-
   .details {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     padding: 10%;
     align-items: center;
     margin-top: 0;
@@ -403,9 +401,9 @@ button.modal-member-button:hover {
   .details > .value:nth-child(4n-2),
   .details > .label:nth-child(4n-1),
   .details > .value:nth-child(4n) {
-    grid-column: 1; 
-    margin-top: 0; 
-    margin-left: 0; 
+    grid-column: 1;
+    margin-top: 0;
+    margin-left: 0;
   }
   .members-page {
     height: auto;

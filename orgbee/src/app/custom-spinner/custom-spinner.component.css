@@ -13,23 +13,23 @@
 
 .spinner-box {
   background: white;
-  width: 150px; 
+  width: 150px;
   max-width: 80%;
   height: 200px;
-  max-height: 80%; 
+  max-height: 80%;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
-  overflow: hidden; 
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .spinner-box p {
   font-size: 15px;
-  margin-top: 10px; 
+  margin-top: 10px;
   color: black;
   text-align: center;
 }

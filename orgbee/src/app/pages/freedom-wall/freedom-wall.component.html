@@ -9,7 +9,9 @@
     </div>
   
     <div class="button-container">
-      <button [disabled]="showFilterMessage" class="create-post-btn" (click)="toggleModal()">
+      <button class="create-post-btn" 
+        [disabled]="showFilterMessage"  
+        (click)="toggleModal()">
         <img [src]="userInfo?.icon_path">
         Create an anonymous post
         <button mat-icon-button [matMenuTriggerFor]="menu" 
@@ -28,8 +30,9 @@
       @if (userInfo.role_id !== 1) {
         <div>
           <div class="button-wrapper">
-            <button [disabled]="showFilterMessage" (click)="openRequestToDeleteModal()" 
-              class="delete-post-btn">
+            <button class="delete-post-btn"
+              [disabled]="showFilterMessage" 
+              (click)="openRequestToDeleteModal()">
                 Delete Requests 
                 @if (deletePostCount > 0) {
                   <span class="badge badge-danger">{{ deletePostCount }}</span>
@@ -37,11 +40,13 @@
             </button>
           </div>
           <div class="button-wrapper">
-            <button [disabled]="showFilterMessage" (click)="openManageWallModal()" class="manage-wall-btn">
-              Pending Posts 
-              @if (manageWallCount > 0) {
-                <span class="badge badge-danger">{{ manageWallCount }}</span>
-              }
+            <button class="manage-wall-btn"
+              [disabled]="showFilterMessage" 
+              (click)="openManageWallModal()" >
+                Pending Posts 
+                @if (manageWallCount > 0) {
+                  <span class="badge badge-danger">{{ manageWallCount }}</span>
+                }
             </button>
           </div>
         </div>
@@ -103,9 +108,7 @@
                 </div>
             }
           </div>
-          <button 
-            type="submit" 
-            class="submit-button" 
+          <button class="submit-button" 
             [disabled]="freedomwallForm.invalid">
               POST ANONYMOUSLY
           </button>
@@ -172,11 +175,15 @@
                 <h4>{{ post.subject }}</h4>
                 <p>{{ post.content }}</p>
                 <div class="button-request">
-                  <button (click)="approvePost(post.id)" class="accept-btn" [disabled]="isPostFromUser(post)">
-                    Accept
+                  <button class="accept-btn"
+                    [disabled]="isPostFromUser(post)"
+                    (click)="approvePost(post.id)"  >
+                      Accept
                   </button>
-                  <button (click)="declinePost(post.id)" class="decline-btn" [disabled]="isPostFromUser(post)">
-                    Decline
+                  <button class="decline-btn" 
+                    [disabled]="isPostFromUser(post)"
+                    (click)="declinePost(post.id)" >
+                      Decline
                   </button>
                 </div>
               </div>
@@ -205,11 +212,14 @@
                 <h4>{{ post.subject }}</h4>
                 <p>{{ post.content }}</p>
                 <div class="button-request">
-                  <button class="accept-btn" (click)="deletePost(post.id)" [disabled]="isPostFromUser(post)" >
+                  <button class="accept-btn" 
+                    [disabled]="isPostFromUser(post)" 
+                    (click)="deletePost(post.id)" >
                     Delete Post
                   </button>
                   <button class="decline-btn" 
-                    (click)="declineRequestToDelete(post.id)" [disabled]="isPostFromUser(post)">
+                    [disabled]="isPostFromUser(post)"
+                    (click)="declineRequestToDelete(post.id)">
                       Decline Request
                   </button>
                 </div>
