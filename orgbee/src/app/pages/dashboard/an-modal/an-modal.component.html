@@ -25,12 +25,11 @@
             </div>
 
             <!--FORM VALIDATORS-->
-            @if(subjectControl.invalid && subjectControl.touched){
-              @if(subjectControl.errors?.['required']){
-                <div class="error-required-subject">
-                  Subject is required.
-                </div>
-              }
+            @if(subjectControl.invalid && subjectControl.touched && subjectControl.errors?.['required']){
+              <div class="error-required-subject">
+                Subject is required.
+              </div>
+              
              }
           </div>
 
@@ -64,12 +63,11 @@
               <mat-radio-button value="0">Everyone</mat-radio-button>
               <mat-radio-button value="1">Officers Only</mat-radio-button>
             </mat-radio-group>
-            @if(recipientControl.invalid && recipientControl.touched){
-              @if(recipientControl.errors?.['required']){
+            @if(recipientControl.invalid && recipientControl.touched && recipientControl.errors?.['required']){
                 <div class="error-required-recipient">
                   Recipient is required.
                 </div>
-              }
+              
              }
           </div>
           

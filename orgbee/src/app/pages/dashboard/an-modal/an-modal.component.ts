@@ -95,11 +95,11 @@ export class AnModalComponent implements OnInit {
             console.error('Error creating announcement:', error);
             this.responseService.handleError('Error creating announcement. Please try again later.');
           }
-      });
-      } else {
+        });
+      } 
+    }else {
       this.announcementForm.markAllAsTouched();
     }
-  }
   }
 
   closeModal(): void {
