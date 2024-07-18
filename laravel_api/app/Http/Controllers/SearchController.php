@@ -31,7 +31,7 @@ class SearchController extends Controller {
     
     $query = Students::query()
       ->join('users', 'students.user_id', '=', 'users.id')
-      ->where('users.is_active', 1); // Excluding student with id 1
+      ->where('users.is_active', 1)->where('students.id','!=',1); 
     
     if ($keyword) {
         $query->where(function ($query) use ($keyword) {

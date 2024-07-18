@@ -40,6 +40,7 @@ export class MembersComponent implements OnInit {
   showModalMember = false;
   showModalOfficer = false;
   isSearchResult = false;
+  requestMemberBtn = false;
 
   constructor(
     private memberService: MemberService,
@@ -200,6 +201,7 @@ export class MembersComponent implements OnInit {
       .find(member => member.student_number === student_number);
     
     this.showModalMember = true;
+    this.requestMemberBtn = false;
     this.details.push(selectedMember);
     this.student_num=student_number;
   }
@@ -209,6 +211,7 @@ export class MembersComponent implements OnInit {
       .find(member => member.student_number === student_number);
     
     this.showModalMember = true;
+    this.requestMemberBtn = true;
     this.details.push(selectedMember);
     this.student_num=student_number;
   }
@@ -218,6 +221,7 @@ export class MembersComponent implements OnInit {
       .find(member => member.student_number === student_number);
 
     this.showModalOfficer = true;
+    this.requestMemberBtn = false;
     this.details.push(selectedMember);
     this.student_num=student_number;
   }

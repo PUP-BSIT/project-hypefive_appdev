@@ -132,17 +132,25 @@
           <p class="value">{{ detail.email }}</p>
         </div>
       }
-      @if (userInfo.role_id===3) {
-        @if (!isMemberAnOfficer(details[0]?.student_number)) {
-          <button class="modal-button-officer" 
-            (click)="promoteToOfficer()">Promote to Officer </button>
-        } @else {  
+      @if(!requestMemberBtn) {
+        @if ( userInfo.role_id===3) {
+          @if (!isMemberAnOfficer(details[0]?.student_number)) {
             <button class="modal-button-officer" 
-              (click)="demoteToMember()">Demote to Member</button>
-          }
-      }
+              (click)="promoteToOfficer()">Promote to Officer </button>
+          } @else {  
+              <button class="modal-button-officer" 
+                (click)="demoteToMember()">Demote to Member</button>
+            }
+        }
         <button class="modal-button-member" 
           (click)="removeMember()">Remove Member</button>
+      } @else {
+        <button class="modal-button-officer" 
+          (click)="acceptRequest(student_num)">Accept</button>
+        <button class="modal-button-member" 
+          (click)="declineRequest(student_num)">Decline</button>
+      }
+      
     </div>
   </div>
 } 
