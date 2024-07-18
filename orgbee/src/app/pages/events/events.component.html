@@ -17,8 +17,8 @@
   <!-- Create Event Modal -->
   <app-create-event 
     [createEventModal]="createEventModal"
-    (eventCreated)=" showUpcomingEvents()"
-    (draftSaved)=" showDraftEvents()"
+    [activeTab]="activeTab"
+    (eventUpdate)="showUpdate($event)"
     (closeModal)="closeCreateModal()">
   </app-create-event>
     

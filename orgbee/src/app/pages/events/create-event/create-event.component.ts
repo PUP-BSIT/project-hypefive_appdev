@@ -18,9 +18,9 @@ import { SpinnerService } from '../../../../service/spinner-service/spinner.serv
 
 export class CreateEventComponent implements OnInit {
   @Input() createEventModal:boolean;
+  @Input() activeTab:string;
   @Output() closeModal = new EventEmitter<void>();  
-  @Output() eventCreated = new EventEmitter<void>();
-  @Output() draftSaved = new EventEmitter<void>();
+  @Output() eventUpdate = new EventEmitter<string>();
 
   eventForm: FormGroup;
   currentStep:number = 0;
@@ -202,7 +202,7 @@ export class CreateEventComponent implements OnInit {
         ).subscribe((res:Response)=>{
           this.response=res;
           this.responseService.handleResponse(this.response);
-          this.eventCreated.emit();
+          this.eventUpdate.emit('upcoming');
           this.spinnerService.hide();
         });
       } else {
@@ -227,7 +227,13 @@ export class CreateEventComponent implements OnInit {
         ).subscribe((res:Response)=>{
           this.response=res;
           this.responseService.handleResponse(this.response);
-          this.draftSaved.emit();
+          this.spinnerService.hide();
+
+          if(this.activeTab === 'UPCOMING'){
+            this.eventUpdate.emit('upcoming');
+          } else if ((this.activeTab === 'DRAFTS')) {
+            this.eventUpdate.emit('draft');
+          }
         });
       }
       
