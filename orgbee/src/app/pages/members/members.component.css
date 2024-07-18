@@ -178,6 +178,7 @@ body {
 }
 
 #search_container {
+  position: relative;
   width: 80%;
   margin-top: 20px;
   margin-left: 10%;
@@ -199,7 +200,7 @@ body {
 }
 
 .search-results-container {
-  position: relative;
+  position: absolute;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -207,6 +208,8 @@ body {
   overflow-y: auto;
   width: 100%;
   margin-top: 3px;
+  z-index: 1000;
+  height: 400px;
 }
 
 #search_results {
