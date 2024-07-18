@@ -17,7 +17,7 @@
         } 
   
         @for(request of membershipRequests; track request.id) {
-          <div class="request">
+          <div class="request" (click)="reqMemberClick(request.student_number)">
             <div class="profile">
               <img src="{{ request.icon_location }}" alt="Profile Picture" />
               <p>{{  request.last_name + ", " + request.first_name  }}</p>

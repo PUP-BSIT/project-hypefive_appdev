@@ -34,7 +34,7 @@ class MembersController extends Controller {
       ->where('users.account_status_id', "=", 1)
       ->where('users.is_verified', true)
       ->orderBy('id')
-      ->get(['students.*', 'icons.icon_location']);
+      ->get(['students.*', 'icons.icon_location', 'users.email']);
 
     return response()->json($students, 200);
   }

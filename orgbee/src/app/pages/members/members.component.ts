@@ -204,6 +204,15 @@ export class MembersComponent implements OnInit {
     this.student_num=student_number;
   }
 
+  reqMemberClick(student_number: string) {
+    const selectedMember = this.membershipRequests
+      .find(member => member.student_number === student_number);
+    
+    this.showModalMember = true;
+    this.details.push(selectedMember);
+    this.student_num=student_number;
+  }
+
   officerClick(student_number: string) {
     const selectedMember = this.members
       .find(member => member.student_number === student_number);

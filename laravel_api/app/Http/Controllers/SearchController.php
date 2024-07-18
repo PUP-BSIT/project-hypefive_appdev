@@ -27,23 +27,30 @@ class SearchController extends Controller {
   }
 
   public function searchMember(Request $request) {
-    $query = Students::query();
     $keyword = $request->input('search_member');
+    
+    $query = Students::query()
+      ->join('users', 'students.user_id', '=', 'users.id')
+      ->where('users.is_active', 1); // Excluding student with id 1
+    
     if ($keyword) {
-      $query->where('id', '!=', 1)
-        ->whereRaw("first_name LIKE '%" . $keyword . "%' ")
-        ->orWhereRaw("last_name LIKE '%" . $keyword . "%'");
+        $query->where(function ($query) use ($keyword) {
+            $query->whereRaw("students.first_name LIKE '%" . $keyword . "%'")
+                  ->orWhereRaw("students.last_name LIKE '%" . $keyword . "%'");
+        });
     }
-    $results = $query->where('id', '!=', 1)->get();
+    
+    $results = $query->get();
 
     if ($results->isEmpty()) {
-      $response['message'] = 'Student not found';
-      $response['code'] = 404;
-      return response()->json($response);
+        $response['message'] = 'Student not found';
+        $response['code'] = 404;
+        return response()->json($response);
     }
 
     return $results;
   }
+
 
   public function searchEmail(Request $request) {
     $query = User::query();
