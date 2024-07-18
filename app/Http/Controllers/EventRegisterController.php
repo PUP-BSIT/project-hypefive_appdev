@@ -31,8 +31,7 @@ class EventRegisterController extends Controller {
 
     $response['message'] = 'Registered successfully!';
     $response['code'] = 200;
-    return response()->json($response);
-  }
+    return response()->json($response);  }
 
   public function checkRegistration(Request $request) {
     $check = $request->only('event_id', 'student_id');
@@ -89,7 +88,7 @@ class EventRegisterController extends Controller {
       // Increment the reg_count for the event
       $event->reg_count += 1;
       $event->save();
-      $response['message'] = 'Re-registration successful!';
+      $response['message'] = 'Re-registered successfully!';
       $response['code'] = 200;
       return response()->json($response);
     } else {

@@ -34,7 +34,7 @@ class MembersController extends Controller {
       ->where('users.account_status_id', "=", 1)
       ->where('users.is_verified', true)
       ->orderBy('id')
-      ->get(['students.*', 'icons.icon_location']);
+      ->get(['students.*', 'icons.icon_location', 'users.email']);
 
     return response()->json($students, 200);
   }
@@ -95,14 +95,14 @@ class MembersController extends Controller {
       $user = DB::table('users')
         ->join('students', 'users.id', '=', 'students.user_id')
         ->where('students.student_number', $student_number)
-        ->first(['users.email', 'students.first_name', 'users.account_status_id']);
+        ->first(['users.email', 'students.first_name']);
 
-      if ($user->account_status_id == 1) {
-        $statusMessage = 'Unfortunately, your membership request has been declined.';
-      } else {
-        $statusMessage = 'Unfortunately, you are removed from the organization.';
-      }
-      Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
+        if ($user->account_status_id == 1) {
+          $statusMessage = 'Unfortunately, your membership request has been declined.';
+        } else {
+          $statusMessage = 'Unfortunately, you are removed from the organization.';
+        }
+        Mail::to($user->email)->send(new MemberStatus($user, $statusMessage));
 
       $response = [
         'message' => 'Student declined successfully',
