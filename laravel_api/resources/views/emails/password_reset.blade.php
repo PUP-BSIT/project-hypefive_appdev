@@ -61,7 +61,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="cid:logo.png" alt="Logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo">
         </div>
         <div class="content">
             <h1>Password Reset Request</h1>

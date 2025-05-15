@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Events;
 
 class EventsController extends Controller {
-  protected $imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/'; 
+  // protected $imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/'; ?
+  protected $imgPath = 'http://127.0.0.1:8000/images/event_poster/'; 
   // protected $imgPath = 'https://orgbee.online/storage1/images/event_poster/'; 
   public function createEvent(Request $request) {
     $event = $request->only(
@@ -22,8 +23,10 @@ class EventsController extends Controller {
         $fileExtension = $request->file('poster_loc')->getClientOriginalExtension(); // get the file extension
         $newFileName = str_replace(' ', '_', $fileNameOnly).'-'.rand().'_'.time().'.'.$fileExtension;//replace the spaces on the filename with _
         
-        $path = $request->file('poster_loc')->storeAs('public/images/event_poster', $newFileName); //php artisan storage:link
-
+        $file = $request->file('poster_loc');
+        $destinationPath = public_path('images/event_poster');
+        $file->move($destinationPath, $newFileName);
+      
         $event['poster_loc'] = $newFileName;
       }
 

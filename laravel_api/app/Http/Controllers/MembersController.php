@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\MemberAccepted;
 use App\Mail\MemberStatus;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class MembersController extends Controller {
   public function getMembers() {
@@ -95,8 +96,8 @@ class MembersController extends Controller {
       $user = DB::table('users')
         ->join('students', 'users.id', '=', 'students.user_id')
         ->where('students.student_number', $student_number)
-        ->first(['users.email', 'students.first_name']);
-
+        ->first();
+        
         if ($user->account_status_id == 1) {
           $statusMessage = 'Unfortunately, your membership request has been declined.';
         } else {

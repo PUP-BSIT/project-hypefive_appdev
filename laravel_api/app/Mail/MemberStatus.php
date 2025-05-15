@@ -36,7 +36,7 @@ class MemberStatus extends Mailable
      */
     public function build()
     {
-        $imagePath = public_path('storage/images/logo.png');
+        $imagePath = public_path('images/logo.png');
         $imageData = file_get_contents($imagePath);
         $imageMimeType = mime_content_type($imagePath);
 

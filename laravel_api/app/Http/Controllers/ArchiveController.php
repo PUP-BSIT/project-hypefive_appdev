@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ArchiveController extends Controller {
-  protected $imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/'; 
+  // protected $imgPath = 'http://127.0.0.1:8000/storage/images/event_poster/'; 
+  protected $imgPath = 'http://127.0.0.1:8000/images/event_poster/'; 
   // protected $imgPath = 'https://orgbee.online/storage1/images/event_poster/'; 
   public function getYearlyEvents() {
     $currentYear = Carbon::now()->year;
